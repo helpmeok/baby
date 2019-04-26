@@ -3,14 +3,137 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "uni-app"
+				"navigationBarTitleText": "宝宝贝"
+			}
+		}, {
+			"path": "pages/home/index/index",
+			"style": {
+				"navigationBarTitleText": "首页"
+			}
+		}, {
+			"path": "pages/center/index/index",
+			"style": {
+				"navigationBarTitleText": "我的"
+			}
+		}, {
+			"path": "pages/classify/index/index",
+			"style": {
+				"navigationBarTitleText": "分类"
+			}
+		}, {
+			"path": "pages/helper/index/index",
+			"style": {
+				"navigationBarTitleText": "助手"
+			}
+		}, {
+			"path": "pages/home/search/search",
+			"style": {
+				"navigationBarTitleText": "搜索"
+			}
+		}, {
+			"path": "pages/home/celebrity/more/more",
+			"style": {
+				"navigationBarTitleText": "大V"
+			}
+		}, {
+			"path": "pages/home/celebrity/detail/detail",
+			"style": {
+				"navigationBarTitleText": "大V详情"
+			}
+		},
+		{
+			"path": "pages/center/address/address-list/address-list",
+			"style": {
+				"navigationBarTitleText": "收货地址"
+			}
+		},
+		{
+			"path": "pages/center/address/address-handle/address-handle",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		},
+		{
+			"path": "pages/center/address/address-choose/address-choose",
+			"style": {
+				"navigationBarTitleText": "选择地址"
 			}
 		}
-	],
+	    ,{
+            "path" : "pages/center/shield-author/shield-author",
+            "style" : {
+				"navigationBarTitleText": "屏蔽的作者"
+			}
+        }
+    ],
+	"tabBar": {
+		"color": "#666666",
+		"selectedColor": "#FC4041",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"list": [{
+				"pagePath": "pages/home/index/index",
+				"iconPath": "static/tabbar/com_tab_ic_home_pre@2x.png",
+				"selectedIconPath": "static/tabbar/com_tab_ic_home_sel@2x.png",
+				"text": "首页"
+			},
+			{
+				"pagePath": "pages/classify/index/index",
+				"iconPath": "static/tabbar/com_tab_ic_classify_pre@2x.png",
+				"selectedIconPath": "static/tabbar/com_tab_ic_classify_sel@2x.png",
+				"text": "分类"
+			},
+			{
+				"pagePath": "pages/helper/index/index",
+				"iconPath": "static/tabbar/helper.png",
+				"selectedIconPath": "static/tabbar/helper1.png",
+				"text": "助手"
+			},
+			{
+				"pagePath": "pages/center/index/index",
+				"iconPath": "static/tabbar/com_tab_ic_me_pre@2x.png",
+				"selectedIconPath": "static/tabbar/com_tab_ic_me_sel@2x.png",
+				"text": "我的"
+			}
+		]
+	},
 	"globalStyle": {
-		"navigationBarTextStyle": "black",
+		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8"
+		"navigationBarBackgroundColor": "#FC4041",
+		"backgroundColor": "#FC4041"
+	},
+	"condition": {
+		//编译模式配置，仅开发期间生效
+		"current": 1, //当前激活的编译模式（list 的索引项）
+		"list": [{
+				"name": "首页", //模式名称
+				"pathName": "pages/home/index/index" //启动页面，必选
+			},
+			{
+				"name": "搜索", //模式名称
+				"pathName": "pages/home/search/search" //启动页面，必选
+			},
+			{
+				"name": "我的", //模式名称
+				"pathName": "pages/center/index/index" //启动页面，必选
+			},
+			{
+				"name": "大V详情", //模式名称 
+				"pathName": "pages/home/celebrity/detail/detail" //启动页面，必选
+			},
+			{
+				"name": "地址列表", //模式名称
+				"pathName": "pages/center/address/address-list/address-list" //启动页面，必选
+			},
+			{
+				"name": "地址操作",
+				"pathName": "pages/center/address/address-handle/address-handle"
+			},
+			{
+				"name": "屏蔽的作者",
+				"pathName": "pages/center/shield-author/shield-author"
+			}
+		]
 	}
 }

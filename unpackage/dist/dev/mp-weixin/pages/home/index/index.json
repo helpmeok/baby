@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "首页",
+  "usingComponents": {
+    "uni-load-more": "/components/uni-load-more",
+    "uni-tag": "/components/uni-tag",
+    "mix-pulldown-refresh": "/components/mix-pulldown-refresh",
+    "article-operate": "/components/article-operate",
+    "empty": "/components/empty-data"
+  }
+}

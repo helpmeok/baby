@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "屏蔽的作者",
+  "usingComponents": {
+    "empty": "/components/empty-data",
+    "uni-tag": "/components/uni-tag"
+  }
+}

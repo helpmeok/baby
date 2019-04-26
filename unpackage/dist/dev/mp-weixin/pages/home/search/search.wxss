@@ -1,0 +1,23 @@
+.search-box {
+  padding: 20rpx 30rpx;
+  border-bottom: 2rpx solid #f1f1f1;
+}
+.search-box .search {
+  background-color: #f5f5f5;
+  padding: 5rpx 20rpx;
+  width: 80%;
+  border-radius: 10rpx;
+}
+.content {
+  padding: 30rpx;
+}
+.content .item {
+  border: 2rpx solid #f1f1f1;
+  height: 60rpx;
+  padding: 0rpx 20rpx;
+  border-radius: 30rpx;
+  line-height: 60rpx;
+  margin-right: 30rpx;
+  margin-top: 20rpx;
+}
+

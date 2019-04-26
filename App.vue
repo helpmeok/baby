@@ -13,5 +13,40 @@
 </script>
 
 <style>
-	/*每个页面公共css */
+/*每个页面公共css */
+	@import './common/common.css';
+	@import "./common/uni.css";
+	@import "./common/icon.css";
+
+	page {
+		background-color: white;
+		height: 100%;
+		font-size: 28upx;
+		line-height: 1.8;
+	}
+
+	.uni-header-logo {
+		padding: 30upx;
+		text-align: center;
+		margin-top: 10upx;
+	}
+
+	.uni-header-logo image {
+		width: 140upx;
+		height: 140upx;
+	}
+
+	.uni-hello-text {
+		color: #7A7E83;
+	}
+
+	.uni-hello-addfile {
+		text-align: center;
+		line-height: 300upx;
+		background: #FFF;
+		padding: 50upx;
+		margin-top: 10px;
+		font-size: 38upx;
+		color: #808080;
+	}
 </style>

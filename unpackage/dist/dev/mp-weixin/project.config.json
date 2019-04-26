@@ -1,0 +1,69 @@
+{
+	"description": "项目配置文件。",
+	"packOptions": {
+		"ignore": []
+	},
+	"setting": {
+		"urlCheck": false
+	},
+	"compileType": "miniprogram",
+	"libVersion": "2.6.4",
+	"appid": "wxe5402eb3d79910df",
+	"projectname": "baby",
+	"simulatorType": "wechat",
+	"simulatorPluginLibVersion": {},
+	"condition": {
+		"search": {
+			"current": -1,
+			"list": []
+		},
+		"conversation": {
+			"current": -1,
+			"list": []
+		},
+		"game": {
+			"current": -1,
+			"list": []
+		},
+		"miniprogram": {
+			"current": 1,
+			"list": [
+				{
+					"name": "首页",
+					"pathName": "pages/home/index/index",
+					"id": 0
+				},
+				{
+					"name": "搜索",
+					"pathName": "pages/home/search/search",
+					"id": 1
+				},
+				{
+					"name": "我的",
+					"pathName": "pages/center/index/index",
+					"id": 2
+				},
+				{
+					"name": "大V详情",
+					"pathName": "pages/home/celebrity/detail/detail",
+					"id": 3
+				},
+				{
+					"name": "地址列表",
+					"pathName": "pages/center/address/address-list/address-list",
+					"id": 4
+				},
+				{
+					"name": "地址操作",
+					"pathName": "pages/center/address/address-handle/address-handle",
+					"id": 5
+				},
+				{
+					"name": "屏蔽的作者",
+					"pathName": "pages/center/shield-author/shield-author",
+					"id": 6
+				}
+			]
+		}
+	}
+}
