@@ -154,3 +154,35 @@ page {
 		text-overflow: ellipsis;
 		text-align: left;
 	}
+	
+	.pd-box {
+		padding: 20upx 30upx;
+	}
+	
+	.pd-lr {
+		padding: 0upx 30upx;
+	}
+	
+	.mgl-10 {
+		margin-left: 10upx;
+	}
+	
+	.mgr-10 {
+		margin-right: 10upx;
+	}
+	
+	.mgl-20 {
+		margin-left: 20upx;
+	}
+	
+	.mgr-20 {
+		margin-right: 20upx;
+	}
+	
+	.mgl-30 {
+		margin-left: 30upx;
+	}
+	
+	.mgr-30 {
+		margin-right: 30upx;
+	}

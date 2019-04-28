@@ -6868,6 +6868,7 @@ var LIFECYCLE_HOOKS$1 = [
     'onShow',
     'onHide',
     'onUniNViewMessage',
+    'onError',
     //Page
     'onLoad',
     // 'onShow',
@@ -7977,13 +7978,13 @@ module.exports = {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uni) { // const __api = 'https://wkf.088wanmei.com';
-var __api = 'http://59.61.216.123:18980/jeezero-ucenter-app/';
+var __api = 'http://59.61.216.123:18980/jeezero-boblbee-app/';
 
 function Request() {
 
   this.m_send = function (url, method, data, onok, onno, _complete) {
     var token = '2_8e0069b12fad4b0f8f14a73939a25e09';
-    data.uid = 2;
+    // data.uid = 2;
     var _data = {
       url: __api + url,
       method: method,
@@ -8043,11 +8044,11 @@ module.exports = {
       _req.m_send(_url, "Post", d, onok, onno);
     },
     get_recommend_article: function get_recommend_article(d, onok, onno) {//“首页”模块的推荐数据
-      var _url = "v1/article/queryRecommendArticle";
+      var _url = "v1/home/queryRecommendArticle";
       _req.m_send(_url, "Get", d, onok, onno);
     },
     get_foucs_article: function get_foucs_article(d, onok, onno) {//“首页”模块的关注数据
-      var _url = "v1/article/queryFocusArticle";
+      var _url = "v1/home/queryFocusArticle";
       _req.m_send(_url, "Get", d, onok, onno);
     } },
 
@@ -8081,44 +8082,22 @@ module.exports = {
       } } },
 
 
-  order: {
-    list: function list(d, onok, onno) {//获取会员订单分页数据
-      var _url = "/api/customer/order/list?page={page}&pagesize={pagesize}&type={type}";
-      _url = _url.replace('{page}', d.page).replace('{pagesize}', d.pagesize).replace('{type}', d.type);
-      _req.m_send(_url, "Get", null, onok, onno);
+  classify: {
+    get_top_category: function get_top_category(d, onok, onno) {//获取分类头部数据列表
+      var _url = "v1/category/getTopCategory";
+      _req.m_send(_url, "Get", d, onok, onno);
     },
-    info_byId: function info_byId(d, onok, onno) {//通过id获取会员订单详情
-      var _url = "/api/customer/order/info/{id}";
-      _url = _url.replace('{id}', d.id);
-      _req.m_send(_url, "Get", null, onok, onno);
+    get_sub_category: function get_sub_category(d, onok, onno) {//获取某个分类下的子类
+      var _url = "v1/category/getSubCategory";
+      _req.m_send(_url, "Get", d, onok, onno);
     },
-    pay: function pay(d, onok, onno) {//订单支付
-      var _url = "/api/customer/order/pay";
-      _req.m_send(_url, "Post", d, onok, onno);
+    get_category_article: function get_category_article(d, onok, onno) {//获取某个分类下的所以文章列表
+      var _url = "v1/category/getCategoryArticlePageList";
+      _req.m_send(_url, "Get", d, onok, onno);
     },
-    cancel: function cancel(d, onok, onno) {//订单取消
-      var _url = "/api/customer/order/cancel";
-      _req.m_send(_url, "Post", d, onok, onno);
-    },
-    delete: function _delete(d, onok, onno) {//订单删除
-      var _url = "/api/customer/order/delete";
-      _req.m_send(_url, "Post", d, onok, onno);
-    },
-    confirm: function confirm(d, onok, onno) {//订单确认
-      var _url = "/api/customer/order/confirm";
-      _req.m_send(_url, "Post", d, onok, onno);
-    },
-    forout: function forout(d, onok, onno) {//从购物车结算外卖订单。并生成订单
-      var _url = "/api/customer/settlement/forout";
-      d.share_id = uni.getStorageSync('shareId') ? uni.getStorageSync('shareId') : "";
-      console.log("上级id" + d.share_id);
-      _req.m_send(_url, "Post", d, onok, onno);
-    },
-    forhere: function forhere(d, onok, onno) {//从购物车结算堂食订单。并生成订单
-      var _url = "/api/customer/settlement/forhere";
-      d.share_id = uni.getStorageSync('shareId') ? uni.getStorageSync('shareId') : "";
-      console.log("上级id" + d.share_id);
-      _req.m_send(_url, "Post", d, onok, onno);
+    get_sub_category_header: function get_sub_category_header(d, onok, onno) {//获取某个小类的详情头部信息
+      var _url = "v1/category/getSubCategoryHeader";
+      _req.m_send(_url, "Get", d, onok, onno);
     } } };
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["default"]))
 

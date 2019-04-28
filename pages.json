@@ -119,6 +119,10 @@
 				"pathName": "pages/center/index/index" //启动页面，必选
 			},
 			{
+				"name": "分类", //模式名称
+				"pathName": "pages/classify/index/index" //启动页面，必选
+			},
+			{
 				"name": "大V详情", //模式名称 
 				"pathName": "pages/home/celebrity/detail/detail" //启动页面，必选
 			},
