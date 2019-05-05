@@ -11,7 +11,8 @@
         "pages/center/address/address-list/address-list",
         "pages/center/address/address-handle/address-handle",
         "pages/center/address/address-choose/address-choose",
-        "pages/center/shield-author/shield-author"
+        "pages/center/shield-author/shield-author",
+        "pages/center/collect/list/list"
     ],
     "subPackages": [],
     "window": {
@@ -53,6 +54,9 @@
         ]
     },
     "permission": {},
-    "usingComponents": {},
+    "usingComponents": {
+        "empty": "/components/empty-data",
+        "uni-load-more": "/components/uni-load-more"
+    },
     "sitemapLocation": "sitemap.json"
 }

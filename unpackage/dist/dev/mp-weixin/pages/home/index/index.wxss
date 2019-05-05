@@ -101,6 +101,11 @@
   border-radius: 20rpx 0 20rpx 20rpx;
   margin-left: 5%;
 }
+.mask .content image {
+    width: 100rpx !important;
+    height: 100rpx !important;
+    border-radius: 50%;
+}
 .triangle_border_up {
   width: 0;
   height: 0;

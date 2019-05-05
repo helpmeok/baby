@@ -94,6 +94,9 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 //
 //
 //
+//
+//
+//
 var _default =
 {
   data: function data() {
@@ -104,11 +107,11 @@ var _default =
   onLoad: function onLoad() {
 
   },
-  onShow: function onShow() {var _this = this;
-    this.api.center.user.get_detail({}, function (res) {
-      console.log(res);
-      _this.userInfo = res.data;
-    });
+  onShow: function onShow() {
+    // this.api.center.user.get_detail({},res=>{
+    // 	console.log(res)
+    // 	this.userInfo=res.data
+    // })
   } };exports.default = _default;
 
 /***/ }),

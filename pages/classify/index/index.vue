@@ -20,7 +20,7 @@
 									{{item.name}}
 								</view>
 								<view class="flex">
-									<view class="sub-class mgr-20" v-if="item.category_list" v-for="(sub,index2) in item.category_list" :key="index2">
+									<view class="sub-class mgr-20" v-for="(sub,index2) in item.category_list" :key="index2">
 										{{sub.categoryName}}
 									</view>
 								</view>

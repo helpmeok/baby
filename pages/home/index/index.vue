@@ -63,21 +63,9 @@
 		<view class="mask" v-if="showHotMask" @click="hideHotMask">
 			<view class="triangle_border_up"></view>
 			<view class="content flex" @click.stop>
-				<view class="flex-c-center" style="width: 20%;">
-					<image src="../../../static/home_popup_ic_more_nor@3x.png" mode="widthFix" style="width: 100upx;" @click="goDetail"></image>
-					<text>大V</text>
-				</view>
-				<view class="flex-c-center" style="width: 20%;">
-					<image src="../../../static/home_popup_ic_more_nor@3x.png" mode="widthFix" style="width: 100upx;" @click="goDetail"></image>
-					<text>大V</text>
-				</view>
-				<view class="flex-c-center" style="width: 20%;">
-					<image src="../../../static/home_popup_ic_more_nor@3x.png" mode="widthFix" style="width: 100upx;" @click="goDetail"></image>
-					<text>大V</text>
-				</view>
-				<view class="flex-c-center" style="width: 20%;">
-					<image src="../../../static/home_popup_ic_more_nor@3x.png" mode="widthFix" style="width: 100upx;" @click="goDetail"></image>
-					<text>大V</text>
+				<view class="flex-c-center" style="width: 20%;" v-for="(el,i) in hotList" :key="i">
+					<image :src="el.avator" mode="widthFix" @click="goDetail(el)"></image>
+					<text>{{el.name}}</text>
 				</view>
 				<view class="flex-c-center" style="width: 20%;">
 					<image src="../../../static/home_popup_ic_more_nor@3x.png" mode="widthFix" style="width: 100upx;" @click="goMore"></image>
@@ -90,24 +78,21 @@
 </template>
 
 <script>
-import uniLoadMore from '@/components/uni-load-more.vue';
 import uniTag from '@/components/uni-tag.vue';
 import mixPulldownRefresh from '@/components/mix-pulldown-refresh';
 // import { chGMT } from '@/common/util/date.js';
 import articleOperate from '@/components/article-operate';
-import empty from '@/components/empty-data.vue'
 var ctime = parseInt(Date.now() / 1000);
 const total = 10;
 export default {
 	components: {
-		uniLoadMore,
 		uniTag,
 		mixPulldownRefresh,
 		articleOperate,
-		empty
 	},
 	data() {
 		return {
+			hotList:[],
 			showHotMask: false,
 			tabIndex: 0,
 			enableScroll: true,
@@ -139,11 +124,21 @@ export default {
 	},
 	onLoad() {
 		this.init();
+		
+	},
+	onShow() {
+		this.getHot()
 	},
 	onHide() {
 		this.showHotMask = false;
 	},
 	methods: {
+		getHot(){
+			this.api.home.get_hotVip_List(null,res=>{
+				console.log(res)
+				this.hotList=res.data
+			})
+		},
 		init() {
 			if (!this.tabs[this.tabIndex].data.length) {
 				uni.showLoading({
@@ -381,6 +376,11 @@ export default {
 		box-sizing: border-box;
 		border-radius: 20upx 0 20upx 20upx;
 		margin-left: 5%;
+		image{
+			width: 100upx !important;
+			height: 100upx !important;
+			border-radius: 50%;
+		}
 	}
 }
 

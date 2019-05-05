@@ -65,6 +65,12 @@
 				"navigationBarTitleText": "屏蔽的作者"
 			}
         }
+        ,{
+            "path" : "pages/center/collect/list/list",
+            "style" : {
+				"navigationBarTitleText": "文章收藏"
+			}
+        }
     ],
 	"tabBar": {
 		"color": "#666666",
@@ -137,6 +143,10 @@
 			{
 				"name": "屏蔽的作者",
 				"pathName": "pages/center/shield-author/shield-author"
+			},
+			{
+				"name": "文章收藏",
+				"pathName": "pages/center/collect/list/list"
 			}
 		]
 	}

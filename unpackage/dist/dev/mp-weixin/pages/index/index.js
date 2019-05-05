@@ -17,7 +17,8 @@
 //
 //
 //
-var _default =
+
+var redirect = "";var _default =
 {
   data: function data() {
     return {
@@ -27,10 +28,23 @@ var _default =
 
   },
   onLoad: function onLoad(options) {var _this = this;
-    uni.switchTab({
-      url: '/pages/home/index/index',
-      success: function success() {} });
-
+    // uni.switchTab({
+    // 	url: '/pages/home/index/index',
+    // 	success: () => {}
+    // });
+    if (options.redirect) {
+      redirect = options.redirect;
+    }
+    if (options.queryObj) {
+      var queryObj = JSON.parse(options.queryObj);
+      var queryStr = "";
+      var arr = [];
+      Object.keys(queryObj).forEach(function (key) {
+        queryStr = key + "=" + queryObj[key];
+        arr.push(queryStr);
+      });
+      redirect = redirect + "?" + arr.join('&');
+    }
     if (uni.getStorageSync('access_token')) {
       this.isShow = false;
       uni.switchTab({
@@ -63,7 +77,7 @@ var _default =
       });
     },
     getUserInfo: function () {var _getUserInfo = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee(e) {var data;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:if (!(
-                e.detail.errMsg == 'getUserInfo:ok')) {_context.next = 10;break;}
+                e.detail.errMsg == 'getUserInfo:ok')) {_context.next = 11;break;}
                 uni.showLoading({
                   title: '登录中' });
 
@@ -72,19 +86,38 @@ var _default =
 
                   this.getWXCode());case 6:this.code = _context.sent;case 7:
 
-                console.log(e.detail.userInfo);
-                Object.assign(data, e.detail.userInfo, {
-                  jsCode: this.code });
+                e.detail.encrypteData = e.detail.encryptedData;
 
+                Object.assign(data, e.detail, {
+                  code: this.code });
+
+                console.log(data);
                 this.api.home.wx_login(
                 data,
                 function (res) {
                   console.log(res);
-                  // uni.setStorageSync('access_token', res.data.access_token);
+                  var access_token = res.data.userId + "_" + res.data.token;
+                  uni.setStorageSync('access_token', access_token);
+                  console.log(redirect);
+                  if (redirect) {
+                    uni.redirectTo({
+                      url: redirect,
+                      success: function success() {
+                        uni.hideLoading();
+                      } });
+
+                  } else {
+                    uni.switchTab({
+                      url: '/pages/home/index/index',
+                      success: function success() {
+                        uni.hideLoading();
+                      } });
+
+                  }
                 },
                 function (err) {
                   uni.hideLoading();
-                });case 10:case "end":return _context.stop();}}}, _callee, this);}));function getUserInfo(_x) {return _getUserInfo.apply(this, arguments);}return getUserInfo;}() } };exports.default = _default;
+                });case 11:case "end":return _context.stop();}}}, _callee, this);}));function getUserInfo(_x) {return _getUserInfo.apply(this, arguments);}return getUserInfo;}() } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["default"]))
 
 /***/ }),

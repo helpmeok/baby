@@ -3,7 +3,8 @@
 		<view class="header">
 			<view class="flex">
 				<image src="../../../static/me_list_photo@2x.png" mode="widthFix" class="portrait"></image>
-				<view class="font-b blod">{{userInfo.nickname}}</view>
+				<!-- <view class="font-b blod">{{userInfo.nickname}}</view> -->
+				<open-data type="userNickName"  class="font-b blod"></open-data>
 			</view>
 			<view class="flex-r-between exchange">
 				<view class="flex">
@@ -13,7 +14,7 @@
 				<view class="">前往兑换</view>
 			</view>
 		</view>
-		<view class="list-cell flex-r-between">
+		<!-- <view class="list-cell flex-r-between">
 			<view class="list-cell-left flex-r-center">
 				<image src="../../../static/me_list_ic_babyadministration@2x.png" mode="widthFix" class="icon"></image>
 				<text class="">宝宝管理</text>
@@ -33,16 +34,18 @@
 					<text class="iconfont iconarrow-right-copy" style="color: #B2B2B2;"></text>
 				</view>
 			</view>
+		</navigator> -->
+		<navigator url="../collect/list/list" hover-class="none">
+			<view class="list-cell flex-r-between">
+				<view class="list-cell-left flex-r-center">
+					<image src="../../../static/me_list_ic_collection@2x.png" mode="widthFix" class="icon"></image>
+					<text class="">文章收藏</text>
+				</view>
+				<view class="list-cell-right flex-r-center">
+					<text class="iconfont iconarrow-right-copy" style="color: #B2B2B2;"></text>
+				</view>
+			</view>
 		</navigator>
-		<view class="list-cell flex-r-between">
-			<view class="list-cell-left flex-r-center">
-				<image src="../../../static/me_list_ic_collection@2x.png" mode="widthFix" class="icon"></image>
-				<text class="">文章收藏</text>
-			</view>
-			<view class="list-cell-right flex-r-center">
-				<text class="iconfont iconarrow-right-copy" style="color: #B2B2B2;"></text>
-			</view>
-		</view>
 		<view class="list-cell flex-r-between">
 			<view class="list-cell-left flex-r-center">
 				<image src="../../../static/me_list_ic_follow@2x.png" mode="widthFix" class="icon"></image>
@@ -95,10 +98,10 @@ export default {
 		
 	},
 	onShow() {
-		this.api.center.user.get_detail({},res=>{
-			console.log(res)
-			this.userInfo=res.data
-		})
+		// this.api.center.user.get_detail({},res=>{
+		// 	console.log(res)
+		// 	this.userInfo=res.data
+		// })
 	}
 };
 </script>

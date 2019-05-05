@@ -4,25 +4,34 @@ const __api = 'http://59.61.216.123:18980/jeezero-boblbee-app/';
 function Request() {
 
 	this.m_send = function(url, method, data, onok, onno, complete) {
-		var token = '2_8e0069b12fad4b0f8f14a73939a25e09';
 		// data.uid = 2;
 		var _data = {
 			url: __api + url,
 			method: method,
 			header: {
 				// Authorization: token,
-				authorization: token,
+				authorization: uni.getStorageSync('access_token'),
 				appname: "boblbee"
 			},
 			data: data,
 			success(res) {
-
-				// console.log(token)
-				// 				if (res.header.Authorization) {
-				// 					uni.setStorageSync('access_token', res.header.Authorization)
-				// 				}
 				if (res.data.code == 0) {
 					onok ? onok(res.data) : null
+				} else if (res.data.code >= 10112 && res.data.code <= 10115) {
+					uni.removeStorageSync('access_token')
+					console.log(getCurrentPages())
+					var route = "/" + getCurrentPages()[getCurrentPages().length - 1].route
+					let queryObj = JSON.stringify(getCurrentPages()[0].__displayReporter.query)
+					uni.redirectTo({
+						url: "/pages/index/index?redirect=" + route + "&queryObj=" + queryObj,
+						success: () => {
+							uni.showToast({
+								title: res.data.message,
+								icon: "none",
+								success: () => {}
+							})
+						}
+					})
 				} else {
 					console.log(res)
 					uni.showToast({
@@ -70,6 +79,10 @@ module.exports = {
 		},
 		get_foucs_article: function(d, onok, onno) { //“首页”模块的关注数据
 			let _url = "v1/home/queryFocusArticle";
+			_req.m_send(_url, "Get", d, onok, onno);
+		},
+		get_hotVip_List: function(d, onok, onno) { //APP“首页”模块，点击“火”图标，显示推送4个大V账号。这4个大V账号是获取转发数最多的四个，如果无转发数，则以原创数最多排序。
+			let _url = "v1/home/getHotVipList";
 			_req.m_send(_url, "Get", d, onok, onno);
 		},
 	},
