@@ -92,7 +92,7 @@
 
 
 
-var ctime = parseInt(Date.now() / 1000);
+var ctime = parseInt(Date.now());
 var total = 10;var _default =
 {
   components: {
@@ -270,7 +270,7 @@ var total = 10;var _default =
       this.showHotMask = false;
     },
     onPulldownReresh: function () {var _onPulldownReresh = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:
-                ctime = parseInt(Date.now() / 1000); //刷新时间
+                ctime = parseInt(Date.now()); //刷新时间
                 this.tabs[this.tabIndex].offset = 0;_context2.next = 4;return (
                   this.init());case 4:
                 this.$refs.mixPulldownRefresh && this.$refs.mixPulldownRefresh.endPulldownRefresh();case 5:case "end":return _context2.stop();}}}, _callee2, this);}));function onPulldownReresh() {return _onPulldownReresh.apply(this, arguments);}return onPulldownReresh;}(),
@@ -302,9 +302,9 @@ var total = 10;var _default =
         url: '../celebrity/more/more' });
 
     },
-    goDetail: function goDetail() {
+    goDetail: function goDetail(id) {
       uni.navigateTo({
-        url: '../celebrity/detail/detail' });
+        url: '../celebrity/detail/detail?id=' + id });
 
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["default"]))

@@ -38,7 +38,7 @@
 		}, {
 			"path": "pages/home/celebrity/detail/detail",
 			"style": {
-				"navigationBarTitleText": "大V详情"
+				"navigationBarTitleText": ""
 			}
 		},
 		{
@@ -130,7 +130,8 @@
 			},
 			{
 				"name": "大V详情", //模式名称 
-				"pathName": "pages/home/celebrity/detail/detail" //启动页面，必选
+				"pathName": "pages/home/celebrity/detail/detail", //启动页面，必选
+				"query":"id=2"
 			},
 			{
 				"name": "地址列表", //模式名称

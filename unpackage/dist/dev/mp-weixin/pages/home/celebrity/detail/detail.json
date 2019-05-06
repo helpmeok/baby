@@ -1,5 +1,5 @@
 {
-  "navigationBarTitleText": "大V详情",
+  "navigationBarTitleText": "",
   "usingComponents": {
     "glance-slide-nav-tab-bar": "/components/glance-SlideNavTabBar"
   }

@@ -104,6 +104,14 @@ var redirect = "";var _default =
                       url: redirect,
                       success: function success() {
                         uni.hideLoading();
+                      },
+                      fail: function fail() {
+                        uni.switchTab({
+                          url: redirect,
+                          success: function success() {
+                            uni.hideLoading();
+                          } });
+
                       } });
 
                   } else {

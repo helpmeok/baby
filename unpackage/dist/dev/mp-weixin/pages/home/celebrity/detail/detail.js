@@ -8,7 +8,7 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var glanceSlideNavTabBar = function glanceSlideNavTabBar() {return __webpack_require__.e(/*! import() | components/glance-SlideNavTabBar */ "components/glance-SlideNavTabBar").then(__webpack_require__.bind(null, /*! @/components/glance-SlideNavTabBar.vue */ "D:\\Documents\\HBuilderProjects\\baby\\components\\glance-SlideNavTabBar.vue"));};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var glanceSlideNavTabBar = function glanceSlideNavTabBar() {return __webpack_require__.e(/*! import() | components/glance-SlideNavTabBar */ "components/glance-SlideNavTabBar").then(__webpack_require__.bind(null, /*! @/components/glance-SlideNavTabBar.vue */ "D:\\Documents\\HBuilderProjects\\baby\\components\\glance-SlideNavTabBar.vue"));};
 
 
 
@@ -88,17 +88,17 @@
 
 
 
-
-
-
-
+var id = "";var _default =
 {
-  components: { glanceSlideNavTabBar: glanceSlideNavTabBar },
+  components: {
+    glanceSlideNavTabBar: glanceSlideNavTabBar },
+
   data: function data() {
     return {
       isShowRecommend: false,
       recommendList: [1, 2, 3, 4, 5, 6],
-      tabIndex: 0 };
+      tabIndex: 0,
+      info: {} };
 
   },
   computed: {
@@ -106,7 +106,22 @@
       return uni.upx2px(this.recommendList.length * 270) + 'px';
     } },
 
+  onLoad: function onLoad(options) {
+    id = options.id;
+    this.init();
+  },
   methods: {
+    init: function init() {var _this = this;
+      this.api.home.hotVip.get_info({
+        vid: id },
+      function (res) {
+        console.log(res);
+        _this.info = res.data;
+        uni.setNavigationBarTitle({
+          title: res.data.name });
+
+      });
+    },
     showRecommend: function showRecommend() {
       this.isShowRecommend = !this.isShowRecommend;
     },

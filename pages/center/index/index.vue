@@ -3,8 +3,8 @@
 		<view class="header">
 			<view class="flex">
 				<image src="../../../static/me_list_photo@2x.png" mode="widthFix" class="portrait"></image>
-				<!-- <view class="font-b blod">{{userInfo.nickname}}</view> -->
-				<open-data type="userNickName"  class="font-b blod"></open-data>
+				<view class="font-b blod">{{userInfo.nickname}}</view>
+				<!-- <open-data type="userNickName"  class="font-b blod"></open-data> -->
 			</view>
 			<view class="flex-r-between exchange">
 				<view class="flex">
@@ -98,10 +98,10 @@ export default {
 		
 	},
 	onShow() {
-		// this.api.center.user.get_detail({},res=>{
-		// 	console.log(res)
-		// 	this.userInfo=res.data
-		// })
+		this.api.center.user.get_detail({},res=>{
+			console.log(res)
+			this.userInfo=res.data
+		})
 	}
 };
 </script>

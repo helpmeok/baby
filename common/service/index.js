@@ -85,6 +85,12 @@ module.exports = {
 			let _url = "v1/home/getHotVipList";
 			_req.m_send(_url, "Get", d, onok, onno);
 		},
+		hotVip: {
+			get_info: function(d, onok, onno) { //APP“首页”模块，点击“火”的图标，进行大V列表，再点击某个大V进入大V主界面的顶部大V信息数据。
+				let _url = "v1/home/getVipInfo";
+				_req.m_send(_url, "Get", d, onok, onno);
+			},
+		}
 	},
 	center: {
 		user: {

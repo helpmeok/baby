@@ -94,6 +94,14 @@
 									url: redirect,
 									success: () => {
 										uni.hideLoading();
+									},
+									fail: () => {
+										uni.switchTab({
+											url: redirect,
+											success: () => {
+												uni.hideLoading();
+											}
+										});
 									}
 								});
 							} else {

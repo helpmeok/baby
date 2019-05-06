@@ -6,7 +6,9 @@
           box-sizing: border-box;
 }
 .header-detail .portrait {
-  width: 150rpx;
+  width: 150rpx !important;
+  height: 150rpx !important;
+  border-radius: 50%;
 }
 .header-detail .attention-btn {
   background-color: #e33;
@@ -62,7 +64,9 @@
   margin-right: 20rpx;
 }
 .recommend-scroll .recommend-box .list-item .portrait {
-  width: 100rpx;
+  width: 100rpx !important;
+  height: 100rpx !important;
+  border-radius: 50%;
 }
 .show-recommend-scroll,
 .recommend-box {

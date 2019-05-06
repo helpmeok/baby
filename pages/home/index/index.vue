@@ -32,19 +32,19 @@
 								<view class="flex">
 									<view class="list-item-icon flex">
 										<text class="iconfont iconliulan gray"></text>
-										<text class="small gray">999</text>
+										<text class="small gray">{{item.clickNum}}</text>
 									</view>
 									<view class="list-item-icon flex">
 										<text class="iconfont iconiconfontzhizuobiaozhun44 gray"></text>
-										<text class="small gray">999</text>
+										<text class="small gray">{{item.praiseNum}}</text>
 									</view>
 									<view class="list-item-icon flex">
 										<text class="iconfont iconpinglun gray"></text>
-										<text class="small gray">999</text>
+										<text class="small gray">{{item.commentNum}}</text>
 									</view>
 									<view class="list-item-icon flex">
 										<text class="iconfont iconzhuanfa gray"></text>
-										<text class="small gray">999</text>
+										<text class="small gray">{{item.forwardNum}}</text>
 									</view>
 								</view>
 								<image
@@ -64,7 +64,7 @@
 			<view class="triangle_border_up"></view>
 			<view class="content flex" @click.stop>
 				<view class="flex-c-center" style="width: 20%;" v-for="(el,i) in hotList" :key="i">
-					<image :src="el.avator" mode="widthFix" @click="goDetail(el)"></image>
+					<image :src="el.avator" mode="widthFix" @click="goDetail(el.userId)"></image>
 					<text>{{el.name}}</text>
 				</view>
 				<view class="flex-c-center" style="width: 20%;">
@@ -82,7 +82,7 @@ import uniTag from '@/components/uni-tag.vue';
 import mixPulldownRefresh from '@/components/mix-pulldown-refresh';
 // import { chGMT } from '@/common/util/date.js';
 import articleOperate from '@/components/article-operate';
-var ctime = parseInt(Date.now() / 1000);
+var ctime = parseInt(Date.now());
 const total = 10;
 export default {
 	components: {
@@ -260,7 +260,7 @@ export default {
 			this.showHotMask = false;
 		},
 		async onPulldownReresh() {
-			ctime = parseInt(Date.now() / 1000); //刷新时间
+			ctime = parseInt(Date.now()); //刷新时间
 			this.tabs[this.tabIndex].offset = 0;
 			await this.init();
 			this.$refs.mixPulldownRefresh && this.$refs.mixPulldownRefresh.endPulldownRefresh();
@@ -292,9 +292,9 @@ export default {
 				url: '../celebrity/more/more'
 			});
 		},
-		goDetail() {
+		goDetail(id) {
 			uni.navigateTo({
-				url: '../celebrity/detail/detail'
+				url: '../celebrity/detail/detail?id='+id
 			});
 		}
 	}
