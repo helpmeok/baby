@@ -26,12 +26,54 @@ export function AccMul(arg1, arg2) {
 	} catch (e) {}
 	return Number(s1.replace(".", "")) * Number(s2.replace(".", "")) / Math.pow(10, m)
 }
-export function AccAdd(arg1,arg2){ 
-var r1,r2,m;  
-try{
-r1=arg1.toString().split(".")[1].length
-}catch(e){
-r1=0}  try{
-r2=arg2.toString().split(".")[1].length}catch(e){r2=0}  m=Math.pow(10,Math.max(r1,r2))  
-return (arg1*m+arg2*m)/m
+export function AccAdd(arg1, arg2) {
+	var r1, r2, m;
+	try {
+		r1 = arg1.toString().split(".")[1].length
+	} catch (e) {
+		r1 = 0
+	}
+	try {
+		r2 = arg2.toString().split(".")[1].length
+	} catch (e) {
+		r2 = 0
+	}
+	m = Math.pow(10, Math.max(r1, r2))
+	return (arg1 * m + arg2 * m) / m
+}
+
+export function delRepArr(tempList) {
+	var map = {},
+		dest = [];
+	for (var i = 0; i < tempList.length; i++) {
+		var ai = tempList[i];
+		if (!map[ai.letter]) {
+			dest.push({
+				letter: ai.letter,
+				list: [ai]
+			});
+			map[ai.letter] = ai;
+		} else {
+			for (var j = 0; j < dest.length; j++) {
+				var dj = dest[j];
+				if (dj.letter == ai.letter) {
+					dj.list.push(ai);
+					break;
+				}
+			}
+		}
+	}
+	let p = /[A-Z]/i;
+	let arr = []
+	for (let index in dest) {
+		if (!p.test(dest[index].letter.toUpperCase())) {
+			dest[index].letter = "#"
+			arr.push(dest[index])
+			dest.splice(index, 1)
+		}
+	}
+	dest.sort(function(a, b) {
+		return a.letter.charCodeAt() - b.letter.charCodeAt()
+	})
+	return arr.concat(dest);
 }

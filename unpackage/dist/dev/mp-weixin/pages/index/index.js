@@ -77,7 +77,7 @@ var redirect = "";var _default =
       });
     },
     getUserInfo: function () {var _getUserInfo = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee(e) {var data;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:if (!(
-                e.detail.errMsg == 'getUserInfo:ok')) {_context.next = 11;break;}
+                e.detail.errMsg == 'getUserInfo:ok')) {_context.next = 10;break;}
                 uni.showLoading({
                   title: '登录中' });
 
@@ -85,8 +85,6 @@ var redirect = "";var _default =
                 this.code) {_context.next = 7;break;}_context.next = 6;return (
 
                   this.getWXCode());case 6:this.code = _context.sent;case 7:
-
-                e.detail.encrypteData = e.detail.encryptedData;
 
                 Object.assign(data, e.detail, {
                   code: this.code });
@@ -125,7 +123,7 @@ var redirect = "";var _default =
                 },
                 function (err) {
                   uni.hideLoading();
-                });case 11:case "end":return _context.stop();}}}, _callee, this);}));function getUserInfo(_x) {return _getUserInfo.apply(this, arguments);}return getUserInfo;}() } };exports.default = _default;
+                });case 10:case "end":return _context.stop();}}}, _callee, this);}));function getUserInfo(_x) {return _getUserInfo.apply(this, arguments);}return getUserInfo;}() } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["default"]))
 
 /***/ }),

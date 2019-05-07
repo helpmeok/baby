@@ -4,13 +4,13 @@ const __api = 'http://59.61.216.123:18980/jeezero-boblbee-app/';
 function Request() {
 
 	this.m_send = function(url, method, data, onok, onno, complete) {
-		// data.uid = 2;
+		let access_token = uni.getStorageSync('access_token');
 		var _data = {
 			url: __api + url,
 			method: method,
 			header: {
 				// Authorization: token,
-				authorization: uni.getStorageSync('access_token'),
+				authorization: access_token,
 				appname: "boblbee"
 			},
 			data: data,
@@ -90,7 +90,18 @@ module.exports = {
 				let _url = "v1/home/getVipInfo";
 				_req.m_send(_url, "Get", d, onok, onno);
 			},
+			get_all_list: function(d, onok, onno) { //APP“首页”模块，点击导航右侧“火”的图标，点击“更多”按钮，获取大V账号数据列表，且带首字字母索引，一次性获取完所有的大V数据
+				let _url = "v1/home/getVipPageList";
+				_req.m_send(_url, "Get", d, onok, onno);
+			},
 		}
+
+	},
+	helper: {
+		get_query_list: function(d, onok, onno) { //获取APP“助手”模块的热门问题列表。
+			let _url = "v1/search/query";
+			_req.m_send(_url, "Get", d, onok, onno);
+		},
 	},
 	center: {
 		user: {

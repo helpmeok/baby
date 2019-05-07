@@ -76,7 +76,7 @@
 			</view>
 		</navigator>
 		<view class="list-cell flex-r-between">
-			<view class="list-cell-left flex-r-center">	
+			<view class="list-cell-left flex-r-center">
 				<image src="../../../static/me_list_ic_record@2x.png" mode="widthFix" class="icon"></image>
 				<text class="">浏览记录</text>
 			</view>
@@ -88,61 +88,67 @@
 </template>
 
 <script>
-export default {
-	data() {
-		return {
-			userInfo:{}
-		};
-	},
-	onLoad() {
-		
-	},
-	onShow() {
-		this.api.center.user.get_detail({},res=>{
-			console.log(res)
-			this.userInfo=res.data
-		})
-	}
-};
+	export default {
+		data() {
+			return {
+				userInfo: {}
+			};
+		},
+		onLoad() {
+
+		},
+		onShow() {
+			this.api.center.user.get_detail({}, res => {
+				console.log(res)
+				this.userInfo = res.data
+			})
+		}
+	};
 </script>
 
 <style lang="scss">
-page {
-	background-color:#fdfdfd;
-	padding: 30upx;
-	box-sizing: border-box;
-}
-.header {
-	background-color: #ffffff;
-	border-radius: 20upx;
-	padding: 30upx;
-	box-shadow:0px 10upx 60upx 0px rgba(0, 0, 0, 0.04);
+	page {
+		background-color: #fdfdfd;
+		padding: 30upx;
+		box-sizing: border-box;
+	}
+
+	.header {
+		background-color: #ffffff;
+		border-radius: 20upx;
+		padding: 30upx;
+		box-shadow: 0px 10upx 60upx 0px rgba(0, 0, 0, 0.04);
 		margin-bottom: 40upx;
-	.portrait {
-		width: 100upx;
-		height: 100upx;
-		border-radius: 50%;
-		margin-right: 30upx;
+
+		.portrait {
+			width: 100upx;
+			height: 100upx;
+			border-radius: 50%;
+			margin-right: 30upx;
+		}
 	}
-}
-.exchange {
-	height: 60upx;
-	border-radius: 30upx;
-	background-color: #ffecec;
-	color: #FC4041;
-	margin-top: 30upx;
-	padding: 10upx 20upx;
-	.icon {
-		width: 65upx;
+
+	.exchange {
+		height: 60upx;
+		border-radius: 30upx;
+		background-color: #ffecec;
+		color: #FC4041;
+		margin-top: 30upx;
+		padding: 10upx 20upx;
+
+		.icon {
+			width: 65upx;
+		}
 	}
-}
-.list-cell {
-	box-sizing: border-box;
-	border-bottom: 2upx solid #cccccc;
-	padding: 20upx 0;
-	.icon{
-		width: 60upx;
-		margin-right: 20upx;
+
+	.list-cell {
+		box-sizing: border-box;
+		border-bottom: 2upx solid #f1f1f1;
+		padding: 20upx 0;
+
+		.icon {
+			width: 60upx;
+			margin-right: 20upx;
+		}
 	}
-}
 </style>

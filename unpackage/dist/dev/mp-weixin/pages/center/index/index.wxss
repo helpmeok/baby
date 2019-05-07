@@ -58,7 +58,7 @@ page {
 .list-cell {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  border-bottom: 2rpx solid #cccccc;
+  border-bottom: 2rpx solid #f1f1f1;
   padding: 20rpx 0;
 }
 .list-cell .icon {

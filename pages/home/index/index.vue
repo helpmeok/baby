@@ -17,43 +17,46 @@
 					<scroll-view @scrolltolower="loadMore(i)" :scroll-y="!showArticleOperate" class="scroll-view" :enable-back-to-top="el.active">
 						<empty v-if="tabs[i].data.length == 0" msg="暂无资讯，下拉加载试试~"></empty>
 						<view class="list-item" v-for="(item, index1) in tabs[i].data" :key="index1">
-							<view class="flex-r-between">
-								<view class="flex">
-									<image src="../../../static/me_list_photo@2x.png" mode="widthFix" class="portrait"></image>
-									<text class="blod">{{ item.author }}</text>
+							<view class="pd-box">
+								<view class="flex-r-between">
+									<view class="flex">
+										<image src="../../../static/me_list_photo@2x.png" mode="widthFix" class="portrait"></image>
+										<text class="blod">{{ item.author }}</text>
+									</view>
+									<view class="tag white small">{{ item.keywords}}</view>
 								</view>
-								<view class="tag white small">{{ item.keywords}}</view>
-							</view>
-							<view class="flex-r-between content">
-								<view class="desc" style="width: 72%;">{{ item.description }}</view>
-								<image :src="item.image" mode="widthFix" class="image"></image>
-							</view>
-							<view class="flex-r-between">
-								<view class="flex">
-									<view class="list-item-icon flex">
-										<text class="iconfont iconliulan gray"></text>
-										<text class="small gray">{{item.clickNum}}</text>
-									</view>
-									<view class="list-item-icon flex">
-										<text class="iconfont iconiconfontzhizuobiaozhun44 gray"></text>
-										<text class="small gray">{{item.praiseNum}}</text>
-									</view>
-									<view class="list-item-icon flex">
-										<text class="iconfont iconpinglun gray"></text>
-										<text class="small gray">{{item.commentNum}}</text>
-									</view>
-									<view class="list-item-icon flex">
-										<text class="iconfont iconzhuanfa gray"></text>
-										<text class="small gray">{{item.forwardNum}}</text>
-									</view>
+								<view class="flex-r-between content">
+									<view class="desc" style="width: 72%;">{{ item.description }}</view>
+									<image :src="item.image" mode="widthFix" class="image"></image>
 								</view>
-								<image
-									src="../../../static/com_list_ic_more_nor@2x.png"
-									mode="widthFix"
-									class="icon-more-nor"
-									@click="showMoreMask($event, item.articleId)"
-								></image>
+								<view class="flex-r-between">
+									<view class="flex">
+										<view class="list-item-icon flex">
+											<text class="iconfont iconliulan gray"></text>
+											<text class="small gray">{{item.clickNum}}</text>
+										</view>
+										<view class="list-item-icon flex">
+											<text class="iconfont iconiconfontzhizuobiaozhun44 gray"></text>
+											<text class="small gray">{{item.praiseNum}}</text>
+										</view>
+										<view class="list-item-icon flex">
+											<text class="iconfont iconpinglun gray"></text>
+											<text class="small gray">{{item.commentNum}}</text>
+										</view>
+										<view class="list-item-icon flex">
+											<text class="iconfont iconzhuanfa gray"></text>
+											<text class="small gray">{{item.forwardNum}}</text>
+										</view>
+									</view>
+									<image
+										src="../../../static/com_list_ic_more_nor@2x.png"
+										mode="widthFix"
+										class="icon-more-nor"
+										@click="showMoreMask($event, item.articleId)"
+									></image>
+								</view>
 							</view>
+							<view class="cut-off"></view>
 						</view>
 						<view class="uni-tab-bar-loading"><uni-load-more :loadingType="el.loadingType" :contentText="loadingText"></uni-load-more></view>
 					</scroll-view>
@@ -330,8 +333,6 @@ export default {
 	margin-right: 30upx;
 }
 .list-item {
-	margin-bottom: 20upx;
-	padding: 20upx 30upx;
 	&-icon {
 		margin-right: 20upx;
 		.iconfont {

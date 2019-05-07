@@ -76,8 +76,6 @@
 						//token过期时重新获取code
 						this.code = await this.getWXCode();
 					}
-					e.detail.encrypteData = e.detail.encryptedData
-
 					Object.assign(data, e.detail, {
 						code: this.code
 					});

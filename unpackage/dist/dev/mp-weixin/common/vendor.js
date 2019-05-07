@@ -7983,13 +7983,13 @@ var __api = 'http://59.61.216.123:18980/jeezero-boblbee-app/';
 function Request() {
 
   this.m_send = function (url, method, data, onok, onno, _complete) {
-    // data.uid = 2;
+    var access_token = uni.getStorageSync('access_token');
     var _data = {
       url: __api + url,
       method: method,
       header: {
         // Authorization: token,
-        authorization: uni.getStorageSync('access_token'),
+        authorization: access_token,
         appname: "boblbee" },
 
       data: data,
@@ -8068,8 +8068,19 @@ module.exports = {
       get_info: function get_info(d, onok, onno) {//APP“首页”模块，点击“火”的图标，进行大V列表，再点击某个大V进入大V主界面的顶部大V信息数据。
         var _url = "v1/home/getVipInfo";
         _req.m_send(_url, "Get", d, onok, onno);
+      },
+      get_all_list: function get_all_list(d, onok, onno) {//APP“首页”模块，点击导航右侧“火”的图标，点击“更多”按钮，获取大V账号数据列表，且带首字字母索引，一次性获取完所有的大V数据
+        var _url = "v1/home/getVipPageList";
+        _req.m_send(_url, "Get", d, onok, onno);
       } } },
 
+
+
+  helper: {
+    get_query_list: function get_query_list(d, onok, onno) {//获取APP“助手”模块的热门问题列表。
+      var _url = "v1/search/query";
+      _req.m_send(_url, "Get", d, onok, onno);
+    } },
 
   center: {
     user: {
@@ -8119,6 +8130,96 @@ module.exports = {
       _req.m_send(_url, "Get", d, onok, onno);
     } } };
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["default"]))
+
+/***/ }),
+
+/***/ "D:\\Documents\\HBuilderProjects\\baby\\common\\util\\index.js":
+/*!***************************************************************!*\
+  !*** D:/Documents/HBuilderProjects/baby/common/util/index.js ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.GetDistance = GetDistance;exports.AccMul = AccMul;exports.AccAdd = AccAdd;exports.delRepArr = delRepArr; // 参数分别为第一点的纬度，经度；第二点的纬度，经度
+function Rad(d) {
+  return d * Math.PI / 180.0; //经纬度转换成三角函数中度分表形式。
+}
+function GetDistance(lat1, lng1, lat2, lng2) {
+  var radLat1 = Rad(lat1);
+  var radLat2 = Rad(lat2);
+  var a = radLat1 - radLat2;
+  var b = Rad(lng1) - Rad(lng2);
+  var s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) +
+  Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2)));
+  s = s * 6378.137; // EARTH_RADIUS;
+  s = Math.round(s * 10000) / 10000; //输出为公里
+  //s=s.toFixed(4);
+  return s;
+}
+function AccMul(arg1, arg2) {
+  var m = 0,
+  s1 = arg1.toString(),
+  s2 = arg2.toString();
+  try {
+    m += s1.split(".")[1].length;
+  } catch (e) {}
+  try {
+    m += s2.split(".")[1].length;
+  } catch (e) {}
+  return Number(s1.replace(".", "")) * Number(s2.replace(".", "")) / Math.pow(10, m);
+}
+function AccAdd(arg1, arg2) {
+  var r1, r2, m;
+  try {
+    r1 = arg1.toString().split(".")[1].length;
+  } catch (e) {
+    r1 = 0;
+  }
+  try {
+    r2 = arg2.toString().split(".")[1].length;
+  } catch (e) {
+    r2 = 0;
+  }
+  m = Math.pow(10, Math.max(r1, r2));
+  return (arg1 * m + arg2 * m) / m;
+}
+
+function delRepArr(tempList) {
+  var map = {},
+  dest = [];
+  for (var i = 0; i < tempList.length; i++) {
+    var ai = tempList[i];
+    if (!map[ai.letter]) {
+      dest.push({
+        letter: ai.letter,
+        list: [ai] });
+
+      map[ai.letter] = ai;
+    } else {
+      for (var j = 0; j < dest.length; j++) {
+        var dj = dest[j];
+        if (dj.letter == ai.letter) {
+          dj.list.push(ai);
+          break;
+        }
+      }
+    }
+  }
+  var p = /[A-Z]/i;
+  var arr = [];
+  for (var index in dest) {
+    if (!p.test(dest[index].letter.toUpperCase())) {
+      dest[index].letter = "#";
+      arr.push(dest[index]);
+      dest.splice(index, 1);
+    }
+  }
+  dest.sort(function (a, b) {
+    return a.letter.charCodeAt() - b.letter.charCodeAt();
+  });
+  return arr.concat(dest);
+}
 
 /***/ }),
 

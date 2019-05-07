@@ -26,7 +26,12 @@ page {
 .default-color {
 	color: #FC4041;
 }
-
+.bg-white{
+	background-color: #FFFFFF;
+}
+.bg-default-color {
+	background-color: #FC4041;
+}
 .blod {
 	font-weight: bold;
 }
@@ -123,7 +128,7 @@ page {
 }
 
 .border-bottom {
-	border-bottom: 2upx solid #BBBBBB;
+	border-bottom: 2upx solid #F1F1F1;
 }
 
 .rotate {
@@ -185,4 +190,7 @@ page {
 	
 	.mgr-30 {
 		margin-right: 30upx;
+	}
+	.mgr-60 {
+		margin-right: 60upx;
 	}
