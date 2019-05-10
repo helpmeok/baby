@@ -20,13 +20,8 @@
 </template>
 
 <script>
-	import uniTag from "@/components/uni-tag.vue"
-	import empty from '@/components/empty-data.vue'
 	export default {
-		components: {
-			empty,
-			uniTag
-		},
+		
 		data() {
 			return {
 				list: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]

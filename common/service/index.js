@@ -94,8 +94,17 @@ module.exports = {
 				let _url = "v1/home/getVipPageList";
 				_req.m_send(_url, "Get", d, onok, onno);
 			},
+			toggle_followed: function(d, onok, onno) { //关注或取消关注大V用户
+				let _url = "v1/home/attentionVipOrNo";
+				_req.m_send(_url, "Post", d, onok, onno);
+			},
+		},
+		article: {
+			get_detail: function(d, onok, onno) { //内容相关功能，获取内容详情数据时用
+				let _url = "v1/article/getArticleDetail";
+				_req.m_send(_url, "Get", d, onok, onno);
+			}
 		}
-
 	},
 	helper: {
 		get_query_list: function(d, onok, onno) { //获取APP“助手”模块的热门问题列表。
@@ -131,6 +140,12 @@ module.exports = {
 				let _url = "v1/my/getRegion";
 				_req.m_send(_url, "Get", d, onok, onno);
 			},
+		},
+		record: {
+			get_list: function(d, onok, onno) { //APP“我的”模块获取用户的浏览记录列表
+				let _url = "v1/my/queryHistoryList";
+				_req.m_send(_url, "Get", d, onok, onno);
+			},
 		}
 	},
 	classify: {
@@ -149,6 +164,10 @@ module.exports = {
 		get_sub_category_header: function(d, onok, onno) { //获取某个小类的详情头部信息
 			let _url = "v1/category/getSubCategoryHeader";
 			_req.m_send(_url, "Get", d, onok, onno);
+		},
+		toggle_followed: function(d, onok, onno) { //关注或取消关注某分类
+			let _url = "v1/home/attentionCategoryOrNo";
+			_req.m_send(_url, "Post", d, onok, onno);
 		},
 	}
 }

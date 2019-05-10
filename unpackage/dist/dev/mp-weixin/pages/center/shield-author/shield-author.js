@@ -8,34 +8,29 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var uniTag = function uniTag() {return __webpack_require__.e(/*! import() | components/uni-tag */ "components/uni-tag").then(__webpack_require__.bind(null, /*! @/components/uni-tag.vue */ "D:\\Documents\\HBuilderProjects\\baby\\components\\uni-tag.vue"));};var empty = function empty() {return __webpack_require__.e(/*! import() | components/empty-data */ "components/empty-data").then(__webpack_require__.bind(null, /*! @/components/empty-data.vue */ "D:\\Documents\\HBuilderProjects\\baby\\components\\empty-data.vue"));};var _default =
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var _default =
 {
-  components: {
-    empty: empty,
-    uniTag: uniTag },
 
   data: function data() {
     return {

@@ -33,19 +33,36 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 //
 //
 //
-var _default =
+
+var offset = 0;
+var total = 10;var _default =
 {
   data: function data() {
     return {
-      list: ["儿童经茪萨德", "啊实打实大群翁多群无", "儿童经茪萨德", "儿童经茪萨德", "儿童经茪萨德"] };
+      list: [],
+      isLoading: false };
 
   },
   onLoad: function onLoad() {
-
+    this.init();
   },
   methods: {
-    init: function init() {
-
+    init: function init() {var _this = this;
+      this.api.helper.get_query_list({
+        type: 1,
+        ctime: parseInt(Date.now()),
+        offset: offset,
+        total: total },
+      function (res) {
+        console.log(res);
+        _this.list = res.data;
+        _this.isLoading = false;
+      });
+    },
+    exchange: function exchange() {
+      offset = offset + total;
+      this.isLoading = true;
+      this.init();
     } } };exports.default = _default;
 
 /***/ }),

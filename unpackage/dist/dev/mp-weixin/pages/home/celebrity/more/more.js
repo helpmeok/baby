@@ -49,7 +49,9 @@
 
 
 
+
 var _index = __webpack_require__(/*! @/common/util/index.js */ "D:\\Documents\\HBuilderProjects\\baby\\common\\util\\index.js"); //
+//
 //
 //
 //
@@ -95,7 +97,9 @@ var _default = { data: function data() {return { StatusBar: this.StatusBar, Cust
     // 	list[i].name = String.fromCharCode(65 + i);
     // }
     // this.list = list;
-  }, onReady: function onReady() {var that = this;uni.createSelectorQuery().select('.indexBar-box').boundingClientRect(function (res) {that.boxTop = res.top;}).exec();uni.createSelectorQuery().select('.indexes').boundingClientRect(function (res) {that.barTop = res.top;}).exec();}, methods: { init: function init() {var _this = this;this.api.home.hotVip.get_all_list(null, function (res) {console.log(res);console.log((0, _index.delRepArr)(res.data));_this.list = (0, _index.delRepArr)(res.data);_this.listCur = _this.list[0];});},
+  }, onReady: function onReady() {var that = this;uni.createSelectorQuery().select('.indexBar-box').boundingClientRect(function (res) {that.boxTop = res.top;}).exec();uni.createSelectorQuery().select('.indexes').boundingClientRect(function (res) {that.barTop = res.top;}).exec();}, onPullDownRefresh: function onPullDownRefresh() {this.init();}, methods: { init: function init() {var _this = this;this.api.home.hotVip.get_all_list(null, function (res) {console.log(res);console.log((0, _index.delRepArr)(res.data));_this.list = (0, _index.delRepArr)(res.data);_this.listCur = _this.list[0];
+      });
+    },
     scroll: function scroll(e) {
       this.old.scrollTop = e.detail.scrollTop;
     },
@@ -149,6 +153,20 @@ var _default = { data: function data() {return { StatusBar: this.StatusBar, Cust
           return false;
         }
       }
+    },
+    goDetail: function goDetail(id) {
+      uni.navigateTo({
+        url: "../detail/detail?id=" + id });
+
+    },
+    toggleFollowed: function toggleFollowed(el, index, sub) {var _this2 = this;
+      this.api.home.hotVip.toggle_followed({
+        vid: el.oauthId,
+        action: el.isFollowed ? 0 : 1 },
+      function (res) {
+        console.log(res);
+        _this2.list[index].list[sub].isFollowed = !_this2.list[index].list[sub].isFollowed;
+      });
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["default"]))
 

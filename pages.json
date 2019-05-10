@@ -33,12 +33,14 @@
 		}, {
 			"path": "pages/home/celebrity/more/more",
 			"style": {
-				"navigationBarTitleText": "大V"
+				"navigationBarTitleText": "大V",
+				"enablePullDownRefresh":true
 			}
 		}, {
 			"path": "pages/home/celebrity/detail/detail",
 			"style": {
-				"navigationBarTitleText": ""
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh":true
 			}
 		},
 		{
@@ -58,17 +60,38 @@
 			"style": {
 				"navigationBarTitleText": "选择地址"
 			}
+		}, {
+			"path": "pages/center/shield-author/shield-author",
+			"style": {
+				"navigationBarTitleText": "屏蔽的作者"
+			}
+		}, {
+			"path": "pages/center/collect/list/list",
+			"style": {
+				"navigationBarTitleText": "文章收藏"
+			}
+		}, {
+			"path": "pages/classify/detail/detail",
+			"style": {
+				"enablePullDownRefresh":true
+			}
 		}
 	    ,{
-            "path" : "pages/center/shield-author/shield-author",
+            "path" : "pages/center/comment/list/list",
             "style" : {
-				"navigationBarTitleText": "屏蔽的作者"
+					"navigationBarTitleText": "我的评论"
 			}
         }
         ,{
-            "path" : "pages/center/collect/list/list",
+            "path" : "pages/center/record/list/list",
             "style" : {
-				"navigationBarTitleText": "文章收藏"
+				"navigationBarTitleText": "浏览记录"
+			}
+        }
+        ,{
+            "path" : "pages/home/article/detail/detail",
+            "style" : {
+				"navigationBarTitleText": ""
 			}
         }
     ],
@@ -133,9 +156,19 @@
 				"pathName": "pages/classify/index/index" //启动页面，必选
 			},
 			{
+				"name": "文章详情", //模式名称
+				"pathName": "pages/home/article/detail/detail", //启动页面，必选
+				"query": "id=1"
+			},
+			{
+				"name": "分类详情", //模式名称
+				"pathName": "pages/classify/detail/detail", //启动页面，必选
+				"query": "id=10"
+			},
+			{
 				"name": "大V详情", //模式名称 
 				"pathName": "pages/home/celebrity/detail/detail", //启动页面，必选
-				"query":"id=2"
+				"query": "id=2"
 			},
 			{
 				"name": "大V列表", //模式名称 
@@ -156,6 +189,10 @@
 			{
 				"name": "文章收藏",
 				"pathName": "pages/center/collect/list/list"
+			},
+			{
+				"name": "浏览记录",
+				"pathName": "pages/center/record/list/list"
 			}
 		]
 	}

@@ -10,32 +10,49 @@
 			<view class="blod font-b">
 				大家都在问
 			</view>
-			<view class="flex transform pd-lr">
+			<view class="flex transform pd-lr" @click="exchange">
 				<text>换一组</text>
-				<view class="iconfont iconchaxun-zhongzhi mgl-10 blod"></view>
+				<view class="iconfont iconchaxun-zhongzhi mgl-10 blod" :class="{'rotate':isLoading}"></view>
 			</view>
 		</view>
 		<view class="flex pd-box">
 			<view class="list-item pd-lr mgr-20 flex-r-center" v-for="(el,i) in list" :key="i">
-				{{el}}
+				{{el.title}}
 			</view>
 		</view>
 	</view>
 </template>
 
 <script>
+	let offset = 0
+	let total = 10
 	export default {
 		data() {
 			return {
-				list: ["儿童经茪萨德", "啊实打实大群翁多群无", "儿童经茪萨德", "儿童经茪萨德", "儿童经茪萨德"]
+				list: [],
+				isLoading: false
 			};
 		},
 		onLoad() {
-
+			this.init()
 		},
 		methods: {
 			init() {
-
+				this.api.helper.get_query_list({
+					type: 1,
+					ctime: parseInt(Date.now()),
+					offset,
+					total
+				}, res => {
+					console.log(res)
+					this.list = res.data
+					this.isLoading = false
+				})
+			},
+			exchange() {
+				offset = offset + total
+				this.isLoading = true
+				this.init()
 			}
 		}
 	}

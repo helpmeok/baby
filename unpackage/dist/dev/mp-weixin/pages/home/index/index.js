@@ -61,40 +61,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 var ctime = parseInt(Date.now());
 var total = 10;var _default =
 {
@@ -112,8 +78,7 @@ var total = 10;var _default =
       showArticleOperate: false,
       articleId: '',
       articleOffsetTop: 0,
-      tabs: [
-      {
+      tabs: [{
         name: '推荐',
         active: true,
         data: [],
@@ -162,8 +127,7 @@ var total = 10;var _default =
       this.tabs[this.tabIndex].offset = 0;
       return new Promise(function (onok, onno) {
         if (_this2.tabIndex === 0) {
-          _this2.api.home.get_recommend_article(
-          {
+          _this2.api.home.get_recommend_article({
             type: 2,
             ctime: ctime,
             offset: _this2.tabs[_this2.tabIndex].offset,
@@ -179,8 +143,7 @@ var total = 10;var _default =
           });
 
         } else {
-          _this2.api.home.get_foucs_article(
-          {
+          _this2.api.home.get_foucs_article({
             type: 1,
             ctime: ctime,
             offset: _this2.tabs[_this2.tabIndex].offset,
@@ -200,8 +163,7 @@ var total = 10;var _default =
     getMoreArticle: function getMoreArticle() {var _this3 = this;
       this.tabs[this.tabIndex].offset += total;
       if (this.tabIndex === 0) {
-        this.api.home.get_recommend_article(
-        {
+        this.api.home.get_recommend_article({
           type: 2,
           ctime: ctime,
           offset: this.tabs[this.tabIndex].offset,
@@ -222,8 +184,7 @@ var total = 10;var _default =
         });
 
       } else {
-        this.api.home.get_foucs_article(
-        {
+        this.api.home.get_foucs_article({
           type: 1,
           ctime: ctime,
           offset: this.tabs[this.tabIndex].offset,
@@ -283,7 +244,7 @@ var total = 10;var _default =
         this.enableScroll = enable;
       }
     },
-    showMoreMask: function showMoreMask(e) {var _this4 = this;
+    showOperate: function showOperate(e) {var _this4 = this;
       console.log(e);
       uni.getSystemInfo({
         success: function success(res) {

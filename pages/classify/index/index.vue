@@ -20,7 +20,8 @@
 									{{item.name}}
 								</view>
 								<view class="flex">
-									<view class="sub-class mgr-20" v-for="(sub,index2) in item.category_list" :key="index2">
+									<view class="sub-class mgr-20" @click="goDetail(sub.categoryId)" v-for="(sub,index2) in item.category_list"
+									 :key="index2">
 										{{sub.categoryName}}
 									</view>
 								</view>
@@ -56,7 +57,7 @@
 			return {
 				tabIndex: 0,
 				tabs: [],
-				enableScroll:true,
+				enableScroll: true,
 				loadingText: {
 					contentdown: '',
 					contentrefresh: '正在加载...',
@@ -159,6 +160,11 @@
 					this.enableScroll = enable;
 				}
 			},
+			goDetail(id) {
+				uni.navigateTo({
+					url: "../detail/detail?id=" + id
+				})
+			}
 		}
 	};
 </script>
@@ -186,7 +192,7 @@
 	}
 
 	.list-item {
-		.sub-class{
+		.sub-class {
 			width: auto;
 			height: 40upx;
 			padding: 10upx 30upx;
@@ -194,7 +200,7 @@
 			border: 2upx solid #f1f1f1;
 			line-height: 40upx;
 			margin-top: 20upx;
-			
+
 		}
 	}
 

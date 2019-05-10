@@ -1,15 +1,14 @@
 <template>
 	<view>
-
 		<scroll-view scroll-y class="indexes" :scroll-into-view="'indexes-'+ listCurID" :style="[{height:screenHeight+'px'}]"
 		 :scroll-with-animation="true" :enable-back-to-top="true" :scroll-top="scrollTop" @scroll="scroll">
 			<block v-for="(item,index) in list" :key="index">
 				<view :class="'indexItem-' + item.letter" :id="'indexes-' + item.letter" :data-index="item.letter">
 					<view class="pd-lr blod title">{{item.letter}}</view>
-					<view class="list-item flex-r-between pd-box" v-for="(el,sub) in item.list" :key="sub">
+					<view class="list-item flex-r-between pd-box" v-for="(el,sub) in item.list" :key="sub" @click="goDetail(el.oauthId)">
 						<view class="flex">
 							<!-- <view class="cu-avatar round lg">{{item.letter}}</view> -->
-							<image :src="el.avatar" mode="widthFix" class="avatar"></image>
+							<image :src="el.avatar" mode="widthFix" class="avatar mgr-20"></image>
 							<view class="content">
 								<view class="font-b">{{el.name}}</view>
 								<view class="text-gray text-sm">
@@ -18,8 +17,10 @@
 								</view>
 							</view>
 						</view>
-						<view class=" bg-default-color mgr-60 pd-lr btn" :class="{'followed':el.isFollowed,'white':!el.isFollowed}">
-							{{el.isFollowed?"已关注":"关注"}}
+						<view class=" bg-default-color mgr-60 pd-lr btn flex-r-center" :class="{'followed':el.isFollowed,'white':!el.isFollowed}"
+						 @click.stop="toggleFollowed(el,index,sub)">
+							<text class="iconfont iconjiahao white small" v-if="!el.isFollowed"></text>
+							<text>{{el.isFollowed?"已关注":"关注"}}</text>
 						</view>
 					</view>
 				</view>
@@ -76,6 +77,9 @@
 			uni.createSelectorQuery().select('.indexes').boundingClientRect(function(res) {
 				that.barTop = res.top
 			}).exec()
+		},
+		onPullDownRefresh() {
+			this.init();
 		},
 		methods: {
 			init() {
@@ -139,6 +143,20 @@
 						return false
 					}
 				}
+			},
+			goDetail(id) {
+				uni.navigateTo({
+					url: "../detail/detail?id=" + id
+				})
+			},
+			toggleFollowed(el, index, sub) {
+				this.api.home.hotVip.toggle_followed({
+					vid: el.oauthId,
+					action: el.isFollowed ? 0 : 1
+				}, res => {
+					console.log(res)
+					this.list[index].list[sub].isFollowed = !this.list[index].list[sub].isFollowed
+				})
 			}
 		}
 	}

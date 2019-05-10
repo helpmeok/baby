@@ -63,14 +63,15 @@ export function delRepArr(tempList) {
 			}
 		}
 	}
-	let p = /[A-Z]/i;
+	let p = /[a-zA-Z]/i;
 	let arr = []
 	for (let index in dest) {
-		if (!p.test(dest[index].letter.toUpperCase())) {
+		if (!p.test(dest[index].letter)) {
 			dest[index].letter = "#"
 			arr.push(dest[index])
 			dest.splice(index, 1)
 		}
+		dest[index].letter=dest[index].letter.toUpperCase()
 	}
 	dest.sort(function(a, b) {
 		return a.letter.charCodeAt() - b.letter.charCodeAt()

@@ -24,7 +24,10 @@
 					</view>
 				</view>
 				<view class="flex-r-between" style="margin-top: 20upx;">
-					<view class="attention-btn flex-r-center">关注</view>
+					<view class="attention-btn flex-r-center" @click="toggleFollowed(info)" :class="{'white':!info.isFollowed,'followed':info.isFollowed}">
+						<text class="iconfont iconjiahao  mgr-10" v-if="!info.isFollowed"></text>
+						<text>{{info.isFollowed?"已关注":"关注"}}</text>
+					</view>
 					<view class="recommend-btn flex-r-center gray" @click="showRecommend">
 						<text style="margin-right: 5upx;">相关推荐</text>
 						<text class="iconfont iconxiangxia gray" v-if="!isShowRecommend"></text>
@@ -100,6 +103,9 @@
 			id = options.id
 			this.init()
 		},
+		onPullDownRefresh() {
+			this.init();
+		},
 		methods: {
 			init() {
 				this.api.home.hotVip.get_info({
@@ -110,6 +116,15 @@
 					uni.setNavigationBarTitle({
 						title: res.data.name
 					});
+				})
+			},
+			toggleFollowed(el) {
+				this.api.home.hotVip.toggle_followed({
+					vid: el.oauthId,
+					action: el.isFollowed ? 0 : 1
+				}, res => {
+					console.log(res)
+					this.info.isFollowed = !this.info.isFollowed
 				})
 			},
 			showRecommend() {
@@ -125,7 +140,7 @@
 	};
 </script>
 
-<style lang="less">
+<style lang="scss">
 	.header-detail {
 		width: 100%;
 		height: 200upx;
@@ -139,11 +154,16 @@
 		}
 
 		.attention-btn {
-			background-color: #e33;
-			height: 50upx;
+			background-color: $uni-color-default;
+			border: 2upx solid $uni-color-default;
+			height: 46upx;
 			width: 280upx;
 			border-radius: 25upx;
-			color: white;
+		}
+
+		.followed {
+			background-color: #ffffff;
+			border-color: #f1f1f1;
 		}
 
 		.recommend-btn {

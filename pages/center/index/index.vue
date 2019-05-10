@@ -11,7 +11,7 @@
 					<image src="../../../static/me_list_ic_baby@2x.png" mode="widthFix" class="icon"></image>
 					<text>宝宝贝：3087</text>
 				</view>
-				<view class="">前往兑换</view>
+				<!-- <view class="">前往兑换</view> -->
 			</view>
 		</view>
 		<!-- <view class="list-cell flex-r-between">
@@ -55,15 +55,17 @@
 				<text class="iconfont iconarrow-right-copy" style="color: #B2B2B2;"></text>
 			</view>
 		</view>
-		<view class="list-cell flex-r-between">
-			<view class="list-cell-left flex-r-center">
-				<image src="../../../static/me_list_ic_comment@2x.png" mode="widthFix" class="icon"></image>
-				<text class="">我的评论</text>
+		<navigator url="../comment/list/list" hover-class="none">
+			<view class="list-cell flex-r-between">
+				<view class="list-cell-left flex-r-center">
+					<image src="../../../static/me_list_ic_comment@2x.png" mode="widthFix" class="icon"></image>
+					<text class="">我的评论</text>
+				</view>
+				<view class="list-cell-right flex-r-center">
+					<text class="iconfont iconarrow-right-copy" style="color: #B2B2B2;"></text>
+				</view>
 			</view>
-			<view class="list-cell-right flex-r-center">
-				<text class="iconfont iconarrow-right-copy" style="color: #B2B2B2;"></text>
-			</view>
-		</view>
+		</navigator>
 		<navigator url="../shield-author/shield-author" hover-class="none">
 			<view class="list-cell flex-r-between">
 				<view class="list-cell-left flex-r-center">
@@ -75,15 +77,17 @@
 				</view>
 			</view>
 		</navigator>
-		<view class="list-cell flex-r-between">
-			<view class="list-cell-left flex-r-center">
-				<image src="../../../static/me_list_ic_record@2x.png" mode="widthFix" class="icon"></image>
-				<text class="">浏览记录</text>
+		<navigator url="../record/list/list" hover-class="none">
+			<view class="list-cell flex-r-between">
+				<view class="list-cell-left flex-r-center">
+					<image src="../../../static/me_list_ic_record@2x.png" mode="widthFix" class="icon"></image>
+					<text class="">浏览记录</text>
+				</view>
+				<view class="list-cell-right flex-r-center">
+					<text class="iconfont iconarrow-right-copy" style="color: #B2B2B2;"></text>
+				</view>
 			</view>
-			<view class="list-cell-right flex-r-center">
-				<text class="iconfont iconarrow-right-copy" style="color: #B2B2B2;"></text>
-			</view>
-		</view>
+		</navigator>
 	</view>
 </template>
 
