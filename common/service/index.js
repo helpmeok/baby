@@ -98,6 +98,10 @@ module.exports = {
 				let _url = "v1/home/attentionVipOrNo";
 				_req.m_send(_url, "Post", d, onok, onno);
 			},
+			get_article: function(d, onok, onno) { //APP“首页”模块，点击“火”的图标，进行大V列表，再点击某个大V进入大v主界面，底部4种分类数据列表（最新发布、转发最多、评论最多、点赞最多）
+				let _url = "v1/home/getVipArticlePageList";
+				_req.m_send(_url, "Get", d, onok, onno);
+			},
 		},
 		article: {
 			get_detail: function(d, onok, onno) { //内容相关功能，获取内容详情数据时用

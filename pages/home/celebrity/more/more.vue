@@ -5,7 +5,7 @@
 			<block v-for="(item,index) in list" :key="index">
 				<view :class="'indexItem-' + item.letter" :id="'indexes-' + item.letter" :data-index="item.letter">
 					<view class="pd-lr blod title">{{item.letter}}</view>
-					<view class="list-item flex-r-between pd-box" v-for="(el,sub) in item.list" :key="sub" @click="goDetail(el.oauthId)">
+					<view class="list-item flex-r-between pd-box" v-for="(el,sub) in item.list" :key="sub" @click="goDetail(el.userId)">
 						<view class="flex">
 							<!-- <view class="cu-avatar round lg">{{item.letter}}</view> -->
 							<image :src="el.avatar" mode="widthFix" class="avatar mgr-20"></image>
@@ -151,7 +151,7 @@
 			},
 			toggleFollowed(el, index, sub) {
 				this.api.home.hotVip.toggle_followed({
-					vid: el.oauthId,
+					vid: el.userId,
 					action: el.isFollowed ? 0 : 1
 				}, res => {
 					console.log(res)

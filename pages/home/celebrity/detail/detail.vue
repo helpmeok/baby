@@ -48,11 +48,11 @@
 		</scroll-view>
 		<view class="approve flex">
 			<text class="iconfont iconiconset0421 gray" style="width: 8%;"></text>
-			<view class="" style="width: 92%;">认证：代理费就快了按实际的反馈了爵士岛咖啡阿萨德六块腹肌盛大开放假的六块腹肌</view>
+			<view class="" style="width: 92%;">认证：{{info.weixinAuthStatus?"微信公众号认证；":""}}{{info.toutiaoAuthStatus?"今日头条认证；":""}}{{info.douyinAuthStatus?"抖音认证；":""}}{{info.appAuthStatus?"宝宝贝认证；":""}}</view>
 		</view>
 		<view class="desc flex">
 			<text class="iconfont icongongsijianjie gray" style="width: 8%;"></text>
-			<view class="" style="width: 92%;">简介：代理费就快了按实际的反馈了爵士岛咖啡阿萨德六块腹肌盛大开放假的六块腹肌</view>
+			<view class="" style="width: 92%;">简介：{{desc}}</view>
 		</view>
 		<view class="" style="height: 20upx;background-color: #F5F5F5;"></view>
 		<glanceSlideNavTabBar fontsize="14px" topfixedval="0" :topfixed="true" @clickitem="clickitem" :tabIndex="tabIndex"
@@ -62,18 +62,15 @@
 				{ textcontent: '评论最多' },
 				{ textcontent: '点赞最高' }
 			]"></glanceSlideNavTabBar>
-		<swiper :duration="500" style="height: 3000upx;" @change="changeSwiper" :current="tabIndex">
-			<swiper-item>
-				<view class="swiper-item">1</view>
-			</swiper-item>
-			<swiper-item>
-				<view class="swiper-item">2</view>
-			</swiper-item>
-			<swiper-item>
-				<view class="swiper-item">3</view>
-			</swiper-item>
-			<swiper-item>
-				<view class="swiper-item">4</view>
+		<swiper class="swiper-box" :current="tabIndex"  @change="changeSwiper" :style="{'height':screenHeight+'px'}">
+			<swiper-item v-for="(el, i) in tabs" :key="i">
+				<scroll-view @scrolltolower="loadMore(i)" :scroll-y="!showArticleOperate" class="scroll-view" :enable-back-to-top="el.active">
+					<empty v-if="tabs[i].data.length == 0" msg="暂无资讯~"></empty>
+					<article-item :list="tabs[i].data" v-on:showOperate="showOperate"></article-item>
+					<view class="uni-tab-bar-loading">
+						<uni-load-more :loadingType="el.loadingType" :contentText="loadingText"></uni-load-more>
+					</view>
+				</scroll-view>
 			</swiper-item>
 		</swiper>
 	</view>
@@ -82,21 +79,69 @@
 <script>
 	import glanceSlideNavTabBar from '@/components/glance-SlideNavTabBar.vue';
 	let id = ""
+	var ctime = parseInt(Date.now());
+	const total = 10;
 	export default {
 		components: {
 			glanceSlideNavTabBar
 		},
 		data() {
 			return {
+				screenHeight:this.screenHeight,
 				isShowRecommend: false,
 				recommendList: [1, 2, 3, 4, 5, 6],
 				tabIndex: 0,
-				info: {}
+				info: {},
+				tabs: [{
+						data: [],
+						offset: 0,
+						loadingType: 0
+					},
+					{
+						data: [],
+						offset: 0,
+						loadingType: 0
+					},
+					{
+						data: [],
+						offset: 0,
+						loadingType: 0
+					},
+					{
+						data: [],
+						offset: 0,
+						loadingType: 0
+					}
+				],
+				loadingText: {
+					contentdown: '',
+					contentrefresh: '正在加载...',
+					contentnomore: '没有更多数据了'
+				}
 			};
 		},
 		computed: {
 			recommendBoxWidth() {
 				return uni.upx2px(this.recommendList.length * 270) + 'px';
+			},
+			desc() {
+				if (this.info.weixinAuthIntro) {
+					return this.info.weixinAuthIntro
+				} else {
+					if (this.info.toutiaoAuthIntro) {
+						return this.info.toutiaoAuthIntro
+					} else {
+						if (this.info.douyinAuthIntro) {
+							return this.info.douyinAuthIntro
+						} else {
+							if (this.info.appAuthIntro) {
+								return this.info.appAuthIntro
+							} else {
+								return "暂无"
+							}
+						}
+					}
+				}
 			}
 		},
 		onLoad(options) {
@@ -117,10 +162,23 @@
 						title: res.data.name
 					});
 				})
+				this.getArticle()
+			},
+			getArticle(){
+				this.api.home.hotVip.get_article({
+					vid:id,
+					type:this.tabIndex,
+					ctime,
+					offset:this.tabs[this.tabIndex].offset,
+					total
+				},res=>{
+					console.log(res)
+					this.tabs[this.tabIndex].data = res.data;
+				})
 			},
 			toggleFollowed(el) {
 				this.api.home.hotVip.toggle_followed({
-					vid: el.oauthId,
+					vid: el.userId,
 					action: el.isFollowed ? 0 : 1
 				}, res => {
 					console.log(res)
@@ -132,10 +190,91 @@
 			},
 			clickitem(index, val) {
 				this.tabIndex = index
+				this.changeTab(index);
 			},
 			changeSwiper(e) {
 				this.tabIndex = e.target.current
-			}
+				this.changeTab(e.target.current);
+			},
+			getMoreArticle() {
+				this.tabs[this.tabIndex].offset += total;
+				// if (this.tabIndex === 0) {
+				// 	this.api.home.get_recommend_article({
+				// 			type: 2,
+				// 			ctime: ctime,
+				// 			offset: this.tabs[this.tabIndex].offset,
+				// 			total: total
+				// 		},
+				// 		res => {
+				// 			console.log(res);
+				// 			if (res.data.length) {
+				// 				this.tabs[this.tabIndex].data = this.tabs[this.tabIndex].data.concat(res.data);
+				// 				this.tabs[this.tabIndex].loadingType = 0;
+				// 			} else {
+				// 				this.tabs[this.tabIndex].loadingType = 2;
+				// 			}
+				// 		},
+				// 		err => {
+				// 			this.tabs[this.tabIndex].offset -= total;
+				// 			this.tabs[this.tabIndex].loadingType = 0;
+				// 		}
+				// 	);
+				// } else {
+				// 	this.api.home.get_foucs_article({
+				// 			type: 1,
+				// 			ctime: ctime,
+				// 			offset: this.tabs[this.tabIndex].offset,
+				// 			total: total
+				// 		},
+				// 		res => {
+				// 			console.log(res);
+				// 			if (res.data.length) {
+				// 				this.tabs[this.tabIndex].data = this.tabs[this.tabIndex].data.concat(res.data);
+				// 				this.tabs[this.tabIndex].loadingType = 0;
+				// 			} else {
+				// 				this.tabs[this.tabIndex].loadingType = 2;
+				// 			}
+				// 		},
+				// 		err => {
+				// 			this.tabs[this.tabIndex].offset -= total;
+				// 			this.tabs[this.tabIndex].loadingType = 0;
+				// 		}
+				// 	);
+				// }
+			},
+			async changeTab(index) {
+				if (!this.tabs[this.tabIndex].data.length) {
+					await this.init();
+				}
+			},
+			loadMore(i) {
+				if (!this.tabs[this.tabIndex].data.length) {
+					return;
+				}
+				if (this.tabs[i].loadingType !== 0) {
+					return;
+				} else {
+					this.tabs[i].loadingType = 1;
+					this.getMoreArticle();
+				}
+			},
+			showOperate(e) {
+				// console.log(e);
+				// uni.getSystemInfo({
+				// 	success: res => {
+				// 		console.log(res.windowHeight);
+				// 		if (e.detail.y + 220 > res.windowHeight) {
+				// 			this.articleOffsetTop = e.detail.y - 210;
+				// 		} else {
+				// 			this.articleOffsetTop = e.detail.y + 20;
+				// 		}
+				// 		this.showArticleOperate = true;
+				// 	}
+				// });
+			},
+			hideArticleOperate() {
+				this.showArticleOperate = false;
+			},
 		}
 	};
 </script>
@@ -214,5 +353,9 @@
 	.recommend-box {
 		height: 400upx;
 		transition: height 0.5s;
+	}
+
+	.swiper-box {
+		.scroll-view {}
 	}
 </style>

@@ -33,7 +33,7 @@
 			<view class="content flex" @click.stop>
 				<view class="flex-c-center" style="width: 20%;" v-for="(el,i) in hotList" :key="i">
 					<image :src="el.avator" mode="widthFix" @click="goDetail(el.userId)"></image>
-					<text>{{el.name}}</text>
+					<text class="sigle-line-text">{{el.name}}</text>
 				</view>
 				<view class="flex-c-center" style="width: 20%;">
 					<image src="../../../static/home_popup_ic_more_nor@3x.png" mode="widthFix" style="width: 100upx;" @click="goMore"></image>
@@ -226,8 +226,10 @@
 			async onPulldownReresh() {
 				ctime = parseInt(Date.now()); //刷新时间
 				this.tabs[this.tabIndex].offset = 0;
-				await this.init();
-				this.$refs.mixPulldownRefresh && this.$refs.mixPulldownRefresh.endPulldownRefresh();
+				setTimeout(async ()=>{
+					await this.init();
+					this.$refs.mixPulldownRefresh && this.$refs.mixPulldownRefresh.endPulldownRefresh();
+				},1000)
 			},
 			setEnableScroll(enable) {
 				if (this.enableScroll !== enable) {
