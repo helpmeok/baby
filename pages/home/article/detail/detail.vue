@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<view class="pd-box rich-box" :style="{'height':richTextHeight+'px'}">
+		<!-- <view class="pd-box rich-box" :style="{'height':richTextHeight+'px'}">
 			<rich-text :nodes="content | imgConversion" id="rich"></rich-text>
 			<view class="fuzzy-box" v-if="isShowMore">
 			</view>
@@ -13,6 +13,9 @@
 				<text>阅读全文</text>
 				<text class="iconfont iconxiangxia mgl-10 red"></text>
 			</view>
+		</view> -->
+		<view class="pd-box rich-box">
+			<rich-text :nodes="content | imgConversion" id="rich"></rich-text>
 		</view>
 	</view>
 </template>
@@ -33,27 +36,27 @@
 		onLoad(options) {
 			id = options.id
 			this.init()
-			setTimeout(() => {
-				this.richTextHeight = Math.max.apply(null,heightArr)
-				clearInterval(timer)
-			}, 5000)
+			// setTimeout(() => {
+			// 	this.richTextHeight = Math.max.apply(null,heightArr)
+			// 	clearInterval(timer)
+			// }, 5000)
 		},
-		async onReady() {
-			timer = setInterval(async () => {
-				var size = await this.getElSize('fake-rich')
-				heightArr.push(size.height)
-				console.log(Math.max.apply(null,heightArr))
-				if (Math.max.apply(null,heightArr) >= this.screenHeight * 2) {
-					this.richTextHeight = this.screenHeight * 2
-					this.isShowMore = true
-				} else {
-					this.richTextHeight = Math.max.apply(null,heightArr) 
-					this.isShowMore = false
-				}
-			}, 100)
-		},
+		// async onReady() {
+		// 	timer = setInterval(async () => {
+		// 		var size = await this.getElSize('fake-rich')
+		// 		heightArr.push(size.height)
+		// 		console.log(Math.max.apply(null,heightArr))
+		// 		if (Math.max.apply(null,heightArr) >= this.screenHeight * 2) {
+		// 			this.richTextHeight = this.screenHeight * 2
+		// 			this.isShowMore = true
+		// 		} else {
+		// 			this.richTextHeight = Math.max.apply(null,heightArr) 
+		// 			this.isShowMore = false
+		// 		}
+		// 	}, 100)
+		// },
 		onUnload() {
-			clearInterval(timer)
+			// clearInterval(timer)
 		},
 		methods: {
 			init() {
@@ -77,11 +80,11 @@
 					}).exec();
 				})
 			},
-			showAll() {
-				clearInterval(timer)
-				this.richTextHeight = Math.max.apply(null,heightArr) 
-				this.isShowMore = false
-			}
+			// showAll() {
+			// 	clearInterval(timer)
+			// 	this.richTextHeight = Math.max.apply(null,heightArr) 
+			// 	this.isShowMore = false
+			// }
 		}
 	}
 </script>

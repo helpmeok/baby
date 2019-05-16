@@ -24,11 +24,9 @@
 					</view>
 				</view>
 				<view class="flex-r-between" style="margin-top: 20upx;">
-					<view class="attention-btn flex-r-center">
-						<view class="attention-btn flex-r-center" @click="toggleFollowed(info)" :class="{'white':!info.isFollowed,'followed':info.isFollowed}">
-							<text class="iconfont iconjiahao  mgr-10" v-if="!info.isFollowed"></text>
-							<text>{{info.isFollowed?"已关注":"关注"}}</text>
-						</view>
+					<view class="attention-btn flex-r-center" @click="toggleFollowed(info)" :class="{'white':!info.isFollowed,'followed':info.isFollowed}">
+						<text class="iconfont iconjiahao  mgr-10" v-if="!info.isFollowed"></text>
+						<text>{{info.isFollowed?"已关注":"关注"}}</text>
 					</view>
 					<view class="recommend-btn flex-r-center gray" @click="showRecommend">
 						<text style="margin-right: 5upx;">相关推荐</text>
@@ -56,18 +54,16 @@
 				{ textcontent: '评论最多' },
 				{ textcontent: '点赞最高' }
 			]"></glanceSlideNavTabBar>
-		<swiper :duration="500" style="height: 3000upx;" @change="changeSwiper" :current="tabIndex">
-			<swiper-item>
-				<view class="swiper-item">1</view>
-			</swiper-item>
-			<swiper-item>
-				<view class="swiper-item">2</view>
-			</swiper-item>
-			<swiper-item>
-				<view class="swiper-item">3</view>
-			</swiper-item>
-			<swiper-item>
-				<view class="swiper-item">4</view>
+		<swiper class="swiper-box" :current="tabIndex" @change="changeSwiper" :style="{'height':screenHeight+'px'}">
+			<swiper-item v-for="(el, i) in tabs" :key="i">
+				<scroll-view @scrolltolower="loadMore(i)" :scroll-y="true" class="scroll-view" :enable-back-to-top="el.active"
+				 :style="{'height':screenHeight+'px'}">
+					<empty v-if="tabs[i].data.length == 0" msg="暂无资讯~"></empty>
+					<article-item :list="tabs[i].data" v-on:showOperate="showOperate"></article-item>
+					<view class="uni-tab-bar-loading">
+						<uni-load-more :loadingType="el.loadingType" :contentText="loadingText"></uni-load-more>
+					</view>
+				</scroll-view>
 			</swiper-item>
 		</swiper>
 	</view>
@@ -76,16 +72,45 @@
 <script>
 	import glanceSlideNavTabBar from '@/components/glance-SlideNavTabBar.vue';
 	let id = ""
+	var ctime = parseInt(Date.now());
+	const total = 10;
 	export default {
 		components: {
 			glanceSlideNavTabBar
 		},
 		data() {
 			return {
+				screenHeight: this.screenHeight,
 				isShowRecommend: false,
 				recommendList: [1, 2, 3, 4, 5, 6],
 				tabIndex: 0,
-				info: {}
+				info: {},
+				tabs: [{
+						data: [],
+						offset: 0,
+						loadingType: 0
+					},
+					{
+						data: [],
+						offset: 0,
+						loadingType: 0
+					},
+					{
+						data: [],
+						offset: 0,
+						loadingType: 0
+					},
+					{
+						data: [],
+						offset: 0,
+						loadingType: 0
+					}
+				],
+				loadingText: {
+					contentdown: '',
+					contentrefresh: '正在加载...',
+					contentnomore: '没有更多数据了'
+				}
 			};
 		},
 		computed: {
@@ -111,10 +136,23 @@
 						title: res.data.categoryName
 					});
 				})
+				this.getArticle()
+			},
+			getArticle() {
+				this.api.classify.get_category_article({
+					categoryId: id,
+					type: this.tabIndex,
+					ctime,
+					offset: this.tabs[this.tabIndex].offset,
+					total
+				}, res => {
+					console.log(res)
+					this.tabs[this.tabIndex].data = res.data;
+				})
 			},
 			toggleFollowed(el) {
 				this.api.classify.toggle_followed({
-					vid: el.categoryId,
+					categoryId: id,
 					action: el.isFollowed ? 0 : 1
 				}, res => {
 					console.log(res)
@@ -126,10 +164,68 @@
 			},
 			clickitem(index, val) {
 				this.tabIndex = index
+				this.changeTab(index);
 			},
 			changeSwiper(e) {
 				this.tabIndex = e.target.current
-			}
+				this.changeTab(e.target.current);
+			},
+			getMoreArticle() {
+				console.log('111')
+				this.tabs[this.tabIndex].offset += total;
+				this.api.classify.get_category_article({
+						categoryId: id,
+						type: this.tabIndex,
+						ctime,
+						offset: this.tabs[this.tabIndex].offset,
+						total
+					}, res => {
+						console.log(res)
+						if (res.data.length) {
+							this.tabs[this.tabIndex].data = this.tabs[this.tabIndex].data.concat(res.data);
+							this.tabs[this.tabIndex].loadingType = 0;
+						} else {
+							this.tabs[this.tabIndex].loadingType = 2;
+						}
+					},
+					err => {
+						this.tabs[this.tabIndex].offset -= total;
+						this.tabs[this.tabIndex].loadingType = 0;
+					})
+			},
+			async changeTab(index) {
+				if (!this.tabs[this.tabIndex].data.length) {
+					await this.init();
+				}
+			},
+			loadMore(i) {
+				if (!this.tabs[this.tabIndex].data.length) {
+					return;
+				}
+				if (this.tabs[i].loadingType !== 0) {
+					return;
+				} else {
+					this.tabs[i].loadingType = 1;
+					this.getMoreArticle();
+				}
+			},
+			showOperate(e) {
+				// console.log(e);
+				// uni.getSystemInfo({
+				// 	success: res => {
+				// 		console.log(res.windowHeight);
+				// 		if (e.detail.y + 220 > res.windowHeight) {
+				// 			this.articleOffsetTop = e.detail.y - 210;
+				// 		} else {
+				// 			this.articleOffsetTop = e.detail.y + 20;
+				// 		}
+				// 		this.showArticleOperate = true;
+				// 	}
+				// });
+			},
+			hideArticleOperate() {
+				this.showArticleOperate = false;
+			},
 		}
 	};
 </script>
@@ -148,11 +244,16 @@
 		}
 
 		.attention-btn {
-	background-color: $uni-color-default;
+			background-color: $uni-color-default;
 			border: 2upx solid $uni-color-default;
-			height: 50upx;
+			height: 46upx;
 			width: 280upx;
 			border-radius: 25upx;
+		}
+
+		.followed {
+			background-color: #ffffff;
+			border: 2upx solid #f1f1f1;
 		}
 
 		.recommend-btn {
@@ -203,5 +304,9 @@
 	.recommend-box {
 		height: 400upx;
 		transition: height 0.5s;
+	}
+
+	.swiper-box {
+		.scroll-view {}
 	}
 </style>

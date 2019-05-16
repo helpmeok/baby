@@ -20,7 +20,7 @@
 									{{item.name}}
 								</view>
 								<view class="flex">
-									<view class="sub-class mgr-20" @click="goDetail(sub.categoryId)" v-for="(sub,index2) in item.category_list"
+									<view class="sub-class mgr-20 flex-r-center" @click="goDetail(sub.categoryId)" v-for="(sub,index2) in item.category_list"
 									 :key="index2">
 										{{sub.categoryName}}
 									</view>
@@ -194,13 +194,11 @@
 	.list-item {
 		.sub-class {
 			width: auto;
-			height: 40upx;
+			height: 60upx;
 			padding: 10upx 30upx;
-			border-radius: 30upx;
+			border-radius: 40upx;
 			border: 2upx solid #f1f1f1;
-			line-height: 40upx;
 			margin-top: 20upx;
-
 		}
 	}
 

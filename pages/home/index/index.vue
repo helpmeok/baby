@@ -32,7 +32,7 @@
 			<view class="triangle_border_up"></view>
 			<view class="content flex" @click.stop>
 				<view class="flex-c-center" style="width: 20%;" v-for="(el,i) in hotList" :key="i">
-					<image :src="el.avator" mode="widthFix" @click="goDetail(el.userId)"></image>
+					<image :src="el.avatar" mode="widthFix" @click="goDetail(el.userId)"></image>
 					<text class="sigle-line-text">{{el.name}}</text>
 				</view>
 				<view class="flex-c-center" style="width: 20%;">

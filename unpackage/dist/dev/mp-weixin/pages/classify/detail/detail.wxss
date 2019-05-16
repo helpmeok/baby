@@ -39,9 +39,13 @@
 .header-detail .attention-btn {
     background-color: #FC4041;
     border: 2rpx solid #FC4041;
-    height: 50rpx;
+    height: 46rpx;
     width: 280rpx;
     border-radius: 25rpx;
+}
+.header-detail .followed {
+    background-color: #ffffff;
+    border: 2rpx solid #f1f1f1;
 }
 .header-detail .recommend-btn {
     border: 2rpx solid #cccccc;

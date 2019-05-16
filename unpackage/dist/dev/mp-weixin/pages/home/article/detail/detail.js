@@ -8,7 +8,10 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};} //
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
+//
+//
+//
 //
 //
 //
@@ -40,39 +43,39 @@ var heightArr = [];var _default =
       articleHeight: 0 };
 
   },
-  onLoad: function onLoad(options) {var _this = this;
+  onLoad: function onLoad(options) {
     id = options.id;
     this.init();
-    setTimeout(function () {
-      _this.richTextHeight = Math.max.apply(null, heightArr);
-      clearInterval(timer);
-    }, 5000);
+    // setTimeout(() => {
+    // 	this.richTextHeight = Math.max.apply(null,heightArr)
+    // 	clearInterval(timer)
+    // }, 5000)
   },
-  onReady: function () {var _onReady = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var _this2 = this;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:
-              timer = setInterval( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var size;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
-                          _this2.getElSize('fake-rich'));case 2:size = _context.sent;
-                        heightArr.push(size.height);
-                        console.log(Math.max.apply(null, heightArr));
-                        if (Math.max.apply(null, heightArr) >= _this2.screenHeight * 2) {
-                          _this2.richTextHeight = _this2.screenHeight * 2;
-                          _this2.isShowMore = true;
-                        } else {
-                          _this2.richTextHeight = Math.max.apply(null, heightArr);
-                          _this2.isShowMore = false;
-                        }case 6:case "end":return _context.stop();}}}, _callee, this);})),
-              100);case 1:case "end":return _context2.stop();}}}, _callee2, this);}));function onReady() {return _onReady.apply(this, arguments);}return onReady;}(),
-
+  // async onReady() {
+  // 	timer = setInterval(async () => {
+  // 		var size = await this.getElSize('fake-rich')
+  // 		heightArr.push(size.height)
+  // 		console.log(Math.max.apply(null,heightArr))
+  // 		if (Math.max.apply(null,heightArr) >= this.screenHeight * 2) {
+  // 			this.richTextHeight = this.screenHeight * 2
+  // 			this.isShowMore = true
+  // 		} else {
+  // 			this.richTextHeight = Math.max.apply(null,heightArr) 
+  // 			this.isShowMore = false
+  // 		}
+  // 	}, 100)
+  // },
   onUnload: function onUnload() {
-    clearInterval(timer);
+    // clearInterval(timer)
   },
   methods: {
-    init: function init() {var _this3 = this;
+    init: function init() {var _this = this;
       this.api.home.article.get_detail({
         article_id: id,
         request_type: "app" },
       function (res) {
         console.log(res.data);
-        _this3.content = res.data.content;
+        _this.content = res.data.content;
 
       });
     },
@@ -86,11 +89,6 @@ var heightArr = [];var _default =
           res(data);
         }).exec();
       });
-    },
-    showAll: function showAll() {
-      clearInterval(timer);
-      this.richTextHeight = Math.max.apply(null, heightArr);
-      this.isShowMore = false;
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["default"]))
 
@@ -124,14 +122,11 @@ var render = function() {
   var _c = _vm._self._c || _h
   var f0 = _vm._f("imgConversion")(_vm.content)
 
-  var f1 = _vm._f("imgConversion")(_vm.content)
-
   _vm.$mp.data = Object.assign(
     {},
     {
       $root: {
-        f0: f0,
-        f1: f1
+        f0: f0
       }
     }
   )

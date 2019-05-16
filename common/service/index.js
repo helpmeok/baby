@@ -161,8 +161,8 @@ module.exports = {
 			let _url = "/category/getSubCategory";
 			_req.m_send(_url, "Get", d, onok, onno);
 		},
-		get_category_article: function(d, onok, onno) { //获取某个分类下的所以文章列表
-			let _url = "/category/getCategoryArticlePageList";
+		get_category_article: function(d, onok, onno) { //APP“分类”模块，点击某个小类进入该小类详情主界面，底部4种分页菜单列表（最新发布、转发最多、评论最多、点赞最多）
+			let _url = "/category/queryArticleByCategory";
 			_req.m_send(_url, "Get", d, onok, onno);
 		},
 		get_sub_category_header: function(d, onok, onno) { //获取某个小类的详情头部信息
@@ -170,7 +170,7 @@ module.exports = {
 			_req.m_send(_url, "Get", d, onok, onno);
 		},
 		toggle_followed: function(d, onok, onno) { //关注或取消关注某分类
-			let _url = "/home/attentionCategoryOrNo";
+			let _url = "/category/attentionCategoryOrNo";
 			_req.m_send(_url, "Post", d, onok, onno);
 		},
 	}
