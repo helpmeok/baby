@@ -1,22 +1,26 @@
 <template>
 	<view>
 		<view class="pd-box rich-box" :style="{'height':richTextHeight+'px'}">
-			<rich-text :nodes="content" id="rich"></rich-text>
+			<rich-text :nodes="content | imgConversion" id="rich"></rich-text>
 			<view class="fuzzy-box" v-if="isShowMore">
 			</view>
+		</view>
+		<view class="fake-box">
+			<rich-text :nodes="content | imgConversion" id="fake-rich"></rich-text>
 		</view>
 		<view class="pd-box" v-if="isShowMore" @click="showAll">
 			<view class="read-all red flex-r-center">
 				<text>阅读全文</text>
-				<text class="iconfont iconbottom mgl-10"></text>
+				<text class="iconfont iconxiangxia mgl-10 red"></text>
 			</view>
 		</view>
-
 	</view>
 </template>
 
 <script>
 	let id = ""
+	let timer;
+	let heightArr=[]
 	export default {
 		data() {
 			return {
@@ -29,22 +33,27 @@
 		onLoad(options) {
 			id = options.id
 			this.init()
+			setTimeout(() => {
+				this.richTextHeight = Math.max.apply(null,heightArr)
+				clearInterval(timer)
+			}, 5000)
 		},
 		async onReady() {
-			let timer = setInterval(async () => {
-				var size = await this.getElSize('rich')
-				if (size.height > 0) {
-					clearInterval(timer)
-					this.articleHeight = size.height
-					if (size.height > this.screenHeight * 1.5) {
-						this.richTextHeight = this.screenHeight * 1.5
-						this.isShowMore = true
-					} else {
-						this.richTextHeight = size.height + 30
-						this.isShowMore = false
-					}
+			timer = setInterval(async () => {
+				var size = await this.getElSize('fake-rich')
+				heightArr.push(size.height)
+				console.log(Math.max.apply(null,heightArr))
+				if (Math.max.apply(null,heightArr) >= this.screenHeight * 2) {
+					this.richTextHeight = this.screenHeight * 2
+					this.isShowMore = true
+				} else {
+					this.richTextHeight = Math.max.apply(null,heightArr) 
+					this.isShowMore = false
 				}
 			}, 100)
+		},
+		onUnload() {
+			clearInterval(timer)
 		},
 		methods: {
 			init() {
@@ -54,9 +63,7 @@
 				}, res => {
 					console.log(res.data)
 					this.content = res.data.content
-					uni.setNavigationBarTitle({
-						title: res.data.title
-					});
+					
 				})
 			},
 			getElSize(id) { //得到元素的size
@@ -71,7 +78,8 @@
 				})
 			},
 			showAll() {
-				this.richTextHeight = this.articleHeight + 30
+				clearInterval(timer)
+				this.richTextHeight = Math.max.apply(null,heightArr) 
 				this.isShowMore = false
 			}
 		}
@@ -101,5 +109,9 @@
 		height: 60upx;
 		border-radius: 31upx;
 		border: 2upx solid #e33;
+	}
+	.fake-box{
+		height: 0 !important;
+		overflow: hidden;
 	}
 </style>

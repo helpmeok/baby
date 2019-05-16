@@ -1,5 +1,5 @@
 // const __api = 'https://wkf.088wanmei.com';
-const __api = 'http://59.61.216.123:18980/jeezero-boblbee-app/';
+const __api = 'http://59.61.216.123:18980/jeezero-boblbee-app/v1';
 
 function Request() {
 
@@ -70,107 +70,107 @@ module.exports = {
 	host: __api,
 	home: {
 		wx_login: function(d, onok, onno) { //微信登陆获取参数
-			let _url = "v1/miniApp/wxlogin";
+			let _url = "/miniApp/wxlogin";
 			_req.m_send(_url, "Post", d, onok, onno);
 		},
 		get_recommend_article: function(d, onok, onno) { //“首页”模块的推荐数据
-			let _url = "v1/home/queryRecommendArticle";
+			let _url = "/home/queryRecommendArticle";
 			_req.m_send(_url, "Get", d, onok, onno);
 		},
 		get_foucs_article: function(d, onok, onno) { //“首页”模块的关注数据
-			let _url = "v1/home/queryFocusArticle";
+			let _url = "/home/queryFocusArticle";
 			_req.m_send(_url, "Get", d, onok, onno);
 		},
 		get_hotVip_List: function(d, onok, onno) { //APP“首页”模块，点击“火”图标，显示推送4个大V账号。这4个大V账号是获取转发数最多的四个，如果无转发数，则以原创数最多排序。
-			let _url = "v1/home/getHotVipList";
+			let _url = "/home/getHotVipList";
 			_req.m_send(_url, "Get", d, onok, onno);
 		},
 		hotVip: {
 			get_info: function(d, onok, onno) { //APP“首页”模块，点击“火”的图标，进行大V列表，再点击某个大V进入大V主界面的顶部大V信息数据。
-				let _url = "v1/home/getVipInfo";
+				let _url = "/home/getVipInfo";
 				_req.m_send(_url, "Get", d, onok, onno);
 			},
 			get_all_list: function(d, onok, onno) { //APP“首页”模块，点击导航右侧“火”的图标，点击“更多”按钮，获取大V账号数据列表，且带首字字母索引，一次性获取完所有的大V数据
-				let _url = "v1/home/getVipPageList";
+				let _url = "/home/getVipPageList";
 				_req.m_send(_url, "Get", d, onok, onno);
 			},
 			toggle_followed: function(d, onok, onno) { //关注或取消关注大V用户
-				let _url = "v1/home/attentionVipOrNo";
+				let _url = "/home/attentionVipOrNo";
 				_req.m_send(_url, "Post", d, onok, onno);
 			},
 			get_article: function(d, onok, onno) { //APP“首页”模块，点击“火”的图标，进行大V列表，再点击某个大V进入大v主界面，底部4种分类数据列表（最新发布、转发最多、评论最多、点赞最多）
-				let _url = "v1/home/getVipArticlePageList";
+				let _url = "/home/getVipArticlePageList";
 				_req.m_send(_url, "Get", d, onok, onno);
 			},
 		},
 		article: {
 			get_detail: function(d, onok, onno) { //内容相关功能，获取内容详情数据时用
-				let _url = "v1/article/getArticleDetail";
+				let _url = "/article/getArticleDetail";
 				_req.m_send(_url, "Get", d, onok, onno);
 			}
 		}
 	},
 	helper: {
 		get_query_list: function(d, onok, onno) { //获取APP“助手”模块的热门问题列表。
-			let _url = "v1/search/query";
+			let _url = "/search/query";
 			_req.m_send(_url, "Get", d, onok, onno);
 		},
 	},
 	center: {
 		user: {
 			get_detail: function(d, onok, onno) { //“我的”模块获取用户资料
-				let _url = "v1/my/getDetail";
+				let _url = "/my/getDetail";
 				_req.m_send(_url, "Get", d, onok, onno);
 			},
 		},
 		address: {
 			add: function(d, onok, onno) { //收货地址添加
-				let _url = "v1/my/addAddress";
+				let _url = "/my/addAddress";
 				_req.m_send(_url, "Post", d, onok, onno);
 			},
 			update: function(d, onok, onno) { //收货地址修改
-				let _url = "v1/my/updateAddress";
+				let _url = "/my/updateAddress";
 				_req.m_send(_url, "Post", d, onok, onno);
 			},
 			deleted: function(d, onok, onno) { //收货地址删除
-				let _url = "v1/my/delAddress";
+				let _url = "/my/delAddress";
 				_req.m_send(_url, "Post", d, onok, onno);
 			},
 			get_list: function(d, onok, onno) { //获取收货地址列表
-				let _url = "v1/my/getAddressList";
+				let _url = "/my/getAddressList";
 				_req.m_send(_url, "Get", d, onok, onno);
 			},
 			get_region: function(d, onok, onno) { //获取省市县街道的接口
-				let _url = "v1/my/getRegion";
+				let _url = "/my/getRegion";
 				_req.m_send(_url, "Get", d, onok, onno);
 			},
 		},
 		record: {
 			get_list: function(d, onok, onno) { //APP“我的”模块获取用户的浏览记录列表
-				let _url = "v1/my/queryHistoryList";
+				let _url = "/my/queryHistoryList";
 				_req.m_send(_url, "Get", d, onok, onno);
 			},
 		}
 	},
 	classify: {
 		get_top_category: function(d, onok, onno) { //获取分类头部数据列表
-			let _url = "v1/category/getTopCategory";
+			let _url = "/category/getTopCategory";
 			_req.m_send(_url, "Get", d, onok, onno);
 		},
 		get_sub_category: function(d, onok, onno) { //获取某个分类下的子类
-			let _url = "v1/category/getSubCategory";
+			let _url = "/category/getSubCategory";
 			_req.m_send(_url, "Get", d, onok, onno);
 		},
 		get_category_article: function(d, onok, onno) { //获取某个分类下的所以文章列表
-			let _url = "v1/category/getCategoryArticlePageList";
+			let _url = "/category/getCategoryArticlePageList";
 			_req.m_send(_url, "Get", d, onok, onno);
 		},
 		get_sub_category_header: function(d, onok, onno) { //获取某个小类的详情头部信息
-			let _url = "v1/category/getSubCategoryHeader";
+			let _url = "/category/getSubCategoryHeader";
 			_req.m_send(_url, "Get", d, onok, onno);
 		},
 		toggle_followed: function(d, onok, onno) { //关注或取消关注某分类
-			let _url = "v1/home/attentionCategoryOrNo";
+			let _url = "/home/attentionCategoryOrNo";
 			_req.m_send(_url, "Post", d, onok, onno);
 		},
 	}

@@ -24,9 +24,9 @@
 					</view>
 				</view>
 				<view class="flex-r-between" style="margin-top: 20upx;">
-					<view class="attention-btn flex-r-center" @click="toggleFollowed(info)" :class="{'white':!info.isFollowed,'followed':info.isFollowed}">
-						<text class="iconfont iconjiahao  mgr-10" v-if="!info.isFollowed"></text>
-						<text>{{info.isFollowed?"已关注":"关注"}}</text>
+					<view class="attention-btn flex-r-center" @click="toggleFollowed(info)" :class="{'white':!info.isFollowed ,'followed':info.isFollowed }">
+						<text class="iconfont iconjiahao  mgr-10" v-if="!info.isFollowed "></text>
+						<text>{{info.isFollowed ?"已关注":"关注"}}</text>
 					</view>
 					<view class="recommend-btn flex-r-center gray" @click="showRecommend">
 						<text style="margin-right: 5upx;">相关推荐</text>
@@ -62,9 +62,10 @@
 				{ textcontent: '评论最多' },
 				{ textcontent: '点赞最高' }
 			]"></glanceSlideNavTabBar>
-		<swiper class="swiper-box" :current="tabIndex"  @change="changeSwiper" :style="{'height':screenHeight+'px'}">
+		<swiper class="swiper-box" :current="tabIndex" @change="changeSwiper" :style="{'height':screenHeight+'px'}">
 			<swiper-item v-for="(el, i) in tabs" :key="i">
-				<scroll-view @scrolltolower="loadMore(i)" :scroll-y="!showArticleOperate" class="scroll-view" :enable-back-to-top="el.active">
+				<scroll-view @scrolltolower="loadMore(i)" :scroll-y="true" class="scroll-view" :enable-back-to-top="el.active"
+				 :style="{'height':screenHeight+'px'}">
 					<empty v-if="tabs[i].data.length == 0" msg="暂无资讯~"></empty>
 					<article-item :list="tabs[i].data" v-on:showOperate="showOperate"></article-item>
 					<view class="uni-tab-bar-loading">
@@ -87,7 +88,7 @@
 		},
 		data() {
 			return {
-				screenHeight:this.screenHeight,
+				screenHeight: this.screenHeight,
 				isShowRecommend: false,
 				recommendList: [1, 2, 3, 4, 5, 6],
 				tabIndex: 0,
@@ -164,14 +165,14 @@
 				})
 				this.getArticle()
 			},
-			getArticle(){
+			getArticle() {
 				this.api.home.hotVip.get_article({
-					vid:id,
-					type:this.tabIndex,
+					vid: id,
+					type: this.tabIndex,
 					ctime,
-					offset:this.tabs[this.tabIndex].offset,
+					offset: this.tabs[this.tabIndex].offset,
 					total
-				},res=>{
+				}, res => {
 					console.log(res)
 					this.tabs[this.tabIndex].data = res.data;
 				})
@@ -197,50 +198,27 @@
 				this.changeTab(e.target.current);
 			},
 			getMoreArticle() {
+				console.log('111')
 				this.tabs[this.tabIndex].offset += total;
-				// if (this.tabIndex === 0) {
-				// 	this.api.home.get_recommend_article({
-				// 			type: 2,
-				// 			ctime: ctime,
-				// 			offset: this.tabs[this.tabIndex].offset,
-				// 			total: total
-				// 		},
-				// 		res => {
-				// 			console.log(res);
-				// 			if (res.data.length) {
-				// 				this.tabs[this.tabIndex].data = this.tabs[this.tabIndex].data.concat(res.data);
-				// 				this.tabs[this.tabIndex].loadingType = 0;
-				// 			} else {
-				// 				this.tabs[this.tabIndex].loadingType = 2;
-				// 			}
-				// 		},
-				// 		err => {
-				// 			this.tabs[this.tabIndex].offset -= total;
-				// 			this.tabs[this.tabIndex].loadingType = 0;
-				// 		}
-				// 	);
-				// } else {
-				// 	this.api.home.get_foucs_article({
-				// 			type: 1,
-				// 			ctime: ctime,
-				// 			offset: this.tabs[this.tabIndex].offset,
-				// 			total: total
-				// 		},
-				// 		res => {
-				// 			console.log(res);
-				// 			if (res.data.length) {
-				// 				this.tabs[this.tabIndex].data = this.tabs[this.tabIndex].data.concat(res.data);
-				// 				this.tabs[this.tabIndex].loadingType = 0;
-				// 			} else {
-				// 				this.tabs[this.tabIndex].loadingType = 2;
-				// 			}
-				// 		},
-				// 		err => {
-				// 			this.tabs[this.tabIndex].offset -= total;
-				// 			this.tabs[this.tabIndex].loadingType = 0;
-				// 		}
-				// 	);
-				// }
+				this.api.home.hotVip.get_article({
+						vid: id,
+						type: this.tabIndex,
+						ctime,
+						offset: this.tabs[this.tabIndex].offset,
+						total
+					}, res => {
+						console.log(res)
+						if (res.data.length) {
+							this.tabs[this.tabIndex].data = this.tabs[this.tabIndex].data.concat(res.data);
+							this.tabs[this.tabIndex].loadingType = 0;
+						} else {
+							this.tabs[this.tabIndex].loadingType = 2;
+						}
+					},
+					err => {
+						this.tabs[this.tabIndex].offset -= total;
+						this.tabs[this.tabIndex].loadingType = 0;
+					})
 			},
 			async changeTab(index) {
 				if (!this.tabs[this.tabIndex].data.length) {

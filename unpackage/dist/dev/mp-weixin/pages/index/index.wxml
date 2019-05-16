@@ -1,0 +1,1 @@
+<block wx:if="{{isShow}}" bind:__l="__l"><view class="content" bind:__l="__l"><image class="logo" src="../../static/1024.png"></image><button type="primary" open-type="getUserInfo" data-event-opts="{{[['getuserinfo',[['getUserInfo',['$event']]]]]}}" bindgetuserinfo="__e">微信授权登录</button></view></block>

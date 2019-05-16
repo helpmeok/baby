@@ -2,7 +2,7 @@
 	<view>
 		<view class="header-detail flex">
 			<view class="flex-r-center" style="width: 30%;">
-				<image :src="info.avator" mode="widthFix" class="portrait"></image>
+				<image src="../../../static/classify_list_ic_special_1@2x.png" mode="widthFix" class="portrait"></image>
 			</view>
 			<view class="" style="width: 70%;">
 				<view class="flex-r-between" style="padding: 0 20upx;">

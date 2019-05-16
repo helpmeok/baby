@@ -91,7 +91,7 @@
         ,{
             "path" : "pages/home/article/detail/detail",
             "style" : {
-				"navigationBarTitleText": ""
+				"navigationBarTitleText": "详情"
 			}
         }
     ],
@@ -158,7 +158,7 @@
 			{
 				"name": "文章详情", //模式名称
 				"pathName": "pages/home/article/detail/detail", //启动页面，必选
-				"query": "id=1"
+				"query": "id=636"
 			},
 			{
 				"name": "分类详情", //模式名称

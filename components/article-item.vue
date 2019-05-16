@@ -4,13 +4,13 @@
 			<view class="pd-box">
 				<view class="flex-r-between">
 					<view class="flex">
-						<image src="../../../static/me_list_photo@2x.png" mode="widthFix" class="portrait"></image>
-						<text class="blod">{{ item.author }}</text>
+						<image :src="item.userAvatar" mode="widthFix" class="portrait"></image>
+						<text class="blod">{{ item.userName }}</text>
 					</view>
-					<view class="tag white small">{{ item.keywords}}</view>
+					<view class="tag white small" v-if="item.categoryName">{{ item.categoryName}}</view>
 				</view>
 				<view class="flex-r-between content">
-					<view class="desc" style="width: 72%;">{{ item.description }}</view>
+					<view class="desc" style="width: 72%;">{{ item.title }}</view>
 					<image :src="item.image" mode="widthFix" class="image"></image>
 				</view>
 				<view class="flex-r-between">
@@ -77,6 +77,13 @@
 
 <style lang="scss">
 	.list-item {
+		.portrait {
+			width: 80upx;
+			height: 80upx;
+			border-radius: 50%;
+			margin-right: 30upx;
+		}
+		
 		&-icon {
 			margin-right: 20upx;
 

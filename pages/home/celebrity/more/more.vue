@@ -17,10 +17,10 @@
 								</view>
 							</view>
 						</view>
-						<view class=" bg-default-color mgr-60 pd-lr btn flex-r-center" :class="{'followed':el.isFollowed,'white':!el.isFollowed}"
+						<view class=" bg-default-color mgr-60 pd-lr btn flex-r-center" :class="{'followed':el.isFollowed ,'white':!el.isFollowed }"
 						 @click.stop="toggleFollowed(el,index,sub)">
-							<text class="iconfont iconjiahao white small" v-if="!el.isFollowed"></text>
-							<text>{{el.isFollowed?"已关注":"关注"}}</text>
+							<text class="iconfont iconjiahao white small" v-if="!el.isFollowed "></text>
+							<text>{{el.isFollowed ?"已关注":"关注"}}</text>
 						</view>
 					</view>
 				</view>
@@ -152,10 +152,10 @@
 			toggleFollowed(el, index, sub) {
 				this.api.home.hotVip.toggle_followed({
 					vid: el.userId,
-					action: el.isFollowed ? 0 : 1
+					action: el.isFollowed  ? 0 : 1
 				}, res => {
 					console.log(res)
-					this.list[index].list[sub].isFollowed = !this.list[index].list[sub].isFollowed
+					this.list[index].list[sub].isFollowed  = !this.list[index].list[sub].isFollowed 
 				})
 			}
 		}
