@@ -24,11 +24,7 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
-.container {
-  padding-left: 30rpx;
-}
 .container .list-item {
-    border-bottom: 2rpx solid #f5f5f5;
-    padding: 20rpx 20rpx 20rpx 0;
+  border-bottom: 2rpx solid #f5f5f5;
 }
 

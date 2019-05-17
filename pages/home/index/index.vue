@@ -41,8 +41,7 @@
 				</view>
 			</view>
 		</view>
-		<article-operate :show="showArticleOperate" :top="articleOffsetTop" :id="articleId" 
-		 v-on:hideArticleOperate="hideArticleOperate"></article-operate>
+		<article-operate :show="showArticleOperate" :top="articleOffsetTop" :id="articleId" v-on:hideArticleOperate="hideArticleOperate"></article-operate>
 	</view>
 </template>
 
@@ -90,9 +89,13 @@
 				}
 			};
 		},
-		onLoad() {
+		onLoad(options) {
 			this.init();
-
+			if (options.articleId) {
+				uni.navigateTo({
+					url: "../article/detail/detail?id=" + options.articleId
+				})
+			}
 		},
 		onShow() {
 			this.getHot()
@@ -226,10 +229,10 @@
 			async onPulldownReresh() {
 				ctime = parseInt(Date.now()); //刷新时间
 				this.tabs[this.tabIndex].offset = 0;
-				setTimeout(async ()=>{
+				setTimeout(async () => {
 					await this.init();
 					this.$refs.mixPulldownRefresh && this.$refs.mixPulldownRefresh.endPulldownRefresh();
-				},1000)
+				}, 1000)
 			},
 			setEnableScroll(enable) {
 				if (this.enableScroll !== enable) {

@@ -21,7 +21,7 @@ function Request() {
 					uni.removeStorageSync('access_token')
 					console.log(getCurrentPages())
 					var route = "/" + getCurrentPages()[getCurrentPages().length - 1].route
-					let queryObj = JSON.stringify(getCurrentPages()[0].__displayReporter.query)
+					let queryObj = JSON.stringify(getCurrentPages()[getCurrentPages().length - 1].options)
 					uni.redirectTo({
 						url: "/pages/index/index?redirect=" + route + "&queryObj=" + queryObj,
 						success: () => {
@@ -107,7 +107,15 @@ module.exports = {
 			get_detail: function(d, onok, onno) { //内容相关功能，获取内容详情数据时用
 				let _url = "/article/getArticleDetail";
 				_req.m_send(_url, "Get", d, onok, onno);
-			}
+			},
+			toggle_collect: function(d, onok, onno) { //内容相关功能，收藏或取消收藏文章
+				let _url = "/article/faOrNoArticle";
+				_req.m_send(_url, "Post", d, onok, onno);
+			},
+			toggle_praise: function(d, onok, onno) { //内容相关功能，点赞或取消点赞该文章
+				let _url = "/article/praiseArticleOrNo";
+				_req.m_send(_url, "Post", d, onok, onno);
+			},
 		}
 	},
 	helper: {
@@ -150,7 +158,14 @@ module.exports = {
 				let _url = "/my/queryHistoryList";
 				_req.m_send(_url, "Get", d, onok, onno);
 			},
+		},
+		collect: {
+			get_list: function(d, onok, onno) { //APP“我的”模块获取用户收藏的文章数据
+				let _url = "/my/queryFaArticlePageList";
+				_req.m_send(_url, "Get", d, onok, onno);
+			},
 		}
+
 	},
 	classify: {
 		get_top_category: function(d, onok, onno) { //获取分类头部数据列表

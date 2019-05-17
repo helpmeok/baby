@@ -39,8 +39,7 @@
 		}, {
 			"path": "pages/home/celebrity/detail/detail",
 			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh":true
+				"navigationBarTitleText": ""
 			}
 		},
 		{

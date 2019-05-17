@@ -29,12 +29,13 @@
 	<!-- #endif -->
 	
 		<!-- 下拉刷新 -->
-		<view class="mix-loading-wrapper">
+		<view class="mix-loading-wrapper flex-r-center">
 			<image 
 				class="mix-loading-icon" 
 				:class="{active: refreshing, ready: refreshReady}" 
 				src="../static/1024.png">
 			</image>
+			<view class="mgl-20 gray">{{statusText}}</view>
 		</view>
 		
 		<slot></slot>
@@ -52,6 +53,10 @@
 				type: Number,
 				default: 0
 			},
+			statusText:{
+				type: String,
+				default: '刷新中'
+			}
 		},
 		data() {
 			return {

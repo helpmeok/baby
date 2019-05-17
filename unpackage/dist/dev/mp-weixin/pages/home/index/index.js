@@ -60,7 +60,6 @@
 
 
 
-
 var ctime = parseInt(Date.now());
 var total = 10;var _default =
 {
@@ -100,9 +99,13 @@ var total = 10;var _default =
 
 
   },
-  onLoad: function onLoad() {
+  onLoad: function onLoad(options) {
     this.init();
+    if (options.articleId) {
+      uni.navigateTo({
+        url: "../article/detail/detail?id=" + options.articleId });
 
+    }
   },
   onShow: function onShow() {
     this.getHot();

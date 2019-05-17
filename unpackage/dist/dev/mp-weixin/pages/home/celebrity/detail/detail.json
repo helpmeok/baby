@@ -1,6 +1,5 @@
 {
   "navigationBarTitleText": "",
-  "enablePullDownRefresh": true,
   "usingComponents": {
     "glance-slide-nav-tab-bar": "/components/glance-SlideNavTabBar"
   }

@@ -33,6 +33,11 @@
 .list-item-icon {
   margin-right: 20rpx;
 }
+.list-item-icon .icon {
+    width: 40rpx;
+    height: 40rpx;
+    margin-right: 5rpx;
+}
 .list-item-icon .iconfont {
     margin-right: 10rpx;
 }
@@ -62,6 +67,7 @@
        text-overflow: ellipsis;
 }
 .list-item .content .image {
-    width: 120rpx;
+    width: 128rpx !important;
+    height: 128rpx !important;
 }
 

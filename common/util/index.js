@@ -71,10 +71,18 @@ export function delRepArr(tempList) {
 			arr.push(dest[index])
 			dest.splice(index, 1)
 		}
-		dest[index].letter=dest[index].letter.toUpperCase()
+		dest[index].letter = dest[index].letter.toUpperCase()
 	}
 	dest.sort(function(a, b) {
 		return a.letter.charCodeAt() - b.letter.charCodeAt()
 	})
 	return arr.concat(dest);
+}
+export function getImgsrc(htmlstr) {
+	var reg = /<img.+?src=('|")?([^'"]+)('|")?(?:\s+|>)/gim;
+	var imgsrcArr = [];
+	while (tem = reg.exec(htmlstr)) {
+		imgsrcArr.push(tem[2]);
+	}
+	return imgsrcArr;
 }

@@ -52,6 +52,7 @@
 //
 //
 //
+//
 
 var startY, moveY;var _default =
 {
@@ -60,7 +61,11 @@ var startY, moveY;var _default =
     top: {
       //距离顶部距离，单位upx
       type: Number,
-      default: 0 } },
+      default: 0 },
+
+    statusText: {
+      type: String,
+      default: '刷新中' } },
 
 
   data: function data() {

@@ -8,50 +8,117 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
 
-var id = "";
-var timer;
-var heightArr = [];var _default =
-{
-  data: function data() {
-    return {
-      content: "",
-      richTextHeight: 0,
-      isShowMore: false,
-      articleHeight: 0 };
 
-  },
-  onLoad: function onLoad(options) {
-    id = options.id;
-    this.init();
-    // setTimeout(() => {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var _index = __webpack_require__(/*! @/common/util/index.js */ "D:\\Documents\\HBuilderProjects\\baby\\common\\util\\index.js"); //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var id = "";var timer;var heightArr = [];var uParse = function uParse() {return Promise.all(/*! import() | components/un-parse/u-parse */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/un-parse/u-parse")]).then(__webpack_require__.bind(null, /*! @/components/un-parse/u-parse.vue */ "D:\\Documents\\HBuilderProjects\\baby\\components\\un-parse\\u-parse.vue"));}; //由于插件上传命名问题在目录上加了一个n
+var _default = { components: { uParse: uParse }, onShareAppMessage: function onShareAppMessage(res) {if (res.from === 'button') {// 来自页面内分享按钮
+      console.log(res.target);}return { title: this.info.title, path: '/pages/home/index/index?articleId=' + id, imageUrl: this.info.image };}, data: function data() {return { info: {}, richTextHeight: 0, isShowMore: false, articleHeight: 0 };}, onLoad: function onLoad(options) {id = options.id;console.log('id============' + id);this.init(); // setTimeout(() => {
     // 	this.richTextHeight = Math.max.apply(null,heightArr)
     // 	clearInterval(timer)
     // }, 5000)
-  },
-  // async onReady() {
+  }, // async onReady() {
   // 	timer = setInterval(async () => {
   // 		var size = await this.getElSize('fake-rich')
   // 		heightArr.push(size.height)
@@ -65,31 +132,42 @@ var heightArr = [];var _default =
   // 		}
   // 	}, 100)
   // },
-  onUnload: function onUnload() {
-    // clearInterval(timer)
-  },
-  methods: {
-    init: function init() {var _this = this;
-      this.api.home.article.get_detail({
-        article_id: id,
-        request_type: "app" },
-      function (res) {
-        console.log(res.data);
-        _this.content = res.data.content;
+  methods: { init: function init() {var _this = this;this.api.home.article.get_detail({ article_id: id, request_type: "app" }, function (res) {console.log(res.data);_this.info = res.data;});}, getElSize: function getElSize(id) {//得到元素的size
+      return new Promise(function (res, rej) {uni.createSelectorQuery().select("#" + id).fields({ size: true, scrollOffset: true, rect: true }, function (data) {res(data);}).exec();});}, goFamous: function goFamous() {
+      uni.navigateTo({
+        url: "../../celebrity/detail/detail?id=" + this.info.userId });
 
+    },
+    goCategory: function goCategory() {
+      uni.navigateTo({
+        url: "../../../classify/detail/detail?id=" + this.info.categoryId });
+
+    },
+    preview: function preview() {},
+    toggleCollect: function toggleCollect() {var _this2 = this;
+      console.log('id============' + id);
+      this.api.home.article.toggle_collect({
+        articleId: id,
+        action: this.info.faFlag ? 0 : 1 },
+      function (res) {
+        _this2.info.faFlag = !_this2.info.faFlag;
       });
     },
-    getElSize: function getElSize(id) {//得到元素的size
-      return new Promise(function (res, rej) {
-        uni.createSelectorQuery().select("#" + id).fields({
-          size: true,
-          scrollOffset: true,
-          rect: true },
-        function (data) {
-          res(data);
-        }).exec();
+    togglePraise: function togglePraise() {var _this3 = this;
+      console.log('id============' + id);
+      this.api.home.article.toggle_praise({
+        articleId: id,
+        action: this.info.praiseFlag ? 0 : 1 },
+      function (res) {
+        _this3.info.praiseFlag = !_this3.info.praiseFlag;
       });
-    } } };exports.default = _default;
+    }
+    // showAll() {
+    // 	clearInterval(timer)
+    // 	this.richTextHeight = Math.max.apply(null,heightArr) 
+    // 	this.isShowMore = false
+    // }
+  } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["default"]))
 
 /***/ }),
@@ -120,7 +198,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  var f0 = _vm._f("imgConversion")(_vm.content)
+  var f0 = _vm._f("imgConversion")(_vm.info.content)
 
   _vm.$mp.data = Object.assign(
     {},

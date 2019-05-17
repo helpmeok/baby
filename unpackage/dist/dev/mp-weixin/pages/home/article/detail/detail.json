@@ -1,4 +1,6 @@
 {
   "navigationBarTitleText": "详情",
-  "usingComponents": {}
+  "usingComponents": {
+    "u-parse": "/components/un-parse/u-parse"
+  }
 }

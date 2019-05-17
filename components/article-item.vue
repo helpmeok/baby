@@ -16,19 +16,23 @@
 				<view class="flex-r-between">
 					<view class="flex">
 						<view class="list-item-icon flex">
-							<text class="iconfont iconliulan gray"></text>
+							<!-- <text class="iconfont iconliulan gray"></text> -->
+							<image src="../static/home/com_list_ic_look@2x.png" mode="widthFix" class="icon"></image>
 							<text class="small gray">{{item.clickNum}}</text>
 						</view>
 						<view class="list-item-icon flex">
-							<text class="iconfont iconiconfontzhizuobiaozhun44 gray"></text>
+							<!-- <text class="iconfont iconiconfontzhizuobiaozhun44 gray"></text> -->
+									<image src="../static/home/com_list_ic_praise@2x.png" mode="widthFix"  class="icon"></image>
 							<text class="small gray">{{item.praiseNum}}</text>
 						</view>
 						<view class="list-item-icon flex">
-							<text class="iconfont iconpinglun gray"></text>
+							<!-- <text class="iconfont iconpinglun gray"></text> -->
+									<image src="../static/home/com_list_ic_introduction@2x.png" mode="widthFix"  class="icon"></image>
 							<text class="small gray">{{item.commentNum}}</text>
 						</view>
 						<view class="list-item-icon flex">
-							<text class="iconfont iconzhuanfa gray"></text>
+							<!-- <text class="iconfont iconzhuanfa gray"></text> -->
+									<image src="../static/home/com_list_ic_forward@2x.png" mode="widthFix"  class="icon"></image>
 							<text class="small gray">{{item.forwardNum}}</text>
 						</view>
 					</view>
@@ -86,7 +90,11 @@
 		
 		&-icon {
 			margin-right: 20upx;
-
+			.icon{
+				width: 40upx;
+				height: 40upx ;
+				margin-right: 5upx;
+			}
 			.iconfont {
 				margin-right: 10upx;
 			}
@@ -119,7 +127,8 @@
 			}
 
 			.image {
-				width: 120upx;
+				width: 128upx !important;
+				height: 128upx !important;
 			}
 		}
 	}
