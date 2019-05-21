@@ -116,11 +116,19 @@ module.exports = {
 				let _url = "/article/praiseArticleOrNo";
 				_req.m_send(_url, "Post", d, onok, onno);
 			},
+			get_comment_list: function(d, onok, onno) { //内容相关功能，获取文章评论列表
+				let _url = "/article/queryArticleCommentPageList";
+				_req.m_send(_url, "Get", d, onok, onno);
+			},
 		}
 	},
 	helper: {
 		get_query_list: function(d, onok, onno) { //获取APP“助手”模块的热门问题列表。
 			let _url = "/search/query";
+			_req.m_send(_url, "Get", d, onok, onno);
+		},
+		get_qaset_list: function(d, onok, onno) { //APP“助手”的问题集列表
+			let _url = "/search/qaset";
 			_req.m_send(_url, "Get", d, onok, onno);
 		},
 	},

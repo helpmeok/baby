@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<empty v-if="list.length==0" msg="您还没有浏览过文章~"></empty>
+		<empty v-if="list.length==0" msg="没有任何数据耶~"></empty>
 		<view class="">
 			<article-item :list="list" v-on:showOperate="showOperate"></article-item>
 			<view class="uni-tab-bar-loading" v-if="list.length>0">
@@ -14,6 +14,7 @@
 	var ctime = parseInt(Date.now());
 	const total = 10;
 	let offset = 0;
+	let qaId = ""
 	export default {
 
 		data() {
@@ -27,17 +28,19 @@
 				list: [],
 			};
 		},
-		onLoad() {
+		onLoad(options) {
+			qaId = options.id
 			this.init()
 		},
 		methods: {
 			init() {
-				this.api.center.record.get_list({
+				this.api.helper.get_qaset_list({
+					qaId,
 					ctime,
 					offset,
 					total
 				}, res => {
-					console.log(res.data)
+					console.log(res)
 					if (res.data.length) {
 						this.list = this.list.concat(res.data)
 						this.loadingType = 0
@@ -63,5 +66,5 @@
 </script>
 
 <style lang="scss">
-	
+
 </style>

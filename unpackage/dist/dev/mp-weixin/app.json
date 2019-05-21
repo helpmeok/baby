@@ -16,7 +16,8 @@
     "pages/classify/detail/detail",
     "pages/center/comment/list/list",
     "pages/center/record/list/list",
-    "pages/home/article/detail/detail"
+    "pages/home/article/detail/detail",
+    "pages/helper/list/list"
   ],
   "subPackages": [],
   "window": {

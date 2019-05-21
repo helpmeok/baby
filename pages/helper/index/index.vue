@@ -16,7 +16,7 @@
 			</view>
 		</view>
 		<view class="flex pd-box">
-			<view class="list-item pd-lr mgr-20 flex-r-center" v-for="(el,i) in list" :key="i">
+			<view class="list-item pd-lr mgr-20 flex-r-center" v-for="(el,i) in list" :key="i" @click="goList(el.searchKeywordId)">
 				{{el.title}}
 			</view>
 		</view>
@@ -45,14 +45,23 @@
 					total
 				}, res => {
 					console.log(res)
-					this.list = res.data
-					this.isLoading = false
+					if (res.data.length > 0) {
+						this.list = res.data
+					}
+					setTimeout(()=>{
+						this.isLoading = false
+					},500)
 				})
 			},
 			exchange() {
 				offset = offset + total
 				this.isLoading = true
 				this.init()
+			},
+			goList(id){
+				uni.navigateTo({
+					url:"../list/list?id="+id
+				})
 			}
 		}
 	}

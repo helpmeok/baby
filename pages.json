@@ -34,7 +34,7 @@
 			"path": "pages/home/celebrity/more/more",
 			"style": {
 				"navigationBarTitleText": "大V",
-				"enablePullDownRefresh":true
+				"enablePullDownRefresh": true
 			}
 		}, {
 			"path": "pages/home/celebrity/detail/detail",
@@ -72,28 +72,30 @@
 		}, {
 			"path": "pages/classify/detail/detail",
 			"style": {
-				"enablePullDownRefresh":true
+				"enablePullDownRefresh": true
 			}
-		}
-	    ,{
-            "path" : "pages/center/comment/list/list",
-            "style" : {
-					"navigationBarTitleText": "我的评论"
+		}, {
+			"path": "pages/center/comment/list/list",
+			"style": {
+				"navigationBarTitleText": "我的评论"
 			}
-        }
-        ,{
-            "path" : "pages/center/record/list/list",
-            "style" : {
+		}, {
+			"path": "pages/center/record/list/list",
+			"style": {
 				"navigationBarTitleText": "浏览记录"
 			}
-        }
-        ,{
-            "path" : "pages/home/article/detail/detail",
-            "style" : {
-				"navigationBarTitleText": "详情"
+		}, {
+			"path": "pages/home/article/detail/detail",
+			"style": {
+				"navigationBarTitleText": "宝宝贝"
 			}
-        }
-    ],
+		}, {
+			"path": "pages/helper/list/list",
+			"style": {
+				"navigationBarTitleText": "问题集"
+			}
+		}
+	],
 	"tabBar": {
 		"color": "#666666",
 		"selectedColor": "#FC4041",

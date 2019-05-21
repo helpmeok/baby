@@ -294,7 +294,7 @@ page {
 	z-index: 999;
 }
 .font-b {
-	font-size: 40rpx;
+	font-size: 36rpx;
 }
 .border-bottom {
 	border-bottom: 2rpx solid #F1F1F1;
@@ -1952,7 +1952,7 @@ radio-group label, checkbox-group label{
 }
 .iconfont {
   font-family: "iconfont" !important;
-  font-size: 20px;
+  font-size: 16px;
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

@@ -5,10 +5,10 @@
 				<image :src="userInfo.avatar" mode="widthFix" class="portrait"></image>
 				<view class="flex">
 					<view class="nick-name">{{userInfo.nickname}}</view>
-					<image src="../../../static/center/me_list_ic_babyattestation@2x.png" v-if="userInfo.appOauthStatus" mode="widthFix" class="icon"></image>
+				<!-- 	<image src="../../../static/center/me_list_ic_babyattestation@2x.png" v-if="userInfo.appOauthStatus" mode="widthFix" class="icon"></image>
 					<image src="../../../static/center/me_list_ic_douyinattestation@2x.png"  v-if="userInfo.douyinOauthStatus" mode="widthFix" class="icon"></image>
 					<image src="../../../static/center/me_list_ic_toutiaoattestation@2x.png"  v-if="userInfo.toutiaoOauthStatus" mode="widthFix" class="icon"></image>
-					<image src="../../../static/center/me_list_ic_wechatattestation@2x.png"  v-if="userInfo.weixinOauthStatus" mode="widthFix" class="icon"></image>
+					<image src="../../../static/center/me_list_ic_wechatattestation@2x.png"  v-if="userInfo.weixinOauthStatus" mode="widthFix" class="icon"></image> -->
 				</view>
 				<!-- <open-data type="userNickName"  class="font-b blod"></open-data> -->
 			</view>

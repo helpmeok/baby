@@ -80,11 +80,23 @@
 .fixed-bottom .comment-box {
     background-color: #f5f5f5;
     border-radius: 30rpx;
-    padding: 0 100rpx 0 20rpx;
+    padding: 0 100rpx 0 20rpx !important;
+    border: none !important;
+    margin: 0 !important;
+}
+.scroll-view {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  height: 100% !important;
 }
 .share-btn {
   border: none !important;
   margin: 0 !important;
   padding: 0 !important;
+}
+.item-list .header {
+  width: 80rpx !important;
+  height: 80rpx !important;
+  border-radius: 50%;
 }
 

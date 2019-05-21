@@ -122,7 +122,7 @@
 			},
 			getMore() {
 				this.tabs[this.tabIndex].offset += total;
-				this.api.home.get_sub_category({
+				this.api.classify.get_sub_category({
 						categoryId: this.tabs[this.tabIndex].id,
 						status: 1,
 						total: total,

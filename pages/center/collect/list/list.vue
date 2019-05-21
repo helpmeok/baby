@@ -3,7 +3,7 @@
 		<empty v-if="list.length==0" msg="您还没有收藏的文章~"></empty>
 		<view class="">
 			<article-item :list="list" v-on:showOperate="showOperate"></article-item>
-			<view class="uni-tab-bar-loading">
+			<view class="uni-tab-bar-loading" v-if="list.length>0">
 				<uni-load-more :loadingType="loadingType" :contentText="loadingText"></uni-load-more>
 			</view>
 		</view>

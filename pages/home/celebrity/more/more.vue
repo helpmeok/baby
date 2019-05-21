@@ -128,6 +128,7 @@
 						this.scrollTop = 0
 					});
 				} else {
+					console.log(this.listCur)
 					this.listCurID = this.listCur
 				}
 			},
