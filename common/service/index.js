@@ -85,6 +85,16 @@ module.exports = {
 			let _url = "/home/getHotVipList";
 			_req.m_send(_url, "Get", d, onok, onno);
 		},
+		search:{
+			get_query_list: function(d, onok, onno) { //获取APP“搜索”模块的热门问题列表。
+				let _url = "/search/query";
+				_req.m_send(_url, "Get", d, onok, onno);
+			},
+			get_response_list: function(d, onok, onno) { //根据输入的关键字搜索对应的内容列表
+				let _url = "/search/searchPageList";
+				_req.m_send(_url, "Get", d, onok, onno);
+			},
+		},
 		hotVip: {
 			get_info: function(d, onok, onno) { //APP“首页”模块，点击“火”的图标，进行大V列表，再点击某个大V进入大V主界面的顶部大V信息数据。
 				let _url = "/home/getVipInfo";

@@ -8,7 +8,7 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
 //
 //
 //
@@ -36,25 +36,113 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 //
 //
 //
-var _default =
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+var offset = 0;
+var total = 10;
+var ctime = parseInt(Date.now());var _default =
 {
   data: function data() {
     return {
       value: '',
       show: false,
-      list: ["胎教书记", "怀孕的准备", "孕检需要准备什么", "备孕方法"] };
+      keywordList: [],
+      historyList: [],
+      articleList: [],
+      loadingText: {
+        contentdown: '',
+        contentrefresh: '正在加载...',
+        contentnomore: '没有更多数据了' },
+
+      loadingType: 0 };
 
   },
-  onLoad: function onLoad() {},
+  onLoad: function onLoad() {
+    this.historyList = uni.getStorageSync('history_keywords').split(';');
+    this.init();
+  },
   watch: {
     value: function value(val) {
       this.show = val ? true : false;
+      if (!val) {
+        offset = 0;
+      }
     } },
 
   methods: {
-    search: function search() {
+    search: function search(val) {var _this = this;
       console.log(this.value);
+      this.value = val;
+      if (this.historyList.indexOf(val) == -1) {
+        uni.setStorageSync('history_keywords', uni.getStorageSync('history_keywords') + this.value + ';');
+        this.historyList = uni.getStorageSync('history_keywords').split(';');
+      }
+      uni.showLoading({
+        title: "加载中" });
+
+      this.api.home.search.get_response_list({
+        keyword: this.value,
+        ctime: ctime,
+        offset: offset,
+        total: total },
+      function (res) {
+        console.log(res);
+        _this.articleList = res.data;
+        uni.hideLoading();
+      });
+
+    },
+    init: function init() {var _this2 = this;
+      this.api.home.search.get_query_list({
+        type: 2,
+        ctime: ctime,
+        offset: offset,
+        total: total },
+      function (res) {
+        console.log(res);
+        _this2.keywordList = res.data;
+      });
+    },
+    loadMore: function loadMore() {var _this3 = this;
+      console.log('11111');
+      if (this.loadingType !== 0) {
+        return;
+      }
+      this.loadingType = 1;
+      offset = total + offset;
+      this.api.home.search.get_response_list({
+        keyword: this.value,
+        ctime: ctime,
+        offset: offset,
+        total: total },
+      function (res) {
+        console.log(res);
+        if (res.data.length) {
+          _this3.articleList = _this3.articleList.concat(res.data);
+          _this3.loadingType = 0;
+        } else {
+          _this3.loadingType = 2;
+        }
+      });
+    },
+    clearHistoryList: function clearHistoryList() {
+      uni.removeStorageSync('history_keywords');
+      this.historyList = [];
+    },
+    showOperate: function showOperate() {
+
     } } };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["default"]))
 
 /***/ }),
 
