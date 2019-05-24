@@ -30,6 +30,9 @@
 		onLoad() {
 			this.init()
 		},
+		onUnload() {
+			offset = 0;
+		},
 		methods: {
 			init() {
 				this.api.center.record.get_list({

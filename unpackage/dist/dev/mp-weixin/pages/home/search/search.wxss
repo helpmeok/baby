@@ -16,7 +16,7 @@
   padding: 30rpx;
 }
 .content .item {
-  border: 2rpx solid #f1f1f1;
+  border: 2rpx solid #cccccc;
   height: 60rpx;
   padding: 0rpx 20rpx;
   border-radius: 30rpx;

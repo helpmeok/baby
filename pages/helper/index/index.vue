@@ -36,6 +36,9 @@
 		onLoad() {
 			this.init()
 		},
+		onUnload() {
+			offset = 0;
+		},
 		methods: {
 			init() {
 				this.api.helper.get_query_list({

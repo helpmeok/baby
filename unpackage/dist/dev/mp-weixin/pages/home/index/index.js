@@ -60,6 +60,7 @@
 
 
 
+
 var ctime = parseInt(Date.now());
 var total = 10;var _default =
 {
@@ -76,6 +77,8 @@ var total = 10;var _default =
       enableScroll: true,
       showArticleOperate: false,
       articleId: '',
+      userId: "",
+      articleIndex: "",
       articleOffsetTop: 0,
       tabs: [{
         name: '推荐',
@@ -249,11 +252,12 @@ var total = 10;var _default =
         this.enableScroll = enable;
       }
     },
-    showOperate: function showOperate(e) {var _this5 = this;
-      console.log(e);
+    showOperate: function showOperate(e, article_id, user_id, article_index) {var _this5 = this;
+      this.articleId = article_id;
+      this.userId = user_id;
+      this.articleIndex = article_index;
       uni.getSystemInfo({
         success: function success(res) {
-          console.log(res.windowHeight);
           if (e.detail.y + 220 > res.windowHeight) {
             _this5.articleOffsetTop = e.detail.y - 210;
           } else {
@@ -265,6 +269,17 @@ var total = 10;var _default =
     },
     hideArticleOperate: function hideArticleOperate() {
       this.showArticleOperate = false;
+    },
+    refreshList: function () {var _refreshList = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4() {return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0: //刷新列表
+                // ctime = parseInt(Date.now());
+                // await this.init();
+                this.onPulldownReresh();
+                uni.showToast({
+                  title: "屏蔽成功" });case 2:case "end":return _context4.stop();}}}, _callee4, this);}));function refreshList() {return _refreshList.apply(this, arguments);}return refreshList;}(),
+
+
+    removeArticle: function removeArticle(index) {
+      this.tabs[this.tabIndex].data.splice(index, 1);
     },
     goMore: function goMore() {
       uni.navigateTo({

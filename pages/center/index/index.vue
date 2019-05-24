@@ -52,15 +52,18 @@
 				</view>
 			</view>
 		</navigator>
-		<view class="list-cell flex-r-between">
-			<view class="list-cell-left flex-r-center">
-				<image src="../../../static/me_list_ic_follow@2x.png" mode="widthFix" class="icon"></image>
-				<text class="">主题关注</text>
+		<navigator url="../classify/list/list" :hover-class="none">
+			<view class="list-cell flex-r-between">
+				<view class="list-cell-left flex-r-center">
+					<image src="../../../static/me_list_ic_follow@2x.png" mode="widthFix" class="icon"></image>
+					<text class="">主题关注</text>
+				</view>
+				<view class="list-cell-right flex-r-center">
+					<text class="iconfont iconarrow-right-copy" style="color: #B2B2B2;"></text>
+				</view>
 			</view>
-			<view class="list-cell-right flex-r-center">
-				<text class="iconfont iconarrow-right-copy" style="color: #B2B2B2;"></text>
-			</view>
-		</view>
+		</navigator>
+		
 		<!-- <navigator url="../comment/list/list" hover-class="none">
 			<view class="list-cell flex-r-between">
 				<view class="list-cell-left flex-r-center">
@@ -72,7 +75,7 @@
 				</view>
 			</view>
 		</navigator> -->
-		<navigator url="../shield-author/shield-author" hover-class="none">
+		<navigator url="../shield-author/list/list" hover-class="none">
 			<view class="list-cell flex-r-between">
 				<view class="list-cell-left flex-r-center">
 					<image src="../../../static/me_list_ic_shield@2x.png" mode="widthFix" class="icon"></image>

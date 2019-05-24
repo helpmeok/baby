@@ -185,8 +185,8 @@
 
 		.active {
 			font-weight: bold;
-			font-size: 40upx;
 			color: #fc4041;
+			font-size: 36upx;
 			border: none;
 		}
 	}

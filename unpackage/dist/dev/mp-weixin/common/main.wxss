@@ -1462,8 +1462,8 @@ radio-group label, checkbox-group label{
 .uni-tab-bar .active {
 	color: #e33;
 	border-bottom: 3rpx solid #e33;
-	height: 100rpx;
-	line-height: 100rpx;
+	/* height: 100upx;
+	line-height: 100upx; */
 }
 .uni-tab-bar .swiper-box {
 	-webkit-box-flex: 1;

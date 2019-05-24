@@ -13,7 +13,7 @@
 		<view class="content" v-if="!show">
 			<view class=" blod">大家都在搜</view>
 			<view class="flex">
-				<view class="item small gray" v-for="(item,index) in keywordList" :key="index" @click="search(item.title)">
+				<view class="item small " v-for="(item,index) in keywordList" :key="index" @click="search(item.title)">
 					{{item.title}}
 				</view>
 			</view>
@@ -22,7 +22,7 @@
 				<view class="iconfont icon- gray blod" @click="clearHistoryList"></view>
 			</view>
 			<view class="flex">
-				<view class="item small gray" v-for="(item,index) in historyList" :key="index" @click="search(item)">
+				<view class="item small " v-for="(item,index) in historyList" :key="index" @click="search(item)">
 					{{item}}
 				</view>
 			</view>
@@ -61,6 +61,9 @@
 			this.historyList = uni.getStorageSync('history_keywords').split(';')
 			this.init()
 		},
+		onUnload() {
+			offset = 0;
+		},
 		watch: {
 			value(val) {
 				this.show = val ? true : false;
@@ -74,7 +77,8 @@
 				console.log(this.value);
 				this.value = val;
 				if (this.historyList.indexOf(val) == -1) {
-					uni.setStorageSync('history_keywords', uni.getStorageSync('history_keywords') + this.value + ';')
+					uni.setStorageSync('history_keywords', uni.getStorageSync('history_keywords') ? uni.getStorageSync(
+						'history_keywords') + ';' + this.value : this.value)
 					this.historyList = uni.getStorageSync('history_keywords').split(';');
 				}
 				uni.showLoading({
@@ -157,7 +161,7 @@
 		padding: 30upx;
 
 		.item {
-			border: 2upx solid #f1f1f1;
+			border: 2upx solid #cccccc;
 			height: 60upx;
 			padding: 0upx 20upx;
 			border-radius: 30upx;

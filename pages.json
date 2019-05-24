@@ -60,11 +60,6 @@
 				"navigationBarTitleText": "选择地址"
 			}
 		}, {
-			"path": "pages/center/shield-author/shield-author",
-			"style": {
-				"navigationBarTitleText": "屏蔽的作者"
-			}
-		}, {
 			"path": "pages/center/collect/list/list",
 			"style": {
 				"navigationBarTitleText": "文章收藏"
@@ -95,7 +90,19 @@
 				"navigationBarTitleText": "问题集"
 			}
 		}
-	],
+	    ,{
+            "path" : "pages/center/classify/list/list",
+            "style" : {
+					"navigationBarTitleText": "主题关注"
+			}
+        }
+        ,{
+            "path" : "pages/center/shield-author/list/list",
+            "style" : {
+					"navigationBarTitleText": "屏蔽的作者"
+			}
+        }
+    ],
 	"tabBar": {
 		"color": "#666666",
 		"selectedColor": "#FC4041",
@@ -185,7 +192,7 @@
 			},
 			{
 				"name": "屏蔽的作者",
-				"pathName": "pages/center/shield-author/shield-author"
+				"pathName": "pages/center/shield-author/list/list"
 			},
 			{
 				"name": "文章收藏",
@@ -194,7 +201,12 @@
 			{
 				"name": "浏览记录",
 				"pathName": "pages/center/record/list/list"
+			},
+			{
+				"name": "主题关注",
+				"pathName": "pages/center/classify/list/list"
 			}
+			
 		]
 	}
 }

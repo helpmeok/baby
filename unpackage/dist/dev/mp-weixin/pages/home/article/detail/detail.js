@@ -106,7 +106,9 @@
 
 
 
+
 var _index = __webpack_require__(/*! @/common/util/index.js */ "D:\\Documents\\HBuilderProjects\\baby\\common\\util\\index.js"); //
+//
 //
 //
 //
@@ -203,7 +205,7 @@ var _default = { components: { uParse: uParse }, onShareAppMessage: function onS
     // 	this.richTextHeight = Math.max.apply(null,heightArr)
     // 	clearInterval(timer)
     // }, 5000)
-  }, // async onReady() {
+  }, onUnload: function onUnload() {offset = 0;}, // async onReady() {
   // 	timer = setInterval(async () => {
   // 		var size = await this.getElSize('fake-rich')
   // 		heightArr.push(size.height)
@@ -217,7 +219,9 @@ var _default = { components: { uParse: uParse }, onShareAppMessage: function onS
   // 		}
   // 	}, 100)
   // },
-  methods: { init: function init() {var _this = this;uni.showLoading({ title: "加载中" });this.api.home.article.get_detail({ article_id: id, request_type: 'app' }, function (res) {console.log(res.data);_this.info = res.data;_this.api.home.article.get_comment_list({ ctime: ctime, articleId: id, offset: offset, total: total }, function (res) {console.log(res);_this.commentList = res.data;uni.hideLoading();});});}, getMoreComment: function getMoreComment() {var _this2 = this;offset += total;this.api.home.article.get_comment_list({ ctime: ctime, articleId: id, offset: offset, total: total }, function (res) {console.log(res);if (res.data.length) {_this2.commentList = _this2.commentList.concat(res.data);_this2.loadingType = 0;} else {_this2.loadingType = 2;}});}, scroll: function scroll() {this.scrollIntoId = '';},
+  methods: { init: function init() {var _this = this;uni.showLoading({ title: "加载中" });this.api.home.article.get_detail({ article_id: id, request_type: 'app' }, function (res) {console.log(res.data);_this.info = res.data;_this.api.home.article.get_comment_list({ ctime: ctime, articleId: id, offset: offset, total: total }, function (res) {console.log(res);_this.commentList = res.data;uni.hideLoading();});});}, getMoreComment: function getMoreComment() {var _this2 = this;offset += total;this.api.home.article.get_comment_list({ ctime: ctime, articleId: id, offset: offset, total: total }, function (res) {console.log(res);if (res.data.length) {_this2.commentList = _this2.commentList.concat(res.data);_this2.loadingType = 0;} else {_this2.loadingType = 2;}});}, scroll: function scroll() {
+      this.scrollIntoId = '';
+    },
     scrollIntoComment: function scrollIntoComment() {
       this.scrollIntoId = 'comments';
       console.log(this.scrollIntoId);
@@ -269,6 +273,21 @@ var _default = { components: { uParse: uParse }, onShareAppMessage: function onS
 
       function (res) {
         _this4.info.praiseFlag = !_this4.info.praiseFlag;
+      });
+
+    },
+    toggleCommentPraise: function toggleCommentPraise(id, i) {var _this5 = this;
+      this.api.home.comment.toggle_praise({
+        commentId: id,
+        action: this.commentList[i].praiseFlag ? 0 : 1 },
+
+      function (res) {
+        _this5.commentList[i].praiseFlag = !_this5.commentList[i].praiseFlag;
+        if (_this5.commentList[i].praiseFlag) {
+          _this5.commentList[i].praiseNum++;
+        } else {
+          _this5.commentList[i].praiseNum--;
+        }
       });
 
     },

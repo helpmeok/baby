@@ -85,7 +85,7 @@ module.exports = {
 			let _url = "/home/getHotVipList";
 			_req.m_send(_url, "Get", d, onok, onno);
 		},
-		search:{
+		search: {
 			get_query_list: function(d, onok, onno) { //获取APP“搜索”模块的热门问题列表。
 				let _url = "/search/query";
 				_req.m_send(_url, "Get", d, onok, onno);
@@ -129,6 +129,20 @@ module.exports = {
 			get_comment_list: function(d, onok, onno) { //内容相关功能，获取文章评论列表
 				let _url = "/article/queryArticleCommentPageList";
 				_req.m_send(_url, "Get", d, onok, onno);
+			},
+			toggle_shield: function(d, onok, onno) { //内容相关功能，屏蔽作者
+				let _url = "/article/blockVipOrNo";
+				_req.m_send(_url, "Post", d, onok, onno);
+			},
+			un_interest: function(d, onok, onno) { //内容相关功能，屏蔽文章
+				let _url = "/article/blockArticle";
+				_req.m_send(_url, "Post", d, onok, onno);
+			},
+		},
+		comment:{
+			toggle_praise: function(d, onok, onno) { //内容相关功能，评论列表里点赞或取消点赞某条评论
+				let _url = "/article/praiseCommentOrNo";
+				_req.m_send(_url, "Post", d, onok, onno);
 			},
 		}
 	},
@@ -182,6 +196,19 @@ module.exports = {
 				let _url = "/my/queryFaArticlePageList";
 				_req.m_send(_url, "Get", d, onok, onno);
 			},
+		},
+		classify: {
+			get_list: function(d, onok, onno) { //内容相关功能，获取用户关注的主题列表
+				let _url = "/my/getAttentionCategoryPageList";
+				_req.m_send(_url, "Get", d, onok, onno);
+			},
+		},
+		shield: {
+			get_list: function(d, onok, onno) { //内容相关功能，取得用户屏蔽的作者数据
+				let _url = "/my/getBlockVipPageList";
+				_req.m_send(_url, "Get", d, onok, onno);
+			},
+
 		}
 
 	},

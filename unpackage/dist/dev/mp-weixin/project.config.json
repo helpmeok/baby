@@ -88,7 +88,7 @@
 				},
 				{
 					"name": "屏蔽的作者",
-					"pathName": "pages/center/shield-author/shield-author",
+					"pathName": "pages/center/shield-author/list/list",
 					"id": 11
 				},
 				{
@@ -100,6 +100,11 @@
 					"name": "浏览记录",
 					"pathName": "pages/center/record/list/list",
 					"id": 13
+				},
+				{
+					"name": "主题关注",
+					"pathName": "pages/center/classify/list/list",
+					"id": 14
 				}
 			]
 		}

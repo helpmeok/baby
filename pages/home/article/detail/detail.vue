@@ -1,5 +1,6 @@
 <template>
-	<scroll-view scroll-y class="scroll-view" :scroll-into-view="scrollIntoId" enable-back-to-top="true" @scroll="scroll" @scrolltolower="scrolltolower">
+	<scroll-view scroll-y class="scroll-view" :scroll-into-view="scrollIntoId" enable-back-to-top="true" @scroll="scroll"
+	 @scrolltolower="scrolltolower">
 		<view>
 			<!-- <view class="pd-box rich-box" :style="{'height':richTextHeight+'px'}">
 				<rich-text :nodes="content | imgConversion" id="rich"></rich-text>
@@ -65,7 +66,7 @@
 						<text>{{el.nickName}}</text>
 						<view class="flex">
 							<text>{{el.praiseNum}}</text>
-							<text class="iconfont icondianzan11 mgl-10 gray"></text>
+							<text class="iconfont icondianzan11 mgl-10 gray" :class="{'red':el.praiseFlag}" @click="toggleCommentPraise(el.commentId,i)"></text>
 						</view>
 					</view>
 					<view class="" style="padding: 20upx 0;">
@@ -149,6 +150,9 @@
 			// 	clearInterval(timer)
 			// }, 5000)
 		},
+		onUnload() {
+			offset = 0;
+		},
 		// async onReady() {
 		// 	timer = setInterval(async () => {
 		// 		var size = await this.getElSize('fake-rich')
@@ -188,7 +192,7 @@
 					}
 				);
 			},
-			getMoreComment(){
+			getMoreComment() {
 				offset += total
 				this.api.home.article.get_comment_list({
 					ctime,
@@ -262,10 +266,25 @@
 					}
 				);
 			},
+			toggleCommentPraise(id, i) {
+				this.api.home.comment.toggle_praise({
+						commentId: id,
+						action: this.commentList[i].praiseFlag ? 0 : 1
+					},
+					res => {
+						this.commentList[i].praiseFlag = !this.commentList[i].praiseFlag;
+						if (this.commentList[i].praiseFlag) {
+							this.commentList[i].praiseNum++
+						} else {
+							this.commentList[i].praiseNum--
+						}
+					}
+				);
+			},
 			launchAppError(e) {
 				console.log(e);
 			},
-			scrolltolower(){
+			scrolltolower() {
 				if (this.loadingType != 0) {
 					return
 				}

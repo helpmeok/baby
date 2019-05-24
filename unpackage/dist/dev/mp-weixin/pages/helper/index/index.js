@@ -46,6 +46,9 @@ var total = 10;var _default =
   onLoad: function onLoad() {
     this.init();
   },
+  onUnload: function onUnload() {
+    offset = 0;
+  },
   methods: {
     init: function init() {var _this = this;
       this.api.helper.get_query_list({

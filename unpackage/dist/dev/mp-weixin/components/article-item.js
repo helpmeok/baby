@@ -74,8 +74,8 @@ var _default2 =
 
   },
   methods: {
-    showMoreMask: function showMoreMask(e) {
-      this.$emit('showOperate', e);
+    showMoreMask: function showMoreMask(e, articleId, userId, articleIndex) {
+      this.$emit('showOperate', e, articleId, userId, articleIndex);
     },
     hideArticleOperate: function hideArticleOperate() {
       this.showArticleOperate = false;

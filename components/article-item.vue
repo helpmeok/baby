@@ -36,7 +36,7 @@
 							<text class="small gray">{{item.forwardNum}}</text>
 						</view>
 					</view>
-					<image src="../../../static/com_list_ic_more_nor@2x.png" mode="widthFix" class="icon-more-nor" @click.stop="showMoreMask($event, item.articleId)"></image>
+					<image src="../../../static/com_list_ic_more_nor@2x.png" mode="widthFix" class="icon-more-nor" @click.stop="showMoreMask($event, item.articleId,item.userId,index1)"></image>
 				</view>
 			</view>
 			<view class="cut-off"></view>
@@ -64,8 +64,8 @@
 			};
 		},
 		methods: {
-			showMoreMask(e) {
-				this.$emit('showOperate', e)
+			showMoreMask(e,articleId,userId,articleIndex) {
+				this.$emit('showOperate', e,articleId,userId,articleIndex)
 			},
 			hideArticleOperate() {
 				this.showArticleOperate = false;

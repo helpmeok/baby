@@ -38,8 +38,8 @@
 }
 .tab-bar .active {
     font-weight: bold;
-    font-size: 40rpx;
     color: #fc4041;
+    font-size: 36rpx;
     border: none;
 }
 .list-item .sub-class {

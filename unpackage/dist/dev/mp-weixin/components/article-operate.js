@@ -41,6 +41,18 @@ var _default =
 
     top: {
       type: Number,
+      default: 0 },
+
+    articleId: {
+      type: Number,
+      default: 0 },
+
+    userId: {
+      type: Number,
+      default: 0 },
+
+    index: {
+      type: Number,
       default: 0 } },
 
 
@@ -54,11 +66,25 @@ var _default =
   methods: {
     hide: function hide() {
       this.$emit('hideArticleOperate');
-    } },
-
-  watch: {
-    top: function top(val) {
-      console.log(val);
+    },
+    shield: function shield(userId) {var _this = this;
+      console.log(userId);
+      this.api.home.article.toggle_shield({
+        vid: userId,
+        action: 1 },
+      function (res) {
+        _this.hide();
+        _this.$emit('refreshList');
+      });
+    },
+    unInterest: function unInterest(articleId, index) {var _this2 = this;
+      console.log(articleId);
+      this.api.home.article.un_interest({
+        articleId: articleId },
+      function (res) {
+        _this2.hide();
+        _this2.$emit('removeArticle', index);
+      });
     } } };exports.default = _default;
 
 /***/ }),

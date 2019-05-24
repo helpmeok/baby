@@ -868,8 +868,8 @@ radio-group label, checkbox-group label{
 .uni-tab-bar .active {
 	color: #e33;
 	border-bottom: 3upx solid #e33;
-	height: 100upx;
-	line-height: 100upx;
+	/* height: 100upx;
+	line-height: 100upx; */
 }
 
 .uni-tab-bar .swiper-box {

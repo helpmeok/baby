@@ -42,6 +42,9 @@ var qaId = "";var _default =
     qaId = options.id;
     this.init();
   },
+  onUnload: function onUnload() {
+    offset = 0;
+  },
   methods: {
     init: function init() {var _this = this;
       this.api.helper.get_qaset_list({

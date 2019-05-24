@@ -41,7 +41,8 @@
 				</view>
 			</view>
 		</view>
-		<article-operate :show="showArticleOperate" :top="articleOffsetTop" :id="articleId" v-on:hideArticleOperate="hideArticleOperate"></article-operate>
+		<article-operate :show="showArticleOperate" :top="articleOffsetTop" :articleId="articleId" :userId="userId" :index="articleIndex"
+		 v-on:hideArticleOperate="hideArticleOperate" v-on:refreshList="refreshList" v-on:removeArticle="removeArticle"></article-operate>
 	</view>
 </template>
 
@@ -66,6 +67,8 @@
 				enableScroll: true,
 				showArticleOperate: false,
 				articleId: '',
+				userId: "",
+				articleIndex: "",
 				articleOffsetTop: 0,
 				tabs: [{
 						name: '推荐',
@@ -239,11 +242,12 @@
 					this.enableScroll = enable;
 				}
 			},
-			showOperate(e) {
-				console.log(e);
+			showOperate(e, article_id, user_id, article_index) {
+				this.articleId = article_id;
+				this.userId = user_id;
+				this.articleIndex = article_index;
 				uni.getSystemInfo({
 					success: res => {
-						console.log(res.windowHeight);
 						if (e.detail.y + 220 > res.windowHeight) {
 							this.articleOffsetTop = e.detail.y - 210;
 						} else {
@@ -255,6 +259,17 @@
 			},
 			hideArticleOperate() {
 				this.showArticleOperate = false;
+			},
+			async refreshList() { //刷新列表
+				// ctime = parseInt(Date.now());
+				// await this.init();
+				this.onPulldownReresh();
+				uni.showToast({
+					title: "屏蔽成功"
+				})
+			},
+			removeArticle(index) {
+				this.tabs[this.tabIndex].data.splice(index, 1)
 			},
 			goMore() {
 				uni.navigateTo({

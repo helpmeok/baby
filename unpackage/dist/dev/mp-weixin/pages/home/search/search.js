@@ -71,6 +71,9 @@ var ctime = parseInt(Date.now());var _default =
     this.historyList = uni.getStorageSync('history_keywords').split(';');
     this.init();
   },
+  onUnload: function onUnload() {
+    offset = 0;
+  },
   watch: {
     value: function value(val) {
       this.show = val ? true : false;
@@ -84,7 +87,8 @@ var ctime = parseInt(Date.now());var _default =
       console.log(this.value);
       this.value = val;
       if (this.historyList.indexOf(val) == -1) {
-        uni.setStorageSync('history_keywords', uni.getStorageSync('history_keywords') + this.value + ';');
+        uni.setStorageSync('history_keywords', uni.getStorageSync('history_keywords') ? uni.getStorageSync(
+        'history_keywords') + ';' + this.value : this.value);
         this.historyList = uni.getStorageSync('history_keywords').split(';');
       }
       uni.showLoading({

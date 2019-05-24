@@ -475,7 +475,7 @@ function getData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -6571,7 +6571,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -6592,14 +6592,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -6668,7 +6668,7 @@ var patch = function(oldVnode, vnode) {
         });
         var diffData = diff(data, mpData);
         if (Object.keys(diffData).length) {
-            if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+            if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
                 console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
                     ']差量更新',
                     JSON.stringify(diffData));
@@ -8176,6 +8176,20 @@ module.exports = {
       get_comment_list: function get_comment_list(d, onok, onno) {//内容相关功能，获取文章评论列表
         var _url = "/article/queryArticleCommentPageList";
         _req.m_send(_url, "Get", d, onok, onno);
+      },
+      toggle_shield: function toggle_shield(d, onok, onno) {//内容相关功能，屏蔽作者
+        var _url = "/article/blockVipOrNo";
+        _req.m_send(_url, "Post", d, onok, onno);
+      },
+      un_interest: function un_interest(d, onok, onno) {//内容相关功能，屏蔽文章
+        var _url = "/article/blockArticle";
+        _req.m_send(_url, "Post", d, onok, onno);
+      } },
+
+    comment: {
+      toggle_praise: function toggle_praise(d, onok, onno) {//内容相关功能，评论列表里点赞或取消点赞某条评论
+        var _url = "/article/praiseCommentOrNo";
+        _req.m_send(_url, "Post", d, onok, onno);
       } } },
 
 
@@ -8228,7 +8242,20 @@ module.exports = {
       get_list: function get_list(d, onok, onno) {//APP“我的”模块获取用户收藏的文章数据
         var _url = "/my/queryFaArticlePageList";
         _req.m_send(_url, "Get", d, onok, onno);
+      } },
+
+    classify: {
+      get_list: function get_list(d, onok, onno) {//内容相关功能，获取用户关注的主题列表
+        var _url = "/my/getAttentionCategoryPageList";
+        _req.m_send(_url, "Get", d, onok, onno);
+      } },
+
+    shield: {
+      get_list: function get_list(d, onok, onno) {//内容相关功能，取得用户屏蔽的作者数据
+        var _url = "/my/getBlockVipPageList";
+        _req.m_send(_url, "Get", d, onok, onno);
       } } },
+
 
 
 
@@ -23334,6 +23361,23 @@ createPage(_addressList.default);
 
 /***/ }),
 
+/***/ "D:\\Documents\\HBuilderProjects\\baby\\main.js?{\"page\":\"pages%2Fcenter%2Fclassify%2Flist%2Flist\"}":
+/*!*****************************************************************************************************!*\
+  !*** D:/Documents/HBuilderProjects/baby/main.js?{"page":"pages%2Fcenter%2Fclassify%2Flist%2Flist"} ***!
+  \*****************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "D:\\Documents\\HBuilderProjects\\baby\\pages.json");
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
+var _list = _interopRequireDefault(__webpack_require__(/*! ./pages/center/classify/list/list.vue */ "D:\\Documents\\HBuilderProjects\\baby\\pages\\center\\classify\\list\\list.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_list.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
+
+/***/ }),
+
 /***/ "D:\\Documents\\HBuilderProjects\\baby\\main.js?{\"page\":\"pages%2Fcenter%2Fcollect%2Flist%2Flist\"}":
 /*!****************************************************************************************************!*\
   !*** D:/Documents/HBuilderProjects/baby/main.js?{"page":"pages%2Fcenter%2Fcollect%2Flist%2Flist"} ***!
@@ -23402,10 +23446,10 @@ createPage(_list.default);
 
 /***/ }),
 
-/***/ "D:\\Documents\\HBuilderProjects\\baby\\main.js?{\"page\":\"pages%2Fcenter%2Fshield-author%2Fshield-author\"}":
-/*!************************************************************************************************************!*\
-  !*** D:/Documents/HBuilderProjects/baby/main.js?{"page":"pages%2Fcenter%2Fshield-author%2Fshield-author"} ***!
-  \************************************************************************************************************/
+/***/ "D:\\Documents\\HBuilderProjects\\baby\\main.js?{\"page\":\"pages%2Fcenter%2Fshield-author%2Flist%2Flist\"}":
+/*!**********************************************************************************************************!*\
+  !*** D:/Documents/HBuilderProjects/baby/main.js?{"page":"pages%2Fcenter%2Fshield-author%2Flist%2Flist"} ***!
+  \**********************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23413,8 +23457,8 @@ createPage(_list.default);
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "D:\\Documents\\HBuilderProjects\\baby\\pages.json");
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _shieldAuthor = _interopRequireDefault(__webpack_require__(/*! ./pages/center/shield-author/shield-author.vue */ "D:\\Documents\\HBuilderProjects\\baby\\pages\\center\\shield-author\\shield-author.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_shieldAuthor.default);
+var _list = _interopRequireDefault(__webpack_require__(/*! ./pages/center/shield-author/list/list.vue */ "D:\\Documents\\HBuilderProjects\\baby\\pages\\center\\shield-author\\list\\list.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_list.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
 
 /***/ }),
