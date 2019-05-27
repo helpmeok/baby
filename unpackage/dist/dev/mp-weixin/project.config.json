@@ -1,112 +1,110 @@
 {
-	"description": "项目配置文件。",
-	"packOptions": {
-		"ignore": []
-	},
-	"setting": {
-		"urlCheck": false
-	},
-	"compileType": "miniprogram",
-	"libVersion": "2.6.4",
-	"appid": "wxe5402eb3d79910df",
-	"projectname": "baby",
-	"simulatorType": "wechat",
-	"simulatorPluginLibVersion": {},
-	"condition": {
-		"search": {
-			"current": -1,
-			"list": []
-		},
-		"conversation": {
-			"current": -1,
-			"list": []
-		},
-		"game": {
-			"current": -1,
-			"list": []
-		},
-		"miniprogram": {
-			"current": 1,
-			"list": [
-				{
-					"name": "首页",
-					"pathName": "pages/home/index/index",
-					"id": 0
-				},
-				{
-					"name": "搜索",
-					"pathName": "pages/home/search/search",
-					"id": 1
-				},
-				{
-					"name": "我的",
-					"pathName": "pages/center/index/index",
-					"id": 2
-				},
-				{
-					"name": "助手",
-					"pathName": "pages/helper/index/index",
-					"id": 3
-				},
-				{
-					"name": "分类",
-					"pathName": "pages/classify/index/index",
-					"id": 4
-				},
-				{
-					"name": "文章详情",
-					"pathName": "pages/home/article/detail/detail",
-					"query": "id=636",
-					"id": 5
-				},
-				{
-					"name": "分类详情",
-					"pathName": "pages/classify/detail/detail",
-					"query": "id=10",
-					"id": 6
-				},
-				{
-					"name": "大V详情",
-					"pathName": "pages/home/celebrity/detail/detail",
-					"query": "id=49",
-					"id": 7
-				},
-				{
-					"name": "大V列表",
-					"pathName": "pages/home/celebrity/more/more",
-					"id": 8
-				},
-				{
-					"name": "地址列表",
-					"pathName": "pages/center/address/address-list/address-list",
-					"id": 9
-				},
-				{
-					"name": "地址操作",
-					"pathName": "pages/center/address/address-handle/address-handle",
-					"id": 10
-				},
-				{
-					"name": "屏蔽的作者",
-					"pathName": "pages/center/shield-author/list/list",
-					"id": 11
-				},
-				{
-					"name": "文章收藏",
-					"pathName": "pages/center/collect/list/list",
-					"id": 12
-				},
-				{
-					"name": "浏览记录",
-					"pathName": "pages/center/record/list/list",
-					"id": 13
-				},
-				{
-					"name": "主题关注",
-					"pathName": "pages/center/classify/list/list",
-					"id": 14
-				}
-			]
-		}
-	}
+  "description": "项目配置文件。",
+  "packOptions": {
+    "ignore": []
+  },
+  "setting": {
+    "urlCheck": false
+  },
+  "compileType": "miniprogram",
+  "libVersion": "2.6.4",
+  "appid": "wxe5402eb3d79910df",
+  "projectname": "baby",
+  "condition": {
+    "search": {
+      "current": -1,
+      "list": []
+    },
+    "conversation": {
+      "current": -1,
+      "list": []
+    },
+    "game": {
+      "current": -1,
+      "list": []
+    },
+    "miniprogram": {
+      "current": 1,
+      "list": [
+        {
+          "name": "首页",
+          "pathName": "pages/home/index/index",
+          "id": 0
+        },
+        {
+          "name": "搜索",
+          "pathName": "pages/home/search/search",
+          "id": 1
+        },
+        {
+          "name": "我的",
+          "pathName": "pages/center/index/index",
+          "id": 2
+        },
+        {
+          "name": "助手",
+          "pathName": "pages/helper/index/index",
+          "id": 3
+        },
+        {
+          "name": "分类",
+          "pathName": "pages/classify/index/index",
+          "id": 4
+        },
+        {
+          "name": "文章详情",
+          "pathName": "pages/home/article/detail/detail",
+          "query": "id=636",
+          "id": 5
+        },
+        {
+          "name": "分类详情",
+          "pathName": "pages/classify/detail/detail",
+          "query": "id=27",
+          "id": 6
+        },
+        {
+          "name": "大V详情",
+          "pathName": "pages/home/celebrity/detail/detail",
+          "query": "id=40",
+          "id": 7
+        },
+        {
+          "name": "大V列表",
+          "pathName": "pages/home/celebrity/more/more",
+          "id": 8
+        },
+        {
+          "name": "地址列表",
+          "pathName": "pages/center/address/address-list/address-list",
+          "id": 9
+        },
+        {
+          "name": "地址操作",
+          "pathName": "pages/center/address/address-handle/address-handle",
+          "id": 10
+        },
+        {
+          "name": "屏蔽的作者",
+          "pathName": "pages/center/shield-author/list/list",
+          "id": 11
+        },
+        {
+          "name": "文章收藏",
+          "pathName": "pages/center/collect/list/list",
+          "id": 12
+        },
+        {
+          "name": "浏览记录",
+          "pathName": "pages/center/record/list/list",
+          "id": 13
+        },
+        {
+          "name": "主题关注",
+          "pathName": "pages/center/classify/list/list",
+          "id": 14
+        }
+      ]
+    }
+  }
 }

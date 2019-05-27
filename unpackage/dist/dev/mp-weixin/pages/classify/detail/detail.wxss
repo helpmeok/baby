@@ -92,6 +92,32 @@
       height: 350rpx;
       width: 250rpx;
       margin-right: 20rpx;
+      position: relative;
+}
+.recommend-scroll .recommend-box .list-item .iconcuowutishilimiandecha {
+        position: absolute;
+        right: 10rpx;
+        top: 10rpx;
+        font-size: 26rpx;
+}
+.recommend-scroll .recommend-box .list-item .label,
+      .recommend-scroll .recommend-box .list-item .name {
+        width: 80%;
+        text-align: center;
+}
+.recommend-scroll .recommend-box .list-item .attention-btn {
+        background-color: #FC4041;
+        border: 2rpx solid #FC4041;
+        height: 46rpx;
+        width: 160rpx;
+        border-radius: 25rpx;
+        position: absolute;
+        left: calc((100% - 160rpx) / 2);
+        bottom: 20rpx;
+}
+.recommend-scroll .recommend-box .list-item .followed {
+        background-color: #ffffff;
+        border-color: #f1f1f1;
 }
 .recommend-scroll .recommend-box .list-item .portrait {
         width: 100rpx !important;

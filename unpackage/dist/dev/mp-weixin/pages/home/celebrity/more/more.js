@@ -97,7 +97,10 @@ var _default = { data: function data() {return { StatusBar: this.StatusBar, Cust
     // 	list[i].name = String.fromCharCode(65 + i);
     // }
     // this.list = list;
-  }, onReady: function onReady() {var that = this;uni.createSelectorQuery().select('.indexBar-box').boundingClientRect(function (res) {that.boxTop = res.top;}).exec();uni.createSelectorQuery().select('.indexes').boundingClientRect(function (res) {that.barTop = res.top;}).exec();}, onPullDownRefresh: function onPullDownRefresh() {this.init();}, methods: { init: function init() {var _this = this;this.api.home.hotVip.get_all_list(null, function (res) {console.log(res);console.log((0, _index.delRepArr)(res.data));_this.list = (0, _index.delRepArr)(res.data);_this.listCur = _this.list[0];
+  }, onReady: function onReady() {var that = this;uni.createSelectorQuery().select('.indexBar-box').boundingClientRect(function (res) {that.boxTop = res.top;}).exec();uni.createSelectorQuery().select('.indexes').boundingClientRect(function (res) {that.barTop = res.top;}).exec();}, onPullDownRefresh: function onPullDownRefresh() {this.init();}, methods: { init: function init() {var _this = this;uni.showLoading({ title: "加载中" });this.api.home.hotVip.get_all_list(null, function (res) {console.log(res);
+        _this.list = (0, _index.delRepArr)(res.data);
+        _this.listCur = _this.list[0];
+        uni.hideLoading();
       });
     },
     scroll: function scroll(e) {
@@ -132,15 +135,15 @@ var _default = { data: function data() {return { StatusBar: this.StatusBar, Cust
     //触发结束选择
     tEnd: function tEnd() {
       this.hidden = true;
+      // this.listCurID = this.listCur
       if (this.listCur == '#') {
-        this.scrollTop = this.old.scrollTop;
-        this.$nextTick(function () {
-          this.scrollTop = 0;
-        });
-      } else {
-        console.log(this.listCur);
-        this.listCurID = this.listCur;
+        // this.scrollTop = this.old.scrollTop
+        // this.$nextTick(function() {
+        // 	this.scrollTop = 0
+        // });
+        this.listCur = "0";
       }
+      this.listCurID = this.listCur;
     },
     indexSelect: function indexSelect(e) {
       var that = this;

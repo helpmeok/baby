@@ -3,7 +3,7 @@
 		<scroll-view scroll-y class="indexes" :scroll-into-view="'indexes-'+ listCurID" :style="[{height:screenHeight+'px'}]"
 		 :scroll-with-animation="true" :enable-back-to-top="true" :scroll-top="scrollTop" @scroll="scroll">
 			<block v-for="(item,index) in list" :key="index">
-				<view :class="'indexItem-' + item.letter" :id="'indexes-' + item.letter" :data-index="item.letter">
+				<view :class="'indexItem-' + item.letter" :id="'indexes-' + (item.letter=='#'?'0': item.letter)" :data-index="item.letter">
 					<view class="pd-lr blod title">{{item.letter}}</view>
 					<view class="list-item flex-r-between pd-box" v-for="(el,sub) in item.list" :key="sub" @click="goDetail(el.userId)">
 						<view class="flex">
@@ -83,11 +83,14 @@
 		},
 		methods: {
 			init() {
+				uni.showLoading({
+					title:"加载中"
+				})
 				this.api.home.hotVip.get_all_list(null, res => {
 					console.log(res)
-					console.log(delRepArr(res.data))
 					this.list = delRepArr(res.data)
 					this.listCur = this.list[0];
+					uni.hideLoading()
 				})
 			},
 			scroll: function(e) {
@@ -122,15 +125,15 @@
 			//触发结束选择
 			tEnd() {
 				this.hidden = true;
+				// this.listCurID = this.listCur
 				if (this.listCur == '#') {
-					this.scrollTop = this.old.scrollTop
-					this.$nextTick(function() {
-						this.scrollTop = 0
-					});
-				} else {
-					console.log(this.listCur)
-					this.listCurID = this.listCur
+					// this.scrollTop = this.old.scrollTop
+					// this.$nextTick(function() {
+					// 	this.scrollTop = 0
+					// });
+					this.listCur ="0"
 				}
+				this.listCurID = this.listCur
 			},
 			indexSelect(e) {
 				let that = this;
@@ -198,7 +201,7 @@
 	.indexBar {
 		position: fixed;
 		right: 0px;
-		top: 0upx;
+		top: 100upx;
 		padding: 20upx 20upx 20upx 60upx;
 		display: flex;
 		align-items: center;

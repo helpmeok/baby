@@ -30,13 +30,35 @@
   position: relative;
   left: 0;
   top: 0;
-  z-index: 1;
+  z-index: 2;
   background-color: #ffffff;
+}
+.tab-bar .tabs .item {
+    position: relative;
+    left: 0;
+    top: 0;
+    z-index: 2;
+}
+.tab-bar .tabs .item .name {
+      position: relative;
+      left: 0;
+      top: 0;
+      z-index: 2;
+}
+.tab-bar .tabs .item .bottom-line {
+      position: absolute;
+      left: 0;
+      bottom: 10rpx;
+      z-index: 1;
+      width: 100%;
+      height: 20rpx;
+      border-radius: 10rpx;
+      background-color: yellow;
 }
 .tab-bar .active {
     font-weight: bold;
     font-size: 40rpx;
-    color: #fc4041;
+    color: black;
     border: none;
 }
 .tab-bar .hot-icon {

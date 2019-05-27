@@ -30,20 +30,30 @@
 					</view>
 					<view class="recommend-btn flex-r-center gray" @click="showRecommend">
 						<text style="margin-right: 5upx;">相关推荐</text>
-						<text class="iconfont iconxiangxia gray" v-if="!isShowRecommend"></text>
-						<text class="iconfont iconxiangshang gray" v-else></text>
+						<text class="iconfont iconxiangxia gray mgl-10" style="font-size: 22upx;" v-if="!isShowRecommend"></text>
+						<text class="iconfont iconxiangshang gray mgl-10" style="font-size: 22upx;" v-else></text>
 					</view>
 				</view>
 			</view>
 		</view>
 		<scroll-view class="recommend-scroll" :class="{ 'show-recommend-scroll': isShowRecommend }" scroll-x="true">
 			<view class="recommend-box" :style="{ width: recommendBoxWidth }">
-				<view class="flex-c-center list-item" v-for="(item, index) in recommendList" :key="index">
-					<image src="../../../../static/me_list_photo@2x.png" mode="widthFix" class="portrait"></image>
-					<text class="font-b blod">宝宝贝</text>
-					<text class="gray">标签</text>
-					<view class="white">关注</view>
+				<view class="flex-c-center list-item" v-for="(el, index) in recommendList" :key="index" @click="goOther(el)">
+					<view class="iconfont iconcuowutishilimiandecha gray" @click.stop="removeItem(index)"></view>
+					<image :src="el.avatar" mode="widthFix" class="portrait"></image>
+					<view class="name blod sigle-line-text">{{ el.name }}</view>
+					<view class="gray label sigle-line-text">{{ el.approve }}</view>
+					<view class="attention-btn flex-r-center" @click.stop="toggleVipFollowed(el, 2, index)" :class="{ white: !el.isFollowed, followed: el.isFollowed }">
+						{{ el.isFollowed ? '已关注' : '关注' }}
+					</view>
 				</view>
+				<navigator url="/pages/home/celebrity/more/more" hover-class="none">
+					<view class="flex-c-center list-item">
+						<view class="iconfont iconarrow-right-copy red"></view>
+						<view class="red" style="margin: 20upx 0;">更多大V</view>
+						<view class="small gray">view more</view>
+					</view>
+				</navigator>
 			</view>
 		</scroll-view>
 		<view class="" style="height: 20upx;background-color: #F5F5F5;"></view>
@@ -82,7 +92,7 @@
 			return {
 				screenHeight: this.screenHeight,
 				isShowRecommend: false,
-				recommendList: [1, 2, 3, 4, 5, 6],
+				recommendList: [],
 				tabIndex: 0,
 				info: {},
 				tabs: [{
@@ -110,12 +120,12 @@
 					contentdown: '',
 					contentrefresh: '正在加载...',
 					contentnomore: '没有更多数据了'
-				}
+				},
 			};
 		},
 		computed: {
 			recommendBoxWidth() {
-				return uni.upx2px(this.recommendList.length * 270) + 'px';
+				return uni.upx2px((this.recommendList.length + 1) * 270) + 'px';
 			}
 		},
 		onLoad(options) {
@@ -137,6 +147,43 @@
 					});
 				})
 				this.getArticle()
+				this.getRecommend()
+			},
+			getRecommend() {
+				this.api.home.hotVip.get_recommend_list({
+						id,
+						type: 2
+					},
+					res => {
+						console.log(res);
+						this.recommendList = res.data.map(el => {
+							let approve = '';
+							if (el.weixinOauthStatus == '2') {
+								approve = '母婴领域知名微信公众号';
+								el.approve = approve;
+								return el;
+							} else {
+								if (el.toutiaoOauthStatus == '2') {
+									approve = '今日头条APP知名作者';
+									el.approve = approve;
+									return el;
+								} else {
+									if (el.douyinOauthStatus == '2') {
+										approve = '知名母婴抖音号';
+										el.approve = approve;
+										return el;
+									} else {
+										if (el.appOauthStatus == '2') {
+											approve = '宝宝贝APP特邀作者';
+											el.approve = approve;
+											return el;
+										}
+									}
+								}
+							}
+						});
+					}
+				);
 			},
 			getArticle() {
 				this.api.classify.get_category_article({
@@ -149,6 +196,21 @@
 					console.log(res)
 					this.tabs[this.tabIndex].data = res.data;
 				})
+			},
+			toggleVipFollowed(el, type, index) {
+				this.api.home.hotVip.toggle_followed({
+						vid: el.userId,
+						action: el.isFollowed ? 0 : 1
+					},
+					res => {
+						console.log(res);
+						if (type == 1) {
+							this.info.isFollowed = !this.info.isFollowed;
+						} else {
+							this.recommendList[index].isFollowed = !this.recommendList[index].isFollowed;
+						}
+					}
+				);
 			},
 			toggleFollowed(el) {
 				this.api.classify.toggle_followed({
@@ -208,6 +270,14 @@
 					this.tabs[i].loadingType = 1;
 					this.getMoreArticle();
 				}
+			},
+			removeItem(i) {
+				this.recommendList.splice(i, 1);
+			},
+			goOther(el) {
+				uni.navigateTo({
+					url: '/pages/home/celebrity/detail/detail?id=' + el.userId
+				});
 			},
 			showOperate(e) {
 				// console.log(e);
@@ -290,6 +360,36 @@
 				height: 350upx;
 				width: 250upx;
 				margin-right: 20upx;
+				position: relative;
+
+				.iconcuowutishilimiandecha {
+					position: absolute;
+					right: 10upx;
+					top: 10upx;
+					font-size: 26upx;
+				}
+
+				.label,
+				.name {
+					width: 80%;
+					text-align: center;
+				}
+
+				.attention-btn {
+					background-color: $uni-color-default;
+					border: 2upx solid $uni-color-default;
+					height: 46upx;
+					width: 160upx;
+					border-radius: 25upx;
+					position: absolute;
+					left: calc((100% - 160upx) / 2);
+					bottom: 20upx;
+				}
+
+				.followed {
+					background-color: #ffffff;
+					border-color: #f1f1f1;
+				}
 
 				.portrait {
 					width: 100upx !important;

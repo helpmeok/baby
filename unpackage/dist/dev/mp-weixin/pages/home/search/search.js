@@ -41,12 +41,6 @@
 //
 //
 //
-//
-//
-//
-//
-//
-//
 
 var offset = 0;
 var total = 10;
@@ -69,6 +63,9 @@ var ctime = parseInt(Date.now());var _default =
   },
   onLoad: function onLoad() {
     this.historyList = uni.getStorageSync('history_keywords').split(';');
+    this.historyList = this.historyList.filter(function (s) {
+      return s && s.trim();
+    });
     this.init();
   },
   onUnload: function onUnload() {
@@ -85,20 +82,27 @@ var ctime = parseInt(Date.now());var _default =
   methods: {
     search: function search(val) {var _this = this;
       console.log(this.value);
+      if (!val) {
+        return;
+      }
       this.value = val;
       if (this.historyList.indexOf(val) == -1) {
-        uni.setStorageSync('history_keywords', uni.getStorageSync('history_keywords') ? uni.getStorageSync(
-        'history_keywords') + ';' + this.value : this.value);
+        uni.setStorageSync('history_keywords', uni.getStorageSync('history_keywords') ? uni.getStorageSync('history_keywords') + ';' + this.value : this.value);
         this.historyList = uni.getStorageSync('history_keywords').split(';');
+        this.historyList = this.historyList.filter(function (s) {
+          return s && s.trim();
+        });
       }
       uni.showLoading({
-        title: "加载中" });
+        title: '加载中' });
 
-      this.api.home.search.get_response_list({
+      this.api.home.search.get_response_list(
+      {
         keyword: this.value,
         ctime: ctime,
         offset: offset,
         total: total },
+
       function (res) {
         console.log(res);
         _this.articleList = res.data;
@@ -107,15 +111,18 @@ var ctime = parseInt(Date.now());var _default =
 
     },
     init: function init() {var _this2 = this;
-      this.api.home.search.get_query_list({
+      this.api.home.search.get_query_list(
+      {
         type: 2,
         ctime: ctime,
         offset: offset,
         total: total },
+
       function (res) {
         console.log(res);
         _this2.keywordList = res.data;
       });
+
     },
     loadMore: function loadMore() {var _this3 = this;
       console.log('11111');
@@ -124,11 +131,13 @@ var ctime = parseInt(Date.now());var _default =
       }
       this.loadingType = 1;
       offset = total + offset;
-      this.api.home.search.get_response_list({
+      this.api.home.search.get_response_list(
+      {
         keyword: this.value,
         ctime: ctime,
         offset: offset,
         total: total },
+
       function (res) {
         console.log(res);
         if (res.data.length) {
@@ -138,14 +147,13 @@ var ctime = parseInt(Date.now());var _default =
           _this3.loadingType = 2;
         }
       });
+
     },
     clearHistoryList: function clearHistoryList() {
       uni.removeStorageSync('history_keywords');
       this.historyList = [];
     },
-    showOperate: function showOperate() {
-
-    } } };exports.default = _default;
+    showOperate: function showOperate() {} } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["default"]))
 
 /***/ }),

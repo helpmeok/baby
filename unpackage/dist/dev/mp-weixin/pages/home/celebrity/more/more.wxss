@@ -52,7 +52,7 @@
 .indexBar {
   position: fixed;
   right: 0px;
-  top: 0rpx;
+  top: 100rpx;
   padding: 20rpx 20rpx 20rpx 60rpx;
   display: -webkit-box;
   display: -webkit-flex;

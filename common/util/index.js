@@ -48,12 +48,14 @@ export function delRepArr(tempList) {
 	for (var i = 0; i < tempList.length; i++) {
 		var ai = tempList[i];
 		if (!map[ai.letter]) {
+			// console.log('++'+ai.letter)
 			dest.push({
 				letter: ai.letter,
 				list: [ai]
 			});
 			map[ai.letter] = ai;
 		} else {
+			// console.log('--'+ai.letter)
 			for (var j = 0; j < dest.length; j++) {
 				var dj = dest[j];
 				if (dj.letter == ai.letter) {
@@ -65,18 +67,39 @@ export function delRepArr(tempList) {
 	}
 	let p = /[a-zA-Z]/i;
 	let arr = []
-	for (let index in dest) {
+	for (var index in dest) {
+		// console.log(dest[index])
+		// console.log(!p.test(dest[index].letter))
 		if (!p.test(dest[index].letter)) {
+			// dest.splice(index, 1)
 			dest[index].letter = "#"
 			arr.push(dest[index])
-			dest.splice(index, 1)
+		}else{
+			dest[index].letter = dest[index].letter.toUpperCase()
 		}
-		dest[index].letter = dest[index].letter.toUpperCase()
 	}
 	dest.sort(function(a, b) {
 		return a.letter.charCodeAt() - b.letter.charCodeAt()
 	})
-	return arr.concat(dest);
+	let arr1 = []
+	let obj1 = {
+		letter: "#",
+		list: []
+	}
+	for (var i in dest) {
+		console.log(dest[i].letter)
+		if (dest[i].letter=="#") {
+			obj1.list = obj1.list.concat(dest[i].list)
+			dest.splice(i, 1)
+		} 
+	}
+	let newArr = []
+	newArr.push(obj1)
+	console.log(newArr)
+	console.log(dest)
+	// newArr.concat(dest)
+	return dest.concat(newArr);
+
 }
 export function getImgsrc(htmlstr) {
 	var reg = /<img.+?src=('|")?([^'"]+)('|")?(?:\s+|>)/gim;

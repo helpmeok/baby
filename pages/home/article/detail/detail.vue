@@ -16,10 +16,10 @@
 					<text class="iconfont iconxiangxia mgl-10 red"></text>
 				</view>
 			</view> -->
-			<view class="pd-box blod font-b">{{ info.title }}</view>
+			<view class="pd-box blod " style="font-size: 42upx;">{{ info.title }}</view>
 			<view class="pd-box flex-r-between author">
 				<view class="flex" @click="goFamous">
-					<image :src="info.image" mode="widthFix"></image>
+					<image :src="info.userAvatar" mode="widthFix"></image>
 					<view class="mgl-20">{{ info.author }}</view>
 				</view>
 				<view class="tag white small" v-if="info.categoryName" @click="goCategory">{{ info.categoryName }}</view>
@@ -30,7 +30,7 @@
 			</view>
 			<view class="fixed-bottom  bg-white">
 				<view class="flex-r-between">
-					<button plain="true" open-type="launchApp" :app-parameter="parames" @click="launchAppError($event)" binderror="launchAppError"
+					<button plain="true" open-type="launchApp" :app-parameter="parames" @error="launchAppError"
 					 class="launchApp-btn flex gray comment-box">
 						<!-- <view class="flex gray comment-box"> -->
 						<view class="mgr-10 iconfont iconpinglun1"></view>
@@ -281,15 +281,16 @@
 					}
 				);
 			},
-			launchAppError(e) {
-				console.log(e);
-			},
+
 			scrolltolower() {
 				if (this.loadingType != 0) {
 					return
 				}
 				this.loadingType = 1
 				this.getMoreComment();
+			},
+			launchAppError(e){
+				console.log(e)
 			}
 			// showAll() {
 			// 	clearInterval(timer)

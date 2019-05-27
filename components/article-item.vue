@@ -5,38 +5,56 @@
 				<view class="flex-r-between">
 					<view class="flex">
 						<image :src="item.userAvatar" mode="widthFix" class="portrait"></image>
-						<text class="blod">{{ item.userName }}</text>
+						<text class="blod article-font">{{ item.userName }}</text>
 					</view>
-					<view class="tag white small" v-if="item.categoryName">{{ item.categoryName}}</view>
+					<view class="tag white small" v-if="item.categoryName">{{ item.categoryName }}</view>
 				</view>
-				<view class="flex-r-between content">
-					<view class="desc" style="width: 72%;">{{ item.title }}</view>
+				<view class="content showType0" v-if="item.showType == 0">
+					<view class="desc article-font">{{ item.title }}</view>
+				</view>
+				<view class="flex-r-between content showType1" v-if="item.showType == 1">
+					<view class="desc article-font" style="width: 72%;">{{ item.title }}</view>
 					<image :src="item.image" mode="widthFix" class="image"></image>
+				</view>
+				<view class="flex-r-between content showType2" v-if="item.showType == 2">
+					<view class="desc article-font">{{ item.title }}</view>
+					<image :src="item.image" mode="widthFix" class="image"></image>
+				</view>
+				<view class="flex-r-between content showType3" v-if="item.showType == 3">
+					<view class="desc article-font">{{ item.title }}</view>
+					<view class="flex-r-between">
+						<image :src="el" class="image" mode="widthFix" v-for="(el,i) in item.accessory" :key="i"></image>
+					</view>
 				</view>
 				<view class="flex-r-between">
 					<view class="flex">
 						<view class="list-item-icon flex">
 							<!-- <text class="iconfont iconliulan gray"></text> -->
 							<image src="../static/home/com_list_ic_look@2x.png" mode="widthFix" class="icon"></image>
-							<text class="small gray">{{item.clickNum}}</text>
+							<text class="small gray">{{ item.clickNum }}</text>
 						</view>
 						<view class="list-item-icon flex">
 							<!-- <text class="iconfont iconiconfontzhizuobiaozhun44 gray"></text> -->
-									<image src="../static/home/com_list_ic_praise@2x.png" mode="widthFix"  class="icon"></image>
-							<text class="small gray">{{item.praiseNum}}</text>
+							<image src="../static/home/com_list_ic_praise@2x.png" mode="widthFix" class="icon"></image>
+							<text class="small gray">{{ item.praiseNum }}</text>
 						</view>
 						<view class="list-item-icon flex">
 							<!-- <text class="iconfont iconpinglun gray"></text> -->
-									<image src="../static/home/com_list_ic_introduction@2x.png" mode="widthFix"  class="icon"></image>
-							<text class="small gray">{{item.commentNum}}</text>
+							<image src="../static/home/com_list_ic_introduction@2x.png" mode="widthFix" class="icon"></image>
+							<text class="small gray">{{ item.commentNum }}</text>
 						</view>
 						<view class="list-item-icon flex">
 							<!-- <text class="iconfont iconzhuanfa gray"></text> -->
-									<image src="../static/home/com_list_ic_forward@2x.png" mode="widthFix"  class="icon"></image>
-							<text class="small gray">{{item.forwardNum}}</text>
+							<image src="../static/home/com_list_ic_forward@2x.png" mode="widthFix" class="icon"></image>
+							<text class="small gray">{{ item.forwardNum }}</text>
 						</view>
 					</view>
-					<image src="../../../static/com_list_ic_more_nor@2x.png" mode="widthFix" class="icon-more-nor" @click.stop="showMoreMask($event, item.articleId,item.userId,index1)"></image>
+					<image
+						src="../../../static/com_list_ic_more_nor@2x.png"
+						mode="widthFix"
+						class="icon-more-nor"
+						@click.stop="showMoreMask($event, item.articleId, item.userId, index1)"
+					></image>
 				</view>
 			</view>
 			<view class="cut-off"></view>
@@ -46,90 +64,135 @@
 </template>
 
 <script>
-	export default {
-		name: "article-item",
-		props: {
-			list: {
-				type: Array,
-				default () {
-					return []
-				}
-			},
-		},
-		data() {
-			return {
-				showArticleOperate: false,
-				articleId: '',
-				articleOffsetTop: 0,
-			};
-		},
-		methods: {
-			showMoreMask(e,articleId,userId,articleIndex) {
-				this.$emit('showOperate', e,articleId,userId,articleIndex)
-			},
-			hideArticleOperate() {
-				this.showArticleOperate = false;
-			},
-			goDetail(id) {
-				uni.navigateTo({
-					url: '/pages/home/article/detail/detail?id=' + id
-				})
+export default {
+	name: 'article-item',
+	props: {
+		list: {
+			type: Array,
+			default() {
+				return [];
 			}
 		}
+	},
+	data() {
+		return {
+			showArticleOperate: false,
+			articleId: '',
+			articleOffsetTop: 0
+		};
+	},
+	methods: {
+		showMoreMask(e, articleId, userId, articleIndex) {
+			this.$emit('showOperate', e, articleId, userId, articleIndex);
+		},
+		hideArticleOperate() {
+			this.showArticleOperate = false;
+		},
+		goDetail(id) {
+			uni.navigateTo({
+				url: '/pages/home/article/detail/detail?id=' + id
+			});
+		}
 	}
+};
 </script>
 
 <style lang="scss">
-	.list-item {
-		.portrait {
-			width: 80upx;
-			height: 80upx;
-			border-radius: 50%;
-			margin-right: 30upx;
+.list-item {
+	.portrait {
+		width: 80upx;
+		height: 80upx;
+		border-radius: 50%;
+		margin-right: 30upx;
+	}
+
+	&-icon {
+		margin-right: 20upx;
+		.icon {
+			width: 40upx;
+			height: 40upx;
+			margin-right: 5upx;
 		}
-		
-		&-icon {
-			margin-right: 20upx;
-			.icon{
-				width: 40upx;
-				height: 40upx ;
-				margin-right: 5upx;
-			}
-			.iconfont {
-				margin-right: 10upx;
-			}
-		}
-
-		.tag {
-			background-repeat: no-repeat;
-			background-size: 100% 100%;
-			background-image: url('~@/static/com_list_pic@2x.png');
-			padding: 5upx 20upx;
-		}
-
-		.icon-more-nor {
-			width: 60upx;
-		}
-
-		.content {
-			padding: 20upx 30upx;
-			box-sizing: border-box;
-			background-color: #f5f5f5;
-			width: 100%;
-			margin: 30upx 0;
-
-			.desc {
-				overflow: hidden;
-				display: -webkit-box !important;
-				-webkit-line-clamp: 3;
-				-webkit-box-orient: vertical;
-				text-overflow: ellipsis;
-			}
-
-			.image {
-				width: 128upx !important;
-				height: 128upx !important;
-			}
+		.iconfont {
+			margin-right: 10upx;
 		}
 	}
+
+	.tag {
+		background-repeat: no-repeat;
+		background-size: 100% 100%;
+		background-image: url('~@/static/com_list_pic@2x.png');
+		padding: 5upx 20upx;
+	}
+
+	.icon-more-nor {
+		width: 60upx;
+	}
+	.content.showType0 {
+		padding: 20upx 30upx;
+		box-sizing: border-box;
+		background-color: #f5f5f5;
+		width: 100%;
+		margin: 30upx 0;
+
+		.desc {
+			overflow: hidden;
+			display: -webkit-box !important;
+			-webkit-line-clamp: 2;
+			-webkit-box-orient: vertical;
+			text-overflow: ellipsis;
+		}
+	}
+	.content.showType1 {
+		padding: 20upx 30upx;
+		box-sizing: border-box;
+		background-color: #f5f5f5;
+		width: 100%;
+		margin: 30upx 0;
+
+		.desc {
+			overflow: hidden;
+			display: -webkit-box !important;
+			-webkit-line-clamp: 3;
+			-webkit-box-orient: vertical;
+			text-overflow: ellipsis;
+		}
+
+		.image {
+			width: 128upx !important;
+			height: 128upx !important;
+		}
+	}
+	.content.showType2 {
+		background-color: #f5f5f5;
+		width: 100%;
+		margin: 30upx 0;
+		.desc {
+			overflow: hidden;
+			display: -webkit-box !important;
+			-webkit-line-clamp: 2;
+			-webkit-box-orient: vertical;
+			text-overflow: ellipsis;
+		}
+		.image {
+			width: 100% !important;
+		}
+	}
+	.content.showType2 {
+		box-sizing: border-box;
+		width: 100%;
+		margin: 30upx 0;
+		.desc {
+			overflow: hidden;
+			display: -webkit-box !important;
+			-webkit-line-clamp: 2;
+			-webkit-box-orient: vertical;
+			text-overflow: ellipsis;
+		}
+		.image {
+			width: 30% !important;
+			height: 220upx !important;
+		}
+	}
+}
 </style>

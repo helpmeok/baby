@@ -55,9 +55,27 @@
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var _default2 =
 {
-  name: "article-item",
+  name: 'article-item',
   props: {
     list: {
       type: Array,

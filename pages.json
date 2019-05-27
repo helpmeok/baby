@@ -171,12 +171,12 @@
 			{
 				"name": "分类详情", //模式名称
 				"pathName": "pages/classify/detail/detail", //启动页面，必选
-				"query": "id=10"
+				"query": "id=27"
 			},
 			{
 				"name": "大V详情", //模式名称 
 				"pathName": "pages/home/celebrity/detail/detail", //启动页面，必选
-				"query": "id=49"
+				"query": "id=40"
 			},
 			{
 				"name": "大V列表", //模式名称 

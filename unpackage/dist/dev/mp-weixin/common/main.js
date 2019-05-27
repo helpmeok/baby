@@ -13,6 +13,30 @@ var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules
 {
   onLaunch: function onLaunch() {
     console.log('App Launch');
+    var updateManager = uni.getUpdateManager();
+
+    updateManager.onCheckForUpdate(function (res) {
+      // 请求完新版本信息的回调
+      console.log(res.hasUpdate);
+    });
+
+    updateManager.onUpdateReady(function (res) {
+      uni.showModal({
+        title: '更新提示',
+        content: '新版本已经准备好，是否重启应用？',
+        success: function success(res) {
+          if (res.confirm) {
+            // 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
+            updateManager.applyUpdate();
+          }
+        } });
+
+    });
+
+    updateManager.onUpdateFailed(function (res) {
+      // 新的版本下载失败
+      console.log(res);
+    });
     uni.getSystemInfo({
       success: function success(e) {
         console.log(e);
@@ -24,7 +48,8 @@ var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules
       } });
 
 
-    _vue.default.prototype.ColorList = [{
+    _vue.default.prototype.ColorList = [
+    {
       title: '嫣红',
       name: 'red',
       color: '#e54d42' },
@@ -98,7 +123,6 @@ var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules
       title: '雅白',
       name: 'white',
       color: '#ffffff' }];
-
 
 
   },

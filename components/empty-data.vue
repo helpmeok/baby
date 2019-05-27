@@ -8,21 +8,22 @@
 
 <script>
 	export default {
-		data() {
-			return {
-
-			};
-		},
 		props: {
 			msg: {
 				type: String,
 				default: ""
 			},
 		},
+		data() {
+			return {
+
+			};
+		},
+		
 	}
 </script>
 
-<style>
+<style lang="scss">
 	image {
 		width: 300upx;
 	}

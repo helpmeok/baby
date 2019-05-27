@@ -16,8 +16,8 @@
 			</view>
 		</view>
 		<view class="flex pd-box">
-			<view class="list-item pd-lr mgr-20 flex-r-center" v-for="(el,i) in list" :key="i" @click="goList(el.searchKeywordId)">
-				{{el.title}}
+			<view class="list-item pd-lr mgr-20 flex-r-center" v-for="(el,i) in list" :key="i" @click="goList(el.questionId)">
+				{{el.questionName}}
 			</view>
 		</view>
 	</view>

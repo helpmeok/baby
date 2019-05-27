@@ -291,15 +291,16 @@ var _default = { components: { uParse: uParse }, onShareAppMessage: function onS
       });
 
     },
-    launchAppError: function launchAppError(e) {
-      console.log(e);
-    },
+
     scrolltolower: function scrolltolower() {
       if (this.loadingType != 0) {
         return;
       }
       this.loadingType = 1;
       this.getMoreComment();
+    },
+    launchAppError: function launchAppError(e) {
+      console.log(e);
     }
     // showAll() {
     // 	clearInterval(timer)

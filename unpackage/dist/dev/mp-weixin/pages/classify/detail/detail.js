@@ -81,6 +81,16 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
 var id = "";
 var ctime = parseInt(Date.now());
 var total = 10;var _default =
@@ -92,7 +102,7 @@ var total = 10;var _default =
     return {
       screenHeight: this.screenHeight,
       isShowRecommend: false,
-      recommendList: [1, 2, 3, 4, 5, 6],
+      recommendList: [],
       tabIndex: 0,
       info: {},
       tabs: [{
@@ -125,7 +135,7 @@ var total = 10;var _default =
   },
   computed: {
     recommendBoxWidth: function recommendBoxWidth() {
-      return uni.upx2px(this.recommendList.length * 270) + 'px';
+      return uni.upx2px((this.recommendList.length + 1) * 270) + 'px';
     } },
 
   onLoad: function onLoad(options) {
@@ -147,8 +157,45 @@ var total = 10;var _default =
 
       });
       this.getArticle();
+      this.getRecommend();
     },
-    getArticle: function getArticle() {var _this2 = this;
+    getRecommend: function getRecommend() {var _this2 = this;
+      this.api.home.hotVip.get_recommend_list({
+        id: id,
+        type: 2 },
+
+      function (res) {
+        console.log(res);
+        _this2.recommendList = res.data.map(function (el) {
+          var approve = '';
+          if (el.weixinOauthStatus == '2') {
+            approve = '母婴领域知名微信公众号';
+            el.approve = approve;
+            return el;
+          } else {
+            if (el.toutiaoOauthStatus == '2') {
+              approve = '今日头条APP知名作者';
+              el.approve = approve;
+              return el;
+            } else {
+              if (el.douyinOauthStatus == '2') {
+                approve = '知名母婴抖音号';
+                el.approve = approve;
+                return el;
+              } else {
+                if (el.appOauthStatus == '2') {
+                  approve = '宝宝贝APP特邀作者';
+                  el.approve = approve;
+                  return el;
+                }
+              }
+            }
+          }
+        });
+      });
+
+    },
+    getArticle: function getArticle() {var _this3 = this;
       this.api.classify.get_category_article({
         categoryId: id,
         type: this.tabIndex,
@@ -157,16 +204,31 @@ var total = 10;var _default =
         total: total },
       function (res) {
         console.log(res);
-        _this2.tabs[_this2.tabIndex].data = res.data;
+        _this3.tabs[_this3.tabIndex].data = res.data;
       });
     },
-    toggleFollowed: function toggleFollowed(el) {var _this3 = this;
+    toggleVipFollowed: function toggleVipFollowed(el, type, index) {var _this4 = this;
+      this.api.home.hotVip.toggle_followed({
+        vid: el.userId,
+        action: el.isFollowed ? 0 : 1 },
+
+      function (res) {
+        console.log(res);
+        if (type == 1) {
+          _this4.info.isFollowed = !_this4.info.isFollowed;
+        } else {
+          _this4.recommendList[index].isFollowed = !_this4.recommendList[index].isFollowed;
+        }
+      });
+
+    },
+    toggleFollowed: function toggleFollowed(el) {var _this5 = this;
       this.api.classify.toggle_followed({
         categoryId: id,
         action: el.isFollowed ? 0 : 1 },
       function (res) {
         console.log(res);
-        _this3.info.isFollowed = !_this3.info.isFollowed;
+        _this5.info.isFollowed = !_this5.info.isFollowed;
       });
     },
     showRecommend: function showRecommend() {
@@ -180,7 +242,7 @@ var total = 10;var _default =
       this.tabIndex = e.target.current;
       this.changeTab(e.target.current);
     },
-    getMoreArticle: function getMoreArticle() {var _this4 = this;
+    getMoreArticle: function getMoreArticle() {var _this6 = this;
       console.log('111');
       this.tabs[this.tabIndex].offset += total;
       this.api.classify.get_category_article({
@@ -192,15 +254,15 @@ var total = 10;var _default =
       function (res) {
         console.log(res);
         if (res.data.length) {
-          _this4.tabs[_this4.tabIndex].data = _this4.tabs[_this4.tabIndex].data.concat(res.data);
-          _this4.tabs[_this4.tabIndex].loadingType = 0;
+          _this6.tabs[_this6.tabIndex].data = _this6.tabs[_this6.tabIndex].data.concat(res.data);
+          _this6.tabs[_this6.tabIndex].loadingType = 0;
         } else {
-          _this4.tabs[_this4.tabIndex].loadingType = 2;
+          _this6.tabs[_this6.tabIndex].loadingType = 2;
         }
       },
       function (err) {
-        _this4.tabs[_this4.tabIndex].offset -= total;
-        _this4.tabs[_this4.tabIndex].loadingType = 0;
+        _this6.tabs[_this6.tabIndex].offset -= total;
+        _this6.tabs[_this6.tabIndex].loadingType = 0;
       });
     },
     changeTab: function () {var _changeTab = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee(index) {return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:if (
@@ -218,6 +280,14 @@ var total = 10;var _default =
         this.tabs[i].loadingType = 1;
         this.getMoreArticle();
       }
+    },
+    removeItem: function removeItem(i) {
+      this.recommendList.splice(i, 1);
+    },
+    goOther: function goOther(el) {
+      uni.navigateTo({
+        url: '/pages/home/celebrity/detail/detail?id=' + el.userId });
+
     },
     showOperate: function showOperate(e) {
       // console.log(e);

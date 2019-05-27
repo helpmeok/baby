@@ -8052,13 +8052,19 @@ function Request() {
 
   this.m_send = function (url, method, data, onok, onno, _complete) {
     var access_token = uni.getStorageSync('access_token');
+    var system_info = uni.getSystemInfoSync();
     var _data = {
       url: __api + url,
       method: method,
       header: {
-        // Authorization: token,
+        'content-type': 'application/x-www-form-urlencoded',
         authorization: access_token,
-        appname: "boblbee" },
+        appName: "boblbee",
+        devicePlatform: 2,
+        deviceModel: system_info.model,
+        appVersion: system_info.version,
+        deviceOs: system_info.system,
+        deviceUuid: "" },
 
       data: data,
       success: function success(res) {
@@ -8102,12 +8108,7 @@ function Request() {
         _complete ? _complete() : null;
       } };
 
-    if (method == "Post" || method == "PUT") {
-      _data.header = {
-        'content-type': 'application/x-www-form-urlencoded', //自定义请求头信息
-        Authorization: uni.getStorageSync('access_token') };
 
-    }
 
     uni.request(_data);
   };
@@ -8118,142 +8119,146 @@ module.exports = {
   home: {
     wx_login: function wx_login(d, onok, onno) {//微信登陆获取参数
       var _url = "/miniApp/wxlogin";
-      _req.m_send(_url, "Post", d, onok, onno);
+      _req.m_send(_url, "POST", d, onok, onno);
     },
     get_recommend_article: function get_recommend_article(d, onok, onno) {//“首页”模块的推荐数据
       var _url = "/home/queryRecommendArticle";
-      _req.m_send(_url, "Get", d, onok, onno);
+      _req.m_send(_url, "GET", d, onok, onno);
     },
     get_foucs_article: function get_foucs_article(d, onok, onno) {//“首页”模块的关注数据
       var _url = "/home/queryFocusArticle";
-      _req.m_send(_url, "Get", d, onok, onno);
+      _req.m_send(_url, "GET", d, onok, onno);
     },
     get_hotVip_List: function get_hotVip_List(d, onok, onno) {//APP“首页”模块，点击“火”图标，显示推送4个大V账号。这4个大V账号是获取转发数最多的四个，如果无转发数，则以原创数最多排序。
       var _url = "/home/getHotVipList";
-      _req.m_send(_url, "Get", d, onok, onno);
+      _req.m_send(_url, "GET", d, onok, onno);
     },
     search: {
       get_query_list: function get_query_list(d, onok, onno) {//获取APP“搜索”模块的热门问题列表。
         var _url = "/search/query";
-        _req.m_send(_url, "Get", d, onok, onno);
+        _req.m_send(_url, "GET", d, onok, onno);
       },
       get_response_list: function get_response_list(d, onok, onno) {//根据输入的关键字搜索对应的内容列表
         var _url = "/search/searchPageList";
-        _req.m_send(_url, "Get", d, onok, onno);
+        _req.m_send(_url, "GET", d, onok, onno);
       } },
 
     hotVip: {
       get_info: function get_info(d, onok, onno) {//APP“首页”模块，点击“火”的图标，进行大V列表，再点击某个大V进入大V主界面的顶部大V信息数据。
         var _url = "/home/getVipInfo";
-        _req.m_send(_url, "Get", d, onok, onno);
+        _req.m_send(_url, "GET", d, onok, onno);
       },
       get_all_list: function get_all_list(d, onok, onno) {//APP“首页”模块，点击导航右侧“火”的图标，点击“更多”按钮，获取大V账号数据列表，且带首字字母索引，一次性获取完所有的大V数据
         var _url = "/home/getVipPageList";
-        _req.m_send(_url, "Get", d, onok, onno);
+        _req.m_send(_url, "GET", d, onok, onno);
       },
       toggle_followed: function toggle_followed(d, onok, onno) {//关注或取消关注大V用户
         var _url = "/home/attentionVipOrNo";
-        _req.m_send(_url, "Post", d, onok, onno);
+        _req.m_send(_url, "POST", d, onok, onno);
       },
       get_article: function get_article(d, onok, onno) {//APP“首页”模块，点击“火”的图标，进行大V列表，再点击某个大V进入大v主界面，底部4种分类数据列表（最新发布、转发最多、评论最多、点赞最多）
         var _url = "/home/getVipArticlePageList";
-        _req.m_send(_url, "Get", d, onok, onno);
+        _req.m_send(_url, "GET", d, onok, onno);
+      },
+      get_recommend_list: function get_recommend_list(d, onok, onno) {//APP“首页”模块，大V详情主界面里的相关推荐功能
+        var _url = "/home/getRecommendVipList";
+        _req.m_send(_url, "GET", d, onok, onno);
       } },
 
     article: {
       get_detail: function get_detail(d, onok, onno) {//内容相关功能，获取内容详情数据时用
         var _url = "/article/getArticleDetail";
-        _req.m_send(_url, "Get", d, onok, onno);
+        _req.m_send(_url, "GET", d, onok, onno);
       },
       toggle_collect: function toggle_collect(d, onok, onno) {//内容相关功能，收藏或取消收藏文章
         var _url = "/article/faOrNoArticle";
-        _req.m_send(_url, "Post", d, onok, onno);
+        _req.m_send(_url, "POST", d, onok, onno);
       },
       toggle_praise: function toggle_praise(d, onok, onno) {//内容相关功能，点赞或取消点赞该文章
         var _url = "/article/praiseArticleOrNo";
-        _req.m_send(_url, "Post", d, onok, onno);
+        _req.m_send(_url, "POST", d, onok, onno);
       },
       get_comment_list: function get_comment_list(d, onok, onno) {//内容相关功能，获取文章评论列表
         var _url = "/article/queryArticleCommentPageList";
-        _req.m_send(_url, "Get", d, onok, onno);
+        _req.m_send(_url, "GET", d, onok, onno);
       },
       toggle_shield: function toggle_shield(d, onok, onno) {//内容相关功能，屏蔽作者
         var _url = "/article/blockVipOrNo";
-        _req.m_send(_url, "Post", d, onok, onno);
+        _req.m_send(_url, "POST", d, onok, onno);
       },
       un_interest: function un_interest(d, onok, onno) {//内容相关功能，屏蔽文章
         var _url = "/article/blockArticle";
-        _req.m_send(_url, "Post", d, onok, onno);
+        _req.m_send(_url, "POST", d, onok, onno);
       } },
 
     comment: {
       toggle_praise: function toggle_praise(d, onok, onno) {//内容相关功能，评论列表里点赞或取消点赞某条评论
         var _url = "/article/praiseCommentOrNo";
-        _req.m_send(_url, "Post", d, onok, onno);
+        _req.m_send(_url, "POST", d, onok, onno);
       } } },
 
 
   helper: {
     get_query_list: function get_query_list(d, onok, onno) {//获取APP“助手”模块的热门问题列表。
       var _url = "/search/query";
-      _req.m_send(_url, "Get", d, onok, onno);
+      _req.m_send(_url, "GET", d, onok, onno);
     },
     get_qaset_list: function get_qaset_list(d, onok, onno) {//APP“助手”的问题集列表
       var _url = "/search/qaset";
-      _req.m_send(_url, "Get", d, onok, onno);
+      _req.m_send(_url, "GET", d, onok, onno);
     } },
 
   center: {
     user: {
       get_detail: function get_detail(d, onok, onno) {//“我的”模块获取用户资料
         var _url = "/my/getDetail";
-        _req.m_send(_url, "Get", d, onok, onno);
+        _req.m_send(_url, "GET", d, onok, onno);
       } },
 
     address: {
       add: function add(d, onok, onno) {//收货地址添加
         var _url = "/my/addAddress";
-        _req.m_send(_url, "Post", d, onok, onno);
+        _req.m_send(_url, "POST", d, onok, onno);
       },
       update: function update(d, onok, onno) {//收货地址修改
         var _url = "/my/updateAddress";
-        _req.m_send(_url, "Post", d, onok, onno);
+        _req.m_send(_url, "POST", d, onok, onno);
       },
       deleted: function deleted(d, onok, onno) {//收货地址删除
         var _url = "/my/delAddress";
-        _req.m_send(_url, "Post", d, onok, onno);
+        _req.m_send(_url, "POST", d, onok, onno);
       },
       get_list: function get_list(d, onok, onno) {//获取收货地址列表
         var _url = "/my/getAddressList";
-        _req.m_send(_url, "Get", d, onok, onno);
+        _req.m_send(_url, "GET", d, onok, onno);
       },
       get_region: function get_region(d, onok, onno) {//获取省市县街道的接口
         var _url = "/my/getRegion";
-        _req.m_send(_url, "Get", d, onok, onno);
+        _req.m_send(_url, "GET", d, onok, onno);
       } },
 
     record: {
       get_list: function get_list(d, onok, onno) {//APP“我的”模块获取用户的浏览记录列表
         var _url = "/my/queryHistoryList";
-        _req.m_send(_url, "Get", d, onok, onno);
+        _req.m_send(_url, "GET", d, onok, onno);
       } },
 
     collect: {
       get_list: function get_list(d, onok, onno) {//APP“我的”模块获取用户收藏的文章数据
         var _url = "/my/queryFaArticlePageList";
-        _req.m_send(_url, "Get", d, onok, onno);
+        _req.m_send(_url, "GET", d, onok, onno);
       } },
 
     classify: {
       get_list: function get_list(d, onok, onno) {//内容相关功能，获取用户关注的主题列表
         var _url = "/my/getAttentionCategoryPageList";
-        _req.m_send(_url, "Get", d, onok, onno);
+        _req.m_send(_url, "GET", d, onok, onno);
       } },
 
     shield: {
       get_list: function get_list(d, onok, onno) {//内容相关功能，取得用户屏蔽的作者数据
         var _url = "/my/getBlockVipPageList";
-        _req.m_send(_url, "Get", d, onok, onno);
+        _req.m_send(_url, "GET", d, onok, onno);
       } } },
 
 
@@ -8262,23 +8267,23 @@ module.exports = {
   classify: {
     get_top_category: function get_top_category(d, onok, onno) {//获取分类头部数据列表
       var _url = "/category/getTopCategory";
-      _req.m_send(_url, "Get", d, onok, onno);
+      _req.m_send(_url, "GET", d, onok, onno);
     },
     get_sub_category: function get_sub_category(d, onok, onno) {//获取某个分类下的子类
       var _url = "/category/getSubCategory";
-      _req.m_send(_url, "Get", d, onok, onno);
+      _req.m_send(_url, "GET", d, onok, onno);
     },
     get_category_article: function get_category_article(d, onok, onno) {//APP“分类”模块，点击某个小类进入该小类详情主界面，底部4种分页菜单列表（最新发布、转发最多、评论最多、点赞最多）
       var _url = "/category/queryArticleByCategory";
-      _req.m_send(_url, "Get", d, onok, onno);
+      _req.m_send(_url, "GET", d, onok, onno);
     },
     get_sub_category_header: function get_sub_category_header(d, onok, onno) {//获取某个小类的详情头部信息
       var _url = "/category/getSubCategoryHeader";
-      _req.m_send(_url, "Get", d, onok, onno);
+      _req.m_send(_url, "GET", d, onok, onno);
     },
     toggle_followed: function toggle_followed(d, onok, onno) {//关注或取消关注某分类
       var _url = "/category/attentionCategoryOrNo";
-      _req.m_send(_url, "Post", d, onok, onno);
+      _req.m_send(_url, "POST", d, onok, onno);
     } } };
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["default"]))
 
@@ -8342,12 +8347,14 @@ function delRepArr(tempList) {
   for (var i = 0; i < tempList.length; i++) {
     var ai = tempList[i];
     if (!map[ai.letter]) {
+      // console.log('++'+ai.letter)
       dest.push({
         letter: ai.letter,
         list: [ai] });
 
       map[ai.letter] = ai;
     } else {
+      // console.log('--'+ai.letter)
       for (var j = 0; j < dest.length; j++) {
         var dj = dest[j];
         if (dj.letter == ai.letter) {
@@ -8360,17 +8367,38 @@ function delRepArr(tempList) {
   var p = /[a-zA-Z]/i;
   var arr = [];
   for (var index in dest) {
+    // console.log(dest[index])
+    // console.log(!p.test(dest[index].letter))
     if (!p.test(dest[index].letter)) {
+      // dest.splice(index, 1)
       dest[index].letter = "#";
       arr.push(dest[index]);
-      dest.splice(index, 1);
+    } else {
+      dest[index].letter = dest[index].letter.toUpperCase();
     }
-    dest[index].letter = dest[index].letter.toUpperCase();
   }
   dest.sort(function (a, b) {
     return a.letter.charCodeAt() - b.letter.charCodeAt();
   });
-  return arr.concat(dest);
+  var arr1 = [];
+  var obj1 = {
+    letter: "#",
+    list: [] };
+
+  for (var i in dest) {
+    console.log(dest[i].letter);
+    if (dest[i].letter == "#") {
+      obj1.list = obj1.list.concat(dest[i].list);
+      dest.splice(i, 1);
+    }
+  }
+  var newArr = [];
+  newArr.push(obj1);
+  console.log(newArr);
+  console.log(dest);
+  // newArr.concat(dest)
+  return dest.concat(newArr);
+
 }
 function getImgsrc(htmlstr) {
   var reg = /<img.+?src=('|")?([^'"]+)('|")?(?:\s+|>)/gim;
