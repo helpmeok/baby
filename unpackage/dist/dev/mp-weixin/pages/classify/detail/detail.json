@@ -1,6 +1,6 @@
 {
   "enablePullDownRefresh": true,
   "usingComponents": {
-    "glance-slide-nav-tab-bar": "/components/glance-SlideNavTabBar"
+    "wuc-tab": "/components/wuc-tab/wuc-tab"
   }
 }

@@ -8,7 +8,24 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var glanceSlideNavTabBar = function glanceSlideNavTabBar() {return __webpack_require__.e(/*! import() | components/glance-SlideNavTabBar */ "components/glance-SlideNavTabBar").then(__webpack_require__.bind(null, /*! @/components/glance-SlideNavTabBar.vue */ "D:\\Documents\\HBuilderProjects\\baby\\components\\glance-SlideNavTabBar.vue"));};
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var WucTab = function WucTab() {return __webpack_require__.e(/*! import() | components/wuc-tab/wuc-tab */ "components/wuc-tab/wuc-tab").then(__webpack_require__.bind(null, /*! @/components/wuc-tab/wuc-tab.vue */ "D:\\Documents\\HBuilderProjects\\baby\\components\\wuc-tab\\wuc-tab.vue"));};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -100,17 +117,19 @@ var ctime = parseInt(Date.now());
 var total = 10;var _default =
 {
   components: {
-    glanceSlideNavTabBar: glanceSlideNavTabBar },
+    // glanceSlideNavTabBar,
+    WucTab: WucTab },
 
   data: function data() {
     return {
-      screenHeight: this.screenHeight,
+      swiperHeight: 0,
+      stickyHeight: 0,
       isShowRecommend: false,
+      isFixed: false,
       recommendList: [],
       tabIndex: 0,
       info: {},
-      tabs: [
-      {
+      tabs: [{
         data: [],
         offset: 0,
         loadingType: 0 },
@@ -134,8 +153,9 @@ var total = 10;var _default =
       loadingText: {
         contentdown: '',
         contentrefresh: '正在加载...',
-        contentnomore: '没有更多数据了' } };
+        contentnomore: '没有更多数据了' },
 
+      stickyTop: 0 };
 
   },
   computed: {
@@ -181,6 +201,7 @@ var total = 10;var _default =
       return val ? val : '暂无认证';
     } },
 
+
   onLoad: function onLoad(options) {
     id = options.id;
     this.init();
@@ -188,18 +209,25 @@ var total = 10;var _default =
   onPullDownRefresh: function onPullDownRefresh() {
     this.init();
   },
+  watch: {
+    isShowRecommend: function isShowRecommend(val) {var _this = this;
+      setTimeout(function () {
+        _this.getStickyTop();
+      }, 600);
+    } },
+
+
   methods: {
-    init: function init() {var _this = this;
+    init: function init() {var _this2 = this;
       uni.showLoading({
         title: '加载中' });
 
-      this.api.home.hotVip.get_info(
-      {
+      this.api.home.hotVip.get_info({
         vid: id },
 
       function (res) {
         console.log(res);
-        _this.info = res.data;
+        _this2.info = res.data;
         uni.setNavigationBarTitle({
           title: res.data.name });
 
@@ -208,16 +236,34 @@ var total = 10;var _default =
 
       this.getArticle();
       this.getRecommend();
+      this.getStickyTop();
     },
-    getRecommend: function getRecommend() {var _this2 = this;
-      this.api.home.hotVip.get_recommend_list(
-      {
+    getStickyTop: function () {var _getStickyTop = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var size;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
+                  this.getElSize('sticky'));case 2:size = _context.sent;
+                this.swiperHeight = this.screenHeight - size.height;
+                this.stickyHeight = size.height;
+                this.stickyTop = size.top;
+                console.log(this.stickyTop);case 7:case "end":return _context.stop();}}}, _callee, this);}));function getStickyTop() {return _getStickyTop.apply(this, arguments);}return getStickyTop;}(),
+
+    getElSize: function getElSize(id) {//得到元素的size
+      return new Promise(function (res, rej) {
+        uni.createSelectorQuery().select("#" + id).fields({
+          size: true,
+          scrollOffset: true,
+          rect: true },
+        function (data) {
+          res(data);
+        }).exec();
+      });
+    },
+    getRecommend: function getRecommend() {var _this3 = this;
+      this.api.home.hotVip.get_recommend_list({
         id: id,
         type: 1 },
 
       function (res) {
         console.log(res);
-        _this2.recommendList = res.data.map(function (el) {
+        _this3.recommendList = res.data.map(function (el) {
           var approve = '';
           if (el.weixinOauthStatus == '2') {
             approve = '母婴领域知名微信公众号';
@@ -246,9 +292,8 @@ var total = 10;var _default =
       });
 
     },
-    getArticle: function getArticle() {var _this3 = this;
-      this.api.home.hotVip.get_article(
-      {
+    getArticle: function getArticle() {var _this4 = this;
+      this.api.home.hotVip.get_article({
         vid: id,
         type: this.tabIndex,
         ctime: ctime,
@@ -257,22 +302,21 @@ var total = 10;var _default =
 
       function (res) {
         console.log(res);
-        _this3.tabs[_this3.tabIndex].data = res.data;
+        _this4.tabs[_this4.tabIndex].data = res.data;
       });
 
     },
-    toggleFollowed: function toggleFollowed(el, type, index) {var _this4 = this;
-      this.api.home.hotVip.toggle_followed(
-      {
+    toggleFollowed: function toggleFollowed(el, type, index) {var _this5 = this;
+      this.api.home.hotVip.toggle_followed({
         vid: el.userId,
         action: el.isFollowed ? 0 : 1 },
 
       function (res) {
         console.log(res);
         if (type == 1) {
-          _this4.info.isFollowed = !_this4.info.isFollowed;
+          _this5.info.isFollowed = !_this5.info.isFollowed;
         } else {
-          _this4.recommendList[index].isFollowed = !_this4.recommendList[index].isFollowed;
+          _this5.recommendList[index].isFollowed = !_this5.recommendList[index].isFollowed;
         }
       });
 
@@ -288,11 +332,10 @@ var total = 10;var _default =
       this.tabIndex = e.target.current;
       this.changeTab(e.target.current);
     },
-    getMoreArticle: function getMoreArticle() {var _this5 = this;
+    getMoreArticle: function getMoreArticle() {var _this6 = this;
       console.log('111');
       this.tabs[this.tabIndex].offset += total;
-      this.api.home.hotVip.get_article(
-      {
+      this.api.home.hotVip.get_article({
         vid: id,
         type: this.tabIndex,
         ctime: ctime,
@@ -302,31 +345,31 @@ var total = 10;var _default =
       function (res) {
         console.log(res);
         if (res.data.length) {
-          _this5.tabs[_this5.tabIndex].data = _this5.tabs[_this5.tabIndex].data.concat(res.data);
-          _this5.tabs[_this5.tabIndex].loadingType = 0;
+          _this6.tabs[_this6.tabIndex].data = _this6.tabs[_this6.tabIndex].data.concat(res.data);
+          _this6.tabs[_this6.tabIndex].loadingType = 0;
         } else {
-          _this5.tabs[_this5.tabIndex].loadingType = 2;
+          _this6.tabs[_this6.tabIndex].loadingType = 2;
         }
       },
       function (err) {
-        _this5.tabs[_this5.tabIndex].offset -= total;
-        _this5.tabs[_this5.tabIndex].loadingType = 0;
+        _this6.tabs[_this6.tabIndex].offset -= total;
+        _this6.tabs[_this6.tabIndex].loadingType = 0;
       });
 
     },
-    changeTab: function () {var _changeTab = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee(index) {return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:if (
-                this.tabs[this.tabIndex].data.length) {_context.next = 3;break;}_context.next = 3;return (
-                  this.init());case 3:case "end":return _context.stop();}}}, _callee, this);}));function changeTab(_x) {return _changeTab.apply(this, arguments);}return changeTab;}(),
+    changeTab: function () {var _changeTab = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2(index) {return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:if (
+                this.tabs[this.tabIndex].data.length) {_context2.next = 3;break;}_context2.next = 3;return (
+                  this.init());case 3:case "end":return _context2.stop();}}}, _callee2, this);}));function changeTab(_x) {return _changeTab.apply(this, arguments);}return changeTab;}(),
 
 
-    loadMore: function loadMore(i) {
+    loadMore: function loadMore() {
       if (!this.tabs[this.tabIndex].data.length) {
         return;
       }
-      if (this.tabs[i].loadingType !== 0) {
+      if (this.tabs[this.tabIndex].loadingType !== 0) {
         return;
       } else {
-        this.tabs[i].loadingType = 1;
+        this.tabs[this.tabIndex].loadingType = 1;
         this.getMoreArticle();
       }
     },
@@ -354,7 +397,19 @@ var total = 10;var _default =
       uni.navigateTo({
         url: '/pages/home/celebrity/detail/detail?id=' + el.userId });
 
-    } } };exports.default = _default;
+    } },
+
+  // onReachBottom() {
+  // 	this.loadMore()
+  // },
+  onPageScroll: function onPageScroll(e) {
+    // console.log(this.stickyTop+'---'+e.scrollTop)
+    if (this.stickyTop >= e.scrollTop) {
+      this.isFixed = false;
+    } else {
+      this.isFixed = true;
+    }
+  } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["default"]))
 
 /***/ }),

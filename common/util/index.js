@@ -87,7 +87,6 @@ export function delRepArr(tempList) {
 		list: []
 	}
 	for (var i in dest) {
-		console.log(dest[i].letter)
 		if (dest[i].letter=="#") {
 			obj1.list = obj1.list.concat(dest[i].list)
 			dest.splice(i, 1)
@@ -95,9 +94,8 @@ export function delRepArr(tempList) {
 	}
 	let newArr = []
 	newArr.push(obj1)
-	console.log(newArr)
-	console.log(dest)
 	// newArr.concat(dest)
+	console.log(dest.concat(newArr))
 	return dest.concat(newArr);
 
 }

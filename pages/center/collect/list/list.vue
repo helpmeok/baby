@@ -28,6 +28,9 @@
 			};
 		},
 		onLoad() {
+			uni.showLoading({
+				title:"加载中"
+			})
 			this.init()
 		},
 		onUnload() {
@@ -47,6 +50,7 @@
 					} else {
 						this.loadingType = 2
 					}
+					uni.hideLoading()
 				})
 			},
 			loadMore() {

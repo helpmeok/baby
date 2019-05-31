@@ -1,7 +1,9 @@
 <template>
 	<view>
 		<view class="header-detail flex">
-			<view class="flex-r-center" style="width: 30%;"><image :src="info.avatar" mode="widthFix" class="portrait"></image></view>
+			<view class="flex-r-center" style="width: 30%;">
+				<image :src="info.avatar" mode="widthFix" class="portrait"></image>
+			</view>
 			<view class="" style="width: 70%;">
 				<view class="flex-r-between" style="padding: 0 20upx;">
 					<view class="flex-c-center">
@@ -63,20 +65,34 @@
 			<view class="" style="width: 92%;margin-top: 5upx;">简介：{{ desc }}</view>
 		</view>
 		<view class="" style="height: 20upx;background-color: #F5F5F5;"></view>
-		<glanceSlideNavTabBar
+		<!-- <glanceSlideNavTabBar
 			fontsize="14px"
 			topfixedval="0"
 			:topfixed="true"
 			@clickitem="clickitem"
 			:tabIndex="tabIndex"
 			:data="[{ textcontent: '最新发布' }, { textcontent: '转发最多' }, { textcontent: '评论最多' }, { textcontent: '点赞最高' }]"
-		></glanceSlideNavTabBar>
-		<swiper class="swiper-box" :current="tabIndex" @change="changeSwiper" :style="{ height: screenHeight + 'px' }">
+		></glanceSlideNavTabBar> -->
+		<view id="sticky" :class="{'fixed-top':isFixed}">
+			<wuc-tab :tab-list="[
+					{ name: '最新发布' },
+					{ name: '转发最多' },
+					{ name: '评论最多' },
+					{ name: '点赞最高' }
+					
+				]"
+			 :tabCur.sync="tabIndex" tab-class="text-center bg-white wuc-tab" :tab-style="CustomBar" select-class="text-blue"
+			 @change="clickitem"></wuc-tab>
+		</view>
+		<swiper class="swiper-box" :current="tabIndex" @change="changeSwiper" :style="{ height: swiperHeight + 'px','margin-top':isFixed?stickyHeight:0+'px' }">
 			<swiper-item v-for="(el, i) in tabs" :key="i">
-				<scroll-view @scrolltolower="loadMore(i)" :scroll-y="true" class="scroll-view" :enable-back-to-top="el.active" :style="{ height: screenHeight + 'px' }">
+				<scroll-view @scrolltolower="loadMore(i)" :scroll-y="isFixed" class="scroll-view" :enable-back-to-top="el.active"
+				 :style="{ height: swiperHeight + 'px' }">
 					<empty v-if="tabs[i].data.length == 0" msg="暂无资讯~"></empty>
-					<article-item :list="tabs[i].data" v-on:showOperate="showOperate"></article-item>
-					<view class="uni-tab-bar-loading"><uni-load-more :loadingType="el.loadingType" :contentText="loadingText"></uni-load-more></view>
+					<article-item :list="tabs[i].data" v-on:showOperate="showOperate" id="articleItem"></article-item>
+					<view class="uni-tab-bar-loading">
+						<uni-load-more :loadingType="el.loadingType" :contentText="loadingText"></uni-load-more>
+					</view>
 				</scroll-view>
 			</swiper-item>
 		</swiper>
@@ -84,375 +100,416 @@
 </template>
 
 <script>
-import glanceSlideNavTabBar from '@/components/glance-SlideNavTabBar.vue';
-let id = '';
-var ctime = parseInt(Date.now());
-const total = 10;
-export default {
-	components: {
-		glanceSlideNavTabBar
-	},
-	data() {
-		return {
-			screenHeight: this.screenHeight,
-			isShowRecommend: false,
-			recommendList: [],
-			tabIndex: 0,
-			info: {},
-			tabs: [
-				{
-					data: [],
-					offset: 0,
-					loadingType: 0
-				},
-				{
-					data: [],
-					offset: 0,
-					loadingType: 0
-				},
-				{
-					data: [],
-					offset: 0,
-					loadingType: 0
-				},
-				{
-					data: [],
-					offset: 0,
-					loadingType: 0
-				}
-			],
-			loadingText: {
-				contentdown: '',
-				contentrefresh: '正在加载...',
-				contentnomore: '没有更多数据了'
-			}
-		};
-	},
-	computed: {
-		recommendBoxWidth() {
-			return uni.upx2px((this.recommendList.length + 1) * 270) + 'px';
+	// import glanceSlideNavTabBar from '@/components/glance-SlideNavTabBar.vue';
+	import WucTab from '@/components/wuc-tab/wuc-tab.vue';
+	let id = '';
+	var ctime = parseInt(Date.now());
+	const total = 10;
+	export default {
+		components: {
+			// glanceSlideNavTabBar,
+			WucTab
 		},
-		desc() {
-			if (this.info.weixinOuthIntro) {
-				return this.info.weixinOuthIntro;
-			} else {
-				if (this.info.toutiaoOuthIntro) {
-					return this.info.toutiaoOuthIntro;
+		data() {
+			return {
+				swiperHeight: 0,
+				stickyHeight: 0,
+				isShowRecommend: false,
+				isFixed: false,
+				recommendList: [],
+				tabIndex: 0,
+				info: {},
+				tabs: [{
+						data: [],
+						offset: 0,
+						loadingType: 0
+					},
+					{
+						data: [],
+						offset: 0,
+						loadingType: 0
+					},
+					{
+						data: [],
+						offset: 0,
+						loadingType: 0
+					},
+					{
+						data: [],
+						offset: 0,
+						loadingType: 0
+					}
+				],
+				loadingText: {
+					contentdown: '',
+					contentrefresh: '正在加载...',
+					contentnomore: '没有更多数据了'
+				},
+				stickyTop: 0
+			};
+		},
+		computed: {
+			recommendBoxWidth() {
+				return uni.upx2px((this.recommendList.length + 1) * 270) + 'px';
+			},
+			desc() {
+				if (this.info.weixinOuthIntro) {
+					return this.info.weixinOuthIntro;
 				} else {
-					if (this.info.douyinOuthIntro) {
-						return this.info.douyinOuthIntro;
+					if (this.info.toutiaoOuthIntro) {
+						return this.info.toutiaoOuthIntro;
 					} else {
-						if (this.info.appOuthIntro) {
-							return this.info.appOuthIntro;
+						if (this.info.douyinOuthIntro) {
+							return this.info.douyinOuthIntro;
 						} else {
-							return '没有留下任何简介';
+							if (this.info.appOuthIntro) {
+								return this.info.appOuthIntro;
+							} else {
+								return '没有留下任何简介';
+							}
 						}
 					}
 				}
-			}
-		},
-		approve() {
-			let val = '';
-			if (this.info.weixinOauthStatus == '2') {
-				val += '母音知名领域微信公众号认证；';
-			} else {
-				if (this.info.toutiaoOauthStatus == '2') {
-					val += '今日头条认证；';
+			},
+			approve() {
+				let val = '';
+				if (this.info.weixinOauthStatus == '2') {
+					val += '母音知名领域微信公众号认证；';
 				} else {
-					if (this.info.douyinOauthStatus == '2') {
-						val += '抖音认证；';
+					if (this.info.toutiaoOauthStatus == '2') {
+						val += '今日头条认证；';
 					} else {
-						if (this.info.appOauthStatus == '2') {
-							val += '宝宝贝认证；';
+						if (this.info.douyinOauthStatus == '2') {
+							val += '抖音认证；';
+						} else {
+							if (this.info.appOauthStatus == '2') {
+								val += '宝宝贝认证；';
+							}
 						}
 					}
 				}
+				return val ? val : '暂无认证';
 			}
-			return val ? val : '暂无认证';
-		}
-	},
-	onLoad(options) {
-		id = options.id;
-		this.init();
-	},
-	onPullDownRefresh() {
-		this.init();
-	},
-	methods: {
-		init() {
-			uni.showLoading({
-				title: '加载中'
-			});
-			this.api.home.hotVip.get_info(
-				{
-					vid: id
-				},
-				res => {
-					console.log(res);
-					this.info = res.data;
-					uni.setNavigationBarTitle({
-						title: res.data.name
-					});
-					uni.hideLoading();
-				}
-			);
-			this.getArticle();
-			this.getRecommend();
 		},
-		getRecommend() {
-			this.api.home.hotVip.get_recommend_list(
-				{
-					id,
-					type: 1
-				},
-				res => {
-					console.log(res);
-					this.recommendList = res.data.map(el => {
-						let approve = '';
-						if (el.weixinOauthStatus == '2') {
-							approve = '母婴领域知名微信公众号';
-							el.approve = approve;
-							return el;
-						} else {
-							if (el.toutiaoOauthStatus == '2') {
-								approve = '今日头条APP知名作者';
+
+		onLoad(options) {
+			id = options.id;
+			this.init();
+		},
+		onPullDownRefresh() {
+			this.init();
+		},
+		watch: {
+			isShowRecommend(val) {
+				setTimeout(() => {
+					this.getStickyTop()
+				}, 600)
+			}
+
+		},
+		methods: {
+			init() {
+				uni.showLoading({
+					title: '加载中'
+				});
+				this.api.home.hotVip.get_info({
+						vid: id
+					},
+					res => {
+						console.log(res);
+						this.info = res.data;
+						uni.setNavigationBarTitle({
+							title: res.data.name
+						});
+						uni.hideLoading();
+					}
+				);
+				this.getArticle();
+				this.getRecommend();
+				this.getStickyTop()
+			},
+			async getStickyTop() {
+				let size = await this.getElSize('sticky')
+				this.swiperHeight = this.screenHeight - size.height;
+				this.stickyHeight = size.height;
+				this.stickyTop = size.top
+				console.log(this.stickyTop)
+			},
+			getElSize(id) { //得到元素的size
+				return new Promise((res, rej) => {
+					uni.createSelectorQuery().select("#" + id).fields({
+						size: true,
+						scrollOffset: true,
+						rect: true
+					}, (data) => {
+						res(data);
+					}).exec();
+				})
+			},
+			getRecommend() {
+				this.api.home.hotVip.get_recommend_list({
+						id,
+						type: 1
+					},
+					res => {
+						console.log(res);
+						this.recommendList = res.data.map(el => {
+							let approve = '';
+							if (el.weixinOauthStatus == '2') {
+								approve = '母婴领域知名微信公众号';
 								el.approve = approve;
 								return el;
 							} else {
-								if (el.douyinOauthStatus == '2') {
-									approve = '知名母婴抖音号';
+								if (el.toutiaoOauthStatus == '2') {
+									approve = '今日头条APP知名作者';
 									el.approve = approve;
 									return el;
 								} else {
-									if (el.appOauthStatus == '2') {
-										approve = '宝宝贝APP特邀作者';
+									if (el.douyinOauthStatus == '2') {
+										approve = '知名母婴抖音号';
 										el.approve = approve;
 										return el;
+									} else {
+										if (el.appOauthStatus == '2') {
+											approve = '宝宝贝APP特邀作者';
+											el.approve = approve;
+											return el;
+										}
 									}
 								}
 							}
+						});
+					}
+				);
+			},
+			getArticle() {
+				this.api.home.hotVip.get_article({
+						vid: id,
+						type: this.tabIndex,
+						ctime,
+						offset: this.tabs[this.tabIndex].offset,
+						total
+					},
+					res => {
+						console.log(res);
+						this.tabs[this.tabIndex].data = res.data;
+					}
+				);
+			},
+			toggleFollowed(el, type, index) {
+				this.api.home.hotVip.toggle_followed({
+						vid: el.userId,
+						action: el.isFollowed ? 0 : 1
+					},
+					res => {
+						console.log(res);
+						if (type == 1) {
+							this.info.isFollowed = !this.info.isFollowed;
+						} else {
+							this.recommendList[index].isFollowed = !this.recommendList[index].isFollowed;
 						}
-					});
-				}
-			);
-		},
-		getArticle() {
-			this.api.home.hotVip.get_article(
-				{
-					vid: id,
-					type: this.tabIndex,
-					ctime,
-					offset: this.tabs[this.tabIndex].offset,
-					total
-				},
-				res => {
-					console.log(res);
-					this.tabs[this.tabIndex].data = res.data;
-				}
-			);
-		},
-		toggleFollowed(el, type, index) {
-			this.api.home.hotVip.toggle_followed(
-				{
-					vid: el.userId,
-					action: el.isFollowed ? 0 : 1
-				},
-				res => {
-					console.log(res);
-					if (type == 1) {
-						this.info.isFollowed = !this.info.isFollowed;
-					} else {
-						this.recommendList[index].isFollowed = !this.recommendList[index].isFollowed;
 					}
-				}
-			);
-		},
-		showRecommend() {
-			this.isShowRecommend = !this.isShowRecommend;
-		},
-		clickitem(index, val) {
-			this.tabIndex = index;
-			this.changeTab(index);
-		},
-		changeSwiper(e) {
-			this.tabIndex = e.target.current;
-			this.changeTab(e.target.current);
-		},
-		getMoreArticle() {
-			console.log('111');
-			this.tabs[this.tabIndex].offset += total;
-			this.api.home.hotVip.get_article(
-				{
-					vid: id,
-					type: this.tabIndex,
-					ctime,
-					offset: this.tabs[this.tabIndex].offset,
-					total
-				},
-				res => {
-					console.log(res);
-					if (res.data.length) {
-						this.tabs[this.tabIndex].data = this.tabs[this.tabIndex].data.concat(res.data);
+				);
+			},
+			showRecommend() {
+				this.isShowRecommend = !this.isShowRecommend;
+			},
+			clickitem(index, val) {
+				this.tabIndex = index;
+				this.changeTab(index);
+			},
+			changeSwiper(e) {
+				this.tabIndex = e.target.current;
+				this.changeTab(e.target.current);
+			},
+			getMoreArticle() {
+				console.log('111');
+				this.tabs[this.tabIndex].offset += total;
+				this.api.home.hotVip.get_article({
+						vid: id,
+						type: this.tabIndex,
+						ctime,
+						offset: this.tabs[this.tabIndex].offset,
+						total
+					},
+					res => {
+						console.log(res);
+						if (res.data.length) {
+							this.tabs[this.tabIndex].data = this.tabs[this.tabIndex].data.concat(res.data);
+							this.tabs[this.tabIndex].loadingType = 0;
+						} else {
+							this.tabs[this.tabIndex].loadingType = 2;
+						}
+					},
+					err => {
+						this.tabs[this.tabIndex].offset -= total;
 						this.tabs[this.tabIndex].loadingType = 0;
-					} else {
-						this.tabs[this.tabIndex].loadingType = 2;
 					}
-				},
-				err => {
-					this.tabs[this.tabIndex].offset -= total;
-					this.tabs[this.tabIndex].loadingType = 0;
+				);
+			},
+			async changeTab(index) {
+				if (!this.tabs[this.tabIndex].data.length) {
+					await this.init();
 				}
-			);
+			},
+			loadMore() {
+				if (!this.tabs[this.tabIndex].data.length) {
+					return;
+				}
+				if (this.tabs[this.tabIndex].loadingType !== 0) {
+					return;
+				} else {
+					this.tabs[this.tabIndex].loadingType = 1;
+					this.getMoreArticle();
+				}
+			},
+			showOperate(e) {
+				// console.log(e);
+				// uni.getSystemInfo({
+				// 	success: res => {
+				// 		console.log(res.windowHeight);
+				// 		if (e.detail.y + 220 > res.windowHeight) {
+				// 			this.articleOffsetTop = e.detail.y - 210;
+				// 		} else {
+				// 			this.articleOffsetTop = e.detail.y + 20;
+				// 		}
+				// 		this.showArticleOperate = true;
+				// 	}
+				// });
+			},
+			hideArticleOperate() {
+				this.showArticleOperate = false;
+			},
+			removeItem(i) {
+				this.recommendList.splice(i, 1);
+			},
+			goOther(el) {
+				uni.navigateTo({
+					url: '/pages/home/celebrity/detail/detail?id=' + el.userId
+				});
+			},
 		},
-		async changeTab(index) {
-			if (!this.tabs[this.tabIndex].data.length) {
-				await this.init();
-			}
-		},
-		loadMore(i) {
-			if (!this.tabs[this.tabIndex].data.length) {
-				return;
-			}
-			if (this.tabs[i].loadingType !== 0) {
-				return;
+		// onReachBottom() {
+		// 	this.loadMore()
+		// },
+		onPageScroll(e) {
+			// console.log(this.stickyTop+'---'+e.scrollTop)
+			if (this.stickyTop >= e.scrollTop) {
+				this.isFixed = false
 			} else {
-				this.tabs[i].loadingType = 1;
-				this.getMoreArticle();
+				this.isFixed = true
 			}
-		},
-		showOperate(e) {
-			// console.log(e);
-			// uni.getSystemInfo({
-			// 	success: res => {
-			// 		console.log(res.windowHeight);
-			// 		if (e.detail.y + 220 > res.windowHeight) {
-			// 			this.articleOffsetTop = e.detail.y - 210;
-			// 		} else {
-			// 			this.articleOffsetTop = e.detail.y + 20;
-			// 		}
-			// 		this.showArticleOperate = true;
-			// 	}
-			// });
-		},
-		hideArticleOperate() {
-			this.showArticleOperate = false;
-		},
-		removeItem(i) {
-			this.recommendList.splice(i, 1);
-		},
-		goOther(el) {
-			uni.navigateTo({
-				url: '/pages/home/celebrity/detail/detail?id=' + el.userId
-			});
 		}
-	}
-};
+	};
 </script>
 
 <style lang="scss">
-.header-detail {
-	width: 100%;
-	height: 200upx;
-	padding: 0 30upx 0 0;
-	box-sizing: border-box;
+	.header-detail {
+		width: 100%;
+		height: 200upx;
+		padding: 0 30upx 0 0;
+		box-sizing: border-box;
 
-	.portrait {
-		width: 150upx !important;
-		height: 150upx !important;
-		border-radius: 50%;
-	}
+		.portrait {
+			width: 150upx !important;
+			height: 150upx !important;
+			border-radius: 50%;
+		}
 
-	.attention-btn {
-		background-color: $uni-color-default;
-		border: 2upx solid $uni-color-default;
-		height: 46upx;
-		width: 280upx;
-		border-radius: 25upx;
-	}
+		.attention-btn {
+			background-color: $uni-color-default;
+			border: 2upx solid $uni-color-default;
+			height: 46upx;
+			width: 280upx;
+			border-radius: 25upx;
+		}
 
-	.followed {
-		background-color: #ffffff;
-		border-color: #f1f1f1;
-	}
-
-	.recommend-btn {
-		border: 2upx solid #cccccc;
-		height: 46upx;
-		width: 180upx;
-		border-radius: 25upx;
-	}
-}
-
-.approve,
-.desc {
-	align-items: flex-start;
-	padding: 10upx 20upx;
-}
-
-.recommend-scroll {
-	background-color: #f5f5f5;
-	box-sizing: border-box;
-	height: 0upx;
-	white-space: nowrap;
-	overflow: hidden;
-	width: 100%;
-	transition: height 0.5s;
-	padding: 0 20upx;
-
-	.recommend-box {
-		display: flex;
-		flex-wrap: nowrap;
-		align-items: center;
-
-		.list-item {
+		.followed {
 			background-color: #ffffff;
-			height: 350upx;
-			width: 250upx;
-			margin-right: 20upx;
-			position: relative;
-			.iconcuowutishilimiandecha {
-				position: absolute;
-				right: 10upx;
-				top: 10upx;
-				font-size: 26upx;
-			}
-			.label,
-			.name {
-				width: 80%;
-				text-align: center;
-			}
+			border-color: #f1f1f1;
+		}
 
-			.attention-btn {
-				background-color: $uni-color-default;
-				border: 2upx solid $uni-color-default;
-				height: 46upx;
-				width: 160upx;
-				border-radius: 25upx;
-				position: absolute;
-				left: calc((100% - 160upx) / 2);
-				bottom: 20upx;
-			}
-			.followed {
+		.recommend-btn {
+			border: 2upx solid #cccccc;
+			height: 46upx;
+			width: 180upx;
+			border-radius: 25upx;
+		}
+	}
+
+	.approve,
+	.desc {
+		align-items: flex-start;
+		padding: 10upx 20upx;
+	}
+
+	.recommend-scroll {
+		background-color: #f5f5f5;
+		box-sizing: border-box;
+		height: 0upx;
+		white-space: nowrap;
+		overflow: hidden;
+		width: 100%;
+		transition: height 0.5s;
+		padding: 0 20upx;
+
+		.recommend-box {
+			display: flex;
+			flex-wrap: nowrap;
+			align-items: center;
+
+			.list-item {
 				background-color: #ffffff;
-				border-color: #f1f1f1;
-			}
-			.portrait {
-				width: 100upx !important;
-				height: 100upx !important;
-				border-radius: 50%;
+				height: 350upx;
+				width: 250upx;
+				margin-right: 20upx;
+				position: relative;
+
+				.iconcuowutishilimiandecha {
+					position: absolute;
+					right: 10upx;
+					top: 10upx;
+					font-size: 26upx;
+				}
+
+				.label,
+				.name {
+					width: 80%;
+					text-align: center;
+				}
+
+				.attention-btn {
+					background-color: $uni-color-default;
+					border: 2upx solid $uni-color-default;
+					height: 46upx;
+					width: 160upx;
+					border-radius: 25upx;
+					position: absolute;
+					left: calc((100% - 160upx) / 2);
+					bottom: 20upx;
+				}
+
+				.followed {
+					background-color: #ffffff;
+					border-color: #f1f1f1;
+				}
+
+				.portrait {
+					width: 100upx !important;
+					height: 100upx !important;
+					border-radius: 50%;
+				}
 			}
 		}
 	}
-}
 
-.show-recommend-scroll,
-.recommend-box {
-	height: 400upx;
-	transition: height 0.5s;
-}
-
-.swiper-box {
-	.scroll-view {
+	.show-recommend-scroll,
+	.recommend-box {
+		height: 400upx;
+		transition: height 0.5s;
 	}
-}
+
+	.swiper-box {
+		.scroll-view {}
+	}
 </style>

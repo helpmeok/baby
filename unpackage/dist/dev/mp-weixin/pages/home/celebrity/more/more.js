@@ -98,6 +98,7 @@ var _default = { data: function data() {return { StatusBar: this.StatusBar, Cust
     // }
     // this.list = list;
   }, onReady: function onReady() {var that = this;uni.createSelectorQuery().select('.indexBar-box').boundingClientRect(function (res) {that.boxTop = res.top;}).exec();uni.createSelectorQuery().select('.indexes').boundingClientRect(function (res) {that.barTop = res.top;}).exec();}, onPullDownRefresh: function onPullDownRefresh() {this.init();}, methods: { init: function init() {var _this = this;uni.showLoading({ title: "加载中" });this.api.home.hotVip.get_all_list(null, function (res) {console.log(res);
+        // res.data=res.data.slice(0,1000)
         _this.list = (0, _index.delRepArr)(res.data);
         _this.listCur = _this.list[0];
         uni.hideLoading();

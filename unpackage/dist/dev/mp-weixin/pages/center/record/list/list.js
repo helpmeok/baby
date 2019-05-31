@@ -8,7 +8,7 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
 //
 //
 //
@@ -38,6 +38,9 @@ var offset = 0;var _default =
 
   },
   onLoad: function onLoad() {
+    uni.showLoading({
+      title: "加载中" });
+
     this.init();
   },
   onUnload: function onUnload() {
@@ -57,6 +60,7 @@ var offset = 0;var _default =
         } else {
           _this.loadingType = 2;
         }
+        uni.hideLoading();
       });
     },
     loadMore: function loadMore() {
@@ -72,6 +76,7 @@ var offset = 0;var _default =
   onReachBottom: function onReachBottom() {
     this.loadMore();
   } };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["default"]))
 
 /***/ }),
 

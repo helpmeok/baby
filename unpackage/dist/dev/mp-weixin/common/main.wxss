@@ -143,6 +143,13 @@ page {
 .article-font{
 	font-size: 30rpx;
 }
+.fixed-top{
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 9999;
+	width: 100%;
+}
 .gray {
 	color: #9e9e9e;
 }

@@ -30,8 +30,7 @@
 			</view>
 			<view class="fixed-bottom  bg-white">
 				<view class="flex-r-between">
-					<button plain="true" open-type="launchApp" :app-parameter="parames" @error="launchAppError"
-					 class="launchApp-btn flex gray comment-box">
+					<button plain="true" open-type="launchApp" :app-parameter="parames" @error="launchAppError" class="launchApp-btn flex gray comment-box">
 						<!-- <view class="flex gray comment-box"> -->
 						<view class="mgr-10 iconfont iconpinglun1"></view>
 						<text style="font-size: 26upx;">缺少你的评论...</text>
@@ -73,7 +72,10 @@
 						{{el.content}}
 					</view>
 					<view class="flex small">
-						<text>{{el.ctime | transformDate}}</text>
+						<text class="mgr-20">{{el.ctime | transformDate}}</text>
+						<button plain="true" open-type="launchApp" :app-parameter="parames" @error="launchAppError" class="launchApp-btn flex gray comment-box">
+							<view class="small">{{el.replyNum>0?el.replyNum:""}}回复</view>
+						</button>
 					</view>
 				</view>
 			</view>
@@ -289,8 +291,20 @@
 				this.loadingType = 1
 				this.getMoreComment();
 			},
-			launchAppError(e){
+			launchAppError(e) {
 				console.log(e)
+				uni.showModal({
+					title: '提示',
+					content: '更多功能，请下载“宝宝贝”APP',
+					showCancel: false,
+					success: function(res) {
+						if (res.confirm) {
+							console.log('用户点击确定');
+						} else if (res.cancel) {
+							console.log('用户点击取消');
+						}
+					}
+				});
 			}
 			// showAll() {
 			// 	clearInterval(timer)
@@ -388,6 +402,15 @@
 			width: 80upx !important;
 			height: 80upx !important;
 			border-radius: 50%;
+		}
+
+		
+		.comment-box {
+			background-color: #f5f5f5;
+			border-radius: 30upx;
+			padding: 0 10upx !important;
+			border: none !important;
+			margin: 0 !important;
 		}
 	}
 </style>

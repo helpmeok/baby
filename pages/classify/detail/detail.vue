@@ -57,17 +57,27 @@
 			</view>
 		</scroll-view>
 		<view class="" style="height: 20upx;background-color: #F5F5F5;"></view>
-		<glanceSlideNavTabBar fontsize="14px" topfixedval="0" :topfixed="true" @clickitem="clickitem" :tabIndex="tabIndex"
+		<!-- <glanceSlideNavTabBar fontsize="14px" topfixedval="0" :topfixed="true" @clickitem="clickitem" :tabIndex="tabIndex"
 		 :data="[
 				{ textcontent: '最新发布' },
 				{ textcontent: '转发最多' },
 				{ textcontent: '评论最多' },
 				{ textcontent: '点赞最高' }
-			]"></glanceSlideNavTabBar>
-		<swiper class="swiper-box" :current="tabIndex" @change="changeSwiper" :style="{'height':screenHeight+'px'}">
+			]"></glanceSlideNavTabBar> -->
+		<view id="sticky" :class="{'fixed-top':isFixed}">
+			<wuc-tab :tab-list="[
+						{ name: '最新发布' },
+						{ name: '转发最多' },
+						{ name: '评论最多' },
+						{ name: '点赞最高' }
+					]"
+			 :tabCur.sync="tabIndex" tab-class="text-center bg-white wuc-tab" :tab-style="CustomBar" select-class="text-blue"
+			 @change="clickitem"></wuc-tab>
+		</view>
+		<swiper class="swiper-box" :current="tabIndex" @change="changeSwiper" :style="{ height: swiperHeight + 'px','margin-top':isFixed?stickyHeight:0+'px' }">
 			<swiper-item v-for="(el, i) in tabs" :key="i">
-				<scroll-view @scrolltolower="loadMore(i)" :scroll-y="true" class="scroll-view" :enable-back-to-top="el.active"
-				 :style="{'height':screenHeight+'px'}">
+				<scroll-view @scrolltolower="loadMore(i)" :scroll-y="isFixed" class="scroll-view" :enable-back-to-top="el.active"
+				 :style="{'height':swiperHeight+'px'}">
 					<empty v-if="tabs[i].data.length == 0" msg="暂无资讯~"></empty>
 					<article-item :list="tabs[i].data" v-on:showOperate="showOperate"></article-item>
 					<view class="uni-tab-bar-loading">
@@ -80,18 +90,22 @@
 </template>
 
 <script>
-	import glanceSlideNavTabBar from '@/components/glance-SlideNavTabBar.vue';
+	// import glanceSlideNavTabBar from '@/components/glance-SlideNavTabBar.vue';
+	import WucTab from '@/components/wuc-tab/wuc-tab.vue';
 	let id = ""
 	var ctime = parseInt(Date.now());
 	const total = 10;
 	export default {
 		components: {
-			glanceSlideNavTabBar
+			// glanceSlideNavTabBar
+			WucTab
 		},
 		data() {
 			return {
-				screenHeight: this.screenHeight,
+				swiperHeight: 0,
+				stickyHeight: 0,
 				isShowRecommend: false,
+				isFixed: false,
 				recommendList: [],
 				tabIndex: 0,
 				info: {},
@@ -121,11 +135,19 @@
 					contentrefresh: '正在加载...',
 					contentnomore: '没有更多数据了'
 				},
+				stickyTop: 0
 			};
 		},
 		computed: {
 			recommendBoxWidth() {
 				return uni.upx2px((this.recommendList.length + 1) * 270) + 'px';
+			}
+		},
+		watch: {
+			isShowRecommend(val) {
+				setTimeout(() => {
+					this.getStickyTop()
+				}, 600)
 			}
 		},
 		onLoad(options) {
@@ -148,6 +170,25 @@
 				})
 				this.getArticle()
 				this.getRecommend()
+				this.getStickyTop()
+			},
+			async getStickyTop() {
+				let size = await this.getElSize('sticky')
+				this.swiperHeight = this.screenHeight - size.height;
+				this.stickyHeight = size.height;
+				this.stickyTop = size.top;
+				console.log(this.stickyTop)
+			},
+			getElSize(id) { //得到元素的size
+				return new Promise((res, rej) => {
+					uni.createSelectorQuery().select("#" + id).fields({
+						size: true,
+						scrollOffset: true,
+						rect: true
+					}, (data) => {
+						res(data);
+					}).exec();
+				})
 			},
 			getRecommend() {
 				this.api.home.hotVip.get_recommend_list({
@@ -260,14 +301,14 @@
 					await this.init();
 				}
 			},
-			loadMore(i) {
+			loadMore() {
 				if (!this.tabs[this.tabIndex].data.length) {
 					return;
 				}
-				if (this.tabs[i].loadingType !== 0) {
+				if (this.tabs[this.tabIndex].loadingType !== 0) {
 					return;
 				} else {
-					this.tabs[i].loadingType = 1;
+					this.tabs[this.tabIndex].loadingType = 1;
 					this.getMoreArticle();
 				}
 			},
@@ -296,6 +337,16 @@
 			hideArticleOperate() {
 				this.showArticleOperate = false;
 			},
+		},
+		// onReachBottom() {
+		// 	this.loadMore()
+		// },
+		onPageScroll(e) {
+			if (this.stickyTop >= e.scrollTop) {
+				this.isFixed = false
+			} else {
+				this.isFixed = true
+			}
 		}
 	};
 </script>

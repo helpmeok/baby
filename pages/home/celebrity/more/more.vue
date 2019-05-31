@@ -8,7 +8,7 @@
 					<view class="list-item flex-r-between pd-box" v-for="(el,sub) in item.list" :key="sub" @click="goDetail(el.userId)">
 						<view class="flex">
 							<!-- <view class="cu-avatar round lg">{{item.letter}}</view> -->
-							<image :src="el.avatar" mode="widthFix" class="avatar mgr-20"></image>
+							<image :src="el.avatar" mode="widthFix" lazy-load class="avatar mgr-20"></image>
 							<view class="content">
 								<view class="font-b">{{el.name}}</view>
 								<view class="text-gray text-sm">
@@ -88,6 +88,7 @@
 				})
 				this.api.home.hotVip.get_all_list(null, res => {
 					console.log(res)
+					// res.data=res.data.slice(0,1000)
 					this.list = delRepArr(res.data)
 					this.listCur = this.list[0];
 					uni.hideLoading()

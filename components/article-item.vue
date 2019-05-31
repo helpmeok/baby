@@ -1,10 +1,10 @@
 <template>
 	<view>
-		<view class="list-item" v-for="(item, index1) in list" :key="index1" @click="goDetail(item.articleId)">
+		<view class="list-item" v-for="(item, index1) in newList" :key="index1" @click="goDetail(item.articleId)">
 			<view class="pd-box">
 				<view class="flex-r-between">
 					<view class="flex">
-						<image :src="item.userAvatar" mode="widthFix" class="portrait"></image>
+						<image :src="item.userAvatar" mode="widthFix" class="portrait" lazy-load="true"></image>
 						<text class="blod article-font">{{ item.userName }}</text>
 					</view>
 					<view class="tag white small" v-if="item.categoryName">{{ item.categoryName }}</view>
@@ -14,16 +14,16 @@
 				</view>
 				<view class="flex-r-between content showType1" v-if="item.showType == 1">
 					<view class="desc article-font" style="width: 72%;">{{ item.title }}</view>
-					<image :src="item.image" mode="widthFix" class="image"></image>
+					<image :src="item.attachment[0].url" mode="aspectFill" lazy-load="true" class="image"></image>
 				</view>
 				<view class="flex-r-between content showType2" v-if="item.showType == 2">
 					<view class="desc article-font">{{ item.title }}</view>
-					<image :src="item.image" mode="widthFix" class="image"></image>
+					<image :src="item.attachment[0].url" mode="aspectFill" lazy-load="true" class="image"></image>
 				</view>
-				<view class="flex-r-between content showType3" v-if="item.showType == 3">
+				<view class=" content showType3" v-if="item.showType == 3">
 					<view class="desc article-font">{{ item.title }}</view>
 					<view class="flex-r-between">
-						<image :src="el" class="image" mode="widthFix" v-for="(el,i) in item.accessory" :key="i"></image>
+						<image :src="el.url" class="image" mode="aspectFill" lazy-load="true" v-for="(el,i) in item.attachment" :key="i"></image>
 					</view>
 				</view>
 				<view class="flex-r-between">
@@ -78,7 +78,8 @@ export default {
 		return {
 			showArticleOperate: false,
 			articleId: '',
-			articleOffsetTop: 0
+			articleOffsetTop: 0,
+			newList:[]
 		};
 	},
 	methods: {
@@ -92,6 +93,17 @@ export default {
 			uni.navigateTo({
 				url: '/pages/home/article/detail/detail?id=' + id
 			});
+		}
+	},
+	watch:{
+		list(val){
+			console.log(val)
+			this.newList=val.map((el)=>{
+				if (el.showType==3) {
+					el.attachment=el.attachment.slice(0,3)
+				}
+				return el;
+			})
 		}
 	}
 };
@@ -159,8 +171,8 @@ export default {
 		}
 
 		.image {
-			width: 128upx !important;
-			height: 128upx !important;
+			width: 148upx !important;
+			height: 148upx !important;
 		}
 	}
 	.content.showType2 {
@@ -178,8 +190,9 @@ export default {
 			width: 100% !important;
 		}
 	}
-	.content.showType2 {
+	.content.showType3 {
 		box-sizing: border-box;
+		background-color: #ffffff;
 		width: 100%;
 		margin: 30upx 0;
 		.desc {
@@ -191,7 +204,7 @@ export default {
 		}
 		.image {
 			width: 30% !important;
-			height: 220upx !important;
+			height: 200upx !important;
 		}
 	}
 }

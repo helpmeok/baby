@@ -107,7 +107,11 @@
 
 
 
+
+
 var _index = __webpack_require__(/*! @/common/util/index.js */ "D:\\Documents\\HBuilderProjects\\baby\\common\\util\\index.js"); //
+//
+//
 //
 //
 //
@@ -219,9 +223,7 @@ var _default = { components: { uParse: uParse }, onShareAppMessage: function onS
   // 		}
   // 	}, 100)
   // },
-  methods: { init: function init() {var _this = this;uni.showLoading({ title: "加载中" });this.api.home.article.get_detail({ article_id: id, request_type: 'app' }, function (res) {console.log(res.data);_this.info = res.data;_this.api.home.article.get_comment_list({ ctime: ctime, articleId: id, offset: offset, total: total }, function (res) {console.log(res);_this.commentList = res.data;uni.hideLoading();});});}, getMoreComment: function getMoreComment() {var _this2 = this;offset += total;this.api.home.article.get_comment_list({ ctime: ctime, articleId: id, offset: offset, total: total }, function (res) {console.log(res);if (res.data.length) {_this2.commentList = _this2.commentList.concat(res.data);_this2.loadingType = 0;} else {_this2.loadingType = 2;}});}, scroll: function scroll() {
-      this.scrollIntoId = '';
-    },
+  methods: { init: function init() {var _this = this;uni.showLoading({ title: "加载中" });this.api.home.article.get_detail({ article_id: id, request_type: 'app' }, function (res) {console.log(res.data);_this.info = res.data;_this.api.home.article.get_comment_list({ ctime: ctime, articleId: id, offset: offset, total: total }, function (res) {console.log(res);_this.commentList = res.data;uni.hideLoading();});});}, getMoreComment: function getMoreComment() {var _this2 = this;offset += total;this.api.home.article.get_comment_list({ ctime: ctime, articleId: id, offset: offset, total: total }, function (res) {console.log(res);if (res.data.length) {_this2.commentList = _this2.commentList.concat(res.data);_this2.loadingType = 0;} else {_this2.loadingType = 2;}});}, scroll: function scroll() {this.scrollIntoId = '';},
     scrollIntoComment: function scrollIntoComment() {
       this.scrollIntoId = 'comments';
       console.log(this.scrollIntoId);
@@ -301,6 +303,18 @@ var _default = { components: { uParse: uParse }, onShareAppMessage: function onS
     },
     launchAppError: function launchAppError(e) {
       console.log(e);
+      uni.showModal({
+        title: '提示',
+        content: '更多功能，请下载“宝宝贝”APP',
+        showCancel: false,
+        success: function success(res) {
+          if (res.confirm) {
+            console.log('用户点击确定');
+          } else if (res.cancel) {
+            console.log('用户点击取消');
+          }
+        } });
+
     }
     // showAll() {
     // 	clearInterval(timer)

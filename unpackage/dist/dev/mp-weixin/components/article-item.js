@@ -88,7 +88,8 @@ var _default2 =
     return {
       showArticleOperate: false,
       articleId: '',
-      articleOffsetTop: 0 };
+      articleOffsetTop: 0,
+      newList: [] };
 
   },
   methods: {
@@ -102,6 +103,17 @@ var _default2 =
       uni.navigateTo({
         url: '/pages/home/article/detail/detail?id=' + id });
 
+    } },
+
+  watch: {
+    list: function list(val) {
+      console.log(val);
+      this.newList = val.map(function (el) {
+        if (el.showType == 3) {
+          el.attachment = el.attachment.slice(0, 3);
+        }
+        return el;
+      });
     } } };exports.default = _default2;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["default"]))
 
