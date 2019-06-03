@@ -73,6 +73,26 @@ var offset = 0;var _default =
     },
     showOperate: function showOperate() {} },
 
+  onShow: function onShow() {var _this2 = this;
+    if (uni.getStorageSync('articleIndex').toString()) {//监听文章数据改变
+      var index = parseInt(uni.getStorageSync('articleIndex'));
+      var articleId = this.list[index].articleId;
+      if (articleId.toString()) {
+        this.api.home.article.get_detail({
+          article_id: articleId,
+          request_type: "h5" },
+        function (res) {
+          console.log(res.data);
+          _this2.list[index].clickNum = res.data.clickNum;
+          _this2.list[index].commentNum = res.data.commentNum;
+          _this2.list[index].praiseNum = res.data.praiseNum;
+          _this2.list[index].forwardNum = res.data.forwardNum;
+          uni.removeStorageSync('articleIndex');
+          _this2.$forceUpdate();
+        });
+      }
+    }
+  },
   onReachBottom: function onReachBottom() {
     this.loadMore();
   } };exports.default = _default;

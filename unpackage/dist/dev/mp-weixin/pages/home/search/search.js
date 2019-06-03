@@ -68,6 +68,26 @@ var ctime = parseInt(Date.now());var _default =
     });
     this.init();
   },
+  onShow: function onShow() {var _this = this;
+    if (uni.getStorageSync('articleIndex').toString()) {//监听文章数据改变
+      var index = parseInt(uni.getStorageSync('articleIndex'));
+      var articleId = this.articleList[index].articleId;
+      if (articleId.toString()) {
+        this.api.home.article.get_detail({
+          article_id: articleId,
+          request_type: "h5" },
+        function (res) {
+          console.log(res.data);
+          _this.articleList[index].clickNum = res.data.clickNum;
+          _this.articleList[index].commentNum = res.data.commentNum;
+          _this.articleList[index].praiseNum = res.data.praiseNum;
+          _this.articleList[index].forwardNum = res.data.forwardNum;
+          uni.removeStorageSync('articleIndex');
+          _this.$forceUpdate();
+        });
+      }
+    }
+  },
   onUnload: function onUnload() {
     offset = 0;
   },
@@ -80,7 +100,7 @@ var ctime = parseInt(Date.now());var _default =
     } },
 
   methods: {
-    search: function search(val) {var _this = this;
+    search: function search(val) {var _this2 = this;
       console.log(this.value);
       if (!val) {
         return;
@@ -105,12 +125,12 @@ var ctime = parseInt(Date.now());var _default =
 
       function (res) {
         console.log(res);
-        _this.articleList = res.data;
+        _this2.articleList = res.data;
         uni.hideLoading();
       });
 
     },
-    init: function init() {var _this2 = this;
+    init: function init() {var _this3 = this;
       this.api.home.search.get_query_list(
       {
         type: 2,
@@ -120,11 +140,11 @@ var ctime = parseInt(Date.now());var _default =
 
       function (res) {
         console.log(res);
-        _this2.keywordList = res.data;
+        _this3.keywordList = res.data;
       });
 
     },
-    loadMore: function loadMore() {var _this3 = this;
+    loadMore: function loadMore() {var _this4 = this;
       console.log('11111');
       if (this.loadingType !== 0) {
         return;
@@ -141,10 +161,10 @@ var ctime = parseInt(Date.now());var _default =
       function (res) {
         console.log(res);
         if (res.data.length) {
-          _this3.articleList = _this3.articleList.concat(res.data);
-          _this3.loadingType = 0;
+          _this4.articleList = _this4.articleList.concat(res.data);
+          _this4.loadingType = 0;
         } else {
-          _this3.loadingType = 2;
+          _this4.loadingType = 2;
         }
       });
 

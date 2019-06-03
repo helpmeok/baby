@@ -205,7 +205,7 @@ var id = '';var timer;var heightArr = [];var ctime = parseInt(Date.now());var of
 // })
 var uParse = function uParse() {return Promise.all(/*! import() | components/un-parse/u-parse */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/un-parse/u-parse")]).then(__webpack_require__.bind(null, /*! @/components/un-parse/u-parse.vue */ "D:\\Documents\\HBuilderProjects\\baby\\components\\un-parse\\u-parse.vue"));}; //由于插件上传命名问题在目录上加了一个n
 var _default = { components: { uParse: uParse }, onShareAppMessage: function onShareAppMessage(res) {if (res.from === 'button') {// 来自页面内分享按钮
-      console.log(res.target);}return { title: this.info.title, path: '/pages/home/index/index?articleId=' + id, imageUrl: this.info.image };}, data: function data() {return { info: {}, richTextHeight: 0, isShowMore: false, articleHeight: 0, parames: {}, scrollIntoId: '', old: { scrollTop: 0 }, commentList: [], loadingType: 0, loadingText: { contentdown: "", contentrefresh: "正在加载...", contentnomore: "没有更多评论了" } };}, onLoad: function onLoad(options) {id = options.id;console.log('id============' + id);this.parames = { articleId: id, target: 'articleDetail' };this.parames = JSON.stringify(this.parames);this.init(); // setTimeout(() => {
+      console.log(res.target);}this.addArticleCountNum('forwardNum');return { title: this.info.title, path: '/pages/home/index/index?articleId=' + id, imageUrl: this.info.attachment[0].url };}, data: function data() {return { info: {}, richTextHeight: 0, isShowMore: false, articleHeight: 0, parames: {}, scrollIntoId: '', old: { scrollTop: 0 }, commentList: [], loadingType: 0, loadingText: { contentdown: "", contentrefresh: "正在加载...", contentnomore: "没有更多评论了" } };}, onLoad: function onLoad(options) {id = options.id;console.log('id============' + id);this.parames = { articleId: id, target: 'articleDetail' };this.parames = JSON.stringify(this.parames);this.init();this.addArticleCountNum('clickNum'); // setTimeout(() => {
     // 	this.richTextHeight = Math.max.apply(null,heightArr)
     // 	clearInterval(timer)
     // }, 5000)
@@ -223,7 +223,17 @@ var _default = { components: { uParse: uParse }, onShareAppMessage: function onS
   // 		}
   // 	}, 100)
   // },
-  methods: { init: function init() {var _this = this;uni.showLoading({ title: "加载中" });this.api.home.article.get_detail({ article_id: id, request_type: 'app' }, function (res) {console.log(res.data);_this.info = res.data;_this.api.home.article.get_comment_list({ ctime: ctime, articleId: id, offset: offset, total: total }, function (res) {console.log(res);_this.commentList = res.data;uni.hideLoading();});});}, getMoreComment: function getMoreComment() {var _this2 = this;offset += total;this.api.home.article.get_comment_list({ ctime: ctime, articleId: id, offset: offset, total: total }, function (res) {console.log(res);if (res.data.length) {_this2.commentList = _this2.commentList.concat(res.data);_this2.loadingType = 0;} else {_this2.loadingType = 2;}});}, scroll: function scroll() {this.scrollIntoId = '';},
+  methods: { init: function init() {var _this = this;uni.showLoading({ title: "加载中" });this.api.home.article.get_detail({ article_id: id, request_type: 'h5' }, function (res) {console.log(res.data);_this.info = res.data;_this.api.home.article.get_comment_list({ ctime: ctime, articleId: id, offset: offset, total: total }, function (res) {console.log(res);_this.commentList = res.data;uni.hideLoading();});});}, addArticleCountNum: function addArticleCountNum(type) {this.api.home.article.add_count({ articleId: id, type: type }, function (res) {console.log(res);});}, getMoreComment: function getMoreComment() {var _this2 = this;offset += total;this.api.home.article.get_comment_list({ ctime: ctime, articleId: id, offset: offset, total: total }, function (res) {console.log(res);if (res.data.length) {
+          _this2.commentList = _this2.commentList.concat(res.data);
+          _this2.loadingType = 0;
+        } else {
+          _this2.loadingType = 2;
+        }
+      });
+    },
+    scroll: function scroll() {
+      this.scrollIntoId = '';
+    },
     scrollIntoComment: function scrollIntoComment() {
       this.scrollIntoId = 'comments';
       console.log(this.scrollIntoId);
@@ -355,11 +365,17 @@ var render = function() {
   var f0 = _vm._f("imgConversion")(_vm.info.content)
 
   var l0 = _vm.commentList.map(function(el, i) {
-    var f1 = _vm._f("transformDate")(el.ctime)
+    var f1 = _vm._f("articleDataNum")(el.praiseNum)
+
+    var f2 = _vm._f("transformDate")(el.ctime)
+
+    var f3 = _vm._f("articleDataNum")(el.replyNum > 0 ? el.replyNum : "")
 
     return {
       $orig: _vm.__get_orig(el),
-      f1: f1
+      f1: f1,
+      f2: f2,
+      f3: f3
     }
   })
   _vm.$mp.data = Object.assign(

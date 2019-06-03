@@ -79,7 +79,7 @@
 				<scroll-view @scrolltolower="loadMore(i)" :scroll-y="isFixed" class="scroll-view" :enable-back-to-top="el.active"
 				 :style="{'height':swiperHeight+'px'}">
 					<empty v-if="tabs[i].data.length == 0" msg="暂无资讯~"></empty>
-					<article-item :list="tabs[i].data" v-on:showOperate="showOperate"></article-item>
+					<article-item :list="tabs[i].data" :showOperate="false" v-on:showOperate="showOperate"></article-item>
 					<view class="uni-tab-bar-loading">
 						<uni-load-more :loadingType="el.loadingType" :contentText="loadingText"></uni-load-more>
 					</view>
@@ -154,11 +154,34 @@
 			id = options.id
 			this.init()
 		},
+		onShow() {
+			if (uni.getStorageSync('articleIndex').toString()) { //监听文章数据改变
+				let index = parseInt(uni.getStorageSync('articleIndex'))
+				let articleId = this.tabs[this.tabIndex].data[index].articleId
+				if (articleId.toString()) {
+					this.api.home.article.get_detail({
+						article_id: articleId,
+						request_type: "h5"
+					}, res => {
+						console.log(res.data)
+						this.tabs[this.tabIndex].data[index].clickNum = res.data.clickNum
+						this.tabs[this.tabIndex].data[index].commentNum = res.data.commentNum
+						this.tabs[this.tabIndex].data[index].praiseNum = res.data.praiseNum
+						this.tabs[this.tabIndex].data[index].forwardNum = res.data.forwardNum
+						uni.removeStorageSync('articleIndex')
+						this.$forceUpdate()
+					})
+				}
+			}
+		},
 		onPullDownRefresh() {
 			this.init();
 		},
 		methods: {
 			init() {
+				uni.showLoading({
+					title:"加载中"
+				})
 				this.api.classify.get_sub_category_header({
 					categoryId: id
 				}, res => {
@@ -235,6 +258,7 @@
 					total
 				}, res => {
 					console.log(res)
+					uni.hideLoading()
 					this.tabs[this.tabIndex].data = res.data;
 				})
 			},

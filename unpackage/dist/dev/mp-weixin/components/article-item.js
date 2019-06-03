@@ -68,11 +68,6 @@
 //
 //
 //
-//
-//
-//
-//
-//
 var _default2 =
 {
   name: 'article-item',
@@ -81,7 +76,11 @@ var _default2 =
       type: Array,
       default: function _default() {
         return [];
-      } } },
+      } },
+
+    showOperate: {
+      type: Boolean,
+      default: true } },
 
 
   data: function data() {
@@ -99,7 +98,8 @@ var _default2 =
     hideArticleOperate: function hideArticleOperate() {
       this.showArticleOperate = false;
     },
-    goDetail: function goDetail(id) {
+    goDetail: function goDetail(id, index) {
+      uni.setStorageSync('articleIndex', index);
       uni.navigateTo({
         url: '/pages/home/article/detail/detail?id=' + id });
 
@@ -107,7 +107,6 @@ var _default2 =
 
   watch: {
     list: function list(val) {
-      console.log(val);
       this.newList = val.map(function (el) {
         if (el.showType == 3) {
           el.attachment = el.attachment.slice(0, 3);
@@ -145,6 +144,31 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+  var l0 = _vm.newList.map(function(item, index1) {
+    var f0 = _vm._f("articleDataNum")(item.clickNum)
+
+    var f1 = _vm._f("articleDataNum")(item.praiseNum)
+
+    var f2 = _vm._f("articleDataNum")(item.commentNum)
+
+    var f3 = _vm._f("articleDataNum")(item.forwardNum)
+
+    return {
+      $orig: _vm.__get_orig(item),
+      f0: f0,
+      f1: f1,
+      f2: f2,
+      f3: f3
+    }
+  })
+  _vm.$mp.data = Object.assign(
+    {},
+    {
+      $root: {
+        l0: l0
+      }
+    }
+  )
 }
 var staticRenderFns = []
 render._withStripped = true

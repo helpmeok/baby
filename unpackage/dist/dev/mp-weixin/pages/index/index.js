@@ -116,7 +116,6 @@ var redirect = "";var _default =
                     uni.switchTab({
                       url: '/pages/home/index/index',
                       success: function success() {
-                        uni.hideLoading();
                       } });
 
                   }

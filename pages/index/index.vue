@@ -106,7 +106,6 @@
 								uni.switchTab({
 									url: '/pages/home/index/index',
 									success: () => {
-										uni.hideLoading();
 									}
 								});
 							}

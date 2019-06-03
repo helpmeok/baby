@@ -2,7 +2,7 @@
 	<view>
 		<empty v-if="list.length==0" msg="您还没有收藏的文章~"></empty>
 		<view class="">
-			<article-item :list="list" v-on:showOperate="showOperate"></article-item>
+			<article-item :list="list" :showOperate="false" v-on:showOperate="showOperate"></article-item>
 			<view class="uni-tab-bar-loading" v-if="list.length>0">
 				<uni-load-more :loadingType="loadingType" :contentText="loadingText"></uni-load-more>
 			</view>
@@ -32,6 +32,26 @@
 				title:"加载中"
 			})
 			this.init()
+		},
+		onShow() {
+			if (uni.getStorageSync('articleIndex').toString()) { //监听文章数据改变
+				let index = parseInt(uni.getStorageSync('articleIndex'))
+				let articleId = this.list[index].articleId
+				if (articleId.toString()) {
+					this.api.home.article.get_detail({
+						article_id: articleId,
+						request_type: "h5"
+					}, res => {
+						console.log(res.data)
+						this.list[index].clickNum = res.data.clickNum
+						this.list[index].commentNum = res.data.commentNum
+						this.list[index].praiseNum = res.data.praiseNum
+						this.list[index].forwardNum = res.data.forwardNum
+						uni.removeStorageSync('articleIndex')
+						this.$forceUpdate()
+					})
+				}
+			}
 		},
 		onUnload() {
 			offset = 0;

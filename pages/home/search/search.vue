@@ -25,7 +25,7 @@
 		</view>
 		<scroll-view @scrolltolower="loadMore()" scroll-y class="scroll-view" v-else>
 			<empty v-if="articleList.length == 0" msg="没有任何数据耶~"></empty>
-			<article-item :list="articleList" v-on:showOperate="showOperate"></article-item>
+			<article-item :list="articleList" :showOperate="false"  v-on:showOperate="showOperate"></article-item>
 			<view class="uni-tab-bar-loading"><uni-load-more :loadingType="el.loadingType" :contentText="loadingText"></uni-load-more></view>
 		</scroll-view>
 	</view>
@@ -57,6 +57,26 @@ export default {
 			return s && s.trim();
 		});
 		this.init();
+	},
+	onShow() {
+		if (uni.getStorageSync('articleIndex').toString()) { //监听文章数据改变
+			let index = parseInt(uni.getStorageSync('articleIndex'))
+			let articleId = this.articleList[index].articleId
+			if (articleId.toString()) {
+				this.api.home.article.get_detail({
+					article_id: articleId,
+					request_type: "h5"
+				}, res => {
+					console.log(res.data)
+					this.articleList[index].clickNum = res.data.clickNum
+					this.articleList[index].commentNum = res.data.commentNum
+					this.articleList[index].praiseNum = res.data.praiseNum
+					this.articleList[index].forwardNum = res.data.forwardNum
+					uni.removeStorageSync('articleIndex')
+					this.$forceUpdate()
+				})
+			}
+		}
 	},
 	onUnload() {
 		offset = 0;

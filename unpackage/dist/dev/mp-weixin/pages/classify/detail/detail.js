@@ -164,16 +164,39 @@ var total = 10;var _default =
     id = options.id;
     this.init();
   },
+  onShow: function onShow() {var _this2 = this;
+    if (uni.getStorageSync('articleIndex').toString()) {//监听文章数据改变
+      var index = parseInt(uni.getStorageSync('articleIndex'));
+      var articleId = this.tabs[this.tabIndex].data[index].articleId;
+      if (articleId.toString()) {
+        this.api.home.article.get_detail({
+          article_id: articleId,
+          request_type: "h5" },
+        function (res) {
+          console.log(res.data);
+          _this2.tabs[_this2.tabIndex].data[index].clickNum = res.data.clickNum;
+          _this2.tabs[_this2.tabIndex].data[index].commentNum = res.data.commentNum;
+          _this2.tabs[_this2.tabIndex].data[index].praiseNum = res.data.praiseNum;
+          _this2.tabs[_this2.tabIndex].data[index].forwardNum = res.data.forwardNum;
+          uni.removeStorageSync('articleIndex');
+          _this2.$forceUpdate();
+        });
+      }
+    }
+  },
   onPullDownRefresh: function onPullDownRefresh() {
     this.init();
   },
   methods: {
-    init: function init() {var _this2 = this;
+    init: function init() {var _this3 = this;
+      uni.showLoading({
+        title: "加载中" });
+
       this.api.classify.get_sub_category_header({
         categoryId: id },
       function (res) {
         console.log(res);
-        _this2.info = res.data;
+        _this3.info = res.data;
         uni.setNavigationBarTitle({
           title: res.data.categoryName });
 
@@ -200,14 +223,14 @@ var total = 10;var _default =
         }).exec();
       });
     },
-    getRecommend: function getRecommend() {var _this3 = this;
+    getRecommend: function getRecommend() {var _this4 = this;
       this.api.home.hotVip.get_recommend_list({
         id: id,
         type: 2 },
 
       function (res) {
         console.log(res);
-        _this3.recommendList = res.data.map(function (el) {
+        _this4.recommendList = res.data.map(function (el) {
           var approve = '';
           if (el.weixinOauthStatus == '2') {
             approve = '母婴领域知名微信公众号';
@@ -236,7 +259,7 @@ var total = 10;var _default =
       });
 
     },
-    getArticle: function getArticle() {var _this4 = this;
+    getArticle: function getArticle() {var _this5 = this;
       this.api.classify.get_category_article({
         categoryId: id,
         type: this.tabIndex,
@@ -245,10 +268,11 @@ var total = 10;var _default =
         total: total },
       function (res) {
         console.log(res);
-        _this4.tabs[_this4.tabIndex].data = res.data;
+        uni.hideLoading();
+        _this5.tabs[_this5.tabIndex].data = res.data;
       });
     },
-    toggleVipFollowed: function toggleVipFollowed(el, type, index) {var _this5 = this;
+    toggleVipFollowed: function toggleVipFollowed(el, type, index) {var _this6 = this;
       this.api.home.hotVip.toggle_followed({
         vid: el.userId,
         action: el.isFollowed ? 0 : 1 },
@@ -256,20 +280,20 @@ var total = 10;var _default =
       function (res) {
         console.log(res);
         if (type == 1) {
-          _this5.info.isFollowed = !_this5.info.isFollowed;
+          _this6.info.isFollowed = !_this6.info.isFollowed;
         } else {
-          _this5.recommendList[index].isFollowed = !_this5.recommendList[index].isFollowed;
+          _this6.recommendList[index].isFollowed = !_this6.recommendList[index].isFollowed;
         }
       });
 
     },
-    toggleFollowed: function toggleFollowed(el) {var _this6 = this;
+    toggleFollowed: function toggleFollowed(el) {var _this7 = this;
       this.api.classify.toggle_followed({
         categoryId: id,
         action: el.isFollowed ? 0 : 1 },
       function (res) {
         console.log(res);
-        _this6.info.isFollowed = !_this6.info.isFollowed;
+        _this7.info.isFollowed = !_this7.info.isFollowed;
       });
     },
     showRecommend: function showRecommend() {
@@ -283,7 +307,7 @@ var total = 10;var _default =
       this.tabIndex = e.target.current;
       this.changeTab(e.target.current);
     },
-    getMoreArticle: function getMoreArticle() {var _this7 = this;
+    getMoreArticle: function getMoreArticle() {var _this8 = this;
       console.log('111');
       this.tabs[this.tabIndex].offset += total;
       this.api.classify.get_category_article({
@@ -295,15 +319,15 @@ var total = 10;var _default =
       function (res) {
         console.log(res);
         if (res.data.length) {
-          _this7.tabs[_this7.tabIndex].data = _this7.tabs[_this7.tabIndex].data.concat(res.data);
-          _this7.tabs[_this7.tabIndex].loadingType = 0;
+          _this8.tabs[_this8.tabIndex].data = _this8.tabs[_this8.tabIndex].data.concat(res.data);
+          _this8.tabs[_this8.tabIndex].loadingType = 0;
         } else {
-          _this7.tabs[_this7.tabIndex].loadingType = 2;
+          _this8.tabs[_this8.tabIndex].loadingType = 2;
         }
       },
       function (err) {
-        _this7.tabs[_this7.tabIndex].offset -= total;
-        _this7.tabs[_this7.tabIndex].loadingType = 0;
+        _this8.tabs[_this8.tabIndex].offset -= total;
+        _this8.tabs[_this8.tabIndex].loadingType = 0;
       });
     },
     changeTab: function () {var _changeTab = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2(index) {return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:if (

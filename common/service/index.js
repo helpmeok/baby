@@ -10,14 +10,14 @@ function Request() {
 			url: __api + url,
 			method: method,
 			header: {
-				'content-type': 'application/x-www-form-urlencoded', 
+				'content-type': 'application/x-www-form-urlencoded',
 				authorization: access_token,
 				appName: "boblbee",
 				devicePlatform: 2,
-				deviceModel:system_info.model,
-				appVersion:system_info.version,
-				deviceOs:system_info.system,
-				deviceUuid:""
+				deviceModel: system_info.model,
+				appVersion: system_info.version,
+				deviceOs: system_info.system,
+				deviceUuid: ""
 			},
 			data: data,
 			success(res) {
@@ -61,7 +61,7 @@ function Request() {
 				complete ? complete() : null
 			}
 		}
-		
+
 
 		uni.request(_data)
 	}
@@ -141,6 +141,10 @@ module.exports = {
 			},
 			un_interest: function(d, onok, onno) { //内容相关功能，屏蔽文章
 				let _url = "/article/blockArticle";
+				_req.m_send(_url, "POST", d, onok, onno);
+			},
+			add_count: function(d, onok, onno) { //内容相关功能，增加文章的“分享数”或“点击数”
+				let _url = "/article/addArticleCountNum";
 				_req.m_send(_url, "POST", d, onok, onno);
 			},
 		},

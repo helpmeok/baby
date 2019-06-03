@@ -206,19 +206,39 @@ var total = 10;var _default =
     id = options.id;
     this.init();
   },
+  onShow: function onShow() {var _this = this;
+    if (uni.getStorageSync('articleIndex').toString()) {//监听文章数据改变
+      var index = parseInt(uni.getStorageSync('articleIndex'));
+      var articleId = this.tabs[this.tabIndex].data[index].articleId;
+      if (articleId.toString()) {
+        this.api.home.article.get_detail({
+          article_id: articleId,
+          request_type: "h5" },
+        function (res) {
+          console.log(res.data);
+          _this.tabs[_this.tabIndex].data[index].clickNum = res.data.clickNum;
+          _this.tabs[_this.tabIndex].data[index].commentNum = res.data.commentNum;
+          _this.tabs[_this.tabIndex].data[index].praiseNum = res.data.praiseNum;
+          _this.tabs[_this.tabIndex].data[index].forwardNum = res.data.forwardNum;
+          uni.removeStorageSync('articleIndex');
+          _this.$forceUpdate();
+        });
+      }
+    }
+  },
   onPullDownRefresh: function onPullDownRefresh() {
     this.init();
   },
   watch: {
-    isShowRecommend: function isShowRecommend(val) {var _this = this;
+    isShowRecommend: function isShowRecommend(val) {var _this2 = this;
       setTimeout(function () {
-        _this.getStickyTop();
+        _this2.getStickyTop();
       }, 600);
     } },
 
 
   methods: {
-    init: function init() {var _this2 = this;
+    init: function init() {var _this3 = this;
       uni.showLoading({
         title: '加载中' });
 
@@ -227,16 +247,23 @@ var total = 10;var _default =
 
       function (res) {
         console.log(res);
-        _this2.info = res.data;
+        _this3.info = res.data;
         uni.setNavigationBarTitle({
           title: res.data.name });
 
-        uni.hideLoading();
+
       });
 
       this.getArticle();
       this.getRecommend();
       this.getStickyTop();
+    },
+    previewImage: function previewImage(url) {
+      var arr = [];
+      arr.push(url);
+      uni.previewImage({
+        urls: arr });
+
     },
     getStickyTop: function () {var _getStickyTop = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var size;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
                   this.getElSize('sticky'));case 2:size = _context.sent;
@@ -256,14 +283,14 @@ var total = 10;var _default =
         }).exec();
       });
     },
-    getRecommend: function getRecommend() {var _this3 = this;
+    getRecommend: function getRecommend() {var _this4 = this;
       this.api.home.hotVip.get_recommend_list({
         id: id,
         type: 1 },
 
       function (res) {
         console.log(res);
-        _this3.recommendList = res.data.map(function (el) {
+        _this4.recommendList = res.data.map(function (el) {
           var approve = '';
           if (el.weixinOauthStatus == '2') {
             approve = '母婴领域知名微信公众号';
@@ -292,7 +319,7 @@ var total = 10;var _default =
       });
 
     },
-    getArticle: function getArticle() {var _this4 = this;
+    getArticle: function getArticle() {var _this5 = this;
       this.api.home.hotVip.get_article({
         vid: id,
         type: this.tabIndex,
@@ -302,11 +329,12 @@ var total = 10;var _default =
 
       function (res) {
         console.log(res);
-        _this4.tabs[_this4.tabIndex].data = res.data;
+        uni.hideLoading();
+        _this5.tabs[_this5.tabIndex].data = res.data;
       });
 
     },
-    toggleFollowed: function toggleFollowed(el, type, index) {var _this5 = this;
+    toggleFollowed: function toggleFollowed(el, type, index) {var _this6 = this;
       this.api.home.hotVip.toggle_followed({
         vid: el.userId,
         action: el.isFollowed ? 0 : 1 },
@@ -314,9 +342,9 @@ var total = 10;var _default =
       function (res) {
         console.log(res);
         if (type == 1) {
-          _this5.info.isFollowed = !_this5.info.isFollowed;
+          _this6.info.isFollowed = !_this6.info.isFollowed;
         } else {
-          _this5.recommendList[index].isFollowed = !_this5.recommendList[index].isFollowed;
+          _this6.recommendList[index].isFollowed = !_this6.recommendList[index].isFollowed;
         }
       });
 
@@ -332,7 +360,7 @@ var total = 10;var _default =
       this.tabIndex = e.target.current;
       this.changeTab(e.target.current);
     },
-    getMoreArticle: function getMoreArticle() {var _this6 = this;
+    getMoreArticle: function getMoreArticle() {var _this7 = this;
       console.log('111');
       this.tabs[this.tabIndex].offset += total;
       this.api.home.hotVip.get_article({
@@ -345,15 +373,15 @@ var total = 10;var _default =
       function (res) {
         console.log(res);
         if (res.data.length) {
-          _this6.tabs[_this6.tabIndex].data = _this6.tabs[_this6.tabIndex].data.concat(res.data);
-          _this6.tabs[_this6.tabIndex].loadingType = 0;
+          _this7.tabs[_this7.tabIndex].data = _this7.tabs[_this7.tabIndex].data.concat(res.data);
+          _this7.tabs[_this7.tabIndex].loadingType = 0;
         } else {
-          _this6.tabs[_this6.tabIndex].loadingType = 2;
+          _this7.tabs[_this7.tabIndex].loadingType = 2;
         }
       },
       function (err) {
-        _this6.tabs[_this6.tabIndex].offset -= total;
-        _this6.tabs[_this6.tabIndex].loadingType = 0;
+        _this7.tabs[_this7.tabIndex].offset -= total;
+        _this7.tabs[_this7.tabIndex].loadingType = 0;
       });
 
     },

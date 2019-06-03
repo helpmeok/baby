@@ -87,7 +87,7 @@
     height: 148rpx !important;
 }
 .list-item .content.showType2 {
-  background-color: #f5f5f5;
+  background-color: #ffffff;
   width: 100%;
   margin: 30rpx 0;
 }

@@ -62,8 +62,6 @@
 
 
 
-
-
 var ctime = parseInt(Date.now());
 var total = 10;var _default =
 {
@@ -83,8 +81,8 @@ var total = 10;var _default =
       userId: '',
       articleIndex: '',
       articleOffsetTop: 0,
-      tabs: [
-      {
+      changeArticleIndex: "",
+      tabs: [{
         name: '推荐',
         active: true,
         data: [],
@@ -114,57 +112,75 @@ var total = 10;var _default =
 
     }
   },
-  onShow: function onShow() {
+  onShow: function onShow() {var _this = this;
     this.getHot();
+    if (uni.getStorageSync('articleIndex').toString()) {//监听文章数据改变
+      var index = parseInt(uni.getStorageSync('articleIndex'));
+      var articleId = this.tabs[this.tabIndex].data[index].articleId;
+      if (articleId.toString()) {
+        this.api.home.article.get_detail({
+          article_id: articleId,
+          request_type: "h5" },
+        function (res) {
+          console.log(res.data);
+          _this.tabs[_this.tabIndex].data[index].clickNum = res.data.clickNum;
+          _this.tabs[_this.tabIndex].data[index].commentNum = res.data.commentNum;
+          _this.tabs[_this.tabIndex].data[index].praiseNum = res.data.praiseNum;
+          _this.tabs[_this.tabIndex].data[index].forwardNum = res.data.forwardNum;
+          uni.removeStorageSync('articleIndex');
+          _this.$forceUpdate();
+        });
+      }
+    }
   },
   onHide: function onHide() {
     this.showHotMask = false;
   },
   methods: {
-    getHot: function getHot() {var _this = this;
+    getHot: function getHot() {var _this2 = this;
       this.api.home.get_hotVip_List(null, function (res) {
         console.log(res);
-        _this.hotList = res.data;
+        _this2.hotList = res.data;
       });
     },
-    init: function init() {var _this2 = this;
+
+    init: function init() {var _this3 = this;
       if (!this.tabs[this.tabIndex].data.length) {
         uni.showLoading({
           title: '加载中' });
 
+        console.log('加载中');
       }
       this.tabs[this.tabIndex].loadingType = 0;
       this.tabs[this.tabIndex].offset = 0;
       return new Promise(function (onok, onno) {
-        if (_this2.tabIndex === 0) {
-          _this2.api.home.get_recommend_article(
-          {
+        if (_this3.tabIndex === 0) {
+          _this3.api.home.get_recommend_article({
             type: 2,
             ctime: ctime,
-            offset: _this2.tabs[_this2.tabIndex].offset,
+            offset: _this3.tabs[_this3.tabIndex].offset,
             total: total },
 
           function (res) {
             console.log('推荐数据');
             console.log(res);
-            _this2.tabs[_this2.tabIndex].data = res.data;
-            console.log(_this2.tabs);
+            _this3.tabs[_this3.tabIndex].data = res.data;
+            console.log(_this3.tabs);
             uni.hideLoading();
             onok(res.data);
           });
 
         } else {
-          _this2.api.home.get_foucs_article(
-          {
+          _this3.api.home.get_foucs_article({
             type: 1,
             ctime: ctime,
-            offset: _this2.tabs[_this2.tabIndex].offset,
+            offset: _this3.tabs[_this3.tabIndex].offset,
             total: total },
 
           function (res) {
             console.log('关注数据');
             console.log(res);
-            _this2.tabs[_this2.tabIndex].data = res.data;
+            _this3.tabs[_this3.tabIndex].data = res.data;
             uni.hideLoading();
             onok(res.data);
           });
@@ -172,11 +188,10 @@ var total = 10;var _default =
         }
       });
     },
-    getMoreArticle: function getMoreArticle() {var _this3 = this;
+    getMoreArticle: function getMoreArticle() {var _this4 = this;
       this.tabs[this.tabIndex].offset += total;
       if (this.tabIndex === 0) {
-        this.api.home.get_recommend_article(
-        {
+        this.api.home.get_recommend_article({
           type: 2,
           ctime: ctime,
           offset: this.tabs[this.tabIndex].offset,
@@ -185,20 +200,19 @@ var total = 10;var _default =
         function (res) {
           console.log(res);
           if (res.data.length) {
-            _this3.tabs[_this3.tabIndex].data = _this3.tabs[_this3.tabIndex].data.concat(res.data);
-            _this3.tabs[_this3.tabIndex].loadingType = 0;
+            _this4.tabs[_this4.tabIndex].data = _this4.tabs[_this4.tabIndex].data.concat(res.data);
+            _this4.tabs[_this4.tabIndex].loadingType = 0;
           } else {
-            _this3.tabs[_this3.tabIndex].loadingType = 2;
+            _this4.tabs[_this4.tabIndex].loadingType = 2;
           }
         },
         function (err) {
-          _this3.tabs[_this3.tabIndex].offset -= total;
-          _this3.tabs[_this3.tabIndex].loadingType = 0;
+          _this4.tabs[_this4.tabIndex].offset -= total;
+          _this4.tabs[_this4.tabIndex].loadingType = 0;
         });
 
       } else {
-        this.api.home.get_foucs_article(
-        {
+        this.api.home.get_foucs_article({
           type: 1,
           ctime: ctime,
           offset: this.tabs[this.tabIndex].offset,
@@ -207,15 +221,15 @@ var total = 10;var _default =
         function (res) {
           console.log(res);
           if (res.data.length) {
-            _this3.tabs[_this3.tabIndex].data = _this3.tabs[_this3.tabIndex].data.concat(res.data);
-            _this3.tabs[_this3.tabIndex].loadingType = 0;
+            _this4.tabs[_this4.tabIndex].data = _this4.tabs[_this4.tabIndex].data.concat(res.data);
+            _this4.tabs[_this4.tabIndex].loadingType = 0;
           } else {
-            _this3.tabs[_this3.tabIndex].loadingType = 2;
+            _this4.tabs[_this4.tabIndex].loadingType = 2;
           }
         },
         function (err) {
-          _this3.tabs[_this3.tabIndex].offset -= total;
-          _this3.tabs[_this3.tabIndex].loadingType = 0;
+          _this4.tabs[_this4.tabIndex].offset -= total;
+          _this4.tabs[_this4.tabIndex].loadingType = 0;
         });
 
       }
@@ -247,12 +261,12 @@ var total = 10;var _default =
     hideHotMask: function hideHotMask() {
       this.showHotMask = false;
     },
-    onPulldownReresh: function () {var _onPulldownReresh = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var _this4 = this;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:
+    onPulldownReresh: function () {var _onPulldownReresh = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var _this5 = this;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:
                 ctime = parseInt(Date.now()); //刷新时间
                 this.tabs[this.tabIndex].offset = 0;
                 setTimeout( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
-                            _this4.init());case 2:
-                          _this4.$refs.mixPulldownRefresh && _this4.$refs.mixPulldownRefresh.endPulldownRefresh();case 3:case "end":return _context2.stop();}}}, _callee2, this);})),
+                            _this5.init());case 2:
+                          _this5.$refs.mixPulldownRefresh && _this5.$refs.mixPulldownRefresh.endPulldownRefresh();case 3:case "end":return _context2.stop();}}}, _callee2, this);})),
                 1000);case 3:case "end":return _context3.stop();}}}, _callee3, this);}));function onPulldownReresh() {return _onPulldownReresh.apply(this, arguments);}return onPulldownReresh;}(),
 
     setEnableScroll: function setEnableScroll(enable) {
@@ -260,18 +274,18 @@ var total = 10;var _default =
         this.enableScroll = enable;
       }
     },
-    showOperate: function showOperate(e, article_id, user_id, article_index) {var _this5 = this;
+    showOperate: function showOperate(e, article_id, user_id, article_index) {var _this6 = this;
       this.articleId = article_id;
       this.userId = user_id;
       this.articleIndex = article_index;
       uni.getSystemInfo({
         success: function success(res) {
           if (e.detail.y + 220 > res.windowHeight) {
-            _this5.articleOffsetTop = e.detail.y - 210;
+            _this6.articleOffsetTop = e.detail.y - 210;
           } else {
-            _this5.articleOffsetTop = e.detail.y + 20;
+            _this6.articleOffsetTop = e.detail.y + 20;
           }
-          _this5.showArticleOperate = true;
+          _this6.showArticleOperate = true;
         } });
 
     },

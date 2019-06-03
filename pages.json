@@ -8,7 +8,7 @@
 		}, {
 			"path": "pages/home/index/index",
 			"style": {
-				"navigationBarTitleText": "首页"
+				"navigationBarTitleText": "宝宝贝"
 			}
 		}, {
 			"path": "pages/center/index/index",

@@ -2,7 +2,7 @@
 	<view>
 		<view class="header-detail flex">
 			<view class="flex-r-center" style="width: 30%;">
-				<image :src="info.avatar" mode="widthFix" class="portrait"></image>
+				<image :src="info.avatar" mode="widthFix" class="portrait" @click="previewImage(info.avatar)"></image>
 			</view>
 			<view class="" style="width: 70%;">
 				<view class="flex-r-between" style="padding: 0 20upx;">
@@ -89,7 +89,7 @@
 				<scroll-view @scrolltolower="loadMore(i)" :scroll-y="isFixed" class="scroll-view" :enable-back-to-top="el.active"
 				 :style="{ height: swiperHeight + 'px' }">
 					<empty v-if="tabs[i].data.length == 0" msg="暂无资讯~"></empty>
-					<article-item :list="tabs[i].data" v-on:showOperate="showOperate" id="articleItem"></article-item>
+					<article-item :list="tabs[i].data" :showOperate="false" v-on:showOperate="showOperate" id="articleItem"></article-item>
 					<view class="uni-tab-bar-loading">
 						<uni-load-more :loadingType="el.loadingType" :contentText="loadingText"></uni-load-more>
 					</view>
@@ -196,6 +196,26 @@
 			id = options.id;
 			this.init();
 		},
+		onShow() {
+			if (uni.getStorageSync('articleIndex').toString()) { //监听文章数据改变
+				let index = parseInt(uni.getStorageSync('articleIndex'))
+				let articleId = this.tabs[this.tabIndex].data[index].articleId
+				if (articleId.toString()) {
+					this.api.home.article.get_detail({
+						article_id: articleId,
+						request_type: "h5"
+					}, res => {
+						console.log(res.data)
+						this.tabs[this.tabIndex].data[index].clickNum = res.data.clickNum
+						this.tabs[this.tabIndex].data[index].commentNum = res.data.commentNum
+						this.tabs[this.tabIndex].data[index].praiseNum = res.data.praiseNum
+						this.tabs[this.tabIndex].data[index].forwardNum = res.data.forwardNum
+						uni.removeStorageSync('articleIndex')
+						this.$forceUpdate()
+					})
+				}
+			}
+		},
 		onPullDownRefresh() {
 			this.init();
 		},
@@ -221,12 +241,19 @@
 						uni.setNavigationBarTitle({
 							title: res.data.name
 						});
-						uni.hideLoading();
+						
 					}
 				);
 				this.getArticle();
 				this.getRecommend();
 				this.getStickyTop()
+			},
+			previewImage(url){
+				let arr=[]
+				arr.push(url)
+				uni.previewImage({
+					urls:arr
+				})
 			},
 			async getStickyTop() {
 				let size = await this.getElSize('sticky')
@@ -292,6 +319,7 @@
 					},
 					res => {
 						console.log(res);
+						uni.hideLoading();
 						this.tabs[this.tabIndex].data = res.data;
 					}
 				);

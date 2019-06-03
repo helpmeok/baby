@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<view class="list-item" v-for="(item, index1) in newList" :key="index1" @click="goDetail(item.articleId)">
+		<view class="list-item" v-for="(item, index1) in newList" :key="index1" @click="goDetail(item.articleId,index1)">
 			<view class="pd-box">
 				<view class="flex-r-between">
 					<view class="flex">
@@ -16,7 +16,7 @@
 					<view class="desc article-font" style="width: 72%;">{{ item.title }}</view>
 					<image :src="item.attachment[0].url" mode="aspectFill" lazy-load="true" class="image"></image>
 				</view>
-				<view class="flex-r-between content showType2" v-if="item.showType == 2">
+				<view class="content showType2" v-if="item.showType == 2">
 					<view class="desc article-font">{{ item.title }}</view>
 					<image :src="item.attachment[0].url" mode="aspectFill" lazy-load="true" class="image"></image>
 				</view>
@@ -31,30 +31,25 @@
 						<view class="list-item-icon flex">
 							<!-- <text class="iconfont iconliulan gray"></text> -->
 							<image src="../static/home/com_list_ic_look@2x.png" mode="widthFix" class="icon"></image>
-							<text class="small gray">{{ item.clickNum }}</text>
+							<text class="small gray">{{ item.clickNum | articleDataNum}}</text>
 						</view>
 						<view class="list-item-icon flex">
 							<!-- <text class="iconfont iconiconfontzhizuobiaozhun44 gray"></text> -->
 							<image src="../static/home/com_list_ic_praise@2x.png" mode="widthFix" class="icon"></image>
-							<text class="small gray">{{ item.praiseNum }}</text>
+							<text class="small gray">{{ item.praiseNum | articleDataNum}}</text>
 						</view>
 						<view class="list-item-icon flex">
 							<!-- <text class="iconfont iconpinglun gray"></text> -->
 							<image src="../static/home/com_list_ic_introduction@2x.png" mode="widthFix" class="icon"></image>
-							<text class="small gray">{{ item.commentNum }}</text>
+							<text class="small gray">{{ item.commentNum | articleDataNum}}</text>
 						</view>
 						<view class="list-item-icon flex">
 							<!-- <text class="iconfont iconzhuanfa gray"></text> -->
 							<image src="../static/home/com_list_ic_forward@2x.png" mode="widthFix" class="icon"></image>
-							<text class="small gray">{{ item.forwardNum }}</text>
+							<text class="small gray">{{ item.forwardNum | articleDataNum}}</text>
 						</view>
 					</view>
-					<image
-						src="../../../static/com_list_ic_more_nor@2x.png"
-						mode="widthFix"
-						class="icon-more-nor"
-						@click.stop="showMoreMask($event, item.articleId, item.userId, index1)"
-					></image>
+					<image v-if="showOperate" src="../../../static/com_list_ic_more_nor@2x.png" mode="widthFix" class="icon-more-nor" @click.stop="showMoreMask($event, item.articleId, item.userId, index1)"></image>
 				</view>
 			</view>
 			<view class="cut-off"></view>
@@ -64,148 +59,163 @@
 </template>
 
 <script>
-export default {
-	name: 'article-item',
-	props: {
-		list: {
-			type: Array,
-			default() {
-				return [];
-			}
-		}
-	},
-	data() {
-		return {
-			showArticleOperate: false,
-			articleId: '',
-			articleOffsetTop: 0,
-			newList:[]
-		};
-	},
-	methods: {
-		showMoreMask(e, articleId, userId, articleIndex) {
-			this.$emit('showOperate', e, articleId, userId, articleIndex);
-		},
-		hideArticleOperate() {
-			this.showArticleOperate = false;
-		},
-		goDetail(id) {
-			uni.navigateTo({
-				url: '/pages/home/article/detail/detail?id=' + id
-			});
-		}
-	},
-	watch:{
-		list(val){
-			console.log(val)
-			this.newList=val.map((el)=>{
-				if (el.showType==3) {
-					el.attachment=el.attachment.slice(0,3)
+	export default {
+		name: 'article-item',
+		props: {
+			list: {
+				type: Array,
+				default () {
+					return [];
 				}
-				return el;
-			})
-		}
-	}
-};
+			},
+			showOperate: {
+				type: Boolean,
+				default: true
+			}
+		},
+		data() {
+			return {
+				showArticleOperate: false,
+				articleId: '',
+				articleOffsetTop: 0,
+				newList: []
+			};
+		},
+		methods: {
+			showMoreMask(e, articleId, userId, articleIndex) {
+				this.$emit('showOperate', e, articleId, userId, articleIndex);
+			},
+			hideArticleOperate() {
+				this.showArticleOperate = false;
+			},
+			goDetail(id, index) {
+				uni.setStorageSync('articleIndex', index)
+				uni.navigateTo({
+					url: '/pages/home/article/detail/detail?id=' + id
+				});
+			}
+		},
+		watch: {
+			list(val) {
+				this.newList = val.map((el) => {
+					if (el.showType == 3) {
+						el.attachment = el.attachment.slice(0, 3)
+					}
+					return el;
+				})
+			}
+		},
+
+	};
 </script>
 
 <style lang="scss">
-.list-item {
-	.portrait {
-		width: 80upx;
-		height: 80upx;
-		border-radius: 50%;
-		margin-right: 30upx;
-	}
-
-	&-icon {
-		margin-right: 20upx;
-		.icon {
-			width: 40upx;
-			height: 40upx;
-			margin-right: 5upx;
-		}
-		.iconfont {
-			margin-right: 10upx;
-		}
-	}
-
-	.tag {
-		background-repeat: no-repeat;
-		background-size: 100% 100%;
-		background-image: url('~@/static/com_list_pic@2x.png');
-		padding: 5upx 20upx;
-	}
-
-	.icon-more-nor {
-		width: 60upx;
-	}
-	.content.showType0 {
-		padding: 20upx 30upx;
-		box-sizing: border-box;
-		background-color: #f5f5f5;
-		width: 100%;
-		margin: 30upx 0;
-
-		.desc {
-			overflow: hidden;
-			display: -webkit-box !important;
-			-webkit-line-clamp: 2;
-			-webkit-box-orient: vertical;
-			text-overflow: ellipsis;
-		}
-	}
-	.content.showType1 {
-		padding: 20upx 30upx;
-		box-sizing: border-box;
-		background-color: #f5f5f5;
-		width: 100%;
-		margin: 30upx 0;
-
-		.desc {
-			overflow: hidden;
-			display: -webkit-box !important;
-			-webkit-line-clamp: 3;
-			-webkit-box-orient: vertical;
-			text-overflow: ellipsis;
+	.list-item {
+		.portrait {
+			width: 80upx;
+			height: 80upx;
+			border-radius: 50%;
+			margin-right: 30upx;
 		}
 
-		.image {
-			width: 148upx !important;
-			height: 148upx !important;
+		&-icon {
+			margin-right: 20upx;
+
+			.icon {
+				width: 40upx;
+				height: 40upx;
+				margin-right: 5upx;
+			}
+
+			.iconfont {
+				margin-right: 10upx;
+			}
+		}
+
+		.tag {
+			background-repeat: no-repeat;
+			background-size: 100% 100%;
+			background-image: url('~@/static/com_list_pic@2x.png');
+			padding: 5upx 20upx;
+		}
+
+		.icon-more-nor {
+			width: 60upx;
+		}
+
+		.content.showType0 {
+			padding: 20upx 30upx;
+			box-sizing: border-box;
+			background-color: #f5f5f5;
+			width: 100%;
+			margin: 30upx 0;
+
+			.desc {
+				overflow: hidden;
+				display: -webkit-box !important;
+				-webkit-line-clamp: 2;
+				-webkit-box-orient: vertical;
+				text-overflow: ellipsis;
+			}
+		}
+
+		.content.showType1 {
+			padding: 20upx 30upx;
+			box-sizing: border-box;
+			background-color: #f5f5f5;
+			width: 100%;
+			margin: 30upx 0;
+
+			.desc {
+				overflow: hidden;
+				display: -webkit-box !important;
+				-webkit-line-clamp: 3;
+				-webkit-box-orient: vertical;
+				text-overflow: ellipsis;
+			}
+
+			.image {
+				width: 148upx !important;
+				height: 148upx !important;
+			}
+		}
+
+		.content.showType2 {
+			background-color: #ffffff;
+			width: 100%;
+			margin: 30upx 0;
+
+			.desc {
+				overflow: hidden;
+				display: -webkit-box !important;
+				-webkit-line-clamp: 2;
+				-webkit-box-orient: vertical;
+				text-overflow: ellipsis;
+			}
+
+			.image {
+				width: 100% !important;
+			}
+		}
+
+		.content.showType3 {
+			box-sizing: border-box;
+			background-color: #ffffff;
+			width: 100%;
+			margin: 30upx 0;
+
+			.desc {
+				overflow: hidden;
+				display: -webkit-box !important;
+				-webkit-line-clamp: 2;
+				-webkit-box-orient: vertical;
+				text-overflow: ellipsis;
+			}
+
+			.image {
+				width: 30% !important;
+				height: 200upx !important;
+			}
 		}
 	}
-	.content.showType2 {
-		background-color: #f5f5f5;
-		width: 100%;
-		margin: 30upx 0;
-		.desc {
-			overflow: hidden;
-			display: -webkit-box !important;
-			-webkit-line-clamp: 2;
-			-webkit-box-orient: vertical;
-			text-overflow: ellipsis;
-		}
-		.image {
-			width: 100% !important;
-		}
-	}
-	.content.showType3 {
-		box-sizing: border-box;
-		background-color: #ffffff;
-		width: 100%;
-		margin: 30upx 0;
-		.desc {
-			overflow: hidden;
-			display: -webkit-box !important;
-			-webkit-line-clamp: 2;
-			-webkit-box-orient: vertical;
-			text-overflow: ellipsis;
-		}
-		.image {
-			width: 30% !important;
-			height: 200upx !important;
-		}
-	}
-}
 </style>

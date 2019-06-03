@@ -43,11 +43,31 @@ var offset = 0;var _default =
 
     this.init();
   },
+  onShow: function onShow() {var _this = this;
+    if (uni.getStorageSync('articleIndex').toString()) {//监听文章数据改变
+      var index = parseInt(uni.getStorageSync('articleIndex'));
+      var articleId = this.list[index].articleId;
+      if (articleId.toString()) {
+        this.api.home.article.get_detail({
+          article_id: articleId,
+          request_type: "h5" },
+        function (res) {
+          console.log(res.data);
+          _this.list[index].clickNum = res.data.clickNum;
+          _this.list[index].commentNum = res.data.commentNum;
+          _this.list[index].praiseNum = res.data.praiseNum;
+          _this.list[index].forwardNum = res.data.forwardNum;
+          uni.removeStorageSync('articleIndex');
+          _this.$forceUpdate();
+        });
+      }
+    }
+  },
   onUnload: function onUnload() {
     offset = 0;
   },
   methods: {
-    init: function init() {var _this = this;
+    init: function init() {var _this2 = this;
       this.api.center.collect.get_list({
         ctime: ctime,
         offset: offset,
@@ -55,10 +75,10 @@ var offset = 0;var _default =
       function (res) {
         console.log(res.data);
         if (res.data.length) {
-          _this.list = _this.list.concat(res.data);
-          _this.loadingType = 0;
+          _this2.list = _this2.list.concat(res.data);
+          _this2.loadingType = 0;
         } else {
-          _this.loadingType = 2;
+          _this2.loadingType = 2;
         }
         uni.hideLoading();
       });

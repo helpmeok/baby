@@ -38,7 +38,7 @@
 					</button>
 					<view class="" style="position: relative;" @click="scrollIntoComment">
 						<view class="iconfont iconpinglun2"></view>
-						<view class="comment-num bg-default-color flex-r-center" v-if="info.commentNum > 0">{{ info.commentNum }}</view>
+						<view class="comment-num bg-default-color flex-r-center" v-if="info.commentNum > 0">{{ info.commentNum>99?"99+":info.commentNum }}</view>
 					</view>
 					<view class="iconfont " :class="{ iconshoucang: info.faFlag, iconshoucang1: !info.faFlag, red: info.faFlag }"
 					 @click="toggleCollect"></view>
@@ -64,7 +64,7 @@
 					<view class="flex-r-between">
 						<text>{{el.nickName}}</text>
 						<view class="flex">
-							<text>{{el.praiseNum}}</text>
+							<text>{{el.praiseNum | articleDataNum}}</text>
 							<text class="iconfont icondianzan11 mgl-10 gray" :class="{'red':el.praiseFlag}" @click="toggleCommentPraise(el.commentId,i)"></text>
 						</view>
 					</view>
@@ -74,7 +74,7 @@
 					<view class="flex small">
 						<text class="mgr-20">{{el.ctime | transformDate}}</text>
 						<button plain="true" open-type="launchApp" :app-parameter="parames" @error="launchAppError" class="launchApp-btn flex gray comment-box">
-							<view class="small">{{el.replyNum>0?el.replyNum:""}}回复</view>
+							<view class="small">{{el.replyNum>0?el.replyNum:"" | articleDataNum}}回复</view>
 						</button>
 					</view>
 				</view>
@@ -112,10 +112,11 @@
 				// 来自页面内分享按钮
 				console.log(res.target);
 			}
+			this.addArticleCountNum('forwardNum')
 			return {
 				title: this.info.title,
 				path: '/pages/home/index/index?articleId=' + id,
-				imageUrl: this.info.image
+				imageUrl: this.info.attachment[0].url
 			};
 		},
 		data() {
@@ -147,6 +148,7 @@
 			};
 			this.parames = JSON.stringify(this.parames);
 			this.init();
+			this.addArticleCountNum('clickNum')
 			// setTimeout(() => {
 			// 	this.richTextHeight = Math.max.apply(null,heightArr)
 			// 	clearInterval(timer)
@@ -176,7 +178,7 @@
 				})
 				this.api.home.article.get_detail({
 						article_id: id,
-						request_type: 'app'
+						request_type: 'h5'
 					},
 					res => {
 						console.log(res.data);
@@ -193,6 +195,14 @@
 						});
 					}
 				);
+			},
+			addArticleCountNum(type){
+				this.api.home.article.add_count({
+					articleId: id,
+					type
+				},res=>{
+					console.log(res)
+				})
 			},
 			getMoreComment() {
 				offset += total
@@ -404,7 +414,7 @@
 			border-radius: 50%;
 		}
 
-		
+
 		.comment-box {
 			background-color: #f5f5f5;
 			border-radius: 30upx;
