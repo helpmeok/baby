@@ -109,6 +109,7 @@ var _default2 =
     list: function list(val) {
       this.newList = val.map(function (el) {
         if (el.showType == 3) {
+          el.attachment.push("");
           el.attachment = el.attachment.slice(0, 3);
         }
         return el;

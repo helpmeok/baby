@@ -104,6 +104,17 @@ var total = 10;var _default =
 
 
   },
+  onShareAppMessage: function onShareAppMessage(res) {
+    if (res.from === 'button') {
+      // 来自页面内分享按钮
+      console.log(res.target);
+    }
+    return {
+      title: "了解更多育儿专业知识",
+      path: '/pages/home/index/index',
+      imageUrl: '/static/1024.png' };
+
+  },
   onLoad: function onLoad(options) {
     this.init();
     if (options.articleId) {
@@ -162,9 +173,9 @@ var total = 10;var _default =
             total: total },
 
           function (res) {
-            console.log('推荐数据');
+            console.log('刷新推荐数据');
             console.log(res);
-            _this3.tabs[_this3.tabIndex].data = res.data;
+            _this3.tabs[_this3.tabIndex].data = res.data.concat(_this3.tabs[_this3.tabIndex].data);
             console.log(_this3.tabs);
             uni.hideLoading();
             onok(res.data);
@@ -178,9 +189,9 @@ var total = 10;var _default =
             total: total },
 
           function (res) {
-            console.log('关注数据');
+            console.log('刷新关注数据');
             console.log(res);
-            _this3.tabs[_this3.tabIndex].data = res.data;
+            _this3.tabs[_this3.tabIndex].data = res.data.concat(_this3.tabs[_this3.tabIndex].data);
             uni.hideLoading();
             onok(res.data);
           });
@@ -265,7 +276,7 @@ var total = 10;var _default =
                 ctime = parseInt(Date.now()); //刷新时间
                 this.tabs[this.tabIndex].offset = 0;
                 setTimeout( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
-                            _this5.init());case 2:
+                            _this5.init('pull-down'));case 2:
                           _this5.$refs.mixPulldownRefresh && _this5.$refs.mixPulldownRefresh.endPulldownRefresh();case 3:case "end":return _context2.stop();}}}, _callee2, this);})),
                 1000);case 3:case "end":return _context3.stop();}}}, _callee3, this);}));function onPulldownReresh() {return _onPulldownReresh.apply(this, arguments);}return onPulldownReresh;}(),
 

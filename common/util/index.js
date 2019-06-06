@@ -93,7 +93,9 @@ export function delRepArr(tempList) {
 		} 
 	}
 	let newArr = []
-	newArr.push(obj1)
+	if (obj1.list.length) {
+		newArr.push(obj1)
+	}
 	// newArr.concat(dest)
 	console.log(dest.concat(newArr))
 	return dest.concat(newArr);

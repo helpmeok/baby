@@ -1,8 +1,7 @@
 // const __api = 'https://wkf.088wanmei.com';
-const __api = 'http://59.61.216.123:18980/jeezero-boblbee-app/v1';
-
+// const __api = 'http://59.61.216.123:18980/jeezero-boblbee-app/v1';
+const __api = 'https://boblbee.superpapa.com.cn/jeezero-boblbee-app/v1';
 function Request() {
-
 	this.m_send = function(url, method, data, onok, onno, complete) {
 		let access_token = uni.getStorageSync('access_token');
 		let system_info = uni.getSystemInfoSync()
@@ -23,7 +22,7 @@ function Request() {
 			success(res) {
 				if (res.data.code == 0) {
 					onok ? onok(res.data) : null
-				} else if (res.data.code >= 10112 && res.data.code <= 10115) {
+				} else if (res.data.code >= 10112 && res.data.code <= 10115 || res.data.code == 10103 || res.data.code == 10105) {
 					uni.removeStorageSync('access_token')
 					console.log(getCurrentPages())
 					var route = "/" + getCurrentPages()[getCurrentPages().length - 1].route
@@ -61,8 +60,6 @@ function Request() {
 				complete ? complete() : null
 			}
 		}
-
-
 		uni.request(_data)
 	}
 }

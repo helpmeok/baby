@@ -94,6 +94,17 @@
 				}
 			};
 		},
+		onShareAppMessage(res) {
+			if (res.from === 'button') {
+				// 来自页面内分享按钮
+				console.log(res.target);
+			}
+			return {
+				title: "了解更多育儿专业知识",
+				path: '/pages/home/index/index',
+				imageUrl: '/static/1024.png'
+			};
+		},
 		onLoad(options) {
 			this.init();
 			if (options.articleId) {
@@ -152,9 +163,9 @@
 								total: total
 							},
 							res => {
-								console.log('推荐数据');
+								console.log('刷新推荐数据');
 								console.log(res);
-								this.tabs[this.tabIndex].data = res.data;
+								this.tabs[this.tabIndex].data = res.data.concat(this.tabs[this.tabIndex].data);
 								console.log(this.tabs);
 								uni.hideLoading();
 								onok(res.data);
@@ -168,9 +179,9 @@
 								total: total
 							},
 							res => {
-								console.log('关注数据');
+								console.log('刷新关注数据');
 								console.log(res);
-								this.tabs[this.tabIndex].data = res.data;
+								this.tabs[this.tabIndex].data = res.data.concat(this.tabs[this.tabIndex].data);
 								uni.hideLoading();
 								onok(res.data);
 							}
@@ -255,7 +266,7 @@
 				ctime = parseInt(Date.now()); //刷新时间
 				this.tabs[this.tabIndex].offset = 0;
 				setTimeout(async () => {
-					await this.init();
+					await this.init('pull-down');
 					this.$refs.mixPulldownRefresh && this.$refs.mixPulldownRefresh.endPulldownRefresh();
 				}, 1000);
 			},

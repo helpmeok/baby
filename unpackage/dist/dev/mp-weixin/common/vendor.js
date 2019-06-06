@@ -475,7 +475,7 @@ function getData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -6571,7 +6571,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -6592,14 +6592,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -6668,7 +6668,7 @@ var patch = function(oldVnode, vnode) {
         });
         var diffData = diff(data, mpData);
         if (Object.keys(diffData).length) {
-            if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+            if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
                 console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
                     ']差量更新',
                     JSON.stringify(diffData));
@@ -8046,10 +8046,9 @@ module.exports = {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uni) { // const __api = 'https://wkf.088wanmei.com';
-var __api = 'http://59.61.216.123:18980/jeezero-boblbee-app/v1';
-
+// const __api = 'http://59.61.216.123:18980/jeezero-boblbee-app/v1';
+var __api = 'https://boblbee.superpapa.com.cn/jeezero-boblbee-app/v1';
 function Request() {
-
   this.m_send = function (url, method, data, onok, onno, _complete) {
     var access_token = uni.getStorageSync('access_token');
     var system_info = uni.getSystemInfoSync();
@@ -8070,7 +8069,7 @@ function Request() {
       success: function success(res) {
         if (res.data.code == 0) {
           onok ? onok(res.data) : null;
-        } else if (res.data.code >= 10112 && res.data.code <= 10115) {
+        } else if (res.data.code >= 10112 && res.data.code <= 10115 || res.data.code == 10103 || res.data.code == 10105) {
           uni.removeStorageSync('access_token');
           console.log(getCurrentPages());
           var route = "/" + getCurrentPages()[getCurrentPages().length - 1].route;
@@ -8107,8 +8106,6 @@ function Request() {
       complete: function complete() {
         _complete ? _complete() : null;
       } };
-
-
 
     uni.request(_data);
   };
@@ -8330,7 +8327,7 @@ exports.useOpen = false; //默认不启用，是否启用openid计算，开启�
 "use strict";
 exports.imgConversion = function (value) {//过滤富文本图片问题
   if (!value) return '';
-  value = value.replace(/<img/g, '<img style="max-width:100%;"');
+  value = value.replace(/<img/g, '<img style="max-width:100%;"').replace(/<section/g, '<section style="max-width:100%;"').replace(/preview.html/g, 'player.html');
   return value;
 };
 var now = Date.now();
@@ -8491,7 +8488,9 @@ function delRepArr(tempList) {
     }
   }
   var newArr = [];
-  newArr.push(obj1);
+  if (obj1.list.length) {
+    newArr.push(obj1);
+  }
   // newArr.concat(dest)
   console.log(dest.concat(newArr));
   return dest.concat(newArr);

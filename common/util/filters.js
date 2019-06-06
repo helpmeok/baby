@@ -1,6 +1,6 @@
 exports.imgConversion = (value) => { //过滤富文本图片问题
 	if (!value) return ''
-	value = value.replace(/<img/g, '<img style="max-width:100%;"')
+	value = value.replace(/<img/g, '<img style="max-width:100%;"').replace(/<section/g, '<section style="max-width:100%;"').replace(/preview.html/g, 'player.html')
 	return value
 };
 const now = Date.now();
