@@ -1,21 +1,11 @@
 <template>
 	<scroll-view scroll-y class="scroll-view" :scroll-into-view="scrollIntoId" enable-back-to-top="true" @scroll="scroll"
 	 @scrolltolower="scrolltolower">
+		<cu-custom bgColor="bg-gradual-red" :isBack="true">
+			<block slot="backText"></block>
+			<block slot="content">宝宝贝</block>
+		</cu-custom>
 		<view>
-			<!-- <view class="pd-box rich-box" :style="{'height':richTextHeight+'px'}">
-				<rich-text :nodes="content | imgConversion" id="rich"></rich-text>
-				<view class="fuzzy-box" v-if="isShowMore">
-				</view>
-			</view>
-			<view class="fake-box">
-				<rich-text :nodes="content | imgConversion" id="fake-rich"></rich-text>
-			</view>
-			<view class="pd-box" v-if="isShowMore" @click="showAll">
-				<view class="read-all red flex-r-center">
-					<text>阅读全文</text>
-					<text class="iconfont iconxiangxia mgl-10 red"></text>
-				</view>
-			</view> -->
 			<view class="pd-box blod " style="font-size: 42upx;">{{ info.title }}</view>
 			<view class="pd-box flex-r-between author">
 				<view class="flex" @click="goFamous">
@@ -25,16 +15,13 @@
 				<view class="tag white small" v-if="info.categoryName" @click="goCategory">{{ info.categoryName }}</view>
 			</view>
 			<view class="pd-box rich-box">
-				<!-- <rich-text :nodes="info.content | imgConversion" id="rich"></rich-text> -->
 				<u-parse :content="info.content | imgConversion" @preview="preview" />
 			</view>
 			<view class="fixed-bottom  bg-white">
 				<view class="flex-r-between">
 					<button plain="true" open-type="launchApp" :app-parameter="parames" @error="launchAppError" class="launchApp-btn flex gray comment-box">
-						<!-- <view class="flex gray comment-box"> -->
 						<view class="mgr-10 iconfont iconpinglun1"></view>
 						<text style="font-size: 26upx;">缺少你的评论...</text>
-						<!-- </view> -->
 					</button>
 					<view class="" style="position: relative;" @click="scrollIntoComment">
 						<view class="iconfont iconpinglun2"></view>
@@ -94,11 +81,6 @@
 	let ctime = parseInt(Date.now());
 	let offset = 0,
 		total = 10;
-	// Page({
-	//   launchAppError(e) {
-	//     console.log(e.detail.errMsg)
-	//   }
-	// })
 	import {
 		getImgsrc
 	} from '@/common/util/index.js';
@@ -196,11 +178,11 @@
 					}
 				);
 			},
-			addArticleCountNum(type){
+			addArticleCountNum(type) {
 				this.api.home.article.add_count({
 					articleId: id,
 					type
-				},res=>{
+				}, res => {
 					console.log(res)
 				})
 			},
@@ -264,6 +246,15 @@
 					},
 					res => {
 						this.info.faFlag = !this.info.faFlag;
+						if (this.info.faFlag) {
+							uni.showToast({
+								title: "收藏成功"
+							})
+						} else {
+							uni.showToast({
+								title: "取消收藏"
+							})
+						}
 					}
 				);
 			},
@@ -275,6 +266,15 @@
 					},
 					res => {
 						this.info.praiseFlag = !this.info.praiseFlag;
+						if (this.info.praiseFlag) {
+							uni.showToast({
+								title: "点赞成功"
+							})
+						} else {
+							uni.showToast({
+								title: "取消点赞"
+							})
+						}
 					}
 				);
 			},
@@ -287,8 +287,14 @@
 						this.commentList[i].praiseFlag = !this.commentList[i].praiseFlag;
 						if (this.commentList[i].praiseFlag) {
 							this.commentList[i].praiseNum++
+							uni.showToast({
+								title: "点赞成功"
+							})
 						} else {
 							this.commentList[i].praiseNum--
+							uni.showToast({
+								title: "取消点赞"
+							})
 						}
 					}
 				);

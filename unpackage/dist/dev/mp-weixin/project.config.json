@@ -66,7 +66,7 @@
         {
           "name": "大V详情",
           "pathName": "pages/home/celebrity/detail/detail",
-          "query": "id=40",
+          "query": "id=2792",
           "id": 7
         },
         {
@@ -103,6 +103,12 @@
           "name": "主题关注",
           "pathName": "pages/center/classify/list/list",
           "id": 14
+        },
+        {
+          "name": "问题集",
+          "pathName": "pages/helper/list/list",
+          "query": "id=43&name=怎样缓解早孕呕吐",
+          "id": 15
         }
       ]
     }

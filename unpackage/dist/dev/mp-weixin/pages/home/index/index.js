@@ -62,6 +62,12 @@
 
 
 
+
+
+
+
+
+
 var ctime = parseInt(Date.now());
 var total = 10;var _default =
 {
@@ -127,20 +133,24 @@ var total = 10;var _default =
     this.getHot();
     if (uni.getStorageSync('articleIndex').toString()) {//监听文章数据改变
       var index = parseInt(uni.getStorageSync('articleIndex'));
-      var articleId = this.tabs[this.tabIndex].data[index].articleId;
-      if (articleId.toString()) {
-        this.api.home.article.get_detail({
-          article_id: articleId,
-          request_type: "h5" },
-        function (res) {
-          console.log(res.data);
-          _this.tabs[_this.tabIndex].data[index].clickNum = res.data.clickNum;
-          _this.tabs[_this.tabIndex].data[index].commentNum = res.data.commentNum;
-          _this.tabs[_this.tabIndex].data[index].praiseNum = res.data.praiseNum;
-          _this.tabs[_this.tabIndex].data[index].forwardNum = res.data.forwardNum;
-          uni.removeStorageSync('articleIndex');
-          _this.$forceUpdate();
-        });
+      try {
+        var articleId = this.tabs[this.tabIndex].data[index].articleId;
+        if (articleId.toString()) {
+          this.api.home.article.get_detail({
+            article_id: articleId,
+            request_type: "h5" },
+          function (res) {
+            console.log(res.data);
+            _this.tabs[_this.tabIndex].data[index].clickNum = res.data.clickNum;
+            _this.tabs[_this.tabIndex].data[index].commentNum = res.data.commentNum;
+            _this.tabs[_this.tabIndex].data[index].praiseNum = res.data.praiseNum;
+            _this.tabs[_this.tabIndex].data[index].forwardNum = res.data.forwardNum;
+            uni.removeStorageSync('articleIndex');
+            _this.$forceUpdate();
+          });
+        }
+      } catch (e) {
+        //TODO handle the exception
       }
     }
   },
@@ -249,11 +259,11 @@ var total = 10;var _default =
                 this.tabs.forEach(function (item) {
                   item.active = false;
                 });
-                this.tabIndex = index;if (
-                this.tabs[this.tabIndex].data.length) {_context.next = 5;break;}_context.next = 5;return (
-                  this.init());case 5:
+                this.tabIndex = index;
+                this.tabs[index].active = true;if (
+                this.tabs[this.tabIndex].data.length) {_context.next = 6;break;}_context.next = 6;return (
+                  this.init());case 6:case "end":return _context.stop();}}}, _callee, this);}));function changeTab(_x) {return _changeTab.apply(this, arguments);}return changeTab;}(),
 
-                this.tabs[index].active = true;case 6:case "end":return _context.stop();}}}, _callee, this);}));function changeTab(_x) {return _changeTab.apply(this, arguments);}return changeTab;}(),
 
     changeSwiper: function changeSwiper(e) {
       this.changeTab(e.target.current);

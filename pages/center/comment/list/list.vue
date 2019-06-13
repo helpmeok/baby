@@ -1,5 +1,9 @@
 <template>
 	<view>
+		<cu-custom bgColor="bg-gradual-red" :isBack="true">
+			<block slot="backText"></block>
+			<block slot="content">我的评论</block>
+		</cu-custom>
 		<empty v-if="list.length==0" msg="您还没有评论,快去评论吧~"></empty>
 		<view class="container">
 			<view class="list-item flex-r-between" v-for="(item,index) in list" :key="index">

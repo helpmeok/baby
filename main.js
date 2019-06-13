@@ -16,6 +16,8 @@ import './common/util/aldSdk/ald-stat.js'//接入阿拉丁统计数据
  Vue.component('articleItem', articleItem)
  import articleOperate from './components/article-operate.vue';
  Vue.component('articleOperate', articleOperate)
+ import cuCustom from './components/cu-custom.vue'//自定义导航栏
+ Vue.component('cu-custom',cuCustom)
  App.mpType = 'app'
 
  const app = new Vue({

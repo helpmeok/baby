@@ -34,10 +34,15 @@
     border-radius: 50%;
 }
 .list-item .btn {
-    height: 50rpx;
-    border-radius: 25rpx;
-    line-height: 50rpx;
+    height: 60rpx;
+    border-radius: 30rpx;
+    width: 160rpx;
     border: 2rpx solid #FC4041;
+    font-size: 26rpx;
+}
+.list-item .btn .iconjiahao {
+      font-size: 26rpx !important;
+      font-weight: blod;
 }
 .list-item .followed {
     background-color: #ffffff;

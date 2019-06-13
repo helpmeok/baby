@@ -33,6 +33,9 @@
 //
 //
 //
+//
+//
+//
 
 var offset = 0;
 var total = 10;var _default =
@@ -71,9 +74,9 @@ var total = 10;var _default =
       this.isLoading = true;
       this.init();
     },
-    goList: function goList(id) {
+    goList: function goList(id, name) {
       uni.navigateTo({
-        url: "../list/list?id=" + id });
+        url: "../list/list?id=" + id + "&name=" + name });
 
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["default"]))

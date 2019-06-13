@@ -65,6 +65,9 @@
 				}, res => {
 					this.hide();
 					this.$emit('refreshList');
+					uni.showToast({
+						title:"屏蔽成功",
+					})
 				})
 			},
 			unInterest(articleId, index) {
@@ -74,6 +77,10 @@
 				}, res => {
 					this.hide();
 					this.$emit('removeArticle', index);
+					uni.showToast({
+						title:"谢谢您的反馈",
+						icon:"none"
+					})
 				})
 			}
 		},

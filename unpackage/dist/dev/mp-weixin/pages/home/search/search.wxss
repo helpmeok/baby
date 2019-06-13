@@ -12,10 +12,10 @@
   width: 80%;
   border-radius: 10rpx;
 }
-.content {
+.container .content {
   padding: 30rpx;
 }
-.content .item {
+.container .content .item {
   border: 2rpx solid #cccccc;
   height: 60rpx;
   padding: 0rpx 20rpx;
@@ -24,7 +24,7 @@
   margin-right: 30rpx;
   margin-top: 20rpx;
 }
-.scroll-view {
+.container .scroll-view {
   height: calc(100% - 100rpx) !important;
 }
 

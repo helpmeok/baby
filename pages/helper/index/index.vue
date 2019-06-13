@@ -1,5 +1,8 @@
 <template>
 	<view>
+		<cu-custom bgColor="bg-gradual-red">
+			<block slot="content">助手</block>
+		</cu-custom>
 		<view class="header flex-r-center ">
 			<image src="../../../static/assistant_list_ic_headportrait@3x.png" mode="widthFix" class="help-icon"></image>
 			<view class="content mgl-30 pd-box bg-white">
@@ -16,7 +19,7 @@
 			</view>
 		</view>
 		<view class="flex pd-box">
-			<view class="list-item pd-lr mgr-20 flex-r-center" v-for="(el,i) in list" :key="i" @click="goList(el.questionId)">
+			<view class="list-item pd-lr mgr-20 flex-r-center" v-for="(el,i) in list" :key="i" @click="goList(el.questionId,el.questionName)">
 				{{el.questionName}}
 			</view>
 		</view>
@@ -51,9 +54,9 @@
 					if (res.data.length > 0) {
 						this.list = res.data
 					}
-					setTimeout(()=>{
+					setTimeout(() => {
 						this.isLoading = false
-					},500)
+					}, 500)
 				})
 			},
 			exchange() {
@@ -61,9 +64,9 @@
 				this.isLoading = true
 				this.init()
 			},
-			goList(id){
+			goList(id, name) {
 				uni.navigateTo({
-					url:"../list/list?id="+id
+					url: "../list/list?id=" + id + "&name=" + name
 				})
 			}
 		}

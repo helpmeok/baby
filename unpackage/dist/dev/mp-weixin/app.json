@@ -18,14 +18,16 @@
     "pages/home/article/detail/detail",
     "pages/helper/list/list",
     "pages/center/classify/list/list",
-    "pages/center/shield-author/list/list"
+    "pages/center/shield-author/list/list",
+    "pages/center/about/index/index",
+    "pages/center/about/website/index/index"
   ],
   "subPackages": [],
   "window": {
     "navigationBarTextStyle": "white",
     "navigationBarTitleText": "uni-app",
     "navigationBarBackgroundColor": "#FC4041",
-    "backgroundColor": "#FC4041"
+    "backgroundColor": "#c05750"
   },
   "tabBar": {
     "color": "#666666",
@@ -71,6 +73,7 @@
     "uni-load-more": "/components/uni-load-more",
     "uni-tag": "/components/uni-tag",
     "article-item": "/components/article-item",
-    "article-operate": "/components/article-operate"
+    "article-operate": "/components/article-operate",
+    "cu-custom": "/components/cu-custom"
   }
 }

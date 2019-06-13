@@ -103,6 +103,11 @@ var _default2 =
       uni.navigateTo({
         url: '/pages/home/article/detail/detail?id=' + id });
 
+    },
+    goCategory: function goCategory(id) {
+      uni.navigateTo({
+        url: "/pages/classify/detail/detail?id=" + id });
+
     } },
 
   watch: {

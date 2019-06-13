@@ -1,5 +1,6 @@
 {
   "navigationBarTitleText": "大V",
   "enablePullDownRefresh": true,
+  "navigationStyle": "custom",
   "usingComponents": {}
 }

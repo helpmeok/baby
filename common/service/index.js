@@ -1,6 +1,7 @@
 // const __api = 'https://wkf.088wanmei.com';
 // const __api = 'http://59.61.216.123:18980/jeezero-boblbee-app/v1';
 const __api = 'https://boblbee.superpapa.com.cn/jeezero-boblbee-app/v1';
+
 function Request() {
 	this.m_send = function(url, method, data, onok, onno, complete) {
 		let access_token = uni.getStorageSync('access_token');
@@ -208,6 +209,10 @@ module.exports = {
 				let _url = "/my/getAttentionCategoryPageList";
 				_req.m_send(_url, "GET", d, onok, onno);
 			},
+			delete_attention: function(d, onok, onno) { //内容相关功能，删除用户收藏的文章
+				let _url = "/my/delAttentionCategory";
+				_req.m_send(_url, "POST", d, onok, onno);
+			},
 		},
 		shield: {
 			get_list: function(d, onok, onno) { //内容相关功能，取得用户屏蔽的作者数据
@@ -215,8 +220,13 @@ module.exports = {
 				_req.m_send(_url, "GET", d, onok, onno);
 			},
 
+		},
+		about: {
+			get_website: function(d, onok, onno) { //APP“设置”模块的隐私政策页面数据
+				let _url = "/setting/getPageData";
+				_req.m_send(_url, "GET", d, onok, onno);
+			},
 		}
-
 	},
 	classify: {
 		get_top_category: function(d, onok, onno) { //获取分类头部数据列表

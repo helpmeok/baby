@@ -1,50 +1,56 @@
 <template>
-	<view class="uni-tab-bar">
-		<view class="tab-bar flex-r-between">
-			<view class="tabs flex">
-				<view class="gray item" style="margin-right: 60upx;" v-for="(item, index) in tabs" :key="index" :class="{ active: item.active }"
-				 @click="changeTab(index)">
-					<view :class="{'bottom-line':item.active}"></view>
-					<view class="name">{{ item.name }}</view>
+	<view class="">
+		<cu-custom bgColor="bg-gradual-red">
+			<block slot="content">宝宝贝</block>
+		</cu-custom>
+		<view class="uni-tab-bar">
+			<view class="tab-bar flex-r-between">
+				<view class="tabs flex">
+					<view class="gray item" style="margin-right: 60upx;" v-for="(item, index) in tabs" :key="index" :class="{ active: item.active }"
+					 @click="changeTab(index)">
+						<view :class="{'bottom-line':item.active}"></view>
+						<view class="name" :class="{ active: item.active }">{{ item.name }}</view>
+					</view>
+				</view>
+				<view class="icons flex">
+					<navigator url="../search/search" hover-class="none">
+						<view class="iconfont iconsousuo" style="margin-right: 30upx;"></view>
+					</navigator>
+					<image src="/static/com_nav_ic_hot_nor@3x.png" mode="widthFix" class="hot-icon" @click="showHotMask = true"></image>
 				</view>
 			</view>
-			<view class="icons flex">
-				<navigator url="../search/search" hover-class="none">
-					<view class="iconfont iconsousuo" style="margin-right: 30upx;"></view>
-				</navigator>
-				<image src="/static/com_nav_ic_hot_nor@3x.png" mode="widthFix" class="hot-icon" @click="showHotMask = true"></image>
+			<mix-pulldown-refresh ref="mixPulldownRefresh" class="panel-content" :top="90" @refresh="onPulldownReresh"
+			 @setEnableScroll="setEnableScroll">
+				<swiper class="swiper-box" :current="tabIndex" :duration="300" @change="changeSwiper">
+					<swiper-item v-for="(el, i) in tabs" :key="i">
+						<scroll-view @scrolltolower="loadMore(i)" :scroll-y="!showArticleOperate" class="scroll-view" :enable-back-to-top="el.active">
+							<empty v-if="tabs[i].data.length == 0" msg="暂无资讯，下拉加载试试~"></empty>
+							<article-item :list="tabs[i].data" :showOperate="true" v-on:showOperate="showOperate"></article-item>
+							<view class="uni-tab-bar-loading">
+								<uni-load-more :loadingType="el.loadingType" :contentText="loadingText"></uni-load-more>
+							</view>
+						</scroll-view>
+					</swiper-item>
+				</swiper>
+			</mix-pulldown-refresh>
+			<view class="mask" v-if="showHotMask" @click="hideHotMask">
+				<view class="triangle_border_up"></view>
+				<view class="content flex" @click.stop>
+					<view class="flex-c-center" style="width: 20%;" v-for="(el, i) in hotList" :key="i">
+						<image :src="el.avatar" mode="widthFix" @click="goDetail(el.userId)"></image>
+						<text class="sigle-line-text">{{ el.name }}</text>
+					</view>
+					<view class="flex-c-center" style="width: 20%;">
+						<image src="../../../static/home_popup_ic_more_nor@3x.png" mode="widthFix" style="width: 100upx;" @click="goMore"></image>
+						<text>更多</text>
+					</view>
+				</view>
 			</view>
+			<article-operate :show="showArticleOperate" :top="articleOffsetTop" :articleId="articleId" :userId="userId" :index="articleIndex"
+			 v-on:hideArticleOperate="hideArticleOperate" v-on:refreshList="refreshList" v-on:removeArticle="removeArticle"></article-operate>
 		</view>
-		<mix-pulldown-refresh ref="mixPulldownRefresh" class="panel-content" :top="90" @refresh="onPulldownReresh"
-		 @setEnableScroll="setEnableScroll">
-			<swiper class="swiper-box" :current="tabIndex" :duration="300" @change="changeSwiper">
-				<swiper-item v-for="(el, i) in tabs" :key="i">
-					<scroll-view @scrolltolower="loadMore(i)" :scroll-y="!showArticleOperate" class="scroll-view" :enable-back-to-top="el.active">
-						<empty v-if="tabs[i].data.length == 0" msg="暂无资讯，下拉加载试试~"></empty>
-						<article-item :list="tabs[i].data" :showOperate="true" v-on:showOperate="showOperate"></article-item>
-						<view class="uni-tab-bar-loading">
-							<uni-load-more :loadingType="el.loadingType" :contentText="loadingText"></uni-load-more>
-						</view>
-					</scroll-view>
-				</swiper-item>
-			</swiper>
-		</mix-pulldown-refresh>
-		<view class="mask" v-if="showHotMask" @click="hideHotMask">
-			<view class="triangle_border_up"></view>
-			<view class="content flex" @click.stop>
-				<view class="flex-c-center" style="width: 20%;" v-for="(el, i) in hotList" :key="i">
-					<image :src="el.avatar" mode="widthFix" @click="goDetail(el.userId)"></image>
-					<text class="sigle-line-text">{{ el.name }}</text>
-				</view>
-				<view class="flex-c-center" style="width: 20%;">
-					<image src="../../../static/home_popup_ic_more_nor@3x.png" mode="widthFix" style="width: 100upx;" @click="goMore"></image>
-					<text>更多</text>
-				</view>
-			</view>
-		</view>
-		<article-operate :show="showArticleOperate" :top="articleOffsetTop" :articleId="articleId" :userId="userId" :index="articleIndex"
-		 v-on:hideArticleOperate="hideArticleOperate" v-on:refreshList="refreshList" v-on:removeArticle="removeArticle"></article-operate>
 	</view>
+
 </template>
 
 <script>
@@ -117,20 +123,24 @@
 			this.getHot();
 			if (uni.getStorageSync('articleIndex').toString()) { //监听文章数据改变
 				let index = parseInt(uni.getStorageSync('articleIndex'))
-				let articleId = this.tabs[this.tabIndex].data[index].articleId
-				if (articleId.toString()) {
-					this.api.home.article.get_detail({
-						article_id: articleId,
-						request_type: "h5"
-					}, res => {
-						console.log(res.data)
-						this.tabs[this.tabIndex].data[index].clickNum = res.data.clickNum
-						this.tabs[this.tabIndex].data[index].commentNum = res.data.commentNum
-						this.tabs[this.tabIndex].data[index].praiseNum = res.data.praiseNum
-						this.tabs[this.tabIndex].data[index].forwardNum = res.data.forwardNum
-						uni.removeStorageSync('articleIndex')
-						this.$forceUpdate()
-					})
+				try {
+					let articleId = this.tabs[this.tabIndex].data[index].articleId
+					if (articleId.toString()) {
+						this.api.home.article.get_detail({
+							article_id: articleId,
+							request_type: "h5"
+						}, res => {
+							console.log(res.data)
+							this.tabs[this.tabIndex].data[index].clickNum = res.data.clickNum
+							this.tabs[this.tabIndex].data[index].commentNum = res.data.commentNum
+							this.tabs[this.tabIndex].data[index].praiseNum = res.data.praiseNum
+							this.tabs[this.tabIndex].data[index].forwardNum = res.data.forwardNum
+							uni.removeStorageSync('articleIndex')
+							this.$forceUpdate()
+						})
+					}
+				} catch (e) {
+					//TODO handle the exception
 				}
 			}
 		},
@@ -240,10 +250,10 @@
 					item.active = false;
 				});
 				this.tabIndex = index;
+				this.tabs[index].active = true;
 				if (!this.tabs[this.tabIndex].data.length) {
 					await this.init();
 				}
-				this.tabs[index].active = true;
 			},
 			changeSwiper(e) {
 				this.changeTab(e.target.current);
@@ -321,8 +331,8 @@
 
 <style lang="scss">
 	.tab-bar {
-		padding: 20upx 0upx 20upx 30upx;
-		border-bottom: 2upx solid #f1f1f1;
+		padding: 0upx 0upx 0upx 30upx;
+		// border-bottom: 2upx solid #f1f1f1;
 		position: relative;
 		left: 0;
 		top: 0;
@@ -341,6 +351,12 @@
 					left: 0;
 					top: 0;
 					z-index: 2;
+					font-size: 34upx;
+				}
+
+				.active {
+					font-size: 46upx !important;
+
 				}
 
 				.bottom-line {
@@ -358,8 +374,6 @@
 
 		.active {
 			font-weight: bold;
-			font-size: 40upx;
-			// color: #fc4041;
 			color: black;
 			border: none;
 		}
@@ -401,11 +415,9 @@
 		}
 
 		.content {
-			padding: 20upx 30upx;
 			box-sizing: border-box;
 			background-color: #f5f5f5;
 			width: 100%;
-			margin: 30upx 0;
 
 			.desc {
 				overflow: hidden;
@@ -447,7 +459,7 @@
 		height: 0;
 		border-top: 30upx solid transparent;
 		border-right: 50upx solid white;
-		margin-top: 100upx;
+		margin-top: 200upx;
 		margin-left: calc(95% - 50upx);
 	}
 </style>

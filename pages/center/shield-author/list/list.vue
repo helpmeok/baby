@@ -1,5 +1,9 @@
 <template>
 	<view>
+		<cu-custom bgColor="bg-gradual-red" :isBack="true">
+			<block slot="backText"></block>
+			<block slot="content">屏蔽的作者</block>
+		</cu-custom>
 		<empty v-if="list.length==0" msg="您还没有屏蔽的作者~"></empty>
 		<view class="container">
 			<view class="list-item flex-r-between" v-for="(item,index) in list" :key="index">

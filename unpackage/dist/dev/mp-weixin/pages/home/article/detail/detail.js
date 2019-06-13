@@ -91,24 +91,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 var _index = __webpack_require__(/*! @/common/util/index.js */ "D:\\Documents\\HBuilderProjects\\baby\\common\\util\\index.js"); //
 //
 //
@@ -185,25 +167,7 @@ var _index = __webpack_require__(/*! @/common/util/index.js */ "D:\\Documents\\H
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-var id = '';var timer;var heightArr = [];var ctime = parseInt(Date.now());var offset = 0,total = 10; // Page({
-//   launchAppError(e) {
-//     console.log(e.detail.errMsg)
-//   }
-// })
-var uParse = function uParse() {return Promise.all(/*! import() | components/un-parse/u-parse */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/un-parse/u-parse")]).then(__webpack_require__.bind(null, /*! @/components/un-parse/u-parse.vue */ "D:\\Documents\\HBuilderProjects\\baby\\components\\un-parse\\u-parse.vue"));}; //由于插件上传命名问题在目录上加了一个n
+var id = '';var timer;var heightArr = [];var ctime = parseInt(Date.now());var offset = 0,total = 10;var uParse = function uParse() {return Promise.all(/*! import() | components/un-parse/u-parse */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/un-parse/u-parse")]).then(__webpack_require__.bind(null, /*! @/components/un-parse/u-parse.vue */ "D:\\Documents\\HBuilderProjects\\baby\\components\\un-parse\\u-parse.vue"));}; //由于插件上传命名问题在目录上加了一个n
 var _default = { components: { uParse: uParse }, onShareAppMessage: function onShareAppMessage(res) {if (res.from === 'button') {// 来自页面内分享按钮
       console.log(res.target);}this.addArticleCountNum('forwardNum');return { title: this.info.title, path: '/pages/home/index/index?articleId=' + id, imageUrl: this.info.attachment[0].url };}, data: function data() {return { info: {}, richTextHeight: 0, isShowMore: false, articleHeight: 0, parames: {}, scrollIntoId: '', old: { scrollTop: 0 }, commentList: [], loadingType: 0, loadingText: { contentdown: "", contentrefresh: "正在加载...", contentnomore: "没有更多评论了" } };}, onLoad: function onLoad(options) {id = options.id;console.log('id============' + id);this.parames = { articleId: id, target: 'articleDetail' };this.parames = JSON.stringify(this.parames);this.init();this.addArticleCountNum('clickNum'); // setTimeout(() => {
     // 	this.richTextHeight = Math.max.apply(null,heightArr)
@@ -223,7 +187,25 @@ var _default = { components: { uParse: uParse }, onShareAppMessage: function onS
   // 		}
   // 	}, 100)
   // },
-  methods: { init: function init() {var _this = this;uni.showLoading({ title: "加载中" });this.api.home.article.get_detail({ article_id: id, request_type: 'h5' }, function (res) {console.log(res.data);_this.info = res.data;_this.api.home.article.get_comment_list({ ctime: ctime, articleId: id, offset: offset, total: total }, function (res) {console.log(res);_this.commentList = res.data;uni.hideLoading();});});}, addArticleCountNum: function addArticleCountNum(type) {this.api.home.article.add_count({ articleId: id, type: type }, function (res) {console.log(res);});}, getMoreComment: function getMoreComment() {var _this2 = this;offset += total;this.api.home.article.get_comment_list({ ctime: ctime, articleId: id, offset: offset, total: total }, function (res) {console.log(res);if (res.data.length) {
+  methods: { init: function init() {var _this = this;uni.showLoading({ title: "加载中" });this.api.home.article.get_detail({ article_id: id, request_type: 'h5' }, function (res) {console.log(res.data);_this.info = res.data;_this.api.home.article.get_comment_list({ ctime: ctime, articleId: id, offset: offset, total: total }, function (res) {console.log(res);_this.commentList = res.data;uni.hideLoading();});});},
+    addArticleCountNum: function addArticleCountNum(type) {
+      this.api.home.article.add_count({
+        articleId: id,
+        type: type },
+      function (res) {
+        console.log(res);
+      });
+    },
+    getMoreComment: function getMoreComment() {var _this2 = this;
+      offset += total;
+      this.api.home.article.get_comment_list({
+        ctime: ctime,
+        articleId: id,
+        offset: offset,
+        total: total },
+      function (res) {
+        console.log(res);
+        if (res.data.length) {
           _this2.commentList = _this2.commentList.concat(res.data);
           _this2.loadingType = 0;
         } else {
@@ -274,6 +256,15 @@ var _default = { components: { uParse: uParse }, onShareAppMessage: function onS
 
       function (res) {
         _this3.info.faFlag = !_this3.info.faFlag;
+        if (_this3.info.faFlag) {
+          uni.showToast({
+            title: "收藏成功" });
+
+        } else {
+          uni.showToast({
+            title: "取消收藏" });
+
+        }
       });
 
     },
@@ -285,6 +276,15 @@ var _default = { components: { uParse: uParse }, onShareAppMessage: function onS
 
       function (res) {
         _this4.info.praiseFlag = !_this4.info.praiseFlag;
+        if (_this4.info.praiseFlag) {
+          uni.showToast({
+            title: "点赞成功" });
+
+        } else {
+          uni.showToast({
+            title: "取消点赞" });
+
+        }
       });
 
     },
@@ -297,8 +297,14 @@ var _default = { components: { uParse: uParse }, onShareAppMessage: function onS
         _this5.commentList[i].praiseFlag = !_this5.commentList[i].praiseFlag;
         if (_this5.commentList[i].praiseFlag) {
           _this5.commentList[i].praiseNum++;
+          uni.showToast({
+            title: "点赞成功" });
+
         } else {
           _this5.commentList[i].praiseNum--;
+          uni.showToast({
+            title: "取消点赞" });
+
         }
       });
 

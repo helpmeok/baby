@@ -8,7 +8,7 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
 //
 //
 //
@@ -75,6 +75,9 @@ var _default =
       function (res) {
         _this.hide();
         _this.$emit('refreshList');
+        uni.showToast({
+          title: "屏蔽成功" });
+
       });
     },
     unInterest: function unInterest(articleId, index) {var _this2 = this;
@@ -84,8 +87,13 @@ var _default =
       function (res) {
         _this2.hide();
         _this2.$emit('removeArticle', index);
+        uni.showToast({
+          title: "谢谢您的反馈",
+          icon: "none" });
+
       });
     } } };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["default"]))
 
 /***/ }),
 

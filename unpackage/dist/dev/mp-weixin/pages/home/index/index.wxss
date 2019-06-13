@@ -25,8 +25,7 @@
 /* 透明度 */
 /* 文章场景相关 */
 .tab-bar {
-  padding: 20rpx 0rpx 20rpx 30rpx;
-  border-bottom: 2rpx solid #f1f1f1;
+  padding: 0rpx 0rpx 0rpx 30rpx;
   position: relative;
   left: 0;
   top: 0;
@@ -44,6 +43,10 @@
       left: 0;
       top: 0;
       z-index: 2;
+      font-size: 34rpx;
+}
+.tab-bar .tabs .item .active {
+      font-size: 46rpx !important;
 }
 .tab-bar .tabs .item .bottom-line {
       position: absolute;
@@ -57,7 +60,6 @@
 }
 .tab-bar .active {
     font-weight: bold;
-    font-size: 40rpx;
     color: black;
     border: none;
 }
@@ -89,12 +91,10 @@
   width: 60rpx;
 }
 .list-item .content {
-  padding: 20rpx 30rpx;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   background-color: #f5f5f5;
   width: 100%;
-  margin: 30rpx 0;
 }
 .list-item .content .desc {
     overflow: hidden;
@@ -129,7 +129,7 @@
   height: 0;
   border-top: 30rpx solid transparent;
   border-right: 50rpx solid white;
-  margin-top: 100rpx;
+  margin-top: 200rpx;
   margin-left: calc(95% - 50rpx);
 }
 

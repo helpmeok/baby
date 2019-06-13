@@ -39,9 +39,9 @@
 .header-detail .attention-btn {
     background-color: #FC4041;
     border: 2rpx solid #FC4041;
-    height: 46rpx;
+    height: 60rpx;
     width: 280rpx;
-    border-radius: 25rpx;
+    border-radius: 30rpx;
 }
 .header-detail .followed {
     background-color: #ffffff;
@@ -49,12 +49,12 @@
 }
 .header-detail .recommend-btn {
     border: 2rpx solid #cccccc;
-    height: 46rpx;
-    width: 180rpx;
-    border-radius: 25rpx;
+    height: 60rpx;
+    width: 190rpx;
+    border-radius: 30rpx;
 }
-.approve,
-.desc {
+.introduce-box .approve,
+.introduce-box .desc {
   -webkit-box-align: start;
   -webkit-align-items: flex-start;
       -ms-flex-align: start;
@@ -89,7 +89,7 @@
 }
 .recommend-scroll .recommend-box .list-item {
       background-color: #ffffff;
-      height: 350rpx;
+      height: 380rpx;
       width: 250rpx;
       margin-right: 20rpx;
       position: relative;
@@ -108,9 +108,9 @@
 .recommend-scroll .recommend-box .list-item .attention-btn {
         background-color: #FC4041;
         border: 2rpx solid #FC4041;
-        height: 46rpx;
+        height: 60rpx;
         width: 160rpx;
-        border-radius: 25rpx;
+        border-radius: 30rpx;
         position: absolute;
         left: calc((100% - 160rpx) / 2);
         bottom: 20rpx;

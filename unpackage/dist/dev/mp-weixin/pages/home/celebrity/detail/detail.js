@@ -110,8 +110,6 @@
 
 
 
-
-
 var id = '';
 var ctime = parseInt(Date.now());
 var total = 10;var _default =
@@ -155,7 +153,8 @@ var total = 10;var _default =
         contentrefresh: '正在加载...',
         contentnomore: '没有更多数据了' },
 
-      stickyTop: 0 };
+      stickyTop: 0,
+      title: "" };
 
   },
   computed: {
@@ -248,6 +247,7 @@ var total = 10;var _default =
       function (res) {
         console.log(res);
         _this3.info = res.data;
+        _this3.title = res.data.name;
         uni.setNavigationBarTitle({
           title: res.data.name });
 
@@ -345,6 +345,15 @@ var total = 10;var _default =
           _this6.info.isFollowed = !_this6.info.isFollowed;
         } else {
           _this6.recommendList[index].isFollowed = !_this6.recommendList[index].isFollowed;
+        }
+        if (el.isFollowed == 1) {
+          uni.showToast({
+            title: "关注成功" });
+
+        } else {
+          uni.showToast({
+            title: "取消关注成功" });
+
         }
       });
 

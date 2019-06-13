@@ -1,4 +1,5 @@
 {
   "navigationBarTitleText": "选择地址",
+  "navigationStyle": "custom",
   "usingComponents": {}
 }

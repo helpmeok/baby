@@ -25,21 +25,45 @@
 /* 透明度 */
 /* 文章场景相关 */
 .tab-bar {
-  padding: 20rpx 0rpx 20rpx 30rpx;
-  border-bottom: 2rpx solid #f1f1f1;
+  padding-left: 30rpx;
   position: relative;
   left: 0;
   top: 0;
-  z-index: 1;
+  z-index: 2;
   background-color: #ffffff;
 }
 .tab-bar .tabs {
     width: 100%;
 }
+.tab-bar .tabs .item {
+      position: relative;
+      left: 0;
+      top: 0;
+      z-index: 2;
+}
+.tab-bar .tabs .item .name {
+        position: relative;
+        left: 0;
+        top: 0;
+        z-index: 2;
+        font-size: 34rpx;
+}
+.tab-bar .tabs .item .active {
+        font-size: 46rpx !important;
+}
+.tab-bar .tabs .item .bottom-line {
+        position: absolute;
+        left: 0;
+        bottom: 10rpx;
+        z-index: 1;
+        width: 100%;
+        height: 20rpx;
+        border-radius: 10rpx;
+        background-color: yellow;
+}
 .tab-bar .active {
     font-weight: bold;
-    color: #fc4041;
-    font-size: 36rpx;
+    color: black;
     border: none;
 }
 .list-item .sub-class {

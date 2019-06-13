@@ -33,6 +33,14 @@
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 var ctime = parseInt(Date.now());
 var total = 10;
@@ -47,7 +55,9 @@ var offset = 0;var _default =
         contentrefresh: "正在加载...",
         contentnomore: "没有更多数据了" },
 
-      list: [] };
+      list: [],
+      isEdit: true,
+      ids: [] };
 
   },
   onLoad: function onLoad() {
@@ -56,8 +66,20 @@ var offset = 0;var _default =
   onUnload: function onUnload() {
     offset = 0;
   },
+  watch: {
+    isEdit: function isEdit(newValue, oldValue) {
+      if (newValue) {
+        this.list.forEach(function (item) {
+          item.category_list.forEach(function (el) {
+            el.active = false;
+          });
+        });
+        this.ids = [];
+      }
+    } },
+
   methods: {
-    init: function init() {var _this = this;
+    init: function init(type) {var _this = this;
       this.api.center.classify.get_list({
         ctime: ctime,
         offset: offset,
@@ -66,9 +88,21 @@ var offset = 0;var _default =
         console.log(res);
         if (res.data.length) {
           _this.list = _this.list.concat(res.data);
+          _this.list.forEach(function (item) {
+            item.category_list.forEach(function (el) {
+              el.active = false;
+            });
+          });
           _this.loadingType = 0;
         } else {
           _this.loadingType = 2;
+        }
+        if (type == 'remove') {
+          uni.hideLoading();
+          _this.isEdit = true;
+          uni.showToast({
+            title: "取消关注成功" });
+
         }
       });
     },
@@ -80,10 +114,63 @@ var offset = 0;var _default =
       offset += total;
       this.init();
     },
-    goDetail: function goDetail(id) {
-      uni.navigateTo({
-        url: "/pages/classify/detail/detail?id=" + id });
+    goDetail: function goDetail(id, index1, index2) {
+      if (this.isEdit) {
+        uni.navigateTo({
+          url: "/pages/classify/detail/detail?id=" + id });
 
+      } else {
+
+        var _id = this.list[index1].category_list[index2].categoryId;
+        console.log(_id);
+        this.list[index1].category_list[index2].active = !this.list[index1].category_list[index2].active;
+        if (this.list[index1].category_list[index2].active) {
+          if (this.ids.indexOf(_id) < 0) {
+            this.ids.push(_id);
+          }
+        } else {
+          this.ids.splice(this.ids.indexOf(_id), 1);
+        }
+        console.log(this.ids);
+        this.$forceUpdate(); //视图强制刷新
+      }
+
+    },
+    edit: function edit() {
+      this.isEdit = !this.isEdit;
+      if (this.isEdit) {
+        this.list.forEach(function (item) {
+          item.category_list.forEach(function (el) {
+            el.active = false;
+          });
+        });
+      }
+    },
+    removeList: function removeList() {var _this2 = this;
+      if (this.ids.length) {
+        uni.showModal({
+          title: '提示',
+          content: '确定取消关注所有主题？',
+          success: function success(res) {
+            if (res.confirm) {
+              var categorys = _this2.ids.join(',');
+              console.log(_this2.ids);
+              _this2.api.center.classify.delete_attention({
+                "category[]": _this2.ids },
+              function (res) {
+                uni.showLoading({
+                  title: "取消关注中" });
+
+                offset = 0;
+                _this2.list = [];
+                _this2.init('remove');
+              });
+            } else if (res.cancel) {
+              console.log('用户点击取消');
+            }
+          } });
+
+      }
     } },
 
   onReachBottom: function onReachBottom() {

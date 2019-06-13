@@ -1,5 +1,9 @@
 <template>
 	<view>
+		<cu-custom bgColor="bg-gradual-red" :isBack="true">
+			<block slot="backText"></block>
+			<block slot="content">浏览记录</block>
+		</cu-custom>
 		<empty v-if="list.length==0" msg="您还没有浏览过文章~"></empty>
 		<view class="">
 			<article-item :list="list" :showOperate="false" v-on:showOperate="showOperate"></article-item>

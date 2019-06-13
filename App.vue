@@ -131,7 +131,7 @@ export default {
 @import './common/uni.css';
 @import './common/icon.css';
 @import './common/colorui/main.css';
-
+@import './common/colorui/icon.css';
 page {
 	background-color: white;
 	height: 100%;

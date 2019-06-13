@@ -1,5 +1,9 @@
 <template>
-	<view>
+	<view class="container">
+		<!-- <cu-custom bgColor="bg-gradual-red" :isBack="true">
+			<block slot="backText"></block>
+			<block slot="content">{{title}}</block>
+		</cu-custom> -->
 		<view class="header-detail flex">
 			<view class="flex-r-center" style="width: 30%;">
 				<image :src="info.avatar" mode="widthFix" class="portrait" @click="previewImage(info.avatar)"></image>
@@ -25,7 +29,7 @@
 				</view>
 				<view class="flex-r-between" style="margin-top: 20upx;">
 					<view class="attention-btn flex-r-center" @click="toggleFollowed(info, 1)" :class="{ white: !info.isFollowed, followed: info.isFollowed }">
-						<text class="iconfont iconjiahao  mgr-10" v-if="!info.isFollowed"></text>
+						<!-- <text class="iconfont iconjiahao  mgr-10" v-if="!info.isFollowed"></text> -->
 						<text>{{ info.isFollowed ? '已关注' : '关注' }}</text>
 					</view>
 					<view class="recommend-btn flex-r-center gray" @click="showRecommend">
@@ -56,23 +60,17 @@
 				</navigator>
 			</view>
 		</scroll-view>
-		<view class="approve flex">
-			<view class="flex" style="width: 8%;"><text class="iconfont iconiconset0421 gray"></text></view>
-			<view class="" style="width: 92%;margin-top: 5upx;">认证：{{ approve }}</view>
-		</view>
-		<view class="desc flex">
-			<view class="flex" style="width: 8%;"><text class="iconfont icongongsijianjie gray"></text></view>
-			<view class="" style="width: 92%;margin-top: 5upx;">简介：{{ desc }}</view>
+		<view class="introduce-box">
+			<view class="approve flex">
+				<view class="flex" style="width: 8%;"><text class="iconfont iconiconset0421 gray"></text></view>
+				<view class="" style="width: 92%;margin-top: 5upx;">认证：{{ approve }}</view>
+			</view>
+			<view class="desc flex">
+				<view class="flex" style="width: 8%;"><text class="iconfont icongongsijianjie gray"></text></view>
+				<view class="" style="width: 92%;margin-top: 5upx;">简介：{{ desc }}</view>
+			</view>
 		</view>
 		<view class="" style="height: 20upx;background-color: #F5F5F5;"></view>
-		<!-- <glanceSlideNavTabBar
-			fontsize="14px"
-			topfixedval="0"
-			:topfixed="true"
-			@clickitem="clickitem"
-			:tabIndex="tabIndex"
-			:data="[{ textcontent: '最新发布' }, { textcontent: '转发最多' }, { textcontent: '评论最多' }, { textcontent: '点赞最高' }]"
-		></glanceSlideNavTabBar> -->
 		<view id="sticky" :class="{'fixed-top':isFixed}">
 			<wuc-tab :tab-list="[
 					{ name: '最新发布' },
@@ -145,7 +143,8 @@
 					contentrefresh: '正在加载...',
 					contentnomore: '没有更多数据了'
 				},
-				stickyTop: 0
+				stickyTop: 0,
+				title: ""
 			};
 		},
 		computed: {
@@ -238,21 +237,22 @@
 					res => {
 						console.log(res);
 						this.info = res.data;
+						this.title = res.data.name
 						uni.setNavigationBarTitle({
 							title: res.data.name
 						});
-						
+
 					}
 				);
 				this.getArticle();
 				this.getRecommend();
 				this.getStickyTop()
 			},
-			previewImage(url){
-				let arr=[]
+			previewImage(url) {
+				let arr = []
 				arr.push(url)
 				uni.previewImage({
-					urls:arr
+					urls: arr
 				})
 			},
 			async getStickyTop() {
@@ -335,6 +335,15 @@
 							this.info.isFollowed = !this.info.isFollowed;
 						} else {
 							this.recommendList[index].isFollowed = !this.recommendList[index].isFollowed;
+						}
+						if (el.isFollowed == 1) {
+							uni.showToast({
+								title: "关注成功"
+							})
+						} else {
+							uni.showToast({
+								title: "取消关注成功"
+							})
 						}
 					}
 				);
@@ -447,9 +456,9 @@
 		.attention-btn {
 			background-color: $uni-color-default;
 			border: 2upx solid $uni-color-default;
-			height: 46upx;
+			height: 60upx;
 			width: 280upx;
-			border-radius: 25upx;
+			border-radius: 30upx;
 		}
 
 		.followed {
@@ -459,17 +468,21 @@
 
 		.recommend-btn {
 			border: 2upx solid #cccccc;
-			height: 46upx;
-			width: 180upx;
-			border-radius: 25upx;
+			height: 60upx;
+			width: 190upx;
+			border-radius: 30upx;
 		}
 	}
 
-	.approve,
-	.desc {
-		align-items: flex-start;
-		padding: 10upx 20upx;
+	.introduce-box {
+
+		.approve,
+		.desc {
+			align-items: flex-start;
+			padding: 10upx 20upx;
+		}
 	}
+
 
 	.recommend-scroll {
 		background-color: #f5f5f5;
@@ -488,7 +501,7 @@
 
 			.list-item {
 				background-color: #ffffff;
-				height: 350upx;
+				height: 380upx;
 				width: 250upx;
 				margin-right: 20upx;
 				position: relative;
@@ -509,9 +522,9 @@
 				.attention-btn {
 					background-color: $uni-color-default;
 					border: 2upx solid $uni-color-default;
-					height: 46upx;
+					height: 60upx;
 					width: 160upx;
-					border-radius: 25upx;
+					border-radius: 30upx;
 					position: absolute;
 					left: calc((100% - 160upx) / 2);
 					bottom: 20upx;

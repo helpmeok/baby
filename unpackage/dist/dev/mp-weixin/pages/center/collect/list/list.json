@@ -1,4 +1,5 @@
 {
   "navigationBarTitleText": "文章收藏",
+  "navigationStyle": "custom",
   "usingComponents": {}
 }

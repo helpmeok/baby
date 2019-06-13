@@ -7,7 +7,7 @@
 						<image :src="item.userAvatar" mode="widthFix" class="portrait" lazy-load="true"></image>
 						<text class="blod article-font">{{ item.userName }}</text>
 					</view>
-					<view class="tag white small" v-if="item.categoryName">{{ item.categoryName }}</view>
+					<view class="tag white small" v-if="item.categoryName" @click.stop="goCategory(item.categoryId)">{{ item.categoryName }}</view>
 				</view>
 				<view class="content showType0" v-if="item.showType == 0">
 					<view class="desc article-font">{{ item.title }}</view>
@@ -93,6 +93,11 @@
 				uni.navigateTo({
 					url: '/pages/home/article/detail/detail?id=' + id
 				});
+			},
+			goCategory(id){
+				uni.navigateTo({
+					url:"/pages/classify/detail/detail?id="+id
+				})
 			}
 		},
 		watch: {
@@ -112,6 +117,9 @@
 
 <style lang="scss">
 	.list-item {
+		.content{
+			padding: 20upx 0;
+		}
 		.portrait {
 			width: 80upx;
 			height: 80upx;
@@ -149,8 +157,7 @@
 			box-sizing: border-box;
 			background-color: #f5f5f5;
 			width: 100%;
-			margin: 30upx 0;
-
+			margin: 20upx 0;
 			.desc {
 				overflow: hidden;
 				display: -webkit-box !important;
@@ -165,8 +172,7 @@
 			box-sizing: border-box;
 			background-color: #f5f5f5;
 			width: 100%;
-			margin: 30upx 0;
-
+			margin: 20upx 0;
 			.desc {
 				overflow: hidden;
 				display: -webkit-box !important;
@@ -184,7 +190,6 @@
 		.content.showType2 {
 			background-color: #ffffff;
 			width: 100%;
-			margin: 30upx 0;
 
 			.desc {
 				overflow: hidden;
@@ -203,7 +208,6 @@
 			box-sizing: border-box;
 			background-color: #ffffff;
 			width: 100%;
-			margin: 30upx 0;
 
 			.desc {
 				overflow: hidden;

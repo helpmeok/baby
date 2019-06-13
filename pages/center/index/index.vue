@@ -1,102 +1,119 @@
 <template>
 	<view>
-		<view class="header">
-			<view class="flex">
-				<image :src="userInfo.avatar" mode="widthFix" class="portrait"></image>
+		<cu-custom bgColor="bg-gradual-red" >
+			<block slot="content">我的</block>
+		</cu-custom>
+		<view class="container">
+			<view class="header">
 				<view class="flex">
-					<view class="nick-name">{{userInfo.nickname}}</view>
-				<!-- 	<image src="../../../static/center/me_list_ic_babyattestation@2x.png" v-if="userInfo.appOauthStatus" mode="widthFix" class="icon"></image>
-					<image src="../../../static/center/me_list_ic_douyinattestation@2x.png"  v-if="userInfo.douyinOauthStatus" mode="widthFix" class="icon"></image>
-					<image src="../../../static/center/me_list_ic_toutiaoattestation@2x.png"  v-if="userInfo.toutiaoOauthStatus" mode="widthFix" class="icon"></image>
-					<image src="../../../static/center/me_list_ic_wechatattestation@2x.png"  v-if="userInfo.weixinOauthStatus" mode="widthFix" class="icon"></image> -->
+					<image :src="userInfo.avatar" mode="widthFix" class="portrait"></image>
+					<view class="flex">
+						<view class="nick-name">{{userInfo.nickname}}</view>
+					<!-- 	<image src="../../../static/center/me_list_ic_babyattestation@2x.png" v-if="userInfo.appOauthStatus" mode="widthFix" class="icon"></image>
+						<image src="../../../static/center/me_list_ic_douyinattestation@2x.png"  v-if="userInfo.douyinOauthStatus" mode="widthFix" class="icon"></image>
+						<image src="../../../static/center/me_list_ic_toutiaoattestation@2x.png"  v-if="userInfo.toutiaoOauthStatus" mode="widthFix" class="icon"></image>
+						<image src="../../../static/center/me_list_ic_wechatattestation@2x.png"  v-if="userInfo.weixinOauthStatus" mode="widthFix" class="icon"></image> -->
+					</view>
+					<!-- <open-data type="userNickName"  class="font-b blod"></open-data> -->
 				</view>
-				<!-- <open-data type="userNickName"  class="font-b blod"></open-data> -->
+				<!-- <view class="flex-r-between exchange">
+					<view class="flex">
+						<image src="../../../static/me_list_ic_baby@2x.png" mode="widthFix" class="icon"></image>
+						<text>宝宝贝：3087</text>
+					</view>
+					<view class="">前往兑换</view>
+				</view> -->
 			</view>
-			<!-- <view class="flex-r-between exchange">
-				<view class="flex">
-					<image src="../../../static/me_list_ic_baby@2x.png" mode="widthFix" class="icon"></image>
-					<text>宝宝贝：3087</text>
+			<!-- <view class="list-cell flex-r-between">
+				<view class="list-cell-left flex-r-center">
+					<image src="../../../static/me_list_ic_babyadministration@2x.png" mode="widthFix" class="icon"></image>
+					<text class="">宝宝管理</text>
 				</view>
-				<view class="">前往兑换</view>
-			</view> -->
+				<view class="list-cell-right flex-r-center">
+					<text class="iconfont iconarrow-right-copy" style="color:
+					 #B2B2B2;"></text>
+				</view>
+			</view>
+			<navigator url="../address/address-list/address-list" hover-class="none">
+				<view class="list-cell flex-r-between">
+					<view class="list-cell-left flex-r-center">
+						<image src="../../../static/me_list_ic_address@2x.png" mode="widthFix" class="icon"></image>
+						<text class="">收件地址</text>
+					</view>
+					<view class="list-cell-right flex-r-center">
+						<text class="iconfont iconarrow-right-copy" style="color: #B2B2B2;"></text>
+					</view>
+				</view>
+			</navigator> -->
+			<navigator url="../collect/list/list" hover-class="none">
+				<view class="list-cell flex-r-between">
+					<view class="list-cell-left flex-r-center">
+						<image src="../../../static/me_list_ic_collection@2x.png" mode="widthFix" class="icon"></image>
+						<text class="">文章收藏</text>
+					</view>
+					<view class="list-cell-right flex-r-center">
+						<text class="iconfont iconarrow-right-copy" style="color: #B2B2B2;"></text>
+					</view>
+				</view>
+			</navigator>
+			<navigator url="../classify/list/list" :hover-class="none">
+				<view class="list-cell flex-r-between">
+					<view class="list-cell-left flex-r-center">
+						<image src="../../../static/me_list_ic_follow@2x.png" mode="widthFix" class="icon"></image>
+						<text class="">主题关注</text>
+					</view>
+					<view class="list-cell-right flex-r-center">
+						<text class="iconfont iconarrow-right-copy" style="color: #B2B2B2;"></text>
+					</view>
+				</view>
+			</navigator>
+			
+			<!-- <navigator url="../comment/list/list" hover-class="none">
+				<view class="list-cell flex-r-between">
+					<view class="list-cell-left flex-r-center">
+						<image src="../../../static/me_list_ic_comment@2x.png" mode="widthFix" class="icon"></image>
+						<text class="">我的评论</text>
+					</view>
+					<view class="list-cell-right flex-r-center">
+						<text class="iconfont iconarrow-right-copy" style="color: #B2B2B2;"></text>
+					</view>
+				</view>
+			</navigator> -->
+			<navigator url="../shield-author/list/list" hover-class="none">
+				<view class="list-cell flex-r-between">
+					<view class="list-cell-left flex-r-center">
+						<image src="../../../static/me_list_ic_shield@2x.png" mode="widthFix" class="icon"></image>
+						<text class="">我屏蔽的作者</text>
+					</view>
+					<view class="list-cell-right flex-r-center">
+						<text class="iconfont iconarrow-right-copy" style="color: #B2B2B2;"></text>
+					</view>
+				</view>
+			</navigator>
+			<navigator url="../record/list/list" hover-class="none">
+				<view class="list-cell flex-r-between">
+					<view class="list-cell-left flex-r-center">
+						<image src="../../../static/me_list_ic_record@2x.png" mode="widthFix" class="icon"></image>
+						<text class="">浏览记录</text>
+					</view>
+					<view class="list-cell-right flex-r-center">
+						<text class="iconfont iconarrow-right-copy" style="color: #B2B2B2;"></text>
+					</view>
+				</view>
+			</navigator>
+			<navigator url="../about/index/index" hover-class="none">
+				<view class="list-cell flex-r-between">
+					<view class="list-cell-left flex-r-center">
+						<image src="../../../static/com_tab_ic_me_pre@2x.png" mode="widthFix" class="icon"></image>
+						<text class="">关于我们</text>
+					</view>
+					<view class="list-cell-right flex-r-center">
+						<text class="iconfont iconarrow-right-copy" style="color: #B2B2B2;"></text>
+					</view>
+				</view>
+			</navigator>
 		</view>
-		<!-- <view class="list-cell flex-r-between">
-			<view class="list-cell-left flex-r-center">
-				<image src="../../../static/me_list_ic_babyadministration@2x.png" mode="widthFix" class="icon"></image>
-				<text class="">宝宝管理</text>
-			</view>
-			<view class="list-cell-right flex-r-center">
-				<text class="iconfont iconarrow-right-copy" style="color:
-				 #B2B2B2;"></text>
-			</view>
-		</view>
-		<navigator url="../address/address-list/address-list" hover-class="none">
-			<view class="list-cell flex-r-between">
-				<view class="list-cell-left flex-r-center">
-					<image src="../../../static/me_list_ic_address@2x.png" mode="widthFix" class="icon"></image>
-					<text class="">收件地址</text>
-				</view>
-				<view class="list-cell-right flex-r-center">
-					<text class="iconfont iconarrow-right-copy" style="color: #B2B2B2;"></text>
-				</view>
-			</view>
-		</navigator> -->
-		<navigator url="../collect/list/list" hover-class="none">
-			<view class="list-cell flex-r-between">
-				<view class="list-cell-left flex-r-center">
-					<image src="../../../static/me_list_ic_collection@2x.png" mode="widthFix" class="icon"></image>
-					<text class="">文章收藏</text>
-				</view>
-				<view class="list-cell-right flex-r-center">
-					<text class="iconfont iconarrow-right-copy" style="color: #B2B2B2;"></text>
-				</view>
-			</view>
-		</navigator>
-		<navigator url="../classify/list/list" :hover-class="none">
-			<view class="list-cell flex-r-between">
-				<view class="list-cell-left flex-r-center">
-					<image src="../../../static/me_list_ic_follow@2x.png" mode="widthFix" class="icon"></image>
-					<text class="">主题关注</text>
-				</view>
-				<view class="list-cell-right flex-r-center">
-					<text class="iconfont iconarrow-right-copy" style="color: #B2B2B2;"></text>
-				</view>
-			</view>
-		</navigator>
 		
-		<!-- <navigator url="../comment/list/list" hover-class="none">
-			<view class="list-cell flex-r-between">
-				<view class="list-cell-left flex-r-center">
-					<image src="../../../static/me_list_ic_comment@2x.png" mode="widthFix" class="icon"></image>
-					<text class="">我的评论</text>
-				</view>
-				<view class="list-cell-right flex-r-center">
-					<text class="iconfont iconarrow-right-copy" style="color: #B2B2B2;"></text>
-				</view>
-			</view>
-		</navigator> -->
-		<navigator url="../shield-author/list/list" hover-class="none">
-			<view class="list-cell flex-r-between">
-				<view class="list-cell-left flex-r-center">
-					<image src="../../../static/me_list_ic_shield@2x.png" mode="widthFix" class="icon"></image>
-					<text class="">我屏蔽的作者</text>
-				</view>
-				<view class="list-cell-right flex-r-center">
-					<text class="iconfont iconarrow-right-copy" style="color: #B2B2B2;"></text>
-				</view>
-			</view>
-		</navigator>
-		<navigator url="../record/list/list" hover-class="none">
-			<view class="list-cell flex-r-between">
-				<view class="list-cell-left flex-r-center">
-					<image src="../../../static/me_list_ic_record@2x.png" mode="widthFix" class="icon"></image>
-					<text class="">浏览记录</text>
-				</view>
-				<view class="list-cell-right flex-r-center">
-					<text class="iconfont iconarrow-right-copy" style="color: #B2B2B2;"></text>
-				</view>
-			</view>
-		</navigator>
 		<!-- <button open-type="launchApp" app-parameter="wechat" binderror="launchAppError">打开APP</button> -->
 	</view>
 </template>
@@ -121,7 +138,7 @@
 </script>
 
 <style lang="scss">
-	page {
+	.container {
 		background-color: #fdfdfd;
 		padding: 30upx;
 		box-sizing: border-box;

@@ -46,6 +46,7 @@ body {
 	--greyLight: #e7ebed;
 	/* 渐变色 */
 	--gradualRed: linear-gradient(45deg, #f43f3b, #ec008c);
+	/* --gradualRed: linear-gradient(45deg, #ff9700, #ed1c24); */
 	--gradualOrange: linear-gradient(45deg, #ff9700, #ed1c24);
 	--gradualGreen: linear-gradient(45deg, #39b54a, #8dc63f);
 	--gradualPurple: linear-gradient(45deg, #9000ff, #5e00ff);

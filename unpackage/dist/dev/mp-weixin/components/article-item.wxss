@@ -24,6 +24,9 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
+.list-item .content {
+  padding: 20rpx 0;
+}
 .list-item .portrait {
   width: 80rpx;
   height: 80rpx;
@@ -56,7 +59,7 @@
           box-sizing: border-box;
   background-color: #f5f5f5;
   width: 100%;
-  margin: 30rpx 0;
+  margin: 20rpx 0;
 }
 .list-item .content.showType0 .desc {
     overflow: hidden;
@@ -72,7 +75,7 @@
           box-sizing: border-box;
   background-color: #f5f5f5;
   width: 100%;
-  margin: 30rpx 0;
+  margin: 20rpx 0;
 }
 .list-item .content.showType1 .desc {
     overflow: hidden;
@@ -89,7 +92,6 @@
 .list-item .content.showType2 {
   background-color: #ffffff;
   width: 100%;
-  margin: 30rpx 0;
 }
 .list-item .content.showType2 .desc {
     overflow: hidden;
@@ -107,7 +109,6 @@
           box-sizing: border-box;
   background-color: #ffffff;
   width: 100%;
-  margin: 30rpx 0;
 }
 .list-item .content.showType3 .desc {
     overflow: hidden;

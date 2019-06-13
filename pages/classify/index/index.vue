@@ -1,39 +1,46 @@
 <template>
-	<view class="uni-tab-bar">
-		<view class="tab-bar flex-r-between">
-			<view class="tabs flex-r-around">
-				<view class="gray" style="margin-right: 60upx;" v-for="(item, index) in tabs" :key="index" :class="{ active: item.active }"
-				 @click="changeTab(index)">
-					{{ item.name }}
+	<view class="">
+		<cu-custom bgColor="bg-gradual-red" >
+			<block slot="content">分类</block>
+		</cu-custom>
+		<view class="uni-tab-bar">
+			<view class="tab-bar flex-r-between">
+				<view class="tabs flex">
+					<view class="gray item" style="margin-right: 60upx;" v-for="(item, index) in tabs" :key="index" :class="{ active: item.active }"
+					 @click="changeTab(index)">
+					 <view :class="{'bottom-line':item.active}"></view>
+						<view class="name" :class="{ active: item.active }">{{ item.name }}</view>
+					</view>
 				</view>
 			</view>
-		</view>
-		<mix-pulldown-refresh ref="mixPulldownRefresh" class="panel-content" :top="90" @refresh="onPulldownReresh"
-		 @setEnableScroll="setEnableScroll">
-			<swiper class="swiper-box" :current="tabIndex" :duration="300" @change="changeSwiper">
-				<swiper-item v-for="(el, i) in tabs" :key="i">
-					<scroll-view @scrolltolower="loadMore(i)" scroll-y class="scroll-view" :enable-back-to-top="el.active">
-						<empty v-if="tabs[i].data.length == 0" msg="暂无资讯，下拉加载试试~"></empty>
-						<view class="list-item" v-for="(item, index1) in tabs[i].data" :key="index1">
-							<view class="pd-box">
-								<view class="blod font-b">
-									{{item.name}}
-								</view>
-								<view class="flex">
-									<view class="sub-class mgr-20 flex-r-center" @click="goDetail(sub.categoryId)" v-for="(sub,index2) in item.category_list"
-									 :key="index2">
-										{{sub.categoryName}}
+			<mix-pulldown-refresh ref="mixPulldownRefresh" class="panel-content" :top="90" @refresh="onPulldownReresh"
+			 @setEnableScroll="setEnableScroll">
+				<swiper class="swiper-box" :current="tabIndex" :duration="300" @change="changeSwiper">
+					<swiper-item v-for="(el, i) in tabs" :key="i">
+						<scroll-view @scrolltolower="loadMore(i)" scroll-y class="scroll-view" :enable-back-to-top="el.active">
+							<empty v-if="tabs[i].data.length == 0" msg="暂无资讯，下拉加载试试~"></empty>
+							<view class="list-item" v-for="(item, index1) in tabs[i].data" :key="index1">
+								<view class="pd-box">
+									<view class="blod font-b">
+										{{item.name}}
+									</view>
+									<view class="flex">
+										<view class="sub-class mgr-20 flex-r-center" @click="goDetail(sub.categoryId)" v-for="(sub,index2) in item.category_list"
+										 :key="index2">
+											{{sub.categoryName}}
+										</view>
 									</view>
 								</view>
+								<view class="cut-off"></view>
 							</view>
-							<view class="cut-off"></view>
-						</view>
-						<uni-load-more :loadingType="el.loadingType" :contentText="loadingText"></uni-load-more>
-					</scroll-view>
-				</swiper-item>
-			</swiper>
-		</mix-pulldown-refresh>
+							<uni-load-more :loadingType="el.loadingType" :contentText="loadingText"></uni-load-more>
+						</scroll-view>
+					</swiper-item>
+				</swiper>
+			</mix-pulldown-refresh>
+		</view>
 	</view>
+	
 </template>
 
 <script>
@@ -171,22 +178,48 @@
 
 <style lang="scss">
 	.tab-bar {
-		.tabs {
-			width: 100%;
-		}
-
-		padding: 20upx 0upx 20upx 30upx;
-		border-bottom: 2upx solid #f1f1f1;
+		// border-bottom: 2upx solid #f1f1f1;
+		padding-left: 30upx;
 		position: relative;
 		left: 0;
 		top: 0;
-		z-index: 1;
+		z-index: 2;
 		background-color: #ffffff;
-
+		.tabs {
+			width: 100%;
+			.item {
+				position: relative;
+				left: 0;
+				top: 0;
+				z-index: 2;
+				.name {
+					position: relative;
+					left: 0;
+					top: 0;
+					z-index: 2;
+					font-size: 34upx;
+				}
+			
+				.active {
+					font-size: 46upx !important;
+			
+				}
+			
+				.bottom-line {
+					position: absolute;
+					left: 0;
+					bottom: 10upx;
+					z-index: 1;
+					width: 100%;
+					height: 20upx;
+					border-radius: 10upx;
+					background-color: yellow;
+				}
+			}
+		}
 		.active {
 			font-weight: bold;
-			color: #fc4041;
-			font-size: 36upx;
+			color: black;
 			border: none;
 		}
 	}

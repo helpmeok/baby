@@ -3,38 +3,45 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "宝宝贝"
+				"navigationBarTitleText": "登录",
+				"navigationStyle": "custom"
 			}
 		}, {
 			"path": "pages/home/index/index",
 			"style": {
-				"navigationBarTitleText": "宝宝贝"
+				"navigationBarTitleText": "宝宝贝",
+				"navigationStyle": "custom"
 			}
 		}, {
 			"path": "pages/center/index/index",
 			"style": {
-				"navigationBarTitleText": "我的"
+				"navigationBarTitleText": "我的",
+				"navigationStyle": "custom"
 			}
 		}, {
 			"path": "pages/classify/index/index",
 			"style": {
-				"navigationBarTitleText": "分类"
+				"navigationBarTitleText": "分类",
+				"navigationStyle": "custom"
 			}
 		}, {
 			"path": "pages/helper/index/index",
 			"style": {
-				"navigationBarTitleText": "助手"
+				"navigationBarTitleText": "助手",
+				"navigationStyle": "custom"
 			}
 		}, {
 			"path": "pages/home/search/search",
 			"style": {
-				"navigationBarTitleText": "搜索"
+				"navigationBarTitleText": "搜索",
+				"navigationStyle": "custom"
 			}
 		}, {
 			"path": "pages/home/celebrity/more/more",
 			"style": {
 				"navigationBarTitleText": "大V",
-				"enablePullDownRefresh": true
+				"enablePullDownRefresh": true,
+				"navigationStyle": "custom"
 			}
 		}, {
 			"path": "pages/home/celebrity/detail/detail",
@@ -45,24 +52,28 @@
 		{
 			"path": "pages/center/address/address-list/address-list",
 			"style": {
-				"navigationBarTitleText": "收货地址"
+				"navigationBarTitleText": "收货地址",
+				"navigationStyle": "custom"
 			}
 		},
 		{
 			"path": "pages/center/address/address-handle/address-handle",
 			"style": {
-				"navigationBarTitleText": ""
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
 			}
 		},
 		{
 			"path": "pages/center/address/address-choose/address-choose",
 			"style": {
-				"navigationBarTitleText": "选择地址"
+				"navigationBarTitleText": "选择地址",
+				"navigationStyle": "custom"
 			}
 		}, {
 			"path": "pages/center/collect/list/list",
 			"style": {
-				"navigationBarTitleText": "文章收藏"
+				"navigationBarTitleText": "文章收藏",
+				"navigationStyle": "custom"
 			}
 		}, {
 			"path": "pages/classify/detail/detail",
@@ -72,34 +83,50 @@
 		}, {
 			"path": "pages/center/comment/list/list",
 			"style": {
-				"navigationBarTitleText": "我的评论"
+				"navigationBarTitleText": "我的评论",
+				"navigationStyle": "custom"
 			}
 		}, {
 			"path": "pages/center/record/list/list",
 			"style": {
-				"navigationBarTitleText": "浏览记录"
+				"navigationBarTitleText": "浏览记录",
+				"navigationStyle": "custom"
 			}
 		}, {
 			"path": "pages/home/article/detail/detail",
 			"style": {
-				"navigationBarTitleText": "宝宝贝"
+				"navigationBarTitleText": "宝宝贝",
+				"navigationStyle": "custom"
 			}
 		}, {
 			"path": "pages/helper/list/list",
 			"style": {
-				"navigationBarTitleText": "问题集"
+				"navigationBarTitleText": "问题集",
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "pages/center/classify/list/list",
+			"style": {
+				"navigationBarTitleText": "主题关注",
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "pages/center/shield-author/list/list",
+			"style": {
+				"navigationBarTitleText": "屏蔽的作者",
+				"navigationStyle": "custom"
 			}
 		}
 	    ,{
-            "path" : "pages/center/classify/list/list",
+            "path" : "pages/center/about/index/index",
             "style" : {
-					"navigationBarTitleText": "主题关注"
+				"navigationStyle": "custom"
 			}
         }
         ,{
-            "path" : "pages/center/shield-author/list/list",
+            "path" : "pages/center/about/website/index/index",
             "style" : {
-					"navigationBarTitleText": "屏蔽的作者"
+				"navigationStyle": "custom"
 			}
         }
     ],
@@ -138,7 +165,7 @@
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "uni-app",
 		"navigationBarBackgroundColor": "#FC4041",
-		"backgroundColor": "#FC4041"
+		"backgroundColor": "#c05750"
 	},
 	"condition": {
 		//编译模式配置，仅开发期间生效
@@ -176,7 +203,7 @@
 			{
 				"name": "大V详情", //模式名称 
 				"pathName": "pages/home/celebrity/detail/detail", //启动页面，必选
-				"query": "id=40"
+				"query": "id=2792"
 			},
 			{
 				"name": "大V列表", //模式名称 
@@ -205,8 +232,12 @@
 			{
 				"name": "主题关注",
 				"pathName": "pages/center/classify/list/list"
+			},
+			{
+				"name": "问题集",
+				"pathName": "pages/helper/list/list",
+				"query":"id=43&name=怎样缓解早孕呕吐"
 			}
-			
 		]
 	}
 }

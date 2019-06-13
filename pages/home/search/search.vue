@@ -1,33 +1,40 @@
 <template>
 	<view style="height: 100%;">
-		<view class="flex-r-between search-box">
-			<view class="flex-r-between search">
-				<view class="flex">
-					<view class="iconfont iconsousuo" style="margin-right: 20upx;"></view>
-					<input type="text" v-model="value" placeholder="输入要搜索的内容" @confirm="search" />
+		<cu-custom bgColor="bg-gradual-red" :isBack="true">
+			<block slot="backText"></block>
+			<block slot="content">搜索</block>
+		</cu-custom>
+		<view class="container">
+			<view class="flex-r-between search-box">
+				<view class="flex-r-between search">
+					<view class="flex">
+						<view class="iconfont iconsousuo" style="margin-right: 20upx;"></view>
+						<input type="text" v-model="value" placeholder="输入要搜索的内容" @confirm="search" />
+					</view>
+					<view class="iconfont iconshanchu gray" style="margin-left: 30upx;" @click="value = ''" v-show="show"></view>
 				</view>
-				<view class="iconfont iconshanchu gray" style="margin-left: 30upx;" @click="value = ''" v-show="show"></view>
+				<uni-tag text="搜索" type="error" :disabled="!show" :circle="true" @click="search(value)"></uni-tag>
 			</view>
-			<uni-tag text="搜索" type="error" :disabled="!show" :circle="true" @click="search(value)"></uni-tag>
+			<view class="content" v-if="!show">
+				<view class=" blod">大家都在搜</view>
+				<view class="flex">
+					<view class="item small " v-for="(item, index) in keywordList" :key="index" @click="search(item.keywordName)">{{ item.keywordName }}</view>
+				</view>
+				<view class="flex-r-between" style="margin-top: 20upx;">
+					<text class="blod">历史搜索</text>
+					<view class="iconfont icon- gray blod" @click="clearHistoryList"></view>
+				</view>
+				<view class="flex">
+					<view class="item small " v-for="(item, index) in historyList" :key="index" @click="search(item)">{{ item }}</view>
+				</view>
+			</view>
+			<scroll-view @scrolltolower="loadMore()" scroll-y class="scroll-view" v-else>
+				<empty v-if="articleList.length == 0" msg="没有任何数据耶~"></empty>
+				<article-item :list="articleList" :showOperate="false"  v-on:showOperate="showOperate"></article-item>
+				<view class="uni-tab-bar-loading"><uni-load-more :loadingType="el.loadingType" :contentText="loadingText"></uni-load-more></view>
+			</scroll-view>
 		</view>
-		<view class="content" v-if="!show">
-			<view class=" blod">大家都在搜</view>
-			<view class="flex">
-				<view class="item small " v-for="(item, index) in keywordList" :key="index" @click="search(item.keywordName)">{{ item.keywordName }}</view>
-			</view>
-			<view class="flex-r-between" style="margin-top: 20upx;">
-				<text class="blod">历史搜索</text>
-				<view class="iconfont icon- gray blod" @click="clearHistoryList"></view>
-			</view>
-			<view class="flex">
-				<view class="item small " v-for="(item, index) in historyList" :key="index" @click="search(item)">{{ item }}</view>
-			</view>
-		</view>
-		<scroll-view @scrolltolower="loadMore()" scroll-y class="scroll-view" v-else>
-			<empty v-if="articleList.length == 0" msg="没有任何数据耶~"></empty>
-			<article-item :list="articleList" :showOperate="false"  v-on:showOperate="showOperate"></article-item>
-			<view class="uni-tab-bar-loading"><uni-load-more :loadingType="el.loadingType" :contentText="loadingText"></uni-load-more></view>
-		</scroll-view>
+		
 	</view>
 </template>
 
@@ -185,21 +192,23 @@ export default {
 	}
 }
 
-.content {
-	padding: 30upx;
-
-	.item {
-		border: 2upx solid #cccccc;
-		height: 60upx;
-		padding: 0upx 20upx;
-		border-radius: 30upx;
-		line-height: 60upx;
-		margin-right: 30upx;
-		margin-top: 20upx;
+.container{
+	.content {
+		padding: 30upx;
+		.item {
+			border: 2upx solid #cccccc;
+			height: 60upx;
+			padding: 0upx 20upx;
+			border-radius: 30upx;
+			line-height: 60upx;
+			margin-right: 30upx;
+			margin-top: 20upx;
+		}
+	}
+	.scroll-view {
+		height: calc(100% - 100upx) !important;
 	}
 }
 
-.scroll-view {
-	height: calc(100% - 100upx) !important;
-}
+
 </style>

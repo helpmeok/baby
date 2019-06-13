@@ -1,10 +1,23 @@
 <template>
-	<view class="content" v-if="isShow">
-		<image src="../../static/1024.png" class="logo"></image>
-		<button type="primary" open-type="getUserInfo" @getuserinfo="getUserInfo">
-			微信授权登录
-		</button>
+	<view class="">
+		<cu-custom bgColor="bg-gradual-red">
+			<block slot="content">登录</block>
+		</cu-custom>
+		<view class="container">
+			<view class="content" v-if="isShow">
+				<image src="../../static/1024.png" class="logo"></image>
+				<view class="font-b blod default-color">宝宝贝</view>
+				<view class="default-color">了解更多育儿专业知识</view>
+				<button type="primary" open-type="getUserInfo" @getuserinfo="getUserInfo" style="margin-top: 150upx;">
+					微信快捷授权登录
+				</button>
+				<navigator url="/pages/home/index/index" open-type="switchTab" class="gray" style="margin-top: 100upx;" hover-class="none">
+					暂不登录，前往首页
+				</navigator>
+			</view>
+		</view>
 	</view>
+
 </template>
 
 <script>
@@ -105,8 +118,7 @@
 							} else {
 								uni.switchTab({
 									url: '/pages/home/index/index',
-									success: () => {
-									}
+									success: () => {}
 								});
 							}
 						},
@@ -120,25 +132,27 @@
 	};
 </script>
 
-<style>
-	.content {
-		text-align: center;
-		height: 400upx;
-	}
+<style lang="scss">
+	.container {
+		.content {
+			text-align: center;
+			height: 400upx;
+		}
 
-	.logo {
-		width: 300upx;
-		height: 300upx;
-		margin-top: 200upx;
-	}
+		.logo {
+			width: 300upx;
+			height: 300upx;
+			margin-top: 200upx;
+		}
 
-	.title {
-		font-size: 36upx;
-		color: #8f8f94;
-	}
+		.title {
+			font-size: 36upx;
+			color: #8f8f94;
+		}
 
-	button {
-		width: 80%;
-		margin-left: 10%;
+		button {
+			width: 80%;
+			margin-left: 10%;
+		}
 	}
 </style>
