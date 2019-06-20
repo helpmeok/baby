@@ -1,6 +1,6 @@
 <template>
-	<view class="">
-		<cu-custom bgColor="bg-gradual-red" >
+	<view class="container">
+		<cu-custom bgColor="bg-gradual-red">
 			<block slot="content">分类</block>
 		</cu-custom>
 		<view class="uni-tab-bar">
@@ -8,7 +8,7 @@
 				<view class="tabs flex">
 					<view class="gray item" style="margin-right: 60upx;" v-for="(item, index) in tabs" :key="index" :class="{ active: item.active }"
 					 @click="changeTab(index)">
-					 <view :class="{'bottom-line':item.active}"></view>
+						<view :class="{'bottom-line':item.active}"></view>
 						<view class="name" :class="{ active: item.active }">{{ item.name }}</view>
 					</view>
 				</view>
@@ -40,7 +40,7 @@
 			</mix-pulldown-refresh>
 		</view>
 	</view>
-	
+
 </template>
 
 <script>
@@ -113,10 +113,14 @@
 					item.active = false;
 				});
 				this.tabIndex = index;
-				if (!this.tabs[this.tabIndex].data.length) {
-					await this.init();
-				}
 				this.tabs[index].active = true;
+				if (!this.tabs[this.tabIndex].data.length) {
+					uni.showLoading({
+						title:"加载中"
+					})
+					await this.init();
+					uni.hideLoading()
+				}
 			},
 			changeSwiper(e) {
 				this.changeTab(e.target.current);
@@ -124,8 +128,10 @@
 			async onPulldownReresh() { //下拉刷新
 				ctime = parseInt(Date.now() / 1000); //刷新时间
 				this.tabs[this.tabIndex].offset = 0;
-				await this.init();
-				this.$refs.mixPulldownRefresh && this.$refs.mixPulldownRefresh.endPulldownRefresh();
+				setTimeout(async ()=>{
+					await this.init();
+					this.$refs.mixPulldownRefresh && this.$refs.mixPulldownRefresh.endPulldownRefresh();
+				},1000)
 			},
 			getMore() {
 				this.tabs[this.tabIndex].offset += total;
@@ -177,6 +183,10 @@
 </script>
 
 <style lang="scss">
+	.container{
+		height: 100%;
+		overflow: hidden;
+	}
 	.tab-bar {
 		// border-bottom: 2upx solid #f1f1f1;
 		padding-left: 30upx;
@@ -185,13 +195,16 @@
 		top: 0;
 		z-index: 2;
 		background-color: #ffffff;
+		
 		.tabs {
 			width: 100%;
+
 			.item {
 				position: relative;
 				left: 0;
 				top: 0;
 				z-index: 2;
+
 				.name {
 					position: relative;
 					left: 0;
@@ -199,12 +212,12 @@
 					z-index: 2;
 					font-size: 34upx;
 				}
-			
+
 				.active {
 					font-size: 46upx !important;
-			
+
 				}
-			
+
 				.bottom-line {
 					position: absolute;
 					left: 0;
@@ -217,6 +230,7 @@
 				}
 			}
 		}
+
 		.active {
 			font-weight: bold;
 			color: black;
@@ -236,6 +250,6 @@
 	}
 
 	.scroll-view {
-		height: 100%;
+		height:calc(100% - 140upx);
 	}
 </style>

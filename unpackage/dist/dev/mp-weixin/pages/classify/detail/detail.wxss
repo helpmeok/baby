@@ -34,14 +34,16 @@
 .header-detail .portrait {
     width: 150rpx !important;
     height: 150rpx !important;
-    border-radius: 50%;
+    -webkit-border-radius: 50%;
+            border-radius: 50%;
 }
 .header-detail .attention-btn {
     background-color: #FC4041;
     border: 2rpx solid #FC4041;
     height: 60rpx;
     width: 280rpx;
-    border-radius: 30rpx;
+    -webkit-border-radius: 30rpx;
+            border-radius: 30rpx;
 }
 .header-detail .followed {
     background-color: #ffffff;
@@ -51,7 +53,8 @@
     border: 2rpx solid #cccccc;
     height: 60rpx;
     width: 190rpx;
-    border-radius: 30rpx;
+    -webkit-border-radius: 30rpx;
+            border-radius: 30rpx;
 }
 .introduce-box .approve,
 .introduce-box .desc {
@@ -110,8 +113,10 @@
         border: 2rpx solid #FC4041;
         height: 60rpx;
         width: 160rpx;
-        border-radius: 30rpx;
+        -webkit-border-radius: 30rpx;
+                border-radius: 30rpx;
         position: absolute;
+        left: -webkit-calc((100% - 160rpx) / 2);
         left: calc((100% - 160rpx) / 2);
         bottom: 20rpx;
 }
@@ -122,7 +127,8 @@
 .recommend-scroll .recommend-box .list-item .portrait {
         width: 100rpx !important;
         height: 100rpx !important;
-        border-radius: 50%;
+        -webkit-border-radius: 50%;
+                border-radius: 50%;
 }
 .show-recommend-scroll,
 .recommend-box {

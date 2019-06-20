@@ -122,22 +122,28 @@ var total = 20;var _default =
                 this.tabs.forEach(function (item) {
                   item.active = false;
                 });
-                this.tabIndex = index;if (
-                this.tabs[this.tabIndex].data.length) {_context2.next = 5;break;}_context2.next = 5;return (
-                  this.init());case 5:
+                this.tabIndex = index;
+                this.tabs[index].active = true;if (
+                this.tabs[this.tabIndex].data.length) {_context2.next = 8;break;}
+                uni.showLoading({
+                  title: "加载中" });_context2.next = 7;return (
 
-                this.tabs[index].active = true;case 6:case "end":return _context2.stop();}}}, _callee2, this);}));function changeTab(_x) {return _changeTab.apply(this, arguments);}return changeTab;}(),
+                  this.init());case 7:
+                uni.hideLoading();case 8:case "end":return _context2.stop();}}}, _callee2, this);}));function changeTab(_x) {return _changeTab.apply(this, arguments);}return changeTab;}(),
+
 
     changeSwiper: function changeSwiper(e) {
       this.changeTab(e.target.current);
     },
-    onPulldownReresh: function () {var _onPulldownReresh = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0: //下拉刷新
+    onPulldownReresh: function () {var _onPulldownReresh = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4() {var _this3 = this;return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0: //下拉刷新
                 ctime = parseInt(Date.now() / 1000); //刷新时间
-                this.tabs[this.tabIndex].offset = 0;_context3.next = 4;return (
-                  this.init());case 4:
-                this.$refs.mixPulldownRefresh && this.$refs.mixPulldownRefresh.endPulldownRefresh();case 5:case "end":return _context3.stop();}}}, _callee3, this);}));function onPulldownReresh() {return _onPulldownReresh.apply(this, arguments);}return onPulldownReresh;}(),
+                this.tabs[this.tabIndex].offset = 0;
+                setTimeout( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:_context3.next = 2;return (
+                            _this3.init());case 2:
+                          _this3.$refs.mixPulldownRefresh && _this3.$refs.mixPulldownRefresh.endPulldownRefresh();case 3:case "end":return _context3.stop();}}}, _callee3, this);})),
+                1000);case 3:case "end":return _context4.stop();}}}, _callee4, this);}));function onPulldownReresh() {return _onPulldownReresh.apply(this, arguments);}return onPulldownReresh;}(),
 
-    getMore: function getMore() {var _this3 = this;
+    getMore: function getMore() {var _this4 = this;
       this.tabs[this.tabIndex].offset += total;
       this.api.classify.get_sub_category({
         categoryId: this.tabs[this.tabIndex].id,
@@ -149,15 +155,15 @@ var total = 20;var _default =
       function (res) {
         console.log(res);
         if (res.data.length) {
-          _this3.tabs[_this3.tabIndex].data = _this3.tabs[_this3.tabIndex].data.concat(res.data);
-          _this3.tabs[_this3.tabIndex].loadingType = 0;
+          _this4.tabs[_this4.tabIndex].data = _this4.tabs[_this4.tabIndex].data.concat(res.data);
+          _this4.tabs[_this4.tabIndex].loadingType = 0;
         } else {
-          _this3.tabs[_this3.tabIndex].loadingType = 2;
+          _this4.tabs[_this4.tabIndex].loadingType = 2;
         }
       },
       function (err) {
-        _this3.tabs[_this3.tabIndex].offset -= total;
-        _this3.tabs[_this3.tabIndex].loadingType = 0;
+        _this4.tabs[_this4.tabIndex].offset -= total;
+        _this4.tabs[_this4.tabIndex].loadingType = 0;
       });
 
     },

@@ -48,6 +48,10 @@
 //
 //
 //
+//
+//
+//
+//
 
 var offset = 0;
 var total = 10;
@@ -63,9 +67,11 @@ var ctime = parseInt(Date.now());var _default =
       loadingText: {
         contentdown: '',
         contentrefresh: '正在加载...',
-        contentnomore: '没有更多数据了' },
+        contentnomore: '无更多文章' },
 
-      loadingType: 0 };
+      loadingType: 0,
+      CustomBar: this.CustomBar,
+      screenHeight: this.screenHeight };
 
   },
   onLoad: function onLoad() {
@@ -107,6 +113,9 @@ var ctime = parseInt(Date.now());var _default =
     } },
 
   methods: {
+    inputConfirm: function inputConfirm(e) {
+      this.search(e.target.value);
+    },
     search: function search(val) {var _this2 = this;
       console.log(this.value);
       if (!val) {
@@ -123,6 +132,9 @@ var ctime = parseInt(Date.now());var _default =
       uni.showLoading({
         title: '加载中' });
 
+      offset = 0;
+      this.articleList = [];
+      this.loadingType = 0;
       this.api.home.search.get_response_list(
       {
         keyword: this.value,

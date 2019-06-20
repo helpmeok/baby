@@ -33,7 +33,8 @@
   background-color: #FFECEC;
   font-weight: bold;
   letter-spacing: 2rpx;
-  border-radius: 10rpx;
+  -webkit-border-radius: 10rpx;
+          border-radius: 10rpx;
   padding: 0 30rpx;
 }
 .title image {

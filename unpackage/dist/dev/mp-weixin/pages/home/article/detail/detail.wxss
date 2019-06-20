@@ -48,12 +48,14 @@
   top: -5rpx;
   width: 40rpx;
   height: 30rpx;
-  border-radius: 15rpx;
+  -webkit-border-radius: 15rpx;
+          border-radius: 15rpx;
   font-size: 16rpx;
 }
 .read-all {
   height: 60rpx;
-  border-radius: 31rpx;
+  -webkit-border-radius: 31rpx;
+          border-radius: 31rpx;
   border: 2rpx solid #e33;
 }
 .fake-box {
@@ -63,7 +65,8 @@
 .author image {
   width: 60rpx !important;
   height: 60rpx !important;
-  border-radius: 50%;
+  -webkit-border-radius: 50%;
+          border-radius: 50%;
 }
 .author .tag {
   background-repeat: no-repeat;
@@ -79,7 +82,8 @@
 }
 .fixed-bottom .comment-box {
     background-color: #f5f5f5;
-    border-radius: 30rpx;
+    -webkit-border-radius: 30rpx;
+            border-radius: 30rpx;
     padding: 0 100rpx 0 20rpx !important;
     border: none !important;
     margin: 0 !important;
@@ -97,11 +101,13 @@
 .item-list .header {
   width: 80rpx !important;
   height: 80rpx !important;
-  border-radius: 50%;
+  -webkit-border-radius: 50%;
+          border-radius: 50%;
 }
 .item-list .comment-box {
   background-color: #f5f5f5;
-  border-radius: 30rpx;
+  -webkit-border-radius: 30rpx;
+          border-radius: 30rpx;
   padding: 0 10rpx !important;
   border: none !important;
   margin: 0 !important;

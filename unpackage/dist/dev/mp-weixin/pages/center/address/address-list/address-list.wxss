@@ -18,7 +18,8 @@
 	background-color: #EBA91F;
 	color: white;
 	padding: 0 20rpx;
-	border-radius: 10rpx;
+	-webkit-border-radius: 10rpx;
+	        border-radius: 10rpx;
 	margin-left: 20rpx;
 }
 

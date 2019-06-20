@@ -1,1 +1,1 @@
-<view class="flex-c-center" style="margin-top:200rpx;" bind:__l="__l"><image src="/static/com_ic_no@2x.png" mode="widthFix"></image><view class="gray">{{msg}}</view></view>
+<view class="flex-c-center" style="margin-top:200rpx;"><image src="/static/com_ic_no@2x.png" mode="widthFix"></image><view class="gray">{{msg}}</view></view>

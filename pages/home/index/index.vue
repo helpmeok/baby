@@ -1,5 +1,5 @@
 <template>
-	<view class="">
+	<view class="container">
 		<cu-custom bgColor="bg-gradual-red">
 			<block slot="content">宝宝贝</block>
 		</cu-custom>
@@ -330,6 +330,10 @@
 </script>
 
 <style lang="scss">
+	.container{
+		height: 100%;
+		overflow: hidden;
+	}
 	.tab-bar {
 		padding: 0upx 0upx 0upx 30upx;
 		// border-bottom: 2upx solid #f1f1f1;

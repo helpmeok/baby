@@ -30,7 +30,8 @@
 .list-item .portrait {
   width: 80rpx;
   height: 80rpx;
-  border-radius: 50%;
+  -webkit-border-radius: 50%;
+          border-radius: 50%;
   margin-right: 30rpx;
 }
 .list-item-icon {

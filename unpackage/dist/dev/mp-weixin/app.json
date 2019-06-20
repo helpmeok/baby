@@ -75,5 +75,6 @@
     "article-item": "/components/article-item",
     "article-operate": "/components/article-operate",
     "cu-custom": "/components/cu-custom"
-  }
+  },
+  "sitemapLocation": "sitemap23.json"
 }

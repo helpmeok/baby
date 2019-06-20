@@ -5,17 +5,18 @@
 			<block slot="content">搜索</block>
 		</cu-custom>
 		<view class="container">
-			<view class="flex-r-between search-box">
+			<view class="flex-r-between search-box" :style="[{top:CustomBar + 'px'}]">
 				<view class="flex-r-between search">
 					<view class="flex">
 						<view class="iconfont iconsousuo" style="margin-right: 20upx;"></view>
-						<input type="text" v-model="value" placeholder="输入要搜索的内容" @confirm="search" />
+						<input type="text" focus="true" confirm-type="搜索" v-model="value" placeholder="输入要搜索的内容" @confirm="inputConfirm" />
 					</view>
 					<view class="iconfont iconshanchu gray" style="margin-left: 30upx;" @click="value = ''" v-show="show"></view>
 				</view>
-				<uni-tag text="搜索" type="error" :disabled="!show" :circle="true" @click="search(value)"></uni-tag>
+				<!-- <uni-tag text="搜索" type="error" :disabled="!show" :circle="true" @click="search(value)"></uni-tag> -->
+				<navigator open-type="navigateBack" delta="1" hover-class="none">取消</navigator>
 			</view>
-			<view class="content" v-if="!show">
+			<view class="contents" v-if="!show" :style="[{top:CustomBar+50 + 'px'}]">
 				<view class=" blod">大家都在搜</view>
 				<view class="flex">
 					<view class="item small " v-for="(item, index) in keywordList" :key="index" @click="search(item.keywordName)">{{ item.keywordName }}</view>
@@ -28,11 +29,14 @@
 					<view class="item small " v-for="(item, index) in historyList" :key="index" @click="search(item)">{{ item }}</view>
 				</view>
 			</view>
-			<scroll-view @scrolltolower="loadMore()" scroll-y class="scroll-view" v-else>
-				<empty v-if="articleList.length == 0" msg="没有任何数据耶~"></empty>
-				<article-item :list="articleList" :showOperate="false"  v-on:showOperate="showOperate"></article-item>
-				<view class="uni-tab-bar-loading"><uni-load-more :loadingType="el.loadingType" :contentText="loadingText"></uni-load-more></view>
-			</scroll-view>
+			<view class="" v-else>
+				<empty class="empty-box" v-if="articleList.length == 0" msg="没有任何数据耶~" :style="[{top:CustomBar+50 + 'px',height:screenHeight-CustomBar-50+'px'}]"></empty>
+				<scroll-view @scrolltolower="loadMore()"  :scroll-y="true" class="scroll-view"  :style="[{top:CustomBar+50 + 'px',height:screenHeight-CustomBar-50+'px'}]">
+					<article-item :list="articleList" :showOperate="false"  v-on:showOperate="showOperate"></article-item>
+					<view class="uni-tab-bar-loading" v-if="articleList.length > 0"><uni-load-more :loadingType="loadingType" :contentText="loadingText"></uni-load-more></view>
+				</scroll-view>
+			</view>
+			
 		</view>
 		
 	</view>
@@ -53,9 +57,11 @@ export default {
 			loadingText: {
 				contentdown: '',
 				contentrefresh: '正在加载...',
-				contentnomore: '没有更多数据了'
+				contentnomore: '无更多文章'
 			},
-			loadingType: 0
+			loadingType: 0,
+			CustomBar:this.CustomBar,
+			screenHeight:this.screenHeight
 		};
 	},
 	onLoad() {
@@ -97,6 +103,9 @@ export default {
 		}
 	},
 	methods: {
+		inputConfirm(e){
+			this.search(e.target.value)
+		},
 		search(val) {
 			console.log(this.value);
 			if (!val) {
@@ -113,6 +122,9 @@ export default {
 			uni.showLoading({
 				title: '加载中'
 			});
+			offset=0
+			this.articleList=[];
+			this.loadingType=0;
 			this.api.home.search.get_response_list(
 				{
 					keyword: this.value,
@@ -178,22 +190,27 @@ export default {
 <style lang="less">
 .search-box {
 	padding: 0 30upx;
-	height: 100upx;
+	height: 50px;
 	border-bottom: 2upx solid #f1f1f1;
-	position: relative;
+	position: fixed;
 	left: 0;
-	top: 0;
-
+	z-index: 999;
+	background-color: white;
+	width: 100%;
+	box-sizing: border-box;
 	.search {
 		background-color: #f5f5f5;
 		padding: 5upx 20upx;
-		width: 80%;
+		width: 90%;
 		border-radius: 10upx;
 	}
 }
 
 .container{
-	.content {
+	.contents {
+		position: fixed;
+		left: 0;
+		width: 100%;
 		padding: 30upx;
 		.item {
 			border: 2upx solid #cccccc;
@@ -206,7 +223,18 @@ export default {
 		}
 	}
 	.scroll-view {
-		height: calc(100% - 100upx) !important;
+		position: fixed;
+		left: 0;
+		width: 100%;
+		padding: 0;
+		margin: 0;
+	}
+	.empty-box{
+		position: fixed;
+		left: 0;
+		width: 100%;
+		padding: 0;
+		margin: 0;
 	}
 }
 

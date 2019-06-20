@@ -5,20 +5,24 @@
             box-sizing: border-box;
     padding: 0px 32rpx;
     height: 60rpx;
+    line-height: -webkit-calc(60rpx - 2px);
     line-height: calc(60rpx - 2px);
     font-size: 28rpx;
     display: inline-block;
     color: #666;
-    border-radius: 8rpx;
+    -webkit-border-radius: 8rpx;
+            border-radius: 8rpx;
     background-color: #F1F1F1;
     border: 1px solid #F1F1F1;
 }
 .uni-tag-circle{
-    border-radius: 30rpx;
+    -webkit-border-radius: 30rpx;
+            border-radius: 30rpx;
 }
 .uni-tag-small{
     height: 40rpx;
     padding: 0px 16rpx;
+    line-height: -webkit-calc(40rpx - 2px);
     line-height: calc(40rpx - 2px);
     font-size: 20rpx;
 }

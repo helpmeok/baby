@@ -24,6 +24,10 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
+.container {
+  height: 100%;
+  overflow: hidden;
+}
 .tab-bar {
   padding: 0rpx 0rpx 0rpx 30rpx;
   position: relative;
@@ -55,7 +59,8 @@
       z-index: 1;
       width: 100%;
       height: 20rpx;
-      border-radius: 10rpx;
+      -webkit-border-radius: 10rpx;
+              border-radius: 10rpx;
       background-color: yellow;
 }
 .tab-bar .active {
@@ -72,7 +77,8 @@
 .portrait {
   width: 80rpx;
   height: 80rpx;
-  border-radius: 50%;
+  -webkit-border-radius: 50%;
+          border-radius: 50%;
   margin-right: 30rpx;
 }
 .list-item-icon {
@@ -116,13 +122,15 @@
   padding: 30rpx;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  border-radius: 20rpx 0 20rpx 20rpx;
+  -webkit-border-radius: 20rpx 0 20rpx 20rpx;
+          border-radius: 20rpx 0 20rpx 20rpx;
   margin-left: 5%;
 }
 .mask .content image {
     width: 100rpx !important;
     height: 100rpx !important;
-    border-radius: 50%;
+    -webkit-border-radius: 50%;
+            border-radius: 50%;
 }
 .triangle_border_up {
   width: 0;
@@ -130,6 +138,7 @@
   border-top: 30rpx solid transparent;
   border-right: 50rpx solid white;
   margin-top: 200rpx;
+  margin-left: -webkit-calc(95% - 50rpx);
   margin-left: calc(95% - 50rpx);
 }
 
