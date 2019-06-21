@@ -34,7 +34,7 @@
 				</swiper>
 			</mix-pulldown-refresh>
 			<view class="mask" v-if="showHotMask" @click="hideHotMask">
-				<view class="triangle_border_up"></view>
+				<view class="triangle_border_up" :style="{'margin-top':CustomBar+30+'px'}"></view>
 				<view class="content flex" @click.stop>
 					<view class="flex-c-center" style="width: 20%;" v-for="(el, i) in hotList" :key="i">
 						<image :src="el.avatar" mode="widthFix" @click="goDetail(el.userId)"></image>
@@ -97,7 +97,8 @@
 					contentdown: '',
 					contentrefresh: '正在加载...',
 					contentnomore: '没有更多数据了'
-				}
+				},
+				CustomBar: this.CustomBar
 			};
 		},
 		onShareAppMessage(res) {
@@ -463,7 +464,6 @@
 		height: 0;
 		border-top: 30upx solid transparent;
 		border-right: 50upx solid white;
-		margin-top: 200upx;
 		margin-left: calc(95% - 50upx);
 	}
 </style>

@@ -106,8 +106,9 @@ var total = 10;var _default =
       loadingText: {
         contentdown: '',
         contentrefresh: '正在加载...',
-        contentnomore: '没有更多数据了' } };
+        contentnomore: '没有更多数据了' },
 
+      CustomBar: this.CustomBar };
 
   },
   onShareAppMessage: function onShareAppMessage(res) {
