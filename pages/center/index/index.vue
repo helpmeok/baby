@@ -24,17 +24,16 @@
 					<view class="">前往兑换</view>
 				</view> -->
 			</view>
-			<!-- <view class="list-cell flex-r-between">
+			<navigator class="list-cell flex-r-between" url="../manage/index/index" hover-class="none">
 				<view class="list-cell-left flex-r-center">
 					<image src="../../../static/me_list_ic_babyadministration@2x.png" mode="widthFix" class="icon"></image>
 					<text class="">宝宝管理</text>
 				</view>
 				<view class="list-cell-right flex-r-center">
-					<text class="iconfont iconarrow-right-copy" style="color:
-					 #B2B2B2;"></text>
+					<text class="iconfont iconarrow-right-copy" style="color: #B2B2B2;"></text>
 				</view>
-			</view>
-			<navigator url="../address/address-list/address-list" hover-class="none">
+			</navigator>
+			<!-- <navigator url="../address/address-list/address-list" hover-class="none">
 				<view class="list-cell flex-r-between">
 					<view class="list-cell-left flex-r-center">
 						<image src="../../../static/me_list_ic_address@2x.png" mode="widthFix" class="icon"></image>

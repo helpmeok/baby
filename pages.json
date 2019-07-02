@@ -129,6 +129,18 @@
 				"navigationStyle": "custom"
 			}
         }
+        ,{
+            "path" : "pages/center/manage/index/index",
+            "style" : {
+				"navigationStyle": "custom"
+			}
+        }
+        ,{
+            "path" : "pages/task/index/index",
+            "style" : {
+				"navigationStyle": "custom"
+			}
+        }
     ],
 	"tabBar": {
 		"color": "#666666",
@@ -152,6 +164,12 @@
 				"iconPath": "static/tabbar/helper.png",
 				"selectedIconPath": "static/tabbar/helper1.png",
 				"text": "助手"
+			},
+			{
+				"pagePath": "pages/task/index/index",
+				"iconPath": "static/tabbar/com_tab_ic_welfare_pre@3x.png",
+				"selectedIconPath": "static/tabbar/com_tab_ic_welfare_sel@3x.png",
+				"text": "任务"
 			},
 			{
 				"pagePath": "pages/center/index/index",
@@ -185,6 +203,10 @@
 			{
 				"name": "助手", //模式名称
 				"pathName": "pages/helper/index/index" //启动页面，必选
+			},
+			{
+				"name": "任务", //模式名称
+				"pathName": "pages/task/index/index" //启动页面，必选
 			},
 			{
 				"name": "分类", //模式名称
@@ -237,6 +259,10 @@
 				"name": "问题集",
 				"pathName": "pages/helper/list/list",
 				"query":"id=43&name=怎样缓解早孕呕吐"
+			},
+			{
+				"name": "宝宝管理",
+				"pathName": "pages/center/manage/index/index"
 			}
 		]
 	}

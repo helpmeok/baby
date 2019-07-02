@@ -52,6 +52,8 @@
 //
 //
 //
+//
+//
 
 var offset = 0;
 var total = 10;
@@ -123,7 +125,8 @@ var ctime = parseInt(Date.now());var _default =
       }
       this.value = val;
       if (this.historyList.indexOf(val) == -1) {
-        uni.setStorageSync('history_keywords', uni.getStorageSync('history_keywords') ? uni.getStorageSync('history_keywords') + ';' + this.value : this.value);
+        uni.setStorageSync('history_keywords', uni.getStorageSync('history_keywords') ? uni.getStorageSync(
+        'history_keywords') + ';' + this.value : this.value);
         this.historyList = uni.getStorageSync('history_keywords').split(';');
         this.historyList = this.historyList.filter(function (s) {
           return s && s.trim();
@@ -135,8 +138,7 @@ var ctime = parseInt(Date.now());var _default =
       offset = 0;
       this.articleList = [];
       this.loadingType = 0;
-      this.api.home.search.get_response_list(
-      {
+      this.api.home.search.get_response_list({
         keyword: this.value,
         ctime: ctime,
         offset: offset,
@@ -150,8 +152,7 @@ var ctime = parseInt(Date.now());var _default =
 
     },
     init: function init() {var _this3 = this;
-      this.api.home.search.get_query_list(
-      {
+      this.api.home.search.get_query_list({
         type: 2,
         ctime: ctime,
         offset: offset,
@@ -159,7 +160,7 @@ var ctime = parseInt(Date.now());var _default =
 
       function (res) {
         console.log(res);
-        _this3.keywordList = res.data;
+        _this3.keywordList = res.data ? res.data : [];
       });
 
     },
@@ -170,8 +171,7 @@ var ctime = parseInt(Date.now());var _default =
       }
       this.loadingType = 1;
       offset = total + offset;
-      this.api.home.search.get_response_list(
-      {
+      this.api.home.search.get_response_list({
         keyword: this.value,
         ctime: ctime,
         offset: offset,

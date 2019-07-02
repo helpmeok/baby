@@ -91,7 +91,13 @@
 
 
 
+
+
+
 var _index = __webpack_require__(/*! @/common/util/index.js */ "D:\\Documents\\HBuilderProjects\\baby\\common\\util\\index.js"); //
+//
+//
+//
 //
 //
 //
@@ -187,10 +193,7 @@ var _default = { components: { uParse: uParse }, onShareAppMessage: function onS
   // 		}
   // 	}, 100)
   // },
-  methods: { init: function init() {var _this = this;uni.showLoading({ title: "加载中" });this.api.home.article.get_detail({ article_id: id, request_type: 'h5' }, function (res) {console.log(res.data);_this.info = res.data;_this.api.home.article.get_comment_list({ ctime: ctime, articleId: id, offset: offset, total: total }, function (res) {console.log(res);_this.commentList = res.data;uni.hideLoading();});});},
-    addArticleCountNum: function addArticleCountNum(type) {
-      this.api.home.article.add_count({
-        articleId: id,
+  methods: { init: function init() {var _this = this;uni.showLoading({ title: "加载中" });this.api.home.article.get_detail({ article_id: id, request_type: 'h5' }, function (res) {console.log(res.data);_this.info = res.data;_this.api.home.article.get_comment_list({ ctime: ctime, articleId: id, offset: offset, total: total }, function (res) {console.log(res);_this.commentList = res.data;uni.hideLoading();});});}, addArticleCountNum: function addArticleCountNum(type) {this.api.home.article.add_count({ articleId: id,
         type: type },
       function (res) {
         console.log(res);

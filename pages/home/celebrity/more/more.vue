@@ -14,7 +14,7 @@
 							<!-- <view class="cu-avatar round lg">{{item.letter}}</view> -->
 							<image :src="el.avatar" mode="widthFix" lazy-load class="avatar mgr-20"></image>
 							<view class="content">
-								<view class="font-b">{{el.name}}</view>
+								<view class="article-font blod">{{el.name}}</view>
 								<view class="text-gray text-sm">
 									<text class="mgr-20">{{el.originalNum}}篇原创</text>
 									<text>{{el.fansNum}}粉丝</text>

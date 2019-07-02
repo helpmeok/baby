@@ -68,6 +68,9 @@
 //
 //
 //
+//
+//
+//
 var _default2 =
 {
   name: 'article-item',
@@ -107,6 +110,11 @@ var _default2 =
     goCategory: function goCategory(id) {
       uni.navigateTo({
         url: "/pages/classify/detail/detail?id=" + id });
+
+    },
+    goCelebrity: function goCelebrity(id) {
+      uni.navigateTo({
+        url: '/pages/home/celebrity/detail/detail?id=' + id });
 
     } },
 

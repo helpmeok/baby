@@ -10,7 +10,10 @@
 			<view class="pd-box flex-r-between author">
 				<view class="flex" @click="goFamous">
 					<image :src="info.userAvatar" mode="widthFix"></image>
-					<view class="mgl-20">{{ info.author }}</view>
+					<view class="mgl-20">
+						<view class=" blod article-font">{{ info.author }}</view>
+						<view class=" small gray">{{ info.oauthIntro }}</view>
+					</view>
 				</view>
 				<view class="tag white small" v-if="info.categoryName" @click="goCategory">{{ info.categoryName }}</view>
 			</view>
@@ -374,8 +377,8 @@
 
 	.author {
 		image {
-			width: 60upx !important;
-			height: 60upx !important;
+			width: 80upx !important;
+			height: 80upx !important;
 			border-radius: 50%;
 		}
 

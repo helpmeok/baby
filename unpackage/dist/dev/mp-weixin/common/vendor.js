@@ -8166,8 +8166,8 @@ module.exports = {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uni) { // const __api = 'https://wkf.088wanmei.com';
-// const __api = 'http://59.61.216.123:18980/jeezero-boblbee-app/v1';
-var __api = 'https://boblbee.superpapa.com.cn/jeezero-boblbee-app/v1';
+var __api = 'http://59.61.216.123:18980/jeezero-boblbee-app/v1';
+// const __api = 'https://boblbee.superpapa.com.cn/jeezero-boblbee-app/v1';
 
 function Request() {
   this.m_send = function (url, method, data, onok, onno, _complete) {
@@ -23690,6 +23690,23 @@ createPage(_index.default);
 
 /***/ }),
 
+/***/ "D:\\Documents\\HBuilderProjects\\baby\\main.js?{\"page\":\"pages%2Fcenter%2Fmanage%2Findex%2Findex\"}":
+/*!*****************************************************************************************************!*\
+  !*** D:/Documents/HBuilderProjects/baby/main.js?{"page":"pages%2Fcenter%2Fmanage%2Findex%2Findex"} ***!
+  \*****************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "D:\\Documents\\HBuilderProjects\\baby\\pages.json");
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
+var _index = _interopRequireDefault(__webpack_require__(/*! ./pages/center/manage/index/index.vue */ "D:\\Documents\\HBuilderProjects\\baby\\pages\\center\\manage\\index\\index.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_index.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
+
+/***/ }),
+
 /***/ "D:\\Documents\\HBuilderProjects\\baby\\main.js?{\"page\":\"pages%2Fcenter%2Frecord%2Flist%2Flist\"}":
 /*!***************************************************************************************************!*\
   !*** D:/Documents/HBuilderProjects/baby/main.js?{"page":"pages%2Fcenter%2Frecord%2Flist%2Flist"} ***!
@@ -23889,6 +23906,23 @@ createPage(_search.default);
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
 var _index = _interopRequireDefault(__webpack_require__(/*! ./pages/index/index.vue */ "D:\\Documents\\HBuilderProjects\\baby\\pages\\index\\index.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_index.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
+
+/***/ }),
+
+/***/ "D:\\Documents\\HBuilderProjects\\baby\\main.js?{\"page\":\"pages%2Ftask%2Findex%2Findex\"}":
+/*!******************************************************************************************!*\
+  !*** D:/Documents/HBuilderProjects/baby/main.js?{"page":"pages%2Ftask%2Findex%2Findex"} ***!
+  \******************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "D:\\Documents\\HBuilderProjects\\baby\\pages.json");
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
+var _index = _interopRequireDefault(__webpack_require__(/*! ./pages/task/index/index.vue */ "D:\\Documents\\HBuilderProjects\\baby\\pages\\task\\index\\index.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_index.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
 

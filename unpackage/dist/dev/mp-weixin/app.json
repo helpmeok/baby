@@ -20,7 +20,9 @@
     "pages/center/classify/list/list",
     "pages/center/shield-author/list/list",
     "pages/center/about/index/index",
-    "pages/center/about/website/index/index"
+    "pages/center/about/website/index/index",
+    "pages/center/manage/index/index",
+    "pages/task/index/index"
   ],
   "subPackages": [],
   "window": {
@@ -54,6 +56,12 @@
         "text": "助手"
       },
       {
+        "pagePath": "pages/task/index/index",
+        "iconPath": "static/tabbar/com_tab_ic_welfare_pre@3x.png",
+        "selectedIconPath": "static/tabbar/com_tab_ic_welfare_sel@3x.png",
+        "text": "任务"
+      },
+      {
         "pagePath": "pages/center/index/index",
         "iconPath": "static/tabbar/com_tab_ic_me_pre@2x.png",
         "selectedIconPath": "static/tabbar/com_tab_ic_me_sel@2x.png",
@@ -75,6 +83,5 @@
     "article-item": "/components/article-item",
     "article-operate": "/components/article-operate",
     "cu-custom": "/components/cu-custom"
-  },
-  "sitemapLocation": "sitemap23.json"
+  }
 }

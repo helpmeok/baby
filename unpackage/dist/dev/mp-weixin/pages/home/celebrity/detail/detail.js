@@ -290,32 +290,33 @@ var total = 10;var _default =
 
       function (res) {
         console.log(res);
-        _this4.recommendList = res.data.map(function (el) {
-          var approve = '';
-          if (el.weixinOauthStatus == '2') {
-            approve = '母婴领域知名微信公众号';
-            el.approve = approve;
-            return el;
-          } else {
-            if (el.toutiaoOauthStatus == '2') {
-              approve = '今日头条APP知名作者';
-              el.approve = approve;
-              return el;
-            } else {
-              if (el.douyinOauthStatus == '2') {
-                approve = '知名母婴抖音号';
-                el.approve = approve;
-                return el;
-              } else {
-                if (el.appOauthStatus == '2') {
-                  approve = '宝宝贝APP特邀作者';
-                  el.approve = approve;
-                  return el;
-                }
-              }
-            }
-          }
-        });
+        _this4.recommendList = res.data;
+        // this.recommendList = res.data.map(el => {
+        // 	let approve = '';
+        // 	if (el.weixinOauthStatus == '2') {
+        // 		approve = '母婴领域知名微信公众号';
+        // 		el.approve = approve;
+        // 		return el;
+        // 	} else {
+        // 		if (el.toutiaoOauthStatus == '2') {
+        // 			approve = '今日头条APP知名作者';
+        // 			el.approve = approve;
+        // 			return el;
+        // 		} else {
+        // 			if (el.douyinOauthStatus == '2') {
+        // 				approve = '知名母婴抖音号';
+        // 				el.approve = approve;
+        // 				return el;
+        // 			} else {
+        // 				if (el.appOauthStatus == '2') {
+        // 					approve = '宝宝贝APP特邀作者';
+        // 					el.approve = approve;
+        // 					return el;
+        // 				}
+        // 			}
+        // 		}
+        // 	}
+        // });
       });
 
     },

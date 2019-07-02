@@ -46,7 +46,7 @@
 					<view class="iconfont iconcuowutishilimiandecha gray" @click.stop="removeItem(index)"></view>
 					<image :src="el.avatar" mode="widthFix" class="portrait"></image>
 					<view class="name blod sigle-line-text">{{ el.name }}</view>
-					<view class="gray label sigle-line-text">{{ el.approve }}</view>
+					<view class="gray label sigle-line-text small">{{ el.oauthIntro }}</view>
 					<view class="attention-btn flex-r-center" @click.stop="toggleVipFollowed(el, 2, index)" :class="{ white: !el.isFollowed, followed: el.isFollowed }">
 						{{ el.isFollowed ? '已关注' : '关注' }}
 					</view>
@@ -219,32 +219,33 @@
 					},
 					res => {
 						console.log(res);
-						this.recommendList = res.data.map(el => {
-							let approve = '';
-							if (el.weixinOauthStatus == '2') {
-								approve = '母婴领域知名微信公众号';
-								el.approve = approve;
-								return el;
-							} else {
-								if (el.toutiaoOauthStatus == '2') {
-									approve = '今日头条APP知名作者';
-									el.approve = approve;
-									return el;
-								} else {
-									if (el.douyinOauthStatus == '2') {
-										approve = '知名母婴抖音号';
-										el.approve = approve;
-										return el;
-									} else {
-										if (el.appOauthStatus == '2') {
-											approve = '宝宝贝APP特邀作者';
-											el.approve = approve;
-											return el;
-										}
-									}
-								}
-							}
-						});
+						this.recommendList = res.data
+						// this.recommendList = res.data.map(el => {
+						// 	let approve = '';
+						// 	if (el.weixinOauthStatus == '2') {
+						// 		approve = '母婴领域知名微信公众号';
+						// 		el.approve = approve;
+						// 		return el;
+						// 	} else {
+						// 		if (el.toutiaoOauthStatus == '2') {
+						// 			approve = '今日头条APP知名作者';
+						// 			el.approve = approve;
+						// 			return el;
+						// 		} else {
+						// 			if (el.douyinOauthStatus == '2') {
+						// 				approve = '知名母婴抖音号';
+						// 				el.approve = approve;
+						// 				return el;
+						// 			} else {
+						// 				if (el.appOauthStatus == '2') {
+						// 					approve = '宝宝贝APP特邀作者';
+						// 					el.approve = approve;
+						// 					return el;
+						// 				}
+						// 			}
+						// 		}
+						// 	}
+						// });
 					}
 				);
 			},

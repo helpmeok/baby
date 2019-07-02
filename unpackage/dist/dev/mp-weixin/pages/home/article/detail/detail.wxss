@@ -63,8 +63,8 @@
   overflow: hidden;
 }
 .author image {
-  width: 60rpx !important;
-  height: 60rpx !important;
+  width: 80rpx !important;
+  height: 80rpx !important;
   -webkit-border-radius: 50%;
           border-radius: 50%;
 }

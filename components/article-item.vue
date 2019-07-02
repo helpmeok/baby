@@ -4,8 +4,11 @@
 			<view class="pd-box">
 				<view class="flex-r-between">
 					<view class="flex">
-						<image :src="item.userAvatar" mode="widthFix" class="portrait" lazy-load="true"></image>
-						<text class="blod article-font">{{ item.userName }}</text>
+						<image :src="item.userAvatar" mode="widthFix" class="portrait" lazy-load="true" @click.stop="goCelebrity(item.userId)"></image>
+						<view class="">
+							<text class="blod article-font">{{ item.userName }}</text>
+							<view class="small gray">{{item.oauthIntro}}</view>
+						</view>
 					</view>
 					<view class="tag white small" v-if="item.categoryName" @click.stop="goCategory(item.categoryId)">{{ item.categoryName }}</view>
 				</view>
@@ -98,6 +101,11 @@
 				uni.navigateTo({
 					url:"/pages/classify/detail/detail?id="+id
 				})
+			},
+			goCelebrity(id){
+				uni.navigateTo({
+					url: '/pages/home/celebrity/detail/detail?id=' + id
+				});
 			}
 		},
 		watch: {
