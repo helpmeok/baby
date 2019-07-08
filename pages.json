@@ -141,6 +141,12 @@
 				"navigationStyle": "custom"
 			}
         }
+        ,{
+            "path" : "pages/center/manage/baby/handle/handle",
+            "style" : {
+				"navigationStyle": "custom"
+			}
+        }
     ],
 	"tabBar": {
 		"color": "#666666",
@@ -181,7 +187,7 @@
 	},
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
-		"navigationBarTitleText": "uni-app",
+		"navigationBarTitleText": "",
 		"navigationBarBackgroundColor": "#FC4041",
 		"backgroundColor": "#c05750"
 	},
@@ -258,12 +264,18 @@
 			{
 				"name": "问题集",
 				"pathName": "pages/helper/list/list",
-				"query":"id=43&name=怎样缓解早孕呕吐"
+				"query":"id=327&name=孩子的情商问题"
 			},
 			{
 				"name": "宝宝管理",
 				"pathName": "pages/center/manage/index/index"
+			},
+			{
+				"name": "宝宝操作",
+				"pathName": "pages/center/manage/baby/handle/handle",
+				"query":"type=0"
 			}
+			
 		]
 	}
 }

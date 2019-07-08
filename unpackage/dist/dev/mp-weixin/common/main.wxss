@@ -327,6 +327,9 @@ page {
 	bottom: 0;
 	z-index: 999;
 }
+.fixed-bottom-height{
+	height: 120rpx;
+}
 .font-b {
 	font-size: 36rpx;
 }

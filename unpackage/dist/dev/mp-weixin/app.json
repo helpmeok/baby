@@ -22,12 +22,13 @@
     "pages/center/about/index/index",
     "pages/center/about/website/index/index",
     "pages/center/manage/index/index",
-    "pages/task/index/index"
+    "pages/task/index/index",
+    "pages/center/manage/baby/handle/handle"
   ],
   "subPackages": [],
   "window": {
     "navigationBarTextStyle": "white",
-    "navigationBarTitleText": "uni-app",
+    "navigationBarTitleText": "",
     "navigationBarBackgroundColor": "#FC4041",
     "backgroundColor": "#c05750"
   },
@@ -83,5 +84,6 @@
     "article-item": "/components/article-item",
     "article-operate": "/components/article-operate",
     "cu-custom": "/components/cu-custom"
-  }
+  },
+  "sitemapLocation": "sitemap90.json"
 }

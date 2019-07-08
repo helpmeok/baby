@@ -6,6 +6,13 @@
 					<text class="cuIcon-back"></text>
 					<slot name="backText"></slot>
 				</view>
+				<view class="action border-custom" v-if="isCustom" :style="[{width:Custom.width+'px'}]">
+					<text class="cuIcon-back" @tap="BackPage"></text>
+					<view class="helper-box flex-r-center" @tap="goHelper">
+						<image src="/static/com_nav_ic_assistant2_nor@2x.png" mode="widthFix" class="helper" v-if="helper"></image>
+					</view>
+				</view>
+				<!-- <image src="/static/com_nav_ic_assistant2_nor@2x.png" mode="widthFix" class="helper" v-if="helper"></image> -->
 				<text class="cuIcon-edit" v-if="isEdit" style="font-size: 36upx;" @click="edit"></text>
 				<text v-if="!isEdit&&showCancel" @click="edit">取消</text>
 				<view class="content" :style="[{top:StatusBar + 'px'}]">
@@ -22,7 +29,8 @@
 		data() {
 			return {
 				StatusBar: this.StatusBar,
-				CustomBar: this.CustomBar
+				CustomBar: this.CustomBar,
+				Custom: this.Custom
 			};
 		},
 		name: 'cu-custom',
@@ -55,7 +63,15 @@
 				type: [Boolean, String],
 				default: false
 			},
+			helper: {
+				type: [Boolean, String],
+				default: false
+			},
 			showCancel: {
+				type: [Boolean, String],
+				default: false
+			},
+			isCustom: {
 				type: [Boolean, String],
 				default: false
 			},
@@ -68,10 +84,23 @@
 			},
 			edit() {
 				this.$emit('edit')
+			},
+			goHelper() {
+				uni.reLaunch({
+					url: '/pages/helper/index/index',
+				})
 			}
 		}
 	}
 </script>
 
 <style lang="scss">
+	
+	.helper-box{
+		width: 90upx;
+		height: 30px;
+		.helper{
+			width: 45upx;
+		}
+	}
 </style>

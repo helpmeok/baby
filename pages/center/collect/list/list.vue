@@ -19,7 +19,6 @@
 	const total = 10;
 	let offset = 0;
 	export default {
-
 		data() {
 			return {
 				loadingType: 0,

@@ -21,7 +21,11 @@ var _default =
   props: {
     msg: {
       type: String,
-      default: "" } },
+      default: "" },
+
+    url: {
+      type: String,
+      default: "/static/com_ic_no@2x.png" } },
 
 
   data: function data() {

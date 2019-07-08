@@ -30,14 +30,12 @@
 //
 //
 //
-//
 
 var ctime = parseInt(Date.now());
 var total = 10;
 var offset = 0;
 var qaId = "";var _default =
 {
-
   data: function data() {
     return {
       loadingType: 0,
@@ -47,7 +45,9 @@ var qaId = "";var _default =
         contentnomore: "无更多文章" },
 
       list: [],
-      name: "" };
+      name: "",
+      CustomBar: this.CustomBar,
+      screenHeight: this.screenHeight };
 
   },
   onLoad: function onLoad(options) {

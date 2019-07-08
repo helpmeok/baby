@@ -30,12 +30,13 @@
 	
 		<!-- 下拉刷新 -->
 		<view class="mix-loading-wrapper flex-r-center">
+			<!-- :class="{active: refreshing, ready: refreshReady}" -->
 			<image 
 				class="mix-loading-icon" 
-				:class="{active: refreshing, ready: refreshReady}" 
-				src="../static/1024.png">
+				
+				src="/static/com_refresh2@3x.gif">
 			</image>
-			<view class="mgl-20 gray">{{statusText}}</view>
+			<!-- <view class="mgl-20 gray">{{statusText}}</view> -->
 		</view>
 		
 		<slot></slot>

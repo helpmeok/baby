@@ -1,7 +1,7 @@
 <template>
 	<view class="flex-c-center" style="margin-top: 200upx;">
 		<!-- <view class="iconfont iconzanwuchiyouzhongdingdan default-color" style="font-size: 150upx;"></view> -->
-		<image src="/static/com_ic_no@2x.png" mode="widthFix"></image>
+		<image :src="url" mode="widthFix"></image>
 		<view class="gray">{{msg}}</view>
 	</view>
 </template>
@@ -12,6 +12,10 @@
 			msg: {
 				type: String,
 				default: ""
+			},
+			url: {
+				type: String,
+				default: "/static/com_ic_no@2x.png"
 			},
 		},
 		data() {

@@ -40,20 +40,24 @@ function Request() {
 					})
 				} else {
 					console.log(res)
-					uni.showToast({
-						title: res.data.message,
-						icon: "none",
-						duration: 2000
-					})
+					if (res.data.message) {
+						uni.showToast({
+							title: res.data.message,
+							icon: "none",
+							duration: 2000
+						})
+					}
 					onno ? onno(res.data) : null
 				}
 			},
 			fail(err) {
-				uni.showToast({
-					title: err.data.message,
-					icon: "none",
-					duration: 2000
-				})
+				if (res.data.message) {
+					uni.showToast({
+						title: err.data.message,
+						icon: "none",
+						duration: 2000
+					})
+				}
 				console.log(err)
 				onno ? onno(err) : null
 			},
@@ -226,7 +230,28 @@ module.exports = {
 				let _url = "/setting/getPageData";
 				_req.m_send(_url, "GET", d, onok, onno);
 			},
+		},
+		manage: {
+			baby: {
+				get_list: function(d, onok, onno) { //APP“我的”模块获取用户的宝宝数据，一次性给完宝宝列表数据
+					let _url = "/my/getBabyList";
+					_req.m_send(_url, "GET", d, onok, onno);
+				},
+				add: function(d, onok, onno) { //APP“我的”模块，宝宝管理，添加宝宝
+					let _url = "/my/addBaby";
+					_req.m_send(_url, "POST", d, onok, onno);
+				},
+				update: function(d, onok, onno) { //APP“我的”模块，宝宝管理，修改宝宝资料
+					let _url = "/my/updateBaby";
+					_req.m_send(_url, "POST", d, onok, onno);
+				},
+				delete: function(d, onok, onno) { //APP“我的”模块，宝宝管理，删除宝宝资料
+					let _url = "/my/delBaby";
+					_req.m_send(_url, "POST", d, onok, onno);
+				},
+			}
 		}
+
 	},
 	classify: {
 		get_top_category: function(d, onok, onno) { //获取分类头部数据列表

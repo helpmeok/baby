@@ -69,7 +69,8 @@
 
 
 var ctime = parseInt(Date.now());
-var total = 10;var _default =
+var total = 10;
+var isLaunch = true;var _default =
 {
   components: {
     uniTag: uniTag,
@@ -78,6 +79,7 @@ var total = 10;var _default =
 
   data: function data() {
     return {
+      isLoad: false,
       hotList: [],
       showHotMask: false,
       tabIndex: 0,
@@ -168,6 +170,7 @@ var total = 10;var _default =
 
     init: function init() {var _this3 = this;
       if (!this.tabs[this.tabIndex].data.length) {
+        this.isLoad = false;
         uni.showLoading({
           title: '加载中' });
 
@@ -181,13 +184,15 @@ var total = 10;var _default =
             type: 2,
             ctime: ctime,
             offset: _this3.tabs[_this3.tabIndex].offset,
-            total: total },
+            total: total,
+            isLaunch: isLaunch },
 
           function (res) {
             console.log('刷新推荐数据');
             console.log(res);
             _this3.tabs[_this3.tabIndex].data = res.data.concat(_this3.tabs[_this3.tabIndex].data);
-            console.log(_this3.tabs);
+            isLaunch = false;
+            _this3.isLoad = true;
             uni.hideLoading();
             onok(res.data);
           });
@@ -197,12 +202,15 @@ var total = 10;var _default =
             type: 1,
             ctime: ctime,
             offset: _this3.tabs[_this3.tabIndex].offset,
-            total: total },
+            total: total,
+            isLaunch: isLaunch },
 
           function (res) {
             console.log('刷新关注数据');
             console.log(res);
             _this3.tabs[_this3.tabIndex].data = res.data.concat(_this3.tabs[_this3.tabIndex].data);
+            isLaunch = false;
+            _this3.isLoad = true;
             uni.hideLoading();
             onok(res.data);
           });
@@ -217,7 +225,8 @@ var total = 10;var _default =
           type: 2,
           ctime: ctime,
           offset: this.tabs[this.tabIndex].offset,
-          total: total },
+          total: total,
+          isLaunch: isLaunch },
 
         function (res) {
           console.log(res);
@@ -238,7 +247,8 @@ var total = 10;var _default =
           type: 1,
           ctime: ctime,
           offset: this.tabs[this.tabIndex].offset,
-          total: total },
+          total: total,
+          isLaunch: isLaunch },
 
         function (res) {
           console.log(res);

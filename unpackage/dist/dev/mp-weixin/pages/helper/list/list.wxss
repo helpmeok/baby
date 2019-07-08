@@ -41,4 +41,16 @@
     width: 40rpx;
     margin-right: 20rpx;
 }
+.fixed {
+  position: fixed;
+  left: 0;
+  width: 100%;
+  background-color: white;
+  z-index: 999;
+}
+.list {
+  position: relative;
+  left: 0;
+  width: 100%;
+}
 

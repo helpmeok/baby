@@ -4,15 +4,14 @@
 			<block slot="backText"></block>
 			<block slot="content">问题集</block>
 		</cu-custom>
-		<view class="pd-box">
+		<view class="pd-box fixed" :style="[{top:CustomBar + 'px'}]">
 			<view class="title flex">
 				<image src="/static/assistant_list_ic_question@2x.png" mode="widthFix"></image>
 				<view class="">{{name}}</view>
 			</view>
 		</view>
 		<empty v-if="list.length==0" msg="没有任何数据耶~"></empty>
-		<view class="">
-
+		<view class="list" :style="[{top:CustomBar + 'px'}]">
 			<article-item :list="list" v-on:showOperate="showOperate"></article-item>
 			<view class="uni-tab-bar-loading" v-if="list.length>0">
 				<uni-load-more :loadingType="loadingType" :contentText="loadingText"></uni-load-more>
@@ -27,7 +26,6 @@
 	let offset = 0;
 	let qaId = ""
 	export default {
-
 		data() {
 			return {
 				loadingType: 0,
@@ -37,7 +35,9 @@
 					contentnomore: "无更多文章"
 				},
 				list: [],
-				name: ""
+				name: "",
+				CustomBar: this.CustomBar,
+				screenHeight: this.screenHeight
 			};
 		},
 		onLoad(options) {
@@ -103,6 +103,18 @@
 			width: 40upx;
 			margin-right: 20upx;
 		}
+	}
+	.fixed{
+		position: fixed;
+		left: 0;
+		width: 100%;
+		background-color: white;
+		z-index: 999;
+	}
+	.list{
+		position: relative;
+		left: 0;
+		width: 100%;
 	}
 </style>
 

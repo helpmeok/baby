@@ -136,6 +136,9 @@ page {
 	bottom: 0;
 	z-index: 999;
 }
+.fixed-bottom-height{
+	height: 120upx;
+}
 
 .font-b {
 	font-size: 36upx;

@@ -29,7 +29,6 @@ var ctime = parseInt(Date.now());
 var total = 10;
 var offset = 0;var _default =
 {
-
   data: function data() {
     return {
       loadingType: 0,

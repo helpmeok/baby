@@ -24,7 +24,7 @@
 				<swiper class="swiper-box" :current="tabIndex" :duration="300" @change="changeSwiper">
 					<swiper-item v-for="(el, i) in tabs" :key="i">
 						<scroll-view @scrolltolower="loadMore(i)" :scroll-y="!showArticleOperate" class="scroll-view" :enable-back-to-top="el.active">
-							<empty v-if="tabs[i].data.length == 0" msg="暂无资讯，下拉加载试试~"></empty>
+							<empty v-if="tabs[i].data.length == 0 && isLoad" msg="暂无资讯，下拉加载试试~"></empty>
 							<article-item :list="tabs[i].data" :showOperate="true" v-on:showOperate="showOperate"></article-item>
 							<view class="uni-tab-bar-loading">
 								<uni-load-more :loadingType="el.loadingType" :contentText="loadingText"></uni-load-more>
@@ -60,6 +60,7 @@
 	import articleOperate from '@/components/article-operate';
 	var ctime = parseInt(Date.now());
 	const total = 10;
+	let isLaunch = true
 	export default {
 		components: {
 			uniTag,
@@ -68,6 +69,7 @@
 		},
 		data() {
 			return {
+				isLoad: false,
 				hotList: [],
 				showHotMask: false,
 				tabIndex: 0,
@@ -158,6 +160,7 @@
 
 			init() {
 				if (!this.tabs[this.tabIndex].data.length) {
+					this.isLoad=false
 					uni.showLoading({
 						title: '加载中'
 					});
@@ -171,13 +174,15 @@
 								type: 2,
 								ctime: ctime,
 								offset: this.tabs[this.tabIndex].offset,
-								total: total
+								total: total,
+								isLaunch
 							},
 							res => {
 								console.log('刷新推荐数据');
 								console.log(res);
 								this.tabs[this.tabIndex].data = res.data.concat(this.tabs[this.tabIndex].data);
-								console.log(this.tabs);
+								isLaunch = false
+								this.isLoad=true
 								uni.hideLoading();
 								onok(res.data);
 							}
@@ -187,12 +192,15 @@
 								type: 1,
 								ctime: ctime,
 								offset: this.tabs[this.tabIndex].offset,
-								total: total
+								total: total,
+								isLaunch
 							},
 							res => {
 								console.log('刷新关注数据');
 								console.log(res);
 								this.tabs[this.tabIndex].data = res.data.concat(this.tabs[this.tabIndex].data);
+								isLaunch = false
+								this.isLoad=true
 								uni.hideLoading();
 								onok(res.data);
 							}
@@ -207,7 +215,8 @@
 							type: 2,
 							ctime: ctime,
 							offset: this.tabs[this.tabIndex].offset,
-							total: total
+							total: total,
+							isLaunch
 						},
 						res => {
 							console.log(res);
@@ -228,7 +237,8 @@
 							type: 1,
 							ctime: ctime,
 							offset: this.tabs[this.tabIndex].offset,
-							total: total
+							total: total,
+							isLaunch
 						},
 						res => {
 							console.log(res);
@@ -331,10 +341,11 @@
 </script>
 
 <style lang="scss">
-	.container{
+	.container {
 		height: 100%;
 		overflow: hidden;
 	}
+
 	.tab-bar {
 		padding: 0upx 0upx 0upx 30upx;
 		// border-bottom: 2upx solid #f1f1f1;
