@@ -1,5 +1,9 @@
 <template>
 	<view>
+		<cu-custom bgColor="bg-gradual-red" :isBack="true">
+			<block slot="backText"></block>
+			<block slot="content">收货地址</block>
+		</cu-custom>
 		<view class="address-list flex-r-between" v-for="(item,index) in list" :key="index">
 			<view class="list-l">
 				<view class="blod">
@@ -15,9 +19,8 @@
 			</view>
 		</view>
 		<empty v-if="list.length==0" msg="没有任何收货地址耶~"></empty>
-		<view class="fixed-bottom flex-r-center" @click="addressAdd">
-			<text class="iconfont icon-jiahao white"></text>
-			<text class="white font-b">创建新地址</text>
+		<view class="fixed-bottom fixed-bottom-height bg-default-color flex-r-center" @click="addressAdd">
+			<text class="white font-b">添加新地址</text>
 		</view>
 	</view>
 </template>
@@ -75,41 +78,6 @@
 
 			},
 			addressAdd() {
-				// 				uni.authorize({
-				// 					scope: "scope.address",
-				// 					success: () => {
-				// 						uni.chooseAddress({
-				// 							success: (res) => {
-				// 								let model = {
-				// 									id: 0,
-				// 									sort: 0,
-				// 									sex: 1,
-				// 									is_default: 1,
-				// 								}
-				// 								model.consignee = res.userName;
-				// 								model.province = res.provinceName;
-				// 								model.city = res.cityName;
-				// 								model.area = res.countyName
-				// 								model.address = res.detailInfo;
-				// 								model.mobile = res.telNumber;
-				// 								console.log(model)
-				// 								this.api.center.address.handle(model, res => {
-				// 									uni.showToast({
-				// 										title: "操作成功",
-				// 										icon: "success"
-				// 									})
-				// 								}, err => {
-				// 
-				// 								})
-				// 							}
-				// 						})
-				// 					},
-				// 					fail: () => {
-				// 						uni.navigateTo({
-				// 							url: "../address-handle/address-handle"
-				// 						})
-				// 					}
-				// 				})
 				uni.navigateTo({
 					url: "../address-handle/address-handle"
 				})
@@ -119,10 +87,7 @@
 </script>
 
 <style>
-	.fixed-bottom {
-		background-color: #FC4041;
-		padding: 20upx 0;
-	}
+	
 
 	.address-list {
 		width: 94%;

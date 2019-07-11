@@ -163,6 +163,26 @@ var _default2 = { data: function data() {return { pickerValue: [0, 0, 0], provin
 
   methods: {
     init: function init() {
+      // this.api.center.address.get_region(null, res => {
+      // 	console.log(res.data)
+      // 	this.provinceDataList = res.data.map((el) => {
+      // 		return {
+      // 			"label": el.name,
+      // 			"value": el.id
+      // 		}
+      // 	})
+      // 	console.log(JSON.stringify(this.provinceDataList))
+      // 	cityData = res.data.map((el) => {
+      // 		return el.city ? el.city.map((item) => {
+      // 			return {
+      // 				"label": item.name,
+      // 				"value": item.id
+      // 			}
+      // 		}) : []
+      // 	})
+      // 	console.log(JSON.stringify(cityData))
+      // 	
+      // })
       this.handPickValueDefault(); // 对 pickerValueDefault 做兼容处理
       this.provinceDataList = _province.default;
       this.cityDataList = _city.default[this.pickerValueDefault[0]];
@@ -222,7 +242,7 @@ var _default2 = { data: function data() {return { pickerValue: [0, 0, 0], provin
       var pickObj = {
         label: this._getLabel(),
         value: this.pickerValue,
-        cityCode: this._getCityCode() };
+        codeValue: this._getCode() };
 
       this.$emit(emitName, pickObj);
     },
@@ -235,8 +255,9 @@ var _default2 = { data: function data() {return { pickerValue: [0, 0, 0], provin
       this.areaDataList[this.pickerValue[2]].label;
       return pcikerLabel;
     },
-    _getCityCode: function _getCityCode() {
-      return this.areaDataList[this.pickerValue[2]].value;
+    _getCode: function _getCode() {
+      return [this.provinceDataList[this.pickerValue[0]].value, this.cityDataList[this.pickerValue[1]].value, this.areaDataList[
+      this.pickerValue[2]].value];
     } } };exports.default = _default2;
 
 /***/ }),

@@ -124,6 +124,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
 {
   components: {
     empty: empty },
@@ -175,41 +178,6 @@ __webpack_require__.r(__webpack_exports__);
 
     },
     addressAdd: function addressAdd() {
-      // 				uni.authorize({
-      // 					scope: "scope.address",
-      // 					success: () => {
-      // 						uni.chooseAddress({
-      // 							success: (res) => {
-      // 								let model = {
-      // 									id: 0,
-      // 									sort: 0,
-      // 									sex: 1,
-      // 									is_default: 1,
-      // 								}
-      // 								model.consignee = res.userName;
-      // 								model.province = res.provinceName;
-      // 								model.city = res.cityName;
-      // 								model.area = res.countyName
-      // 								model.address = res.detailInfo;
-      // 								model.mobile = res.telNumber;
-      // 								console.log(model)
-      // 								this.api.center.address.handle(model, res => {
-      // 									uni.showToast({
-      // 										title: "操作成功",
-      // 										icon: "success"
-      // 									})
-      // 								}, err => {
-      // 
-      // 								})
-      // 							}
-      // 						})
-      // 					},
-      // 					fail: () => {
-      // 						uni.navigateTo({
-      // 							url: "../address-handle/address-handle"
-      // 						})
-      // 					}
-      // 				})
       uni.navigateTo({
         url: "../address-handle/address-handle" });
 

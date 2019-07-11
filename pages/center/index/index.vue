@@ -33,7 +33,7 @@
 					<text class="iconfont iconarrow-right-copy" style="color: #B2B2B2;"></text>
 				</view>
 			</navigator>
-			<!-- <navigator url="../address/address-list/address-list" hover-class="none">
+			<navigator url="../address/address-list/address-list" hover-class="none">
 				<view class="list-cell flex-r-between">
 					<view class="list-cell-left flex-r-center">
 						<image src="../../../static/me_list_ic_address@2x.png" mode="widthFix" class="icon"></image>
@@ -43,7 +43,7 @@
 						<text class="iconfont iconarrow-right-copy" style="color: #B2B2B2;"></text>
 					</view>
 				</view>
-			</navigator> -->
+			</navigator>
 			<navigator url="../collect/list/list" hover-class="none">
 				<view class="list-cell flex-r-between">
 					<view class="list-cell-left flex-r-center">

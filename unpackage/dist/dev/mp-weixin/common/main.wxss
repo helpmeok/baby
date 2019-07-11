@@ -1191,7 +1191,7 @@ radio-group label, checkbox-group label{
 }
 .uni-textarea textarea{
 	width:96%;
-	padding:18rpx 2%;
+	padding:18rpx 0%;
 	line-height:1.6;
 	font-size:28rpx;
 	height:150rpx;

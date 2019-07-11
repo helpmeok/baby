@@ -1,8 +1,4 @@
 
-.fixed-bottom {
-	background-color: #FC4041;
-	padding: 20rpx 0;
-}
 .address-list {
 	width: 94%;
 	margin-left: 3%;
