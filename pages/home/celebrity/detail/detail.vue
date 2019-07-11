@@ -55,7 +55,7 @@
 					<view class="flex-c-center list-item">
 						<view class="iconfont iconarrow-right-copy red"></view>
 						<view class="red" style="margin: 20upx 0;">更多大V</view>
-						<view class="small gray">view more</view>
+						<view class="small gray">查看更多</view>
 					</view>
 				</navigator>
 			</view>

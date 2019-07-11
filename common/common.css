@@ -35,7 +35,7 @@ page {
 }
 
 .default-color {
-	color: #FC4041;
+	color: #FC4041 !important;
 }
 
 .bg-white {
@@ -43,7 +43,7 @@ page {
 }
 
 .bg-default-color {
-	background-color: #FC4041;
+	background-color: #FC4041 !important;
 }
 
 .blod {

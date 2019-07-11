@@ -12,6 +12,14 @@
 						<image src="/static/com_nav_ic_assistant2_nor@2x.png" mode="widthFix" class="helper" v-if="helper"></image>
 					</view>
 				</view>
+				<view class="action border-custom" v-if="isDelete" :style="[{width:Custom.width+'px'}]">
+					<text class="cuIcon-back" @tap="BackPage"></text>
+					<view class="helper-box flex-r-center" @click="deleteHandle()">
+						<view class="iconfont icon- white" style="font-size: 40upx;">
+							
+						</view>
+					</view>
+				</view>
 				<!-- <image src="/static/com_nav_ic_assistant2_nor@2x.png" mode="widthFix" class="helper" v-if="helper"></image> -->
 				<text class="cuIcon-edit" v-if="isEdit" style="font-size: 36upx;" @click="edit"></text>
 				<text v-if="!isEdit&&showCancel" @click="edit">取消</text>
@@ -75,6 +83,10 @@
 				type: [Boolean, String],
 				default: false
 			},
+			isDelete: {
+				type: [Boolean, String],
+				default: false
+			},
 		},
 		methods: {
 			BackPage() {
@@ -89,6 +101,9 @@
 				uni.reLaunch({
 					url: '/pages/helper/index/index',
 				})
+			},
+			deleteHandle(){
+				this.$emit('deleteHandle')
 			}
 		}
 	}

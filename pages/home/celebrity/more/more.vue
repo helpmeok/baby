@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view class="container">
 		<cu-custom bgColor="bg-gradual-red" :isBack="true">
 			<block slot="backText"></block>
 			<block slot="content">大V</block>
@@ -23,7 +23,7 @@
 						</view>
 						<view class=" bg-default-color mgr-60 pd-lr btn flex-r-center" :class="{'followed':el.isFollowed ,'white':!el.isFollowed }"
 						 @click.stop="toggleFollowed(el,index,sub)">
-							<text class="iconfont iconjiahao white small mgr-10" v-if="!el.isFollowed "></text>
+							<text class="iconfont iconjiahao white small mgr-10" v-if="!el.isFollowed"></text>
 							<text class="">{{el.isFollowed ?"已关注":"关注"}}</text>
 						</view>
 					</view>
@@ -172,6 +172,9 @@
 </script>
 
 <style lang="scss">
+	.container{
+		overflow-y: hidden;
+	}
 	.list-item {
 		box-sizing: border-box;
 
@@ -195,8 +198,8 @@
 		}
 
 		.followed {
-			background-color: #ffffff;
-			border-color: #f1f1f1;
+			background-color: #ffffff !important;
+			border-color: #f1f1f1 !important;
 		}
 	}
 

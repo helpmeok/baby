@@ -147,6 +147,12 @@
 				"navigationStyle": "custom"
 			}
         }
+        ,{
+            "path" : "pages/center/manage/pregnancy/handle/handle",
+            "style" : {
+				"navigationStyle": "custom"
+			}
+        }
     ],
 	"tabBar": {
 		"color": "#666666",
@@ -171,12 +177,12 @@
 				"selectedIconPath": "static/tabbar/helper1.png",
 				"text": "助手"
 			},
-			{
-				"pagePath": "pages/task/index/index",
-				"iconPath": "static/tabbar/com_tab_ic_welfare_pre@3x.png",
-				"selectedIconPath": "static/tabbar/com_tab_ic_welfare_sel@3x.png",
-				"text": "任务"
-			},
+			// {
+			// 	"pagePath": "pages/task/index/index",
+			// 	"iconPath": "static/tabbar/com_tab_ic_welfare_pre@3x.png",
+			// 	"selectedIconPath": "static/tabbar/com_tab_ic_welfare_sel@3x.png",
+			// 	"text": "任务"
+			// },
 			{
 				"pagePath": "pages/center/index/index",
 				"iconPath": "static/tabbar/com_tab_ic_me_pre@2x.png",
@@ -273,7 +279,12 @@
 			{
 				"name": "宝宝操作",
 				"pathName": "pages/center/manage/baby/handle/handle",
-				"query":"type=0"
+				"query":"id=110"
+			},
+			{
+				"name": "孕期操作",
+				"pathName": "pages/center/manage/pregnancy/handle/handle",
+				"query":""
 			}
 			
 		]

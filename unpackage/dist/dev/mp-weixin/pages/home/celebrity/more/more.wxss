@@ -24,6 +24,9 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
+.container {
+  overflow-y: hidden;
+}
 .list-item {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
@@ -47,8 +50,8 @@
       font-weight: blod;
 }
 .list-item .followed {
-    background-color: #ffffff;
-    border-color: #f1f1f1;
+    background-color: #ffffff !important;
+    border-color: #f1f1f1 !important;
 }
 .indexes {
   position: relative;

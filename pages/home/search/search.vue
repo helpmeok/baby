@@ -21,7 +21,7 @@
 				<view class="flex">
 					<view class="item small " v-for="(item, index) in keywordList" :key="index" @click="search(item.keywordName)">{{ item.keywordName }}</view>
 				</view>
-				<view class="flex-r-between" style="margin-top: 20upx;">
+				<view class="flex-r-between" style="margin-top: 20upx;" v-if="historyList.length>0">
 					<text class="blod">历史搜索</text>
 					<view class="iconfont icon- gray blod" @click="clearHistoryList"></view>
 				</view>

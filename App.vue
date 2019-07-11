@@ -127,11 +127,11 @@ export default {
 
 <style>
 /*每个页面公共css */
-@import './common/common.css';
 @import './common/uni.css';
 @import './common/icon.css';
 @import './common/colorui/main.css';
 @import './common/colorui/icon.css';
+@import './common/common.css';
 page {
 	background-color: white;
 	height: 100%;

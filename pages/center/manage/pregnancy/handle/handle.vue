@@ -11,36 +11,28 @@
 		<view class="bg-white list-box">
 			<view class="list-cell flex-r-between pd-box">
 				<view class="list-cell-left blod">
-					宝宝昵称
+					怀孕状态
 				</view>
-				<view class="list-cell-right">
-					<input type="text" class="align-right" placeholder="请输入昵称" v-model="from.name" maxlength="10" />
-				</view>
-			</view>
-			<view class="list-cell flex-r-between pd-box">
-				<view class="list-cell-left blod">
-					宝宝性别
-				</view>
-				<radio-group class="list-cell-right flex-r-center" style="width: auto;" @change="sexChange">
+				<radio-group class="list-cell-right flex-r-center" style="width: auto;" @change="pregnancyChange">
 					<label class="radio mgr-30 flex-r-center">
-						<radio value="1" name="sex" class="red" :checked="from.sex==1" style="transform:scale(0.9);" />
-						<text class="mgl-10">小王子</text>
+						<radio value="1" name="sex" class="red" :checked="!birthday" style="transform:scale(0.9);" />
+						<text class="mgl-10">备孕中</text>
 					</label>
 					<label class="radio flex-r-center">
-						<radio value="2" name="sex" class="red" :checked="from.sex==2" style="transform:scale(0.9);" />
-						<text class="mgl-10">小公主</text>
+						<radio value="2" name="sex" class="red" :checked="birthday" style="transform:scale(0.9);" />
+						<text class="mgl-10">已怀孕</text>
 					</label>
 					<!-- <picker @change="sexChange" v-model="from.sexText" range-key="name" :range="sex">
 						<view class="">{{from.sexText}}</view>
 					</picker> -->
 				</radio-group>
 			</view>
-			<view class="list-cell flex-r-between pd-box">
+			<view class="list-cell flex-r-between pd-box" v-if="birthday">
 				<view class="list-cell-left blod">
-					宝宝生日
+					预产期
 				</view>
 				<view class="list-cell-right ">
-					<picker mode="date" :value="from.birthdayText" :end="endDate" @change="birthdayChange">
+					<picker mode="date" :value="from.birthdayText" :start="startDate" :end="endDate" @change="birthdayChange">
 						<view class="">{{from.birthdayText}}</view>
 					</picker>
 				</view>
@@ -60,11 +52,9 @@
 				cuText: "",
 				confirmText: "",
 				from: {
-					name: "",
-					sex: "",
 					birthday: "",
 					birthdayText: "请选择日期",
-					state: 1
+					state: 0
 				},
 				sex: [{
 					name: "男",
@@ -74,35 +64,50 @@
 					id: 2
 				}],
 				isEdit: false,
+				birthday: false,
 				disable: false
 			}
 		},
 		onLoad(options) {
-			this.cuText = !options.id ? "新的宝宝" : "修改资料"
+			this.cuText = !options.id ? "新的孕期" : "修改孕期"
 			this.confirmText = !options.id ? "确认添加" : "确认修改"
 			this.isEdit = !options.id ? false : true
 			id = options.id ? options.id : ""
 			if (id) {
 				this.api.center.manage.baby.get_list({
-					state: 1
+					state: 0
 				}, res => {
 					console.log(res)
 					this.from = res.data.find((el) => {
 						return el.babyInfoId == id
 					})
 					console.log(this.from)
-					this.from.birthdayText = this.from.birthday;
+					if (this.from.birthday) {
+						this.birthday = true;
+						this.from.birthdayText = this.from.birthday;
+					} else {
+						this.from.birthdayText = "请选择日期";
+					}
 				})
 			}
 		},
 		computed: {
 			endDate() {
-				return this.getDate();
+				return this.getDate(1);
+			},
+			startDate() {
+				return this.getDate(0);
 			}
 		},
 		methods: {
-			sexChange(e) {
-				this.from.sex = e.target.value
+			pregnancyChange(e) {
+				console.log(e.target.value)
+				if (e.target.value == 1) {
+					this.birthday = false
+
+				} else {
+					this.birthday = true
+				}
 			},
 			birthdayChange(e) {
 				this.from.birthday = e.target.value
@@ -110,7 +115,7 @@
 			},
 			getDate(type) {
 				const date = new Date();
-				let year = date.getFullYear();
+				let year = date.getFullYear() + type;
 				let month = date.getMonth() + 1;
 				let day = date.getDate();
 				month = month > 9 ? month : '0' + month;;
@@ -140,34 +145,27 @@
 							})
 						} else if (res.cancel) {
 							console.log('用户点击取消');
+
 						}
 					}
 				});
 			},
 			confrim() {
-				if (!this.from.name) {
-					uni.showToast({
-						title: "请输入宝宝昵称",
-						icon: "none"
-					})
-					return
-				}
-				if (!this.from.sex) {
-					uni.showToast({
-						title: "请选择宝宝性别",
-						icon: "none"
-					})
-					return
-				}
-				if (!this.from.birthday) {
-					uni.showToast({
-						title: "请输入宝宝生日",
-						icon: "none"
-					})
-					return
+				if (this.birthday) {
+					if (!this.from.birthday) {
+						uni.showToast({
+							title: "请输入宝宝生日",
+							icon: "none"
+						})
+						return
+					}
+				} else {
+					this.from.birthday = "";
+					this.from.birthdayText = "请选择日期";
 				}
 				if (this.isEdit) {
 					this.from.babyInfoId = id;
+					console.log(this.from)
 					this.api.center.manage.baby.update(this.from, res => {
 						console.log(res)
 						uni.showToast({
@@ -188,7 +186,6 @@
 							console.log(res)
 							uni.showToast({
 								title: "添加成功",
-								mask: true,
 								success: () => {
 									setTimeout(() => {
 										uni.navigateBack({
@@ -200,7 +197,6 @@
 						})
 					}
 				}
-
 			}
 		}
 	}

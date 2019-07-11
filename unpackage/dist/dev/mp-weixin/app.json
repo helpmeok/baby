@@ -23,7 +23,8 @@
     "pages/center/about/website/index/index",
     "pages/center/manage/index/index",
     "pages/task/index/index",
-    "pages/center/manage/baby/handle/handle"
+    "pages/center/manage/baby/handle/handle",
+    "pages/center/manage/pregnancy/handle/handle"
   ],
   "subPackages": [],
   "window": {
@@ -57,12 +58,6 @@
         "text": "助手"
       },
       {
-        "pagePath": "pages/task/index/index",
-        "iconPath": "static/tabbar/com_tab_ic_welfare_pre@3x.png",
-        "selectedIconPath": "static/tabbar/com_tab_ic_welfare_sel@3x.png",
-        "text": "任务"
-      },
-      {
         "pagePath": "pages/center/index/index",
         "iconPath": "static/tabbar/com_tab_ic_me_pre@2x.png",
         "selectedIconPath": "static/tabbar/com_tab_ic_me_sel@2x.png",
@@ -85,5 +80,5 @@
     "article-operate": "/components/article-operate",
     "cu-custom": "/components/cu-custom"
   },
-  "sitemapLocation": "sitemap90.json"
+  "sitemapLocation": "sitemap.json"
 }

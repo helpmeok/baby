@@ -125,8 +125,14 @@
 				{
 					"name": "宝宝操作",
 					"pathName": "pages/center/manage/baby/handle/handle",
-					"query": "type=0",
+					"query": "id=110",
 					"id": 18
+				},
+				{
+					"name": "孕期操作",
+					"pathName": "pages/center/manage/pregnancy/handle/handle",
+					"query": "",
+					"id": 19
 				}
 			]
 		}
