@@ -1,24 +1,30 @@
 <template>
-	<view>
+	<view class="container" >
 		<cu-custom bgColor="bg-gradual-red" :isBack="true">
 			<block slot="backText"></block>
 			<block slot="content">收货地址</block>
 		</cu-custom>
-		<view class="address-list flex-r-between" v-for="(item,index) in list" :key="index">
-			<view class="list-l">
-				<view class="blod">
-					{{item.province}}{{item.city}}{{item.area}}{{item.address}}
+		<empty v-if="list.length==0" msg="暂无收货地址,请添加地址~"></empty>
+		<view class="address-list">
+			<view class="list-item  border-bottom flex-r-between" v-for="(item,index) in list" :key="index">
+				<view class="list-l">
+					<view class="flex">
+						<view class="default-address small bg-default-color white mgr-20" v-if="item.isDefault==1">
+							默认
+						</view>
+						<text class="mgr-20 blod font-b" >{{item.name}}</text>
+						<text class="blod font-b">{{item.phone}}</text>
+					</view>
+					<view class="gray" style="margin-top: 20upx;">
+						{{item.provinceName}}{{item.cityName}}{{item.districtName}}{{item.address}}
+					</view>
 				</view>
-				<view class="gray">
-					{{item.mobile}}&#X3000;{{item.consignee}}<text v-if="item.is_default" class="default-address">默认</text>
+				<view class="list-r"  @click="edit(item.addrId)">
+					<!-- <text class="iconfont iconGroup- gray" @click="deleted(item.addrId,index)"></text> -->
+					<text class="iconfont iconbianji gray mgr-30 mgl-30"></text>
 				</view>
-			</view>
-			<view class="list-r">
-				<text class="iconfont icon-bianji-copy gray" @click="edit(item.id)"></text>
-				<text class="iconfont icon-shanchu gray" @click="deleted(item.id,index)"></text>
 			</view>
 		</view>
-		<empty v-if="list.length==0" msg="没有任何收货地址耶~"></empty>
 		<view class="fixed-bottom fixed-bottom-height bg-default-color flex-r-center" @click="addressAdd">
 			<text class="white font-b">添加新地址</text>
 		</view>
@@ -38,15 +44,12 @@
 		},
 		onLoad() {},
 		onShow() {
-			this.api.center.address.get_list({}, res => {
+			this.api.center.address.get_list(null, res => {
 				console.log(res)
 				this.list = res.data
-			}, err => {
-
 			})
 		},
 		methods: {
-
 			edit(id) {
 				uni.navigateTo({
 					url: '../address-handle/address-handle?id=' + id
@@ -86,27 +89,29 @@
 	}
 </script>
 
-<style>
-	
+<style lang="scss">
+	.container{
+		background-color: #f8f8f8;
+		height: 100%;
+	}
 
 	.address-list {
-		width: 94%;
-		margin-left: 3%;
-		border-bottom: 2upx solid #BBBBBB;
-		padding: 10upx 0;
+		margin-top: 30upx;
+		background-color: white;
+		padding-left: 30upx;
+		.list-item{
+			 padding: 20upx 0;
+			.list-r .iconfont {
+				font-size: 50upx;
+				margin-left: 30upx;
+			}
+			
+			.default-address {
+				border-radius: 20upx;
+				padding: 0 20upx;
+			}
+		}
 	}
 
-	.list-r .iconfont {
-		font-size: 60upx;
-		margin-left: 20upx;
-	}
-
-	.default-address {
-		display: inline-block;
-		background-color: #EBA91F;
-		color: white;
-		padding: 0 20upx;
-		border-radius: 10upx;
-		margin-left: 20upx;
-	}
+	
 </style>

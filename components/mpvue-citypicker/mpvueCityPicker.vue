@@ -142,7 +142,10 @@
 				let pickObj = {
 					label: this._getLabel(),
 					value: this.pickerValue,
-					codeValue: this._getCode()
+					codeValue: this._getCode(),
+					province:this._getCode()[0],
+					city:this._getCode()[1],
+					district:this._getCode()[2]
 				};
 				this.$emit(emitName, pickObj);
 			},

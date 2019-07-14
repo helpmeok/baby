@@ -1,7 +1,0 @@
-{
-  "navigationBarTitleText": "",
-  "navigationStyle": "custom",
-  "usingComponents": {
-    "mpvue-city-picker": "/components/mpvue-citypicker/mpvueCityPicker"
-  }
-}

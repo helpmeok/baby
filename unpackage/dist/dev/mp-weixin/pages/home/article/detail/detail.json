@@ -1,7 +1,0 @@
-{
-  "navigationBarTitleText": "宝宝贝",
-  "navigationStyle": "custom",
-  "usingComponents": {
-    "u-parse": "/components/un-parse/u-parse"
-  }
-}

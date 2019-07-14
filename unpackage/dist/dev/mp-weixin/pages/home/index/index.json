@@ -1,9 +1,0 @@
-{
-  "navigationBarTitleText": "宝宝贝",
-  "navigationStyle": "custom",
-  "usingComponents": {
-    "uni-tag": "/components/uni-tag",
-    "mix-pulldown-refresh": "/components/mix-pulldown-refresh",
-    "article-operate": "/components/article-operate"
-  }
-}

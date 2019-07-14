@@ -1,47 +1,56 @@
 <template>
-	<view>
-		<view class="address-list flex-r-between" v-for="(item,index) in list" :key="index">
-			<view class="list-l" @click="goBack(item.id)">
-				<view class="blod">
-					{{item.province}}{{item.city}}{{item.area}}{{item.address}}
+	<view class="container">
+		<cu-custom bgColor="bg-gradual-red" :isBack="true">
+			<block slot="backText"></block>
+			<block slot="content">收货地址</block>
+		</cu-custom>
+		<view class="address-list">
+			<view class="list-item  border-bottom flex-r-between" v-for="(item,index) in list" :key="index">
+				<view class="list-l">
+					<view class="flex">
+						<view class="default-address small bg-default-color white mgr-20" v-if="item.isDefault==1">
+							默认
+						</view>
+						<text class="mgr-20 blod font-b" >{{item.name}}</text>
+						<text class="blod font-b">{{item.phone}}</text>
+					</view>
+					<view class="gray" style="margin-top: 20upx;">
+						{{item.provinceName}}{{item.cityName}}{{item.districtName}}{{item.address}}
+					</view>
 				</view>
-				<view class="gray">
-					{{item.mobile}}&#X3000;{{item.consignee}}<text style="margin-left: 30upx;" v-if="addressId==item.id" class="iconfont default-color icon-dagou"></text>
+				<view class="list-r"  @click="edit(item.addrId)">
+					<!-- <text class="iconfont iconGroup- gray" @click="deleted(item.addrId,index)"></text> -->
+					<text class="iconfont iconbianji gray mgr-30 mgl-30"></text>
 				</view>
-			</view>
-			<view class="list-r">
-				<text class="iconfont icon-bianji-copy gray" @click="edit(item.id)"></text>
-				<text class="iconfont icon-shanchu gray" @click="deleted(item.id,index)"></text>
 			</view>
 		</view>
-		<view class="fixed-bottom flex-r-center" @click="addressAdd">
-			<text class="iconfont icon-jiahao white"></text>
-			<text class="white font-b">添加地址</text>
+		
+		<empty v-if="list.length==0" msg="没有任何收货地址耶~"></empty>
+		<view class="fixed-bottom fixed-bottom-height bg-default-color flex-r-center" @click="addressAdd">
+			<text class="white font-b">添加新地址</text>
 		</view>
 	</view>
 </template>
 
 <script>
+	import empty from '@/components/empty-data.vue'
 	export default {
+		components: {
+			empty
+		},
 		data() {
 			return {
-				list: [],
-				addressId: ""
+				list: []
 			};
 		},
 		onLoad() {},
 		onShow() {
-			this.addressId = uni.getStorageSync('addressId')
-			uni.removeStorageSync('addressId')
-			this.api.center.address.all(null, res => {
+			this.api.center.address.get_list(null, res => {
 				console.log(res)
 				this.list = res.data
-			}, err => {
-
 			})
 		},
 		methods: {
-
 			edit(id) {
 				uni.navigateTo({
 					url: '../address-handle/address-handle?id=' + id
@@ -72,85 +81,38 @@
 				})
 
 			},
-			goBack(id) {
-				uni.setStorageSync('addressId', id);
-				uni.navigateBack({
-					delta: 1
-				})
-			},
 			addressAdd() {
-				// #ifdef MP-WEIXIN
-				uni.authorize({
-					scope: "scope.address",
-					success: () => {
-						uni.chooseAddress({
-							success: (res) => {
-								let model = {
-									id: 0,
-									sort: 0,
-									sex: 1,
-									is_default: 1,
-								}
-								model.consignee = res.userName;
-								model.province = res.provinceName;
-								model.city = res.cityName;
-								model.area = res.countyName
-								model.address = res.detailInfo;
-								model.mobile = res.telNumber;
-								console.log(model)
-								this.api.center.address.handle(model, res => {
-									uni.showToast({
-										title: "操作成功",
-										icon: "success"
-									})
-								}, err => {
-
-								})
-							}
-						})
-					},
-					fail: () => {
-						uni.navigateTo({
-							url: "../address-handle/address-handle"
-						})
-					}
-				})
-
-				// #endif
-				// #ifdef H5
 				uni.navigateTo({
 					url: "../address-handle/address-handle"
 				})
-				// #endif
 			}
 		}
 	}
 </script>
 
-<style>
-	.fixed-bottom {
-		background-color: #EBA91F;
-		padding: 20upx 0;
+<style lang="scss">
+	.container{
+		background-color: #f8f8f8;
+		height: 100%;
 	}
 
 	.address-list {
-		width: 94%;
-		margin-left: 3%;
-		border-bottom: 2upx solid #BBBBBB;
-		padding: 10upx 0;
+		margin-top: 30upx;
+		background-color: white;
+		padding-left: 30upx;
+		.list-item{
+			 padding: 20upx 0;
+			.list-r .iconfont {
+				font-size: 50upx;
+				margin-left: 30upx;
+			}
+			
+			.default-address {
+				border-radius: 20upx;
+				padding: 0 20upx;
+			}
+		}
 	}
 
-	.list-r .iconfont {
-		font-size: 60upx;
-		margin-left: 20upx;
-	}
-
-	.default-address {
-		display: inline-block;
-		background-color: #EBA91F;
-		color: white;
-		padding: 0 20upx;
-		border-radius: 10upx;
-		margin-left: 20upx;
-	}
+	
 </style>

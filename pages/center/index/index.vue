@@ -1,189 +1,184 @@
 <template>
 	<view>
-		<cu-custom bgColor="bg-gradual-red" >
-			<block slot="content">我的</block>
-		</cu-custom>
+		<cu-custom bgColor="bg-gradual-red"><block slot="content">我的</block></cu-custom>
 		<view class="container">
-			<view class="header">
-				<view class="flex">
+			<view class="flex-r-between pd-box user-box">
+				<view class="" style="width: 20%;">
 					<image :src="userInfo.avatar" mode="widthFix" class="portrait"></image>
-					<view class="flex">
-						<view class="nick-name">{{userInfo.nickname}}</view>
-					<!-- 	<image src="../../../static/center/me_list_ic_babyattestation@2x.png" v-if="userInfo.appOauthStatus" mode="widthFix" class="icon"></image>
-						<image src="../../../static/center/me_list_ic_douyinattestation@2x.png"  v-if="userInfo.douyinOauthStatus" mode="widthFix" class="icon"></image>
-						<image src="../../../static/center/me_list_ic_toutiaoattestation@2x.png"  v-if="userInfo.toutiaoOauthStatus" mode="widthFix" class="icon"></image>
-						<image src="../../../static/center/me_list_ic_wechatattestation@2x.png"  v-if="userInfo.weixinOauthStatus" mode="widthFix" class="icon"></image> -->
-					</view>
-					<!-- <open-data type="userNickName"  class="font-b blod"></open-data> -->
 				</view>
-				<!-- <view class="flex-r-between exchange">
-					<view class="flex">
-						<image src="../../../static/me_list_ic_baby@2x.png" mode="widthFix" class="icon"></image>
-						<text>宝宝贝：3087</text>
+				<view class="flex-r-between" style="width: 75%;">
+					<view class="">
+						<view class="nick-name blod">{{ userInfo.nickname }}</view>
+						<view class="flex">
+							<image src="/static/center/me_list_ic_integral@3x.png" mode="widthFix" class="integral-icon"></image>
+							<view class="gray mgl-20">积分：20</view>
+						</view>
 					</view>
-					<view class="">前往兑换</view>
-				</view> -->
+					<image src="/static/center/me_list_ic_shop_nor@3x.png" mode="widthFix" class="shop-icon"></image>
+				</view>
 			</view>
-			<navigator class="list-cell flex-r-between" url="../manage/index/index" hover-class="none">
-				<view class="list-cell-left flex-r-center">
-					<image src="../../../static/me_list_ic_babyadministration@2x.png" mode="widthFix" class="icon"></image>
-					<text class="">宝宝管理</text>
+			<view class="header flex-r-around gray">
+				<navigator url="../manage/index/index" hover-class="none">
+					<view class="flex-c-center">
+						<image src="/static/center/me_card_ic_baby_nor@3x.png" mode="widthFix" class="icon"></image>
+						<view class="">宝宝管理</view>
+					</view>
+				</navigator>
+				<view class="flex-c-center">
+					<image src="/static/center/me_card_ic_order_nor@3x.png" mode="widthFix" class="icon"></image>
+					<view class="">我的订单</view>
 				</view>
-				<view class="list-cell-right flex-r-center">
-					<text class="iconfont iconarrow-right-copy" style="color: #B2B2B2;"></text>
+				<view class="flex-c-center">
+					<image src="/static/center/me_card_ic_qa_nor@3x.png" mode="widthFix" class="icon"></image>
+					<view class="">我的问答</view>
 				</view>
-			</navigator>
+			</view>
 			<navigator url="../address/address-list/address-list" hover-class="none">
 				<view class="list-cell flex-r-between">
 					<view class="list-cell-left flex-r-center">
 						<image src="../../../static/me_list_ic_address@2x.png" mode="widthFix" class="icon"></image>
-						<text class="">收件地址</text>
+						<text class="font-b">收件地址</text>
 					</view>
-					<view class="list-cell-right flex-r-center">
-						<text class="iconfont iconarrow-right-copy" style="color: #B2B2B2;"></text>
-					</view>
-				</view>
-			</navigator>
-			<navigator url="../collect/list/list" hover-class="none">
-				<view class="list-cell flex-r-between">
-					<view class="list-cell-left flex-r-center">
-						<image src="../../../static/me_list_ic_collection@2x.png" mode="widthFix" class="icon"></image>
-						<text class="">文章收藏</text>
-					</view>
-					<view class="list-cell-right flex-r-center">
-						<text class="iconfont iconarrow-right-copy" style="color: #B2B2B2;"></text>
-					</view>
+					<view class="list-cell-right flex-r-center"><text class="iconfont iconarrow-right-copy" style="color: #B2B2B2;"></text></view>
 				</view>
 			</navigator>
 			<navigator url="../classify/list/list" :hover-class="none">
 				<view class="list-cell flex-r-between">
 					<view class="list-cell-left flex-r-center">
 						<image src="../../../static/me_list_ic_follow@2x.png" mode="widthFix" class="icon"></image>
-						<text class="">主题关注</text>
+						<text class="font-b">我关注的主题</text>
 					</view>
-					<view class="list-cell-right flex-r-center">
-						<text class="iconfont iconarrow-right-copy" style="color: #B2B2B2;"></text>
-					</view>
+					<view class="list-cell-right flex-r-center"><text class="iconfont iconarrow-right-copy" style="color: #B2B2B2;"></text></view>
 				</view>
 			</navigator>
-			
-			<!-- <navigator url="../comment/list/list" hover-class="none">
+			<navigator url="../collect/list/list" hover-class="none">
 				<view class="list-cell flex-r-between">
 					<view class="list-cell-left flex-r-center">
-						<image src="../../../static/me_list_ic_comment@2x.png" mode="widthFix" class="icon"></image>
-						<text class="">我的评论</text>
+						<image src="../../../static/me_list_ic_collection@2x.png" mode="widthFix" class="icon"></image>
+						<text class="font-b">收藏与屏蔽的文章</text>
 					</view>
-					<view class="list-cell-right flex-r-center">
-						<text class="iconfont iconarrow-right-copy" style="color: #B2B2B2;"></text>
-					</view>
+					<view class="list-cell-right flex-r-center"><text class="iconfont iconarrow-right-copy" style="color: #B2B2B2;"></text></view>
 				</view>
-			</navigator> -->
+			</navigator>
 			<navigator url="../shield-author/list/list" hover-class="none">
 				<view class="list-cell flex-r-between">
 					<view class="list-cell-left flex-r-center">
 						<image src="../../../static/me_list_ic_shield@2x.png" mode="widthFix" class="icon"></image>
-						<text class="">我屏蔽的作者</text>
+						<text class="font-b">关注与屏蔽的作者</text>
 					</view>
-					<view class="list-cell-right flex-r-center">
-						<text class="iconfont iconarrow-right-copy" style="color: #B2B2B2;"></text>
-					</view>
+					<view class="list-cell-right flex-r-center"><text class="iconfont iconarrow-right-copy" style="color: #B2B2B2;"></text></view>
 				</view>
 			</navigator>
 			<navigator url="../record/list/list" hover-class="none">
 				<view class="list-cell flex-r-between">
 					<view class="list-cell-left flex-r-center">
 						<image src="../../../static/me_list_ic_record@2x.png" mode="widthFix" class="icon"></image>
-						<text class="">浏览记录</text>
+						<text class="font-b">文章浏览历史</text>
 					</view>
-					<view class="list-cell-right flex-r-center">
-						<text class="iconfont iconarrow-right-copy" style="color: #B2B2B2;"></text>
+					<view class="list-cell-right flex-r-center"><text class="iconfont iconarrow-right-copy" style="color: #B2B2B2;"></text></view>
+				</view>
+			</navigator>
+			<navigator url="../comment/list/list" hover-class="none">
+				<view class="list-cell flex-r-between">
+					<view class="list-cell-left flex-r-center">
+						<image src="../../../static/me_list_ic_comment@2x.png" mode="widthFix" class="icon"></image>
+						<text class="font-b">我的评论</text>
 					</view>
+					<view class="list-cell-right flex-r-center"><text class="iconfont iconarrow-right-copy" style="color: #B2B2B2;"></text></view>
 				</view>
 			</navigator>
 			<navigator url="../about/index/index" hover-class="none">
 				<view class="list-cell flex-r-between">
 					<view class="list-cell-left flex-r-center">
 						<image src="../../../static/com_tab_ic_me_pre@2x.png" mode="widthFix" class="icon"></image>
-						<text class="">关于我们</text>
+						<text class="font-b">关于我们</text>
 					</view>
-					<view class="list-cell-right flex-r-center">
-						<text class="iconfont iconarrow-right-copy" style="color: #B2B2B2;"></text>
-					</view>
+					<view class="list-cell-right flex-r-center"><text class="iconfont iconarrow-right-copy" style="color: #B2B2B2;"></text></view>
 				</view>
 			</navigator>
 		</view>
-		
+
 		<!-- <button open-type="launchApp" app-parameter="wechat" binderror="launchAppError">打开APP</button> -->
 	</view>
 </template>
 
 <script>
-	export default {
-		data() {
-			return {
-				userInfo: {}
-			};
-		},
-		onLoad() {
-
-		},
-		onShow() {
-			this.api.center.user.get_detail({}, res => {
-				console.log(res)
-				this.userInfo = res.data
-			})
-		}
-	};
+export default {
+	data() {
+		return {
+			userInfo: {}
+		};
+	},
+	onLoad() {},
+	onShow() {
+		this.api.center.user.get_detail({}, res => {
+			console.log(res);
+			this.userInfo = res.data;
+		});
+	}
+};
 </script>
 
 <style lang="scss">
-	.container {
-		background-color: #fdfdfd;
-		padding: 30upx;
-		box-sizing: border-box;
+.container {
+	background-color: #ffffff;
+	padding: 30upx;
+	box-sizing: border-box;
+}
+.user-box{
+	width: 100%;
+	.nick-name {
+		font-size: 36upx;
 	}
-
-	.header {
-		background-color: #ffffff;
-		border-radius: 20upx;
-		padding: 30upx;
-		box-shadow: 0px 10upx 60upx 0px rgba(0, 0, 0, 0.04);
-		margin-bottom: 40upx;
-		.icon{
-			width: 50upx;
-		}
-		.nick-name{
-			font-size: 32upx;
-		}
-		.portrait {
-			width: 100upx !important;
-			height: 100upx !important;
-			border-radius: 50%;
-			margin-right: 10upx;
-		}
+	.portrait {
+		width: 100% !important;
+		border-radius: 50%;
 	}
-
-	.exchange {
-		height: 60upx;
-		border-radius: 30upx;
-		background-color: #ffecec;
-		color: #FC4041;
-		margin-top: 30upx;
-		padding: 10upx 20upx;
-
-		.icon {
-			width: 65upx;
-		}
+	.integral-icon{
+		width: 40upx;
 	}
-
-	.list-cell {
-		box-sizing: border-box;
-		border-bottom: 2upx solid #f1f1f1;
-		padding: 20upx 0;
-
-		.icon {
-			width: 60upx;
-			margin-right: 20upx;
-		}
+	.shop-icon{
+		width: 100upx;
 	}
+}
+.header {
+	background-color: #ffffff;
+	border-radius: 20upx;
+	padding: 30upx;
+	box-shadow: 0px 10upx 60upx 0px rgba(0, 0, 0, 0.04);
+	margin-bottom: 40upx;
+
+	.icon {
+		width: 80upx;
+		margin-bottom: 10upx;
+	}
+	
+}
+
+.exchange {
+	height: 60upx;
+	border-radius: 30upx;
+	background-color: #ffecec;
+	color: #fc4041;
+	margin-top: 30upx;
+	padding: 10upx 20upx;
+
+	.icon {
+		width: 65upx;
+	}
+}
+
+.list-cell {
+	box-sizing: border-box;
+	border-bottom: 2upx solid #f1f1f1;
+	padding: 20upx 0;
+
+	.icon {
+		width: 60upx;
+		margin-right: 20upx;
+	}
+	.font-b{
+		font-size: 32upx;
+	}
+}
 </style>

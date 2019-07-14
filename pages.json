@@ -153,6 +153,24 @@
 				"navigationStyle": "custom"
 			}
         }
+        ,{
+            "path" : "pages/home/question/detail/detail",
+            "style" : {
+				"navigationStyle": "custom"
+			}
+        }
+        ,{
+            "path" : "pages/home/question/answer/answer",
+            "style" : {
+				"navigationStyle": "custom"
+			}
+        }
+        ,{
+            "path" : "pages/home/question/commit/commit",
+            "style" : {
+				"navigationStyle": "custom"
+			}
+        }
     ],
 	"tabBar": {
 		"color": "#666666",
@@ -227,7 +245,7 @@
 			{
 				"name": "文章详情", //模式名称
 				"pathName": "pages/home/article/detail/detail", //启动页面，必选
-				"query": "id=636"
+				"query": "id=13330"
 			},
 			{
 				"name": "分类详情", //模式名称
@@ -285,6 +303,18 @@
 				"name": "孕期操作",
 				"pathName": "pages/center/manage/pregnancy/handle/handle",
 				"query":""
+			},
+			{
+				"name": "问答详情",
+				"pathName": "pages/home/question/detail/detail"
+			},
+			{
+				"name": "我来回答",
+				"pathName": "pages/home/question/answer/answer"
+			},
+			{
+				"name": "发布新问题",
+				"pathName": "pages/home/question/commit/commit"
 			}
 			
 		]

@@ -1,6 +1,0 @@
-{
-  "enablePullDownRefresh": true,
-  "usingComponents": {
-    "wuc-tab": "/components/wuc-tab/wuc-tab"
-  }
-}

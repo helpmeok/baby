@@ -1,1 +1,0 @@
-<view class="flex-c-center" style="margin-top:200rpx;"><image src="{{url}}" mode="widthFix"></image><view class="gray">{{msg}}</view></view>
