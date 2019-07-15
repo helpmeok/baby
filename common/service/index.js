@@ -81,7 +81,7 @@ module.exports = {
 			_req.m_send(_url, "POST", d, onok, onno);
 		},
 		bind_mobile:function(d, onok, onno) { //登陆界面绑定手机号用
-			let _url = "/setting/pureValidateVcode";
+			let _url = "/setting/updatePhone";
 			_req.m_send(_url, "POST", d, onok, onno);
 		},
 		get_recommend_article: function(d, onok, onno) { //“首页”模块的推荐数据

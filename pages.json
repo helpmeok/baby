@@ -1,15 +1,15 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
-			"path": "pages/index/index",
-			"style": {
-				"navigationBarTitleText": "登录",
-				"navigationStyle": "custom"
-			}
-		}, {
 			"path": "pages/home/index/index",
 			"style": {
 				"navigationBarTitleText": "宝宝贝",
+				"navigationStyle": "custom"
+			}
+		},{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "登录",
 				"navigationStyle": "custom"
 			}
 		}, {
@@ -116,62 +116,53 @@
 				"navigationBarTitleText": "屏蔽的作者",
 				"navigationStyle": "custom"
 			}
+		}, {
+			"path": "pages/center/about/index/index",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "pages/center/about/website/index/index",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "pages/center/manage/index/index",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "pages/task/index/index",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "pages/center/manage/baby/handle/handle",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "pages/center/manage/pregnancy/handle/handle",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "pages/home/question/detail/detail",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "pages/home/question/answer/answer",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "pages/home/question/commit/commit",
+			"style": {
+				"navigationStyle": "custom"
+			}
 		}
-	    ,{
-            "path" : "pages/center/about/index/index",
-            "style" : {
-				"navigationStyle": "custom"
-			}
-        }
-        ,{
-            "path" : "pages/center/about/website/index/index",
-            "style" : {
-				"navigationStyle": "custom"
-			}
-        }
-        ,{
-            "path" : "pages/center/manage/index/index",
-            "style" : {
-				"navigationStyle": "custom"
-			}
-        }
-        ,{
-            "path" : "pages/task/index/index",
-            "style" : {
-				"navigationStyle": "custom"
-			}
-        }
-        ,{
-            "path" : "pages/center/manage/baby/handle/handle",
-            "style" : {
-				"navigationStyle": "custom"
-			}
-        }
-        ,{
-            "path" : "pages/center/manage/pregnancy/handle/handle",
-            "style" : {
-				"navigationStyle": "custom"
-			}
-        }
-        ,{
-            "path" : "pages/home/question/detail/detail",
-            "style" : {
-				"navigationStyle": "custom"
-			}
-        }
-        ,{
-            "path" : "pages/home/question/answer/answer",
-            "style" : {
-				"navigationStyle": "custom"
-			}
-        }
-        ,{
-            "path" : "pages/home/question/commit/commit",
-            "style" : {
-				"navigationStyle": "custom"
-			}
-        }
-    ],
+	],
 	"tabBar": {
 		"color": "#666666",
 		"selectedColor": "#FC4041",
@@ -288,7 +279,7 @@
 			{
 				"name": "问题集",
 				"pathName": "pages/helper/list/list",
-				"query":"id=327&name=孩子的情商问题"
+				"query": "id=327&name=孩子的情商问题"
 			},
 			{
 				"name": "宝宝管理",
@@ -297,12 +288,12 @@
 			{
 				"name": "宝宝操作",
 				"pathName": "pages/center/manage/baby/handle/handle",
-				"query":"id=110"
+				"query": "id=110"
 			},
 			{
 				"name": "孕期操作",
 				"pathName": "pages/center/manage/pregnancy/handle/handle",
-				"query":""
+				"query": ""
 			},
 			{
 				"name": "问答详情",
@@ -316,7 +307,7 @@
 				"name": "发布新问题",
 				"pathName": "pages/home/question/commit/commit"
 			}
-			
+
 		]
 	}
 }
