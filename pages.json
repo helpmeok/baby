@@ -190,12 +190,12 @@
 				"selectedIconPath": "static/tabbar/helper1.png",
 				"text": "助手"
 			},
-			// {
-			// 	"pagePath": "pages/task/index/index",
-			// 	"iconPath": "static/tabbar/com_tab_ic_welfare_pre@3x.png",
-			// 	"selectedIconPath": "static/tabbar/com_tab_ic_welfare_sel@3x.png",
-			// 	"text": "任务"
-			// },
+			{
+				"pagePath": "pages/task/index/index",
+				"iconPath": "static/tabbar/com_tab_ic_day_pre@3x.png",
+				"selectedIconPath": "static/tabbar/com_tab_ic_day_sel@3x.png",
+				"text": "任务"
+			},
 			{
 				"pagePath": "pages/center/index/index",
 				"iconPath": "static/tabbar/com_tab_ic_me_pre@2x.png",
