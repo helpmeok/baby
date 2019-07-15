@@ -27,7 +27,8 @@
 			return {
 				title: 'Hello',
 				code: '',
-				isShow: false
+				isShow: false,
+				wxSessionKey: ""
 			};
 		},
 		onLoad(options) {
@@ -56,13 +57,16 @@
 				});
 			} else {
 				this.isShow = true;
-				uni.login({
-					provider: 'weixin',
-					success: loginRes => {
-						console.log(loginRes)
-						this.code = loginRes.code;
+				uni.checkSession({
+					success: () => {
+						this.wxSessionKey = uni.getStorageSync('wxSessionKey')
+						console.log('wxSessionKey有效')
+					},
+					fail: () => {
+						console.log('wxSessionKey过期')
+						this.getWXCode();
 					}
-				});
+				})
 			}
 		},
 		methods: {
@@ -71,7 +75,14 @@
 					uni.login({
 						provider: 'weixin',
 						success: loginRes => {
-							res(loginRes.code);
+							this.api.home.get_wx_sessionKey({
+								code: loginRes.code
+							}, data => {
+								console.log(data)
+								this.wxSessionKey = data.data
+								uni.setStorageSync('wxSessionKey', data.data)
+								res(data.data);
+							})
 						},
 						fail: err => {
 							rej(err);
@@ -85,12 +96,12 @@
 						title: '登录中'
 					});
 					let data = {};
-					if (!this.code) {
+					if (!this.wxSessionKey) {
 						//token过期时重新获取code
-						this.code = await this.getWXCode();
+						this.wxSessionKey = await this.getWXCode();
 					}
 					Object.assign(data, e.detail, {
-						code: this.code
+						sessionKey: this.wxSessionKey
 					});
 					console.log(data)
 					this.api.home.wx_login(

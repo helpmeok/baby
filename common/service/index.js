@@ -76,11 +76,15 @@ module.exports = {
 			let _url = "/miniApp/wxlogin";
 			_req.m_send(_url, "POST", d, onok, onno);
 		},
-		get_wx_mobile:function(d, onok, onno) { //微信小程序获取手机号码，调用的接口
+		get_wx_mobile: function(d, onok, onno) { //微信小程序获取手机号码，调用的接口
 			let _url = "/miniApp/getPhone";
 			_req.m_send(_url, "POST", d, onok, onno);
 		},
-		bind_mobile:function(d, onok, onno) { //登陆界面绑定手机号用
+		get_wx_sessionKey: function(d, onok, onno) {
+			let _url = "/miniApp/code2SessionKey";
+			_req.m_send(_url, "GET", d, onok, onno);
+		},
+		bind_mobile: function(d, onok, onno) { //登陆界面绑定手机号用
 			let _url = "/setting/updatePhone";
 			_req.m_send(_url, "POST", d, onok, onno);
 		},
@@ -157,6 +161,10 @@ module.exports = {
 				let _url = "/article/addArticleCountNum";
 				_req.m_send(_url, "POST", d, onok, onno);
 			},
+			comment: function(d, onok, onno) { //内容相关功能，针对某篇文章进行评论
+				let _url = "/article/commentArticle";
+				_req.m_send(_url, "POST", d, onok, onno);
+			},
 		},
 		comment: {
 			toggle_praise: function(d, onok, onno) { //内容相关功能，评论列表里点赞或取消点赞某条评论
@@ -216,6 +224,7 @@ module.exports = {
 				_req.m_send(_url, "GET", d, onok, onno);
 			},
 		},
+
 		classify: {
 			get_list: function(d, onok, onno) { //内容相关功能，获取用户关注的主题列表
 				let _url = "/my/getAttentionCategoryPageList";
@@ -227,17 +236,26 @@ module.exports = {
 			},
 		},
 		shield: {
-			get_list: function(d, onok, onno) { //内容相关功能，取得用户屏蔽的作者数据
+			get_author_list: function(d, onok, onno) { //内容相关功能，取得用户屏蔽的作者数据
 				let _url = "/my/getBlockVipPageList";
 				_req.m_send(_url, "GET", d, onok, onno);
 			},
-
+			get_article_list: function(d, onok, onno) { //APP“我的”模块获取用户屏蔽的文章数据
+				let _url = "/my/getBlockArticleList";
+				_req.m_send(_url, "GET", d, onok, onno);
+			},
 		},
 		about: {
 			get_website: function(d, onok, onno) { //APP“设置”模块的隐私政策页面数据
 				let _url = "/setting/getPageData";
 				_req.m_send(_url, "GET", d, onok, onno);
 			},
+		},
+		attention:{
+			get_author_list: function(d, onok, onno) { //APP“我的”模块获取关注作者列表
+				let _url = "/my/getAttentionVipList";
+				_req.m_send(_url, "GET", d, onok, onno);
+			}
 		},
 		manage: {
 			baby: {

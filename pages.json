@@ -162,7 +162,11 @@
 				"navigationStyle": "custom"
 			}
 		}
-	],
+	    ,{
+            "path" : "pages/home/article/comment/comment",
+            "style" : {}
+        }
+    ],
 	"tabBar": {
 		"color": "#666666",
 		"selectedColor": "#FC4041",
@@ -261,11 +265,11 @@
 				"pathName": "pages/center/address/address-handle/address-handle"
 			},
 			{
-				"name": "屏蔽的作者",
+				"name": "屏蔽与关注作者",
 				"pathName": "pages/center/shield-author/list/list"
 			},
 			{
-				"name": "文章收藏",
+				"name": "收藏与屏蔽文章",
 				"pathName": "pages/center/collect/list/list"
 			},
 			{

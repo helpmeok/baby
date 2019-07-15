@@ -47,12 +47,13 @@
 					</button>
 				</view>
 			</view>
-			<view class="mask" v-else @click="showCommentPublish=false">
-				<view class="fixed-bottom  bg-white">
-					<textarea placeholder-class="gray" placeholder="缺少你的评论..." />
+			<view class="mask publish-mask" v-else @click="showCommentPublish=false">
+				<view class="fixed-bottom  bg-white" @click.stop :style="[{'bottom':publishBottom+'px'}]">
+					<textarea placeholder-class="gray" v-model="publishText" :focus="showCommentPublish" @blur="publishBlur" @focus="publishFocus"
+					 :adjust-position="false" placeholder="缺少你的评论..." class="publish-textarea" />
 					<view class="flex-r-between">
 						<view class=""></view>
-						<view class="white bg-default-color">
+						<view class=" publish-btn-out" :class="{'publish-btn-on':publishText}" @click="addComment()">
 							发布
 						</view>
 					</view>
@@ -141,12 +142,29 @@
 					contentrefresh: '正在加载...',
 					contentnomore: '没有更多评论了'
 				},
-				hasMobile: false
+				hasMobile: false,
+				publishBottom:0,
+				publishText:"",
+				wxSessionKey:""
 			};
 		},
 		onLoad(options) {
 			id = options.id;
 			console.log('id============' + id);
+			uni.checkSession({
+				success:()=> {
+					this.wxSessionKey=uni.getStorageSync('wxSessionKey')
+					console.log('wxSessionKey有效')
+					if (!this.wxSessionKey) {
+						this.getWxSessionKey()
+					}
+				},
+				fail:()=> {
+					console.log('wxSessionKey过期')
+					this.getWxSessionKey()
+				}
+			})
+			
 			if (uni.getStorageSync("access_token")) {
 				this.api.center.user.get_detail(null, res => {
 					console.log(res);
@@ -160,32 +178,28 @@
 			this.parames = JSON.stringify(this.parames);
 			this.init();
 			this.addArticleCountNum('clickNum');
-
-			// setTimeout(() => {
-			// 	this.richTextHeight = Math.max.apply(null,heightArr)
-			// 	clearInterval(timer)
-			// }, 5000)
 		},
 		onUnload() {
 			offset = 0;
 		},
-		// async onReady() {
-		// 	timer = setInterval(async () => {
-		// 		var size = await this.getElSize('fake-rich')
-		// 		heightArr.push(size.height)
-		// 		console.log(Math.max.apply(null,heightArr))
-		// 		if (Math.max.apply(null,heightArr) >= this.screenHeight * 2) {
-		// 			this.richTextHeight = this.screenHeight * 2
-		// 			this.isShowMore = true
-		// 		} else {
-		// 			this.richTextHeight = Math.max.apply(null,heightArr)
-		// 			this.isShowMore = false
-		// 		}
-		// 	}, 100)
-		// },
 		methods: {
+			getWxSessionKey(){
+				uni.login({
+					provider: 'weixin',
+					success: loginRes => {
+						console.log(loginRes)
+						// this.code = loginRes.code;
+						this.api.home.get_wx_sessionKey({
+							code: loginRes.code
+						}, res => {
+							console.log(res)
+							this.wxSessionKey = res.data
+							uni.setStorageSync('wxSessionKey',res.data)
+						})
+					}
+				});
+			},
 			init() {
-
 				uni.showLoading({
 					title: '加载中'
 				});
@@ -216,32 +230,23 @@
 				if (e.detail.errMsg == 'getPhoneNumber:ok') {
 					let encryptedData = e.detail.encryptedData;
 					let iv = e.detail.iv;
-					uni.login({
-						provider: 'weixin',
-						success: loginRes => {
-							console.log(loginRes.code);
-							this.api.home.get_wx_mobile({
-								encryptedData,
-								iv,
-								code: loginRes.code
-							}, res => {
-								console.log(res)
-								this.api.home.bind_mobile({
-									phone: res.data
-								}, res => {
-									uni.showToast({
-										title: "绑定成功",
-										success: () => {
-											this.hasMobile = true
-										}
-									})
-								})
+					this.api.home.get_wx_mobile({
+						encryptedData,
+						iv,
+						sessionKey:this.wxSessionKey
+					}, res => {
+						console.log(res)
+						this.api.home.bind_mobile({
+							phone: res.data
+						}, res => {
+							uni.showToast({
+								title: "绑定成功",
+								success: () => {
+									this.hasMobile = true
+								}
 							})
-						},
-						fail: err => {
-							console.log(err);
-						}
-					});
+						})
+					})
 				}
 			},
 			addArticleCountNum(type) {
@@ -272,6 +277,24 @@
 						}
 					}
 				);
+			},
+			addComment(){
+				if (!this.publishText) {
+					return
+				}
+				this.api.home.article.comment({
+					articleId:id,
+					content:this.publishText
+				},res=>{
+					console.log(res)
+					uni.showToast({
+						title:"评论成功"
+					})
+					this.commentList.unshift(res.data);
+					this.scrollIntoId = 'comments';
+					this.publishText="";
+					this.showCommentPublish=false;
+				})
 			},
 			scroll() {
 				this.scrollIntoId = '';
@@ -391,6 +414,14 @@
 						}
 					}
 				});
+			},
+			publishFocus(e){
+				console.log(e)
+				this.publishBottom=e.detail.height;
+				console.log(this.publishBottom)
+			},
+			publishBlur(){
+				this.publishBottom=0;
 			}
 			// showAll() {
 			// 	clearInterval(timer)
@@ -497,5 +528,24 @@
 			border: none !important;
 			margin: 0 !important;
 		}
+	}
+	.publish-btn-out{
+		padding: 0 30upx;
+		border-radius: 30upx;
+		background-color: #f8f8f8;
+	}
+	.publish-btn-on{
+		padding: 0 30upx;
+		border-radius: 30upx;
+		background-color: $uni-color-default;
+		color: white;
+	}
+	.publish-textarea{
+		background-color: #f8f8f8;
+		height: 100px !important;
+		width: 100%;
+		margin: 20upx 0;
+		padding: 20upx;
+		border-radius: 10upx;
 	}
 </style>
