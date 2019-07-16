@@ -32,6 +32,8 @@ export default {
 				console.log(e);
 				Vue.prototype.StatusBar = e.statusBarHeight;
 				Vue.prototype.screenHeight = e.screenHeight;
+				Vue.prototype.screenWidth = e.screenWidth;
+				Vue.prototype.windowHeight = e.windowHeight;
 				let custom = wx.getMenuButtonBoundingClientRect();
 				Vue.prototype.Custom = custom;
 				Vue.prototype.CustomBar = custom.bottom + custom.top - e.statusBarHeight;

@@ -1780,7 +1780,21 @@ button.icon.lg {
 	white-space: nowrap;
 	overflow: hidden;
 }
-
+.cu-bar .task {
+	position: absolute;
+	text-align: center;
+	width: 100%;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	top: 0;
+	margin: auto;
+	cursor: none;
+	pointer-events: none;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
 .cu-bar.ios .content {
 	bottom: 7px;
 	height: 30px;

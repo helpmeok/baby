@@ -68,7 +68,7 @@
 				loadingText: {
 					contentdown: "",
 					contentrefresh: "正在加载...",
-					contentnomore: "没有更多文章了"
+					contentnomore: "没有更多数据了"
 				},
 				// list: [],
 				tabs: [{

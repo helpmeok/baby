@@ -251,7 +251,7 @@ module.exports = {
 				_req.m_send(_url, "GET", d, onok, onno);
 			},
 		},
-		attention:{
+		attention: {
 			get_author_list: function(d, onok, onno) { //APP“我的”模块获取关注作者列表
 				let _url = "/my/getAttentionVipList";
 				_req.m_send(_url, "GET", d, onok, onno);
@@ -277,7 +277,6 @@ module.exports = {
 				},
 			}
 		}
-
 	},
 	classify: {
 		get_top_category: function(d, onok, onno) { //获取分类头部数据列表
@@ -300,5 +299,30 @@ module.exports = {
 			let _url = "/category/attentionCategoryOrNo";
 			_req.m_send(_url, "POST", d, onok, onno);
 		},
+	},
+	task: {
+		get_list: function(d, onok, onno) { //APP“福利”模块获取每日任务列表，一次性给完所有任务列表数据
+			let _url = "/mall/taskList";
+			_req.m_send(_url, "GET", d, onok, onno);
+		},
+		get_award: function(d, onok, onno) { //APP“福利”模块，“每日任务”，完成任务，领取奖励
+			let _url = "/mall/completeTask";
+			_req.m_send(_url, "GET", d, onok, onno);
+		},
+		goods: {
+			get_list: function(d, onok, onno) { //APP“福利”模块获取兑换商品列表
+				let _url = "/mall/productList";
+				_req.m_send(_url, "GET", d, onok, onno);
+			},
+			get_detail: function(d, onok, onno) { //APP“福利”模块，“兑换商城”，商品详情
+				let _url = "/mall/productDetail";
+				_req.m_send(_url, "GET", d, onok, onno);
+			},
+			create_order: function(d, onok, onno) { //APP“福利”模块，“兑换商城”，兑换商品
+				let _url = "/mall/createOrder";
+				_req.m_send(_url, "POST", d, onok, onno);
+			},
+		}
+
 	}
 }

@@ -26,6 +26,9 @@
 				<view class="content" :style="[{top:StatusBar + 'px'}]">
 					<slot name="content"></slot>
 				</view>
+				<view class="task" :style="[{top:StatusBar + 'px'}]">
+					<slot name="task"></slot>
+				</view>
 				<slot name="right"></slot>
 			</view>
 		</view>

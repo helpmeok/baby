@@ -29,6 +29,9 @@
 						<image :src="el.url" class="image" mode="aspectFill" lazy-load="true" v-for="(el,i) in item.attachment" :key="i"></image>
 					</view>
 				</view>
+				<view class=" content showType4" v-if="item.showType == 4">
+					<view class="desc article-font">{{ item.title }}</view>
+				</view>
 				<view class="flex-r-between">
 					<view class="flex">
 						<view class="list-item-icon flex">
@@ -228,6 +231,19 @@
 			.image {
 				width: 30% !important;
 				height: 200upx !important;
+			}
+		}
+		.content.showType4 {
+			box-sizing: border-box;
+			background-color: #ffffff;
+			width: 100%;
+		
+			.desc {
+				overflow: hidden;
+				display: -webkit-box !important;
+				-webkit-line-clamp: 2;
+				-webkit-box-orient: vertical;
+				text-overflow: ellipsis;
 			}
 		}
 	}

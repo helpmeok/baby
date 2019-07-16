@@ -164,7 +164,15 @@
 		}
 	    ,{
             "path" : "pages/home/article/comment/comment",
-            "style" : {}
+            "style" : {
+				"navigationStyle": "custom"
+			}
+        }
+        ,{
+            "path" : "pages/task/store/index/index",
+            "style" : {
+				"navigationStyle": "custom"
+			}
         }
     ],
 	"tabBar": {
@@ -240,7 +248,7 @@
 			{
 				"name": "文章详情", //模式名称
 				"pathName": "pages/home/article/detail/detail", //启动页面，必选
-				"query": "id=13330"
+				"query": "id=15686"
 			},
 			{
 				"name": "分类详情", //模式名称
@@ -310,6 +318,10 @@
 			{
 				"name": "发布新问题",
 				"pathName": "pages/home/question/commit/commit"
+			},
+			{
+				"name": "积分商城",
+				"pathName": "pages/task/store/index/index"
 			}
 
 		]

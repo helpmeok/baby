@@ -61,6 +61,9 @@
 					success: () => {
 						this.wxSessionKey = uni.getStorageSync('wxSessionKey')
 						console.log('wxSessionKey有效')
+						if (!this.wxSessionKey) {
+							this.getWXCode()
+						}
 					},
 					fail: () => {
 						console.log('wxSessionKey过期')

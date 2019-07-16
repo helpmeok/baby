@@ -17,9 +17,17 @@
 				</view>
 				<view class="tag white small" v-if="info.categoryName" @click="goCategory">{{ info.categoryName }}</view>
 			</view>
-			<view class="pd-box rich-box">
+			
+			<view class="pd-box rich-box" v-if="info.showType==0 || info.showType==1 || info.showType==2 || info.showType==3 ">
 				<u-parse :content="info.content | imgConversion" @preview="preview" />
 			</view>
+			<!-- http://vfx.mtime.cn/Video/2019/02/04/mp4/190204084208765161.mp4 -->
+			<view class="flex-r-center" v-if="info.showType==5">
+				<imt-audio color="#FC4041" src="https://img-cdn-qiniu.dcloud.net.cn/uniapp/audio/music.mp3" duration="10"></imt-audio>
+			</view>
+		<!-- 	<view class="flex-r-center" v-if="info.showType==5">
+				<video class="video" src="https://img.cdn.aliyun.dcloud.net.cn/guide/uniapp/%E7%AC%AC1%E8%AE%B2%EF%BC%88uni-app%E4%BA%A7%E5%93%81%E4%BB%8B%E7%BB%8D%EF%BC%89-%20DCloud%E5%AE%98%E6%96%B9%E8%A7%86%E9%A2%91%E6%95%99%E7%A8%8B@20181126.mp4" autoplay   controls></video>
+			</view> -->
 			<view class="fixed-bottom  bg-white" v-if="!showCommentPublish">
 				<view class="flex-r-between">
 					<!-- <button plain="true" open-type="launchApp" :app-parameter="parames" @error="launchAppError" class="launchApp-btn flex gray comment-box">
@@ -107,9 +115,11 @@
 		getImgsrc
 	} from '@/common/util/index.js';
 	import uParse from '@/components/un-parse/u-parse.vue'; //由于插件上传命名问题在目录上加了一个n
+	import	imtAudio from '@/components/imt-audio/imt-audio.vue';
 	export default {
 		components: {
-			uParse
+			uParse,
+			imtAudio
 		},
 		onShareAppMessage(res) {
 			if (res.from === 'button') {
@@ -547,5 +557,9 @@
 		margin: 20upx 0;
 		padding: 20upx;
 		border-radius: 10upx;
+	}
+	.video{
+		width: 90%;
+		height: 500upx;
 	}
 </style>
