@@ -137,6 +137,7 @@
 							}
 						},
 						err => {
+							this.getWXCode();
 							uni.hideLoading();
 						}
 					);

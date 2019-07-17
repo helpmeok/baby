@@ -152,11 +152,6 @@
 				"navigationStyle": "custom"
 			}
 		}, {
-			"path": "pages/home/question/answer/answer",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		}, {
 			"path": "pages/home/question/commit/commit",
 			"style": {
 				"navigationStyle": "custom"
@@ -309,15 +304,13 @@
 			},
 			{
 				"name": "问答详情",
-				"pathName": "pages/home/question/detail/detail"
+				"pathName": "pages/home/question/detail/detail",
+				"query":"id=15686"
 			},
 			{
-				"name": "我来回答",
-				"pathName": "pages/home/question/answer/answer"
-			},
-			{
-				"name": "发布新问题",
-				"pathName": "pages/home/question/commit/commit"
+				"name": "发布或回答问题",
+				"pathName": "pages/home/question/commit/commit",
+				"query":"id=1"
 			},
 			{
 				"name": "积分商城",

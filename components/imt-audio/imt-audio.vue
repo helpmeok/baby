@@ -1,12 +1,13 @@
 <template>
 	<view class="imt-audio">
 		<view class="audio-wrapper" :style="[{'width':screenWidth+'px'}]">
-			<view class="iconfont default-color iconbofang audio-control-switch" ></view>
+			<view class="iconfont default-color  audio-control-switch" :class="{'iconbofang':paused,'iconzanting':!paused}" @click="operation"></view>
 			<view class="audio-number">{{currentTime}}</view>
 			<slider class="audio-slider" :activeColor="color" block-size="16" :value="current" :max="duration" @changing="seek=true,current=$event.detail.value"
 			 @change="change"></slider>
 			<view class="audio-number">{{durationTime}}</view>
 		</view>
+		
 		<!-- <view class="audio-control-wrapper" :style="{color:color}">
 			<view class="audio-control audio-control-prev" v-if="control" :style="{borderColor:color}" @click="prev">&#xe601;</view>
 			<view class="audio-control audio-control-switch" :class="{audioLoading:loading}" :style="{borderColor:color}" @click="operation">{{loading?'&#xe600;':(paused?'&#xe865;':'&#xe612;')}}</view>
@@ -127,7 +128,7 @@
 </script>
 
 <style>
-	@font-face {
+	/* @font-face {
 		font-family: 'icon';
 		src: url('//at.alicdn.com/t/font_1104838_fxzimc34xw.eot');
 		src: url('//at.alicdn.com/t/font_1104838_fxzimc34xw.eot?#iefix') format('embedded-opentype'),
@@ -135,10 +136,10 @@
 			url('//at.alicdn.com/t/font_1104838_fxzimc34xw.woff') format('woff'),
 			url('//at.alicdn.com/t/font_1104838_fxzimc34xw.ttf') format('truetype'),
 			url('//at.alicdn.com/t/font_1104838_fxzimc34xw.svg#iconfont') format('svg');
-	}
+	} */
 
 	.imt-audio {
-		padding: 10upx 30upx;
+		padding: 0upx 30upx;
 		background: #F8F8F8;
 		border-radius: 100upx;
 	}
@@ -181,7 +182,7 @@
 	}
 
 	.audio-control-switch {
-		font-size: 70upx;
+		font-size: 80upx;
 		margin-right: 20upx;
 	}
 

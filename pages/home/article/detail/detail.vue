@@ -17,17 +17,18 @@
 				</view>
 				<view class="tag white small" v-if="info.categoryName" @click="goCategory">{{ info.categoryName }}</view>
 			</view>
-			
+
 			<view class="pd-box rich-box" v-if="info.showType==0 || info.showType==1 || info.showType==2 || info.showType==3 ">
 				<u-parse :content="info.content | imgConversion" @preview="preview" />
 			</view>
 			<!-- http://vfx.mtime.cn/Video/2019/02/04/mp4/190204084208765161.mp4 -->
 			<view class="flex-r-center" v-if="info.showType==5">
-				<imt-audio color="#FC4041" src="https://img-cdn-qiniu.dcloud.net.cn/uniapp/audio/music.mp3" duration="10"></imt-audio>
+				<imt-audio color="#FC4041" src="https://boblbee.superpapa.com.cn/boblbee/test.mp3" duration="10"></imt-audio>
 			</view>
-		<!-- 	<view class="flex-r-center" v-if="info.showType==5">
-				<video class="video" src="https://img.cdn.aliyun.dcloud.net.cn/guide/uniapp/%E7%AC%AC1%E8%AE%B2%EF%BC%88uni-app%E4%BA%A7%E5%93%81%E4%BB%8B%E7%BB%8D%EF%BC%89-%20DCloud%E5%AE%98%E6%96%B9%E8%A7%86%E9%A2%91%E6%95%99%E7%A8%8B@20181126.mp4" autoplay   controls></video>
-			</view> -->
+			<view class="flex-r-center" v-if="info.showType==5">
+				<video class="video" v-show="!showCommentPublish" id="myVideo" objectFit="fill" autoplay src="https://boblbee.superpapa.com.cn/boblbee/test.mp4"
+				 controls></video>
+			</view>
 			<view class="fixed-bottom  bg-white" v-if="!showCommentPublish">
 				<view class="flex-r-between">
 					<!-- <button plain="true" open-type="launchApp" :app-parameter="parames" @error="launchAppError" class="launchApp-btn flex gray comment-box">
@@ -111,6 +112,7 @@
 	let ctime = parseInt(Date.now());
 	let offset = 0,
 		total = 10;
+		let video;
 	import {
 		getImgsrc
 	} from '@/common/util/index.js';
@@ -132,6 +134,18 @@
 				path: '/pages/home/index/index?articleId=' + id,
 				imageUrl: this.info.attachment[0].url
 			};
+		},
+		watch: {
+			showCommentPublish(newValue, oldValue) {
+				console.log(newValue)
+				if (newValue) {
+					video.pause()
+				} else{
+					setTimeout(()=>{
+						video.play()
+					},500)
+				}
+			}
 		},
 		data() {
 			return {
@@ -158,6 +172,9 @@
 				wxSessionKey:""
 			};
 		},
+		onReady (res) {
+           video = uni.createVideoContext('myVideo')
+        },
 		onLoad(options) {
 			id = options.id;
 			console.log('id============' + id);
@@ -503,7 +520,9 @@
 		padding: 20upx 50upx;
 		padding-bottom: constant(safe-area-inset-bottom);
 		padding-bottom: env(safe-area-inset-bottom);
-
+		.iconfont{
+			font-size: 40upx;
+		}
 		.comment-box {
 			background-color: #f5f5f5;
 			border-radius: 30upx;
@@ -560,6 +579,5 @@
 	}
 	.video{
 		width: 90%;
-		height: 500upx;
 	}
 </style>
