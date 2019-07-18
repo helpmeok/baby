@@ -217,11 +217,19 @@ module.exports = {
 				let _url = "/my/queryHistoryList";
 				_req.m_send(_url, "GET", d, onok, onno);
 			},
+			remove_article_list: function(d, onok, onno) { //内容相关功能，批量删除浏览文章
+				let _url = "/my/batchDelHistoryList";
+				_req.m_send(_url, "POST", d, onok, onno);
+			},
 		},
 		collect: {
 			get_list: function(d, onok, onno) { //APP“我的”模块获取用户收藏的文章数据
 				let _url = "/my/queryFaArticlePageList";
 				_req.m_send(_url, "GET", d, onok, onno);
+			},
+			remove_article_list: function(d, onok, onno) { //内容相关功能，批量删除收藏文章
+				let _url = "/my/delFaArticles";
+				_req.m_send(_url, "POST", d, onok, onno);
 			},
 		},
 
@@ -243,6 +251,10 @@ module.exports = {
 			get_article_list: function(d, onok, onno) { //APP“我的”模块获取用户屏蔽的文章数据
 				let _url = "/my/getBlockArticleList";
 				_req.m_send(_url, "GET", d, onok, onno);
+			},
+			remove_article_list: function(d, onok, onno) { //内容相关功能，批量删除用户屏蔽的文章
+				let _url = "/my/batchDelBlockArticle";
+				_req.m_send(_url, "POST", d, onok, onno);
 			},
 		},
 		about: {
@@ -274,6 +286,24 @@ module.exports = {
 				delete: function(d, onok, onno) { //APP“我的”模块，宝宝管理，删除宝宝资料
 					let _url = "/my/delBaby";
 					_req.m_send(_url, "POST", d, onok, onno);
+				},
+			}
+		},
+		qa:{
+			question:{
+				add: function(d, onok, onno) { //发布问题
+					let _url = "/questionReplay/addQuestion";
+					_req.m_send(_url, "POST", d, onok, onno);
+				},
+				get_list: function(d, onok, onno) { //我的问题列表
+					let _url = "/my/getUserAnswerQuestionList";
+					_req.m_send(_url, "GET", d, onok, onno);
+				},
+			},
+			answer:{
+				get_list: function(d, onok, onno) { //我的回答列表
+					let _url = "/my/getUserAnswerReplayList";
+					_req.m_send(_url, "GET", d, onok, onno);
 				},
 			}
 		}

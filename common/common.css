@@ -12,16 +12,19 @@ page {
 	left: 0;
 	background-color: rgba(0, 0, 0, .3);
 }
-.article-font{
+
+.article-font {
 	font-size: 30upx;
 }
-.fixed-top{
+
+.fixed-top {
 	position: fixed;
 	top: 0;
 	left: 0;
 	z-index: 9999;
 	width: 100%;
 }
+
 .gray {
 	color: #9e9e9e;
 }
@@ -136,7 +139,8 @@ page {
 	bottom: 0;
 	z-index: 999;
 }
-.fixed-bottom-height{
+
+.fixed-bottom-height {
 	height: 120upx;
 }
 
@@ -182,11 +186,10 @@ page {
 
 .sigle-line-text-2 {
 	width: 100%;
-	overflow: hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	text-align: left;
-	-webkit-line-clamp: 2;
+	display: -webkit-box;
+-webkit-box-orient: vertical;
+-webkit-line-clamp: 2;
+overflow: hidden;
 }
 
 .pd-box {
@@ -224,3 +227,5 @@ page {
 .mgr-60 {
 	margin-right: 60upx;
 }
+
+

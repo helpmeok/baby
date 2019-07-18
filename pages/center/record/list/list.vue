@@ -6,7 +6,7 @@
 		</cu-custom>
 		<empty v-if="list.length==0" msg="您还没有浏览过文章~"></empty>
 		<view class="">
-			<article-item :list="list" :showOperate="false" v-on:showOperate="showOperate"></article-item>
+			<article-item :list="list" removeType="record" v-on:removeArticle="removeArticle" :showOperate="false" v-on:showOperate="showOperate"></article-item>
 			<view class="uni-tab-bar-loading" v-if="list.length>0">
 				<uni-load-more :loadingType="loadingType" :contentText="loadingText"></uni-load-more>
 			</view>
@@ -65,7 +65,10 @@
 				offset += total
 				this.init()
 			},
-			showOperate() {}
+			showOperate() {},
+			removeArticle(i){
+				this.list.splice(i,1)
+			}
 		},
 		onShow() {
 			if (uni.getStorageSync('articleIndex').toString()) { //监听文章数据改变

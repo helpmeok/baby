@@ -1,6 +1,8 @@
 <template>
 	<view>
-		<cu-custom bgColor="bg-gradual-red"><block slot="content">我的</block></cu-custom>
+		<cu-custom bgColor="bg-gradual-red">
+			<block slot="content">我的</block>
+		</cu-custom>
 		<view class="container">
 			<view class="flex-r-between pd-box user-box">
 				<view class="" style="width: 20%;">
@@ -24,14 +26,18 @@
 						<view class="">宝宝管理</view>
 					</view>
 				</navigator>
-				<view class="flex-c-center">
-					<image src="/static/center/me_card_ic_order_nor@3x.png" mode="widthFix" class="icon"></image>
-					<view class="">我的订单</view>
-				</view>
-				<view class="flex-c-center">
-					<image src="/static/center/me_card_ic_qa_nor@3x.png" mode="widthFix" class="icon"></image>
-					<view class="">我的问答</view>
-				</view>
+				<navigator url="../order/list/list" hover-class="none">
+					<view class="flex-c-center">
+						<image src="/static/center/me_card_ic_order_nor@3x.png" mode="widthFix" class="icon"></image>
+						<view class="">我的订单</view>
+					</view>
+				</navigator>
+				<navigator url="../question/list/list" hover-class="none">
+					<view class="flex-c-center">
+						<image src="/static/center/me_card_ic_qa_nor@3x.png" mode="widthFix" class="icon"></image>
+						<view class="">我的问答</view>
+					</view>
+				</navigator>
 			</view>
 			<navigator url="../address/address-list/address-list" hover-class="none">
 				<view class="list-cell flex-r-between">
@@ -103,82 +109,89 @@
 </template>
 
 <script>
-export default {
-	data() {
-		return {
-			userInfo: {}
-		};
-	},
-	onLoad() {},
-	onShow() {
-		this.api.center.user.get_detail({}, res => {
-			console.log(res);
-			this.userInfo = res.data;
-		});
-	}
-};
+	export default {
+		data() {
+			return {
+				userInfo: {}
+			};
+		},
+		onLoad() {},
+		onShow() {
+			this.api.center.user.get_detail({}, res => {
+				console.log(res);
+				this.userInfo = res.data;
+			});
+		}
+	};
 </script>
 
 <style lang="scss">
-.container {
-	background-color: #ffffff;
-	padding: 30upx;
-	box-sizing: border-box;
-}
-.user-box{
-	width: 100%;
-	.nick-name {
-		font-size: 36upx;
+	.container {
+		background-color: #ffffff;
+		padding: 30upx;
+		box-sizing: border-box;
 	}
-	.portrait {
-		width: 100% !important;
-		border-radius: 50%;
-	}
-	.integral-icon{
-		width: 40upx;
-	}
-	.shop-icon{
-		width: 100upx;
-	}
-}
-.header {
-	background-color: #ffffff;
-	border-radius: 20upx;
-	padding: 30upx;
-	box-shadow: 0px 10upx 60upx 0px rgba(0, 0, 0, 0.04);
-	margin-bottom: 40upx;
 
-	.icon {
-		width: 80upx;
-		margin-bottom: 10upx;
-	}
-	
-}
+	.user-box {
+		width: 100%;
 
-.exchange {
-	height: 60upx;
-	border-radius: 30upx;
-	background-color: #ffecec;
-	color: #fc4041;
-	margin-top: 30upx;
-	padding: 10upx 20upx;
+		.nick-name {
+			font-size: 36upx;
+		}
 
-	.icon {
-		width: 65upx;
-	}
-}
+		.portrait {
+			width: 100% !important;
+			border-radius: 50%;
+		}
 
-.list-cell {
-	box-sizing: border-box;
-	border-bottom: 2upx solid #f1f1f1;
-	padding: 20upx 0;
+		.integral-icon {
+			width: 40upx;
+		}
 
-	.icon {
-		width: 60upx;
-		margin-right: 20upx;
+		.shop-icon {
+			width: 100upx;
+		}
 	}
-	.font-b{
-		font-size: 32upx;
+
+	.header {
+		background-color: #ffffff;
+		border-radius: 20upx;
+		padding: 30upx;
+		box-shadow: 0px 10upx 60upx 0px rgba(0, 0, 0, 0.04);
+		margin-bottom: 40upx;
+
+		.icon {
+			width: 80upx;
+			margin-bottom: 10upx;
+		}
+
 	}
-}
+
+	.exchange {
+		height: 60upx;
+		border-radius: 30upx;
+		background-color: #ffecec;
+		color: #fc4041;
+		margin-top: 30upx;
+		padding: 10upx 20upx;
+
+		.icon {
+			width: 65upx;
+		}
+	}
+
+	.list-cell {
+		box-sizing: border-box;
+		border-bottom: 2upx solid #f1f1f1;
+		padding: 20upx 0;
+
+		.icon {
+			width: 60upx;
+			margin-right: 20upx;
+		}
+
+		.font-b {
+			font-size: 32upx;
+		}
+	}
 </style>

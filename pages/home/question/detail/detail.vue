@@ -84,18 +84,18 @@
 		total = 10;
 	export default {
 		components: {},
-		// onShareAppMessage(res) {
-		// 	if (res.from === 'button') {
-		// 		// 来自页面内分享按钮
-		// 		console.log(res.target);
-		// 	}
-		// 	this.addArticleCountNum('forwardNum')
-		// 	return {
-		// 		title: this.info.title,
-		// 		path: '/pages/home/index/index?articleId=' + id,
-		// 		imageUrl: this.info.attachment[0].url
-		// 	};
-		// },
+		onShareAppMessage(res) {
+			if (res.from === 'button') {
+				// 来自页面内分享按钮
+				console.log(res.target);
+			}
+			this.addArticleCountNum('forwardNum')
+			return {
+				title: this.info.title,
+				path: '/pages/home/index/index?qaId=' + id,
+				imageUrl: this.info.attachment[0].url
+			};
+		},
 		data() {
 			return {
 				info: {},

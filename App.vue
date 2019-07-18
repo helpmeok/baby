@@ -7,7 +7,6 @@ export default {
 
 		updateManager.onCheckForUpdate(function(res) {
 			// 请求完新版本信息的回调
-			console.log(res.hasUpdate);
 		});
 
 		updateManager.onUpdateReady(function(res) {

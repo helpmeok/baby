@@ -12,6 +12,19 @@
 						<image src="/static/com_nav_ic_assistant2_nor@2x.png" mode="widthFix" class="helper" v-if="helper"></image>
 					</view>
 				</view>
+				<!-- <view class="action border-custom" v-if="isQa" :style="[{width:Custom.width+'px'}]">
+					<text class="cuIcon-back" @tap="BackPage"></text>
+					<view class="helper-box flex-r-center white " @tap="goQa">
+						
+						<view class="iconfont icontousutiwen">
+							
+						</view>
+					</view>
+				</view>
+				<view class="">
+					<text class="iconfont iconjiahao small"></text>
+					<text class="small">提问</text>
+				</view> -->
 				<view class="action border-custom" v-if="isDelete" :style="[{width:Custom.width+'px'}]">
 					<text class="cuIcon-back" @tap="BackPage"></text>
 					<view class="helper-box flex-r-center" @click="deleteHandle()">
@@ -90,6 +103,10 @@
 				type: [Boolean, String],
 				default: false
 			},
+			isQa: {
+				type: [Boolean, String],
+				default: false
+			},
 		},
 		methods: {
 			BackPage() {
@@ -107,6 +124,11 @@
 			},
 			deleteHandle(){
 				this.$emit('deleteHandle')
+			},
+			goQa(){
+				uni.navigateTo({
+					url:"/pages/home/question/commit/commit"
+				})
 			}
 		}
 	}
@@ -121,4 +143,5 @@
 			width: 45upx;
 		}
 	}
+	
 </style>

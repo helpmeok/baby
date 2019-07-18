@@ -1,6 +1,9 @@
 <template>
 	<view>
 		<view class="list-item" v-for="(item, index1) in newList" :key="index1" @click="goDetail(item.articleId,index1)">
+			<view class="iconfont gray iconcuowutishilimiandecha" v-if="removeType" @click.stop="removeArticle(item.articleId,index1)">
+				
+			</view>
 			<view class="pd-box">
 				<view class="flex-r-between">
 					<view class="flex">
@@ -77,6 +80,10 @@
 			showOperate: {
 				type: Boolean,
 				default: true
+			},
+			removeType: {
+				type: String,
+				default: ""
 			}
 		},
 		data() {
@@ -109,6 +116,35 @@
 				uni.navigateTo({
 					url: '/pages/home/celebrity/detail/detail?id=' + id
 				});
+			},
+			removeArticle(id,index){
+				console.log(this.removeType)
+				let articleId=[id]
+				console.log(articleId)
+				if (this.removeType=="record") {
+					this.api.center.record.remove_article_list({
+						"articleId[]":articleId
+					},res=>{
+						console.log(res)
+						this.$emit('removeArticle',index)
+					})
+				}
+				if (this.removeType=="collect") {
+					this.api.center.collect.remove_article_list({
+						"articleId[]":articleId
+					},res=>{
+						console.log(res)
+						this.$emit('removeArticle',index)
+					})
+				}
+				if (this.removeType=="shield") {
+					this.api.center.shield.remove_article_list({
+						"articleId[]":articleId
+					},res=>{
+						console.log(res)
+						this.$emit('removeArticle',index)
+					})
+				}
 			}
 		},
 		watch: {
@@ -128,6 +164,12 @@
 
 <style lang="scss">
 	.list-item {
+		position: relative;
+		.iconcuowutishilimiandecha{
+			position: absolute;
+			right: 10upx;
+			top: 0;
+		}
 		.content{
 			padding: 20upx 0;
 		}

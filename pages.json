@@ -169,6 +169,18 @@
 				"navigationStyle": "custom"
 			}
         }
+        ,{
+            "path" : "pages/center/order/list/list",
+            "style" : {
+				"navigationStyle": "custom"
+			}
+        }
+        ,{
+            "path" : "pages/center/question/list/list",
+            "style" : {
+				"navigationStyle": "custom"
+			}
+        }
     ],
 	"tabBar": {
 		"color": "#666666",
@@ -315,6 +327,14 @@
 			{
 				"name": "积分商城",
 				"pathName": "pages/task/store/index/index"
+			},
+			{
+				"name": "我的订单",
+				"pathName": "pages/center/order/list/list"
+			},
+			{
+				"name": "我的问答",
+				"pathName": "pages/center/question/list/list"
 			}
 
 		]

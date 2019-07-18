@@ -121,6 +121,11 @@
 					url: '../article/detail/detail?id=' + options.articleId
 				});
 			}
+			if (options.qaId) {
+				uni.navigateTo({
+					url: '../question/detail/detail?id=' + options.qaId
+				});
+			}
 		},
 		onShow() {
 			this.getHot();

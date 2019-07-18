@@ -18,7 +18,8 @@
 			<swiper-item v-for="(el, i) in tabs" :key="i" :style="[{'height':'calc(100% - '+(CustomBar+50)+'px)'}]">
 				<scroll-view @scrolltolower="loadMore(i)" scroll-y style="height: 100%;" :enable-back-to-top="el.active">
 					<empty v-if="tabs[i].data.length == 0 && isLoad" :msg="i==0?'您还没有收藏的文章~':'您还没有屏蔽的文章~'"></empty>
-					<article-item :list="tabs[i].data" :showOperate="false" v-on:showOperate="showOperate"></article-item>
+					<article-item :list="tabs[i].data" :removeType="i==0?'collect':'shield'" v-on:removeArticle="removeArticle"
+					 :showOperate="false" v-on:showOperate="showOperate"></article-item>
 					<view class="uni-tab-bar-loading" v-if="tabs[i].data.length >0">
 						<uni-load-more :loadingType="el.loadingType" :contentText="loadingText"></uni-load-more>
 					</view>
@@ -162,7 +163,10 @@
 				this.tabs[this.tabIndex].offset += total;
 				this.init();
 			},
-			showOperate() {}
+			showOperate() {},
+			removeArticle(i) {
+				this.tabs[this.tabIndex].data.splice(i, 1)
+			}
 		}
 	}
 </script>
