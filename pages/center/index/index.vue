@@ -13,10 +13,12 @@
 						<view class="nick-name blod">{{ userInfo.nickname }}</view>
 						<view class="flex">
 							<image src="/static/center/me_list_ic_integral@3x.png" mode="widthFix" class="integral-icon"></image>
-							<view class="gray mgl-20">积分：20</view>
+							<view class="gray mgl-20">积分：{{userInfo.userPoint}}</view>
 						</view>
 					</view>
-					<image src="/static/center/me_list_ic_shop_nor@3x.png" mode="widthFix" class="shop-icon"></image>
+					<navigator url="/pages/task/store/index/index" hover-class="none">
+						<image src="/static/center/me_list_ic_shop_nor@3x.png" mode="widthFix" class="shop-icon"></image>
+					</navigator>
 				</view>
 			</view>
 			<view class="header flex-r-around gray">

@@ -4,7 +4,7 @@
 			<block slot="backText"></block>
 			<block slot="content">大V</block>
 		</cu-custom>
-		<scroll-view scroll-y class="indexes" :scroll-into-view="'indexes-'+ listCurID" :style="[{height:screenHeight+'px'}]"
+		<scroll-view scroll-y class="indexes" :scroll-into-view="'indexes-'+ listCurID" :style="[{height:scrollHeight+'px'}]"
 		 :scroll-with-animation="true" :enable-back-to-top="true" :scroll-top="scrollTop" @scroll="scroll">
 			<block v-for="(item,index) in list" :key="index">
 				<view :class="'indexItem-' + item.letter" :id="'indexes-' + (item.letter=='#'?'0': item.letter)" :data-index="item.letter">
@@ -52,7 +52,7 @@
 			return {
 				StatusBar: this.StatusBar,
 				CustomBar: this.CustomBar,
-				screenHeight: this.screenHeight,
+				scrollHeight: this.screenHeight-this.CustomBar,
 				hidden: true,
 				listCurID: '',
 				list: [],
@@ -174,6 +174,7 @@
 <style lang="scss">
 	.container{
 		overflow-y: hidden;
+		height: 100%;
 	}
 	.list-item {
 		box-sizing: border-box;

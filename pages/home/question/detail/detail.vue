@@ -128,23 +128,22 @@
 				uni.showLoading({
 					title: "加载中"
 				})
-				this.api.home.article.get_detail({
-						article_id: id,
-						request_type: 'h5'
+				this.api.home.qa.question.get_detail({
+						questionId: id,
 					},
 					res => {
 						console.log(res.data);
 						this.info = res.data;
-						this.api.home.article.get_comment_list({
-							ctime,
-							articleId: id,
-							offset,
-							total
-						}, res => {
-							console.log(res)
-							this.commentList = res.data
-							uni.hideLoading()
-						});
+						// this.api.home.article.get_comment_list({
+						// 	ctime,
+						// 	articleId: id,
+						// 	offset,
+						// 	total
+						// }, res => {
+						// 	console.log(res)
+						// 	this.commentList = res.data
+						// 	uni.hideLoading()
+						// });
 					}
 				);
 			},

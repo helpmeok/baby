@@ -31,19 +31,10 @@
 			</view>
 			<view class="fixed-bottom  bg-white" v-if="!showCommentPublish">
 				<view class="flex-r-between">
-					<!-- <button plain="true" open-type="launchApp" :app-parameter="parames" @error="launchAppError" class="launchApp-btn flex gray comment-box">
-						<view class="mgr-10 iconfont iconpinglun1"></view>
-						<text style="font-size: 26upx;">缺少你的评论...</text>
-					</button> -->
-					<view class="launchApp-btn flex gray comment-box" v-if="hasMobile" @click="showCommentPublish=true">
+					<view class="launchApp-btn flex gray comment-box"  @click="comment">
 						<view class="mgr-10 iconfont iconpinglun1"></view>
 						<text style="font-size: 26upx;">缺少你的评论...</text>
 					</view>
-					<button plain="true" open-type="getPhoneNumber" @getphonenumber="getphonenumber" class="launchApp-btn flex gray comment-box"
-					 v-else>
-						<view class="mgr-10 iconfont iconpinglun1"></view>
-						<text style="font-size: 26upx;">缺少你的评论...</text>
-					</button>
 					<view class="" style="position: relative;" @click="scrollIntoComment">
 						<view class="iconfont iconpinglun2"></view>
 						<view class="comment-num bg-default-color flex-r-center" v-if="info.commentNum > 0">{{ info.commentNum > 99 ? '99+' : info.commentNum }}</view>
@@ -102,6 +93,7 @@
 			<uni-load-more :loadingType="loadingType" :contentText="loadingText"></uni-load-more>
 		</view>
 		<view class="" style="height: 80px;"></view>
+		<bind-mobile v-on:hideBindMobile="hideBindMobile" :isShow="showBindMobile"></bind-mobile>
 	</scroll-view>
 </template>
 
@@ -118,10 +110,12 @@
 	} from '@/common/util/index.js';
 	import uParse from '@/components/un-parse/u-parse.vue'; //由于插件上传命名问题在目录上加了一个n
 	import	imtAudio from '@/components/imt-audio/imt-audio.vue';
+	import	bindMobile from '@/components/bind-mobile/bind-mobile.vue';
 	export default {
 		components: {
 			uParse,
-			imtAudio
+			imtAudio,
+			bindMobile
 		},
 		onShareAppMessage(res) {
 			if (res.from === 'button') {
@@ -149,6 +143,7 @@
 		},
 		data() {
 			return {
+				showBindMobile:false,
 				info: {},
 				richTextHeight: 0,
 				isShowMore: false,
@@ -178,21 +173,7 @@
 		onLoad(options) {
 			id = options.id;
 			console.log('id============' + id);
-			uni.checkSession({
-				success:()=> {
-					this.wxSessionKey=uni.getStorageSync('wxSessionKey')
-					console.log('wxSessionKey有效')
-					if (!this.wxSessionKey) {
-						this.getWxSessionKey()
-					}
-				},
-				fail:()=> {
-					console.log('wxSessionKey过期')
-					this.getWxSessionKey()
-				}
-			})
-			
-			if (uni.getStorageSync("access_token")) {
+			if (uni.getStorageSync("access_token")) {//检查有没有绑定手机
 				this.api.center.user.get_detail(null, res => {
 					console.log(res);
 					this.hasMobile = res.data.phone ? true : false
@@ -210,21 +191,16 @@
 			offset = 0;
 		},
 		methods: {
-			getWxSessionKey(){
-				uni.login({
-					provider: 'weixin',
-					success: loginRes => {
-						console.log(loginRes)
-						// this.code = loginRes.code;
-						this.api.home.get_wx_sessionKey({
-							code: loginRes.code
-						}, res => {
-							console.log(res)
-							this.wxSessionKey = res.data
-							uni.setStorageSync('wxSessionKey',res.data)
-						})
-					}
-				});
+			hideBindMobile(){
+				console.log('11111')
+				this.showBindMobile=false;
+			},
+			comment(){
+				if (this.hasMobile) {
+					this.showCommentPublish=true;
+				} else{
+					this.showBindMobile=true;
+				}
 			},
 			init() {
 				uni.showLoading({
@@ -251,30 +227,6 @@
 						);
 					}
 				);
-			},
-			getphonenumber(e) {
-				console.log(e);
-				if (e.detail.errMsg == 'getPhoneNumber:ok') {
-					let encryptedData = e.detail.encryptedData;
-					let iv = e.detail.iv;
-					this.api.home.get_wx_mobile({
-						encryptedData,
-						iv,
-						sessionKey:this.wxSessionKey
-					}, res => {
-						console.log(res)
-						this.api.home.bind_mobile({
-							phone: res.data
-						}, res => {
-							uni.showToast({
-								title: "绑定成功",
-								success: () => {
-									this.hasMobile = true
-								}
-							})
-						})
-					})
-				}
 			},
 			addArticleCountNum(type) {
 				this.api.home.article.add_count({

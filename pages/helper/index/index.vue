@@ -25,7 +25,7 @@
 		</view>
 		<view class="search-box flex-r-between pd-box">
 			<input type="text" class="input" placeholder="育儿助手随时待命" placeholder-class="gray" v-model="searchText" />
-			<view class="btn bg-default-color white flex-r-center" :class="{'btn-n':!searchText}">查找</view>
+			<view class="btn bg-default-color white flex-r-center" @click="search()">查找</view>
 		</view>
 	</view>
 </template>
@@ -38,7 +38,7 @@
 			return {
 				list: [],
 				isLoading: false,
-				searchText:""
+				searchText: ""
 			};
 		},
 		onLoad() {
@@ -72,6 +72,11 @@
 			goList(id, name) {
 				uni.navigateTo({
 					url: "../list/list?id=" + id + "&name=" + name
+				})
+			},
+			search() {
+				uni.navigateTo({
+					url: "/pages/helper/search/search?text=" + this.searchText
 				})
 			}
 		}
@@ -113,14 +118,16 @@
 		border-radius: 40upx;
 		margin-bottom: 30upx;
 	}
-	.search-box{
+
+	.search-box {
 		height: 150upx;
 		width: 100%;
 		position: fixed;
 		left: 0;
 		bottom: 0;
 		box-sizing: border-box;
-		.input{
+
+		.input {
 			background-color: #E8E8E8;
 			margin: 0 30upx;
 			width: 70%;
@@ -128,13 +135,15 @@
 			border-radius: 30upx;
 			padding-left: 40upx;
 		}
-		.btn{
+
+		.btn {
 			padding: 0 30upx;
 			border-radius: 30upx;
 			height: 60upx;
 		}
-		.btn-n{
-			background-color:  #E8E8E8 !important;
+
+		.btn-n {
+			background-color: #E8E8E8 !important;
 		}
 	}
 </style>

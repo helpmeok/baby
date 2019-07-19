@@ -181,6 +181,28 @@
 				"navigationStyle": "custom"
 			}
         }
+        ,{
+            "path" : "pages/task/store/detail/detail",
+            "style" : {
+				"navigationStyle": "custom"
+			}
+        }
+        ,{
+            "path" : "pages/task/store/confrim/confrim",
+            "style" : {
+				"navigationStyle": "custom"
+			}
+        }
+        ,{
+            "path" : "pages/helper/search/search",
+            "style" : {
+				"navigationStyle": "custom"
+			}
+        }
+        ,{
+            "path" : "components/bind-mobile/bind-mobile",
+            "style" : {}
+        }
     ],
 	"tabBar": {
 		"color": "#666666",
@@ -292,6 +314,10 @@
 				"pathName": "pages/center/record/list/list"
 			},
 			{
+				"name": "我的评论",
+				"pathName": "pages/center/comment/list/list"
+			},
+			{
 				"name": "主题关注",
 				"pathName": "pages/center/classify/list/list"
 			},
@@ -322,7 +348,7 @@
 			{
 				"name": "发布或回答问题",
 				"pathName": "pages/home/question/commit/commit",
-				"query":"id=1"
+				"query":""
 			},
 			{
 				"name": "积分商城",
@@ -335,8 +361,19 @@
 			{
 				"name": "我的问答",
 				"pathName": "pages/center/question/list/list"
+			},
+			{
+				"name": "商品详情",
+				"pathName": "pages/task/store/detail/detail"
+			},
+			{
+				"name": "订单确认",
+				"pathName": "pages/task/store/confrim/confrim"
+			},
+			{
+				"name": "问题查找",
+				"pathName": "pages/helper/search/search"
 			}
-
 		]
 	}
 }

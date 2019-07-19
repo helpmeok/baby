@@ -8,16 +8,16 @@
 						<view class="">当前拥有：</view>
 						<image src="/static/center/me_list_ic_integral@3x.png" mode="widthFix" style="width: 40upx;"></image>
 						<view class="font-b mgl-10">
-							160
+							{{userInfo.userPoint}}
 						</view>
 					</view>
 					<view class="" style="opacity: 0;">今日任务吗</view>
 				</view>
 			</block>
 		</cu-custom>
-		<image src="/static/task/dailytasks_bg_picture@3x.png" mode="widthFix" class="welfar-bg"></image>
+		<image src="/static/task/dailytasks_bg_picture@2x.png" mode="widthFix" class="welfar-bg"></image>
 		<scroll-view scroll-y class="scroll-view" :style="[{height:scrollHeight+ 'px'}]">
-			<view class="list-item bg-white flex-r-between pd-box" v-for="(el,i) in list" :key="i">
+			<view class="list-item bg-white flex-r-between pd-box" v-for="(el,i) in list" :key="i" @click="showModel(el,i)">
 				<view class="item-l">
 					<image src="/static/center/me_list_ic_integral@3x.png" mode="widthFix" class="icon"></image>
 					<view class="point">
@@ -30,37 +30,37 @@
 						{{el.taskName}}
 					</view>
 				</view>
-				<view class="item-r">
-					<view class="btn white" @click="showModel()">
-						好的
-					</view>
+				<view class="item-r flex">
+					<text class="gray" v-if="el.completeStatus">已完成</text>
+					<text class="default-color" v-else>未完成</text>
+					<text class="iconfont gray iconarrow-right-copy blod"></text>
 				</view>
 			</view>
 		</scroll-view>
 		<view class="cu-modal flex-r-center align-left" :class="{'show':isShowModel}" @tap="hideModal">
 			<view class="cu-content bg-white " @tap.stop="">
 				<view class="font-b blod pd-box">
-					阅读一篇文章
+					{{task.taskName}}
 				</view>
 				<view class="gray pd-box">
-					阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德阿萨德
+					{{task.taskRemark}}
 				</view>
 				<view class="btn font-b bg-default-color white flex-c-center pd-box" @click="showAward()">
-					我已完成
+					我知道了
 				</view>
 			</view>
 		</view>
-		<view class="cu-modal flex-r-center" :class="{'show':isShowAward}" >
+		<view class="cu-modal flex-r-center" :class="{'show':isShowAward}">
 			<view class="flex-c-around">
 				<view class="cu-award flex-c-around">
 					<image src="/static/task/dailytasks_popup_bg@2x.png" mode="widthFix" class="bg-img"></image>
-					<view class="text font-b blod">
-						恭喜您获得
+					<view class="text font-b blod" style="position: relative;top: -40upx;">
+						成功领取任务积分
 					</view>
 					<view class="flex-r-center point">
 						<image src="/static/center/me_list_ic_integral@3x.png" mode="widthFix" class="icon"></image>
 						<text class="mgl-10">X</text>
-						<text class="font-b mgl-10">20</text>
+						<text class="font-b mgl-10">{{task.taskPoint}}</text>
 					</view>
 				</view>
 				<view class="white close flex-r-center" @tap="hideModal">
@@ -68,7 +68,6 @@
 					</view>
 				</view>
 			</view>
-			
 		</view>
 		<view class="flex-r-center bottom-box">
 			<navigator url="/pages/task/store/index/index" class="white bg-default-color white btn flex-r-center font-b"
@@ -86,11 +85,25 @@
 				scrollHeight: this.windowHeight - 80 - this.CustomBar,
 				list: [],
 				isShowModel: false,
-				isShowAward:false
+				isShowAward: false,
+				task: {
+					taskId: "",
+					taskRemark: "",
+					taskName: "",
+					taskPoint: 0,
+					taskNo: ""
+				},
+				taskIndex:0,
+				userInfo: {
+					userPoint: 0
+				}
 			}
 		},
 		onLoad() {
 			this.init()
+		},
+		onShow() {
+			this.getUserInfo()
 		},
 		methods: {
 			init() {
@@ -99,12 +112,29 @@
 					this.list = res.data
 				})
 			},
-			showModel() {
-				this.isShowModel = true
+			getUserInfo() {
+				this.api.center.user.get_detail(null, res => {
+					console.log(res);
+					this.userInfo = res.data;
+				});
 			},
-			showAward(){
+			showModel(el,i) {
+				if (!el.completeStatus) {
+					this.task = el
+					this.isShowModel = true
+					this.taskIndex=i
+				}
+			},
+			showAward() {
 				this.isShowModel = false
-				this.isShowAward = true
+				this.api.task.get_award({
+					taskNo: this.task.taskNo
+				}, res => {
+					console.log(res)
+					this.isShowAward = true
+					this.init()
+					this.getUserInfo()
+				})
 			},
 			hideModal() {
 				this.isShowModel = false
@@ -128,6 +158,7 @@
 			flex-direction: column;
 			border-radius: 10upx;
 			overflow: hidden;
+
 			.btn {
 				width: 100%;
 			}
@@ -140,28 +171,33 @@
 			left: 0;
 			top: 0;
 			box-sizing: border-box;
+
 			.bg-img {
-			width: 450upx !important;
-			height: 450upx !important;
+				width: 450upx !important;
+				height: 450upx !important;
 				position: absolute;
 				left: 0;
 				top: 0;
 			}
+
 			.text {
 				position: relative;
 				z-index: 2;
 				color: #FFC438;
 			}
+
 			.point {
 				position: relative;
 				z-index: 2;
 				color: #FFC438;
+
 				.icon {
 					width: 50upx;
 				}
 			}
 		}
-		.close{
+
+		.close {
 			width: 60upx;
 			height: 60upx;
 			border-radius: 50%;

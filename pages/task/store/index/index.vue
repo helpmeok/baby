@@ -5,7 +5,7 @@
 			<block slot="content">积分商城</block>
 		</cu-custom>
 		<view class="list-box pd-box">
-			<view class="list-item flex-c-center" v-for="(el,i) in list" :key="i">
+			<view class="list-item flex-c-center" v-for="(el,i) in list" :key="i" @click="goDetail(el)">
 				<image :src="el.productUrl" mode="widthFix" class="img"></image>
 				<view class="font-b sigle-line-text">{{el.productName}}</view>
 				<view class="point">{{el.productPrice}}积分</view>
@@ -66,6 +66,11 @@
 				this.loadingType = 1
 				this.offset += total
 				this.init()
+			},
+			goDetail(el){
+				uni.navigateTo({
+					url:"/pages/task/store/detail/detail?id="+el.productId
+				})
 			}
 		},
 		onReachBottom() {

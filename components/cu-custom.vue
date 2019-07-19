@@ -12,19 +12,6 @@
 						<image src="/static/com_nav_ic_assistant2_nor@2x.png" mode="widthFix" class="helper" v-if="helper"></image>
 					</view>
 				</view>
-				<!-- <view class="action border-custom" v-if="isQa" :style="[{width:Custom.width+'px'}]">
-					<text class="cuIcon-back" @tap="BackPage"></text>
-					<view class="helper-box flex-r-center white " @tap="goQa">
-						
-						<view class="iconfont icontousutiwen">
-							
-						</view>
-					</view>
-				</view>
-				<view class="">
-					<text class="iconfont iconjiahao small"></text>
-					<text class="small">提问</text>
-				</view> -->
 				<view class="action border-custom" v-if="isDelete" :style="[{width:Custom.width+'px'}]">
 					<text class="cuIcon-back" @tap="BackPage"></text>
 					<view class="helper-box flex-r-center" @click="deleteHandle()">
@@ -33,14 +20,21 @@
 						</view>
 					</view>
 				</view>
-				<!-- <image src="/static/com_nav_ic_assistant2_nor@2x.png" mode="widthFix" class="helper" v-if="helper"></image> -->
-				<text class="cuIcon-edit" v-if="isEdit" style="font-size: 36upx;" @click="edit"></text>
-				<text v-if="!isEdit&&showCancel" @click="edit">取消</text>
+				<view class="action border-custom" v-if="showCancel" :style="[{width:Custom.width+'px'}]">
+					<text class="cuIcon-back" @tap="BackPage"></text>
+					<view class="helper-box flex-r-center">
+						<text class="cuIcon-edit" v-if="isEdit" style="font-size: 36upx;" @click="edit"></text>
+						<text v-if="!isEdit&&showCancel" @click="edit" style="font-size: 26upx;">取消</text>
+					</view>
+				</view>
 				<view class="content" :style="[{top:StatusBar + 'px'}]">
 					<slot name="content"></slot>
 				</view>
 				<view class="task" :style="[{top:StatusBar + 'px'}]">
 					<slot name="task"></slot>
+				</view>
+				<view class="search" :style="[{top:StatusBar + 'px'}]">
+					<slot name="search"></slot>
 				</view>
 				<slot name="right"></slot>
 			</view>

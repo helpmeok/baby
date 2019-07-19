@@ -34,16 +34,16 @@
 				<scroll-view @scrolltolower="loadMore(i)" scroll-y :style="[{'height':scrollHeight+'px'}]" :enable-back-to-top="el.active">
 					<empty v-if="tabs[i].data.length == 0 && isLoad" :msg="tabIndex==0?'您还没有提问~':'您还没有回答~'"></empty>
 					<view class="q-list" v-show="i==0">
-						<view class="list-item" v-for="(sub,index) in tabs[i].data" :key="index">
+						<view class="list-item" @click="goQuestion(sub.id)" v-for="(sub,index) in tabs[i].data" :key="index">
 							<view class="item">
 								<image src="/static/assistant_list_ic_question@3x.png" mode="widthFix" class="icon mgr-20"></image>
 								<view class="font-b blod text">
-									孕妈如何撒孕妈如何撒孕妈如何撒孕妈如何撒孕妈如何撒
+									{{sub.title}}
 								</view>
 							</view>
 							<view class="flex-r-between">
 								<view class="gray">
-									29个回答
+									{{sub.answerCnt}}个回答
 								</view>
 							</view>
 						</view>
@@ -84,14 +84,14 @@
 				tabs: [{
 						name: "我的提问",
 						active: true,
-						data: [1,2,3,5,5,6,6,7],
+						data: [],
 						offset: 0,
 						loadingType: 0
 					},
 					{
 						name: "我的回答",
 						active: false,
-						data: [1,2,3,5,5,6,6,7],
+						data: [],
 						offset: 0,
 						loadingType: 0
 					},
@@ -118,6 +118,11 @@
 			}
 		},
 		methods: {
+			goQuestion(id){
+				uni.navigateTo({
+					url:'/pages/home/question/detail/detail?id='+id
+				})
+			},
 			init(){
 				if (!this.tabs[this.tabIndex].data.length) {
 					this.isLoad = false
@@ -166,7 +171,9 @@
 				});
 				this.tabIndex = index;
 				this.tabs[index].active = true;
-				this.init()
+				if (!this.tabs[this.tabIndex].data.length) {
+					this.init()
+				} 
 			},
 			changeSwiper(e) {
 				this.changeTab(e.target.current);

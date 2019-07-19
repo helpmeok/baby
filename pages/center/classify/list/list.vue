@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<cu-custom bgColor="bg-gradual-red" :isBack="true" :isEdit='isEdit' :showCancel="true" v-on:edit="edit">
+		<cu-custom bgColor="bg-gradual-red"  :isEdit='isEdit' :showCancel="true" v-on:edit="edit">
 			<block slot="backText"></block>
 			<block slot="content">主题关注</block>
 		</cu-custom>

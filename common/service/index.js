@@ -171,6 +171,14 @@ module.exports = {
 				let _url = "/article/praiseCommentOrNo";
 				_req.m_send(_url, "POST", d, onok, onno);
 			},
+		},
+		qa: {
+			question: {
+				get_detail: function(d, onok, onno) { //问答相关功能，某个问题的详情
+					let _url = "/questionReplay/getQuestionDetail";
+					_req.m_send(_url, "GET", d, onok, onno);
+				},
+			}
 		}
 	},
 	helper: {
@@ -232,7 +240,12 @@ module.exports = {
 				_req.m_send(_url, "POST", d, onok, onno);
 			},
 		},
-
+		comment:{
+			get_list: function(d, onok, onno) { //APP“我的”获取我的评论列表
+				let _url = "/my/queryUserComment";
+				_req.m_send(_url, "GET", d, onok, onno);
+			},
+		},
 		classify: {
 			get_list: function(d, onok, onno) { //内容相关功能，获取用户关注的主题列表
 				let _url = "/my/getAttentionCategoryPageList";
@@ -289,8 +302,8 @@ module.exports = {
 				},
 			}
 		},
-		qa:{
-			question:{
+		qa: {
+			question: {
 				add: function(d, onok, onno) { //发布问题
 					let _url = "/questionReplay/addQuestion";
 					_req.m_send(_url, "POST", d, onok, onno);
@@ -300,12 +313,18 @@ module.exports = {
 					_req.m_send(_url, "GET", d, onok, onno);
 				},
 			},
-			answer:{
+			answer: {
 				get_list: function(d, onok, onno) { //我的回答列表
 					let _url = "/my/getUserAnswerReplayList";
 					_req.m_send(_url, "GET", d, onok, onno);
 				},
 			}
+		},
+		order:{
+			get_list: function(d, onok, onno) { //我的订单
+				let _url = "/my/getUserOrderList";
+				_req.m_send(_url, "GET", d, onok, onno);
+			},
 		}
 	},
 	classify: {
@@ -337,7 +356,7 @@ module.exports = {
 		},
 		get_award: function(d, onok, onno) { //APP“福利”模块，“每日任务”，完成任务，领取奖励
 			let _url = "/mall/completeTask";
-			_req.m_send(_url, "GET", d, onok, onno);
+			_req.m_send(_url, "POST", d, onok, onno);
 		},
 		goods: {
 			get_list: function(d, onok, onno) { //APP“福利”模块获取兑换商品列表

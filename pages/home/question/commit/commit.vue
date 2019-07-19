@@ -43,23 +43,36 @@
 					</view>
 				</view>
 		</view>
-		<view class="fixed-bottom bg-default-color font-b white fixed-bottom-height flex-c-center">
+		<view class="fixed-bottom bg-default-color font-b white fixed-bottom-height flex-c-center" @click="confrim">
 			发布
 		</view>
+		<bind-mobile v-on:hideBindMobile="hideBindMobile" :isShow="showBindMobile"></bind-mobile>
 	</view>
 </template>
 
 <script>
+import	bindMobile from '@/components/bind-mobile/bind-mobile.vue';
 	export default {
+		components: {
+			bindMobile
+		},
 		data() {
 			return {
 				id: "",
 				content:"",
 				imageList: [],
+				hasMobile:false,
+				showBindMobile:false
 			}
 		},
 		onLoad(options) {
 			this.id = options.id ? options.id : ""
+			if (uni.getStorageSync("access_token")) {//检查有没有绑定手机
+				this.api.center.user.get_detail(null, res => {
+					console.log(res);
+					this.hasMobile = res.data.phone ? true : false
+				});
+			}
 		},
 		methods: {
              async chooseImage() {
@@ -78,24 +91,6 @@
             		}
             	})
             },
-            isFullImg() {
-            	return new Promise((res) => {
-            		uni.showModal({
-            			content: "已经有9张图片了,是否清空现有图片？",
-            			success: (e) => {
-            				if (e.confirm) {
-            					this.imageList = [];
-            					res(true);
-            				} else {
-            					res(false)
-            				}
-            			},
-            			fail: () => {
-            				res(false)
-            			}
-            		})
-            	})
-            },
             previewImage(e) {
             	var current = e.target.dataset.src
             	uni.previewImage({
@@ -106,6 +101,42 @@
 			removeImg(i){
 				this.imageList.splice(i,1)
 				console.log(this.imageList)
+			},
+			hideBindMobile(){
+				this.showBindMobile=false
+			},
+			confrim(){
+				if (this.hasMobile) {
+					if (this.id) {
+						
+					} else{
+						if (this.content) {
+							this.api.center.qa.question.add({
+								title:this.content,
+								"base64Data[]":this.imageList
+							},res=>{
+								console.log(res)
+								uni.showToast({
+									title:"发布问题成功",
+									success: () => {
+										setTimeout(()=>{
+											uni.navigateBack({
+												delta:1
+											})
+										},1000)
+									}
+								})
+							})
+						}else{
+							uni.showToast({
+								title:"请输入问题",
+								icon:"none"
+							})
+						}
+					}
+				} else{
+					this.showBindMobile=true;
+				}
 			}
 		}
 	}
