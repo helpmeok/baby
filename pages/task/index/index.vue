@@ -32,7 +32,7 @@
 				</view>
 				<view class="item-r flex">
 					<text class="gray" v-if="el.completeStatus">已完成</text>
-					<text class="default-color" v-else>未完成</text>
+					<text class="default-color" v-else>去完成</text>
 					<text class="iconfont gray iconarrow-right-copy blod"></text>
 				</view>
 			</view>
@@ -116,6 +116,7 @@
 				this.api.center.user.get_detail(null, res => {
 					console.log(res);
 					this.userInfo = res.data;
+					uni.setStorageSync('userInfo',JSON.stringify(res.data))
 				});
 			},
 			showModel(el,i) {

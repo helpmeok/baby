@@ -6,7 +6,7 @@
 				"navigationBarTitleText": "宝宝贝",
 				"navigationStyle": "custom"
 			}
-		},{
+		}, {
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "登录",
@@ -64,12 +64,6 @@
 			}
 		},
 		{
-			"path": "pages/center/address/address-choose/address-choose",
-			"style": {
-				"navigationBarTitleText": "选择地址",
-				"navigationStyle": "custom"
-			}
-		}, {
 			"path": "pages/center/collect/list/list",
 			"style": {
 				"navigationBarTitleText": "文章收藏",
@@ -156,54 +150,43 @@
 			"style": {
 				"navigationStyle": "custom"
 			}
+		}, {
+			"path": "pages/home/article/comment/comment",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "pages/task/store/index/index",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "pages/center/order/list/list",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "pages/center/question/list/list",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "pages/task/store/detail/detail",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "pages/helper/search/search",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "pages/center/order/confrim/confrim",
+			"style": {
+				"navigationStyle": "custom"
+			}
 		}
-	    ,{
-            "path" : "pages/home/article/comment/comment",
-            "style" : {
-				"navigationStyle": "custom"
-			}
-        }
-        ,{
-            "path" : "pages/task/store/index/index",
-            "style" : {
-				"navigationStyle": "custom"
-			}
-        }
-        ,{
-            "path" : "pages/center/order/list/list",
-            "style" : {
-				"navigationStyle": "custom"
-			}
-        }
-        ,{
-            "path" : "pages/center/question/list/list",
-            "style" : {
-				"navigationStyle": "custom"
-			}
-        }
-        ,{
-            "path" : "pages/task/store/detail/detail",
-            "style" : {
-				"navigationStyle": "custom"
-			}
-        }
-        ,{
-            "path" : "pages/task/store/confrim/confrim",
-            "style" : {
-				"navigationStyle": "custom"
-			}
-        }
-        ,{
-            "path" : "pages/helper/search/search",
-            "style" : {
-				"navigationStyle": "custom"
-			}
-        }
-        ,{
-            "path" : "components/bind-mobile/bind-mobile",
-            "style" : {}
-        }
-    ],
+	],
 	"tabBar": {
 		"color": "#666666",
 		"selectedColor": "#FC4041",
@@ -343,12 +326,12 @@
 			{
 				"name": "问答详情",
 				"pathName": "pages/home/question/detail/detail",
-				"query":"id=15686"
+				"query": "id=3"
 			},
 			{
 				"name": "发布或回答问题",
 				"pathName": "pages/home/question/commit/commit",
-				"query":""
+				"query": ""
 			},
 			{
 				"name": "积分商城",
@@ -367,12 +350,13 @@
 				"pathName": "pages/task/store/detail/detail"
 			},
 			{
-				"name": "订单确认",
-				"pathName": "pages/task/store/confrim/confrim"
-			},
-			{
 				"name": "问题查找",
 				"pathName": "pages/helper/search/search"
+			},
+			{
+				"name": "订单确认",
+				"pathName": "pages/center/order/confrim/confrim",
+				"query": "addrId=41"
 			}
 		]
 	}

@@ -22,47 +22,64 @@
 			</view>
 			<view class="" style="height: 120upx;"></view>
 		</view>
-		<view class="fixed-bottom fixed-bottom-height bg-default-color white flex-r-center font-b">
-			立即兑换
+		<view class="fixed-bottom fixed-bottom-height bg-default-color white flex-r-center font-b" :class="{'disable':!isEnough}" @click="chooseAddress">
+			{{isEnough?'立即兑换':'积分不足'}}
 		</view>
 	</view>
 </template>
 
 <script>
-	let id=""
+	let id = ""
 	import uParse from '@/components/un-parse/u-parse.vue'; //由于插件上传命名问题在目录上加了一个n
 	export default {
-		components:{
+		components: {
 			uParse
 		},
 		data() {
 			return {
-				info:{
-					productPrice:"",
-					productName:"",
-					attachmentList:[]
-				}
+				info: {
+					productPrice: "",
+					productName: "",
+					attachmentList: []
+				},
+				isEnough:false
 			}
 		},
 		onLoad(options) {
-			id=options.id
+			id = options.id
 			this.init()
 		},
 		methods: {
-			init(){
+			init() {
 				uni.showLoading({
-					title:"加载中"
+					title: "加载中"
 				})
 				this.api.task.goods.get_detail({
-					productId:id
-				},res=>{
+					productId: id
+				}, res => {
 					console.log(res)
-					this.info=res.data
+					this.info = res.data
+					if (Number(res.data.productPrice)>Number(JSON.parse(uni.getStorageSync('userInfo')).userPoint)) {
+						this.isEnough=false
+					} else{
+						this.isEnough=true
+					}
 					uni.hideLoading()
 				})
 			},
-			preview(){
-				
+			preview() {
+
+			},
+			chooseAddress() {
+				if (this.isEnough) {
+					var newObj = Object.assign({}, this.info); 
+					delete(newObj["productDetail"]);
+					console.log(newObj)
+					uni.setStorageSync('goodInfo',JSON.stringify(newObj))
+					uni.navigateTo({
+						url: "/pages/center/address/address-list/address-list?choose=1"
+					})
+				}
 			}
 		}
 	}
@@ -94,6 +111,9 @@
 				width: 100%;
 				background-color: #f5f5f5;
 			}
+		}
+		.disable{
+			background-color: #C8C8C8 !important;
 		}
 	}
 </style>

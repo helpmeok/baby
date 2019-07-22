@@ -6,7 +6,6 @@
 			<block slot="content">宝宝贝</block>
 		</cu-custom>
 		<view>
-			<view class="pd-box blod " style="font-size: 42upx;">{{ info.title }}</view>
 			<view class="pd-box flex-r-between author">
 				<view class="flex" @click="goFamous">
 					<image :src="info.userAvatar" mode="widthFix"></image>
@@ -118,7 +117,7 @@
 			};
 			this.parames = JSON.stringify(this.parames);
 			this.init();
-			this.addArticleCountNum('clickNum')
+			// this.addArticleCountNum('clickNum')
 		},
 		onUnload() {
 			offset = 0;
@@ -134,6 +133,7 @@
 					res => {
 						console.log(res.data);
 						this.info = res.data;
+						uni.hideLoading()
 						// this.api.home.article.get_comment_list({
 						// 	ctime,
 						// 	articleId: id,

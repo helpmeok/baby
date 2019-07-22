@@ -41,7 +41,7 @@
 					contentrefresh: "正在加载...",
 					contentnomore: "没有更多订单了"
 				},
-				list: [1,2,3],
+				list: [],
 			};
 		},
 		onLoad() {

@@ -7,13 +7,14 @@
 		<view class="list-box pd-box">
 			<view class="list-item flex-c-center" v-for="(el,i) in list" :key="i" @click="goDetail(el)">
 				<image :src="el.productUrl" mode="widthFix" class="img"></image>
-				<view class="font-b sigle-line-text">{{el.productName}}</view>
+				<view class="font-b sigle-line-text" style="text-align: center;">{{el.productName}}</view>
 				<view class="point">{{el.productPrice}}积分</view>
 				<view class="btn bg-default-color white flex-r-center">
 					兑换
 				</view>
 			</view>
 		</view>
+		<empty v-if="list.length==0" msg="暂无商品~"></empty>
 		<view class="uni-tab-bar-loading" v-if="list.length>0">
 			<uni-load-more :loadingType="loadingType" :contentText="loadingText"></uni-load-more>
 		</view>
@@ -22,7 +23,7 @@
 
 <script>
 	var ctime = parseInt(Date.now());
-	const total = 10;
+	const total = 20;
 	export default {
 		data() {
 			return {
@@ -67,9 +68,9 @@
 				this.offset += total
 				this.init()
 			},
-			goDetail(el){
+			goDetail(el) {
 				uni.navigateTo({
-					url:"/pages/task/store/detail/detail?id="+el.productId
+					url: "/pages/task/store/detail/detail?id=" + el.productId
 				})
 			}
 		},
@@ -87,10 +88,12 @@
 		flex-direction: row;
 		flex-wrap: wrap;
 		box-sizing: border-box;
+
 		.list-item {
 			width: 29.33%;
 			margin-bottom: 30upx;
 			margin: 0 2% 30upx 2%;
+
 			.img {
 				width: 200upx;
 				height: 200upx;

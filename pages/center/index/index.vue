@@ -105,8 +105,6 @@
 				</view>
 			</navigator>
 		</view>
-
-		<!-- <button open-type="launchApp" app-parameter="wechat" binderror="launchAppError">打开APP</button> -->
 	</view>
 </template>
 
@@ -119,9 +117,16 @@
 		},
 		onLoad() {},
 		onShow() {
+			if (uni.getStorageSync('goOrder')) {
+				uni.removeStorageSync('goOrder')
+				uni.navigateTo({
+					url:"/pages/center/order/list/list"
+				})
+			}
 			this.api.center.user.get_detail({}, res => {
 				console.log(res);
 				this.userInfo = res.data;
+				uni.setStorageSync('userInfo',JSON.stringify(res.data))
 			});
 		}
 	};

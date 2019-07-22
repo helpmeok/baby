@@ -5,7 +5,7 @@
 			<block slot="search">
 				<view class="search-box flex">
 					<text class="iconfont iconsousuo gray"></text>
-					<input type="text" v-model="value" placeholder="请输入问题" placeholder-class="gray" class="input mgl-20" />
+					<input type="text" v-model="value" :focus="!value" placeholder="请输入问题" placeholder-class="gray" class="input mgl-20" />
 					<text class="iconfont iconshanchu gray" v-show="value" @click="value=''"></text>
 				</view>
 			</block>
