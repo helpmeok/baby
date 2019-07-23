@@ -39,16 +39,22 @@
 				<slot name="right"></slot>
 			</view>
 		</view>
+		<helper-pop :isHelpShow="isHelpShow" v-on:helpHide="helpHide"></helper-pop>
 	</view>
 </template>
 
 <script>
+	import helperPop from '@/components/helper-pop/helper-pop.vue';
 	export default {
+		components: {
+			helperPop
+		},
 		data() {
 			return {
 				StatusBar: this.StatusBar,
 				CustomBar: this.CustomBar,
-				Custom: this.Custom
+				Custom: this.Custom,
+				isHelpShow:false
 			};
 		},
 		name: 'cu-custom',
@@ -103,6 +109,9 @@
 			},
 		},
 		methods: {
+			helpHide(){
+				this.isHelpShow=false
+			},
 			BackPage() {
 				uni.navigateBack({
 					delta: 1
@@ -112,9 +121,10 @@
 				this.$emit('edit')
 			},
 			goHelper() {
-				uni.reLaunch({
-					url: '/pages/helper/index/index',
-				})
+				// uni.reLaunch({
+				// 	url: '/pages/helper/index/index',
+				// })
+				this.isHelpShow=true
 			},
 			deleteHandle(){
 				this.$emit('deleteHandle')

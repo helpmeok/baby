@@ -50,7 +50,11 @@
 					console.log(res.data)
 					if (res.data.length) {
 						this.list = this.list.concat(res.data)
-						this.loadingType = 0
+						if (res.data.length<total) {
+							this.loadingType = 2
+						} else{
+							this.loadingType = 0
+						}
 					} else {
 						this.loadingType = 2
 					}

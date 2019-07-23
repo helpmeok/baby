@@ -9,7 +9,7 @@
 				<view class="flex-r-between search">
 					<view class="flex">
 						<view class="iconfont iconsousuo" style="margin-right: 20upx;"></view>
-						<input type="text" focus="true" confirm-type="搜索" v-model="value" placeholder="输入要搜索的内容" @confirm="inputConfirm" />
+						<input type="text" focus="true" confirm-type="search" v-model="value" placeholder="输入要搜索的内容" @confirm="inputConfirm" />
 					</view>
 					<view class="iconfont iconshanchu gray" style="margin-left: 30upx;" @click="value = ''" v-show="show"></view>
 				</view>

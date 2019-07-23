@@ -53,15 +53,15 @@
 							<view class="item">
 								<image src="/static/assistant_list_ic_answer@3x.png" mode="widthFix" class="icon mgr-20"></image>
 								<view class="font-b blod text">
-									孕妈如何撒孕妈如何撒孕妈如何撒孕妈如何撒孕妈如何撒
+									{{sub.questionTitle}}
 								</view>
 							</view>
 							<view class="gray sigle-line-text-2" style="margin-bottom: 20upx;">
-								孕妈如何撒孕妈如何撒孕妈如何撒孕妈如何撒如何撒孕妈如何撒孕妈如何撒孕妈如何撒孕妈如何撒孕妈如孕妈如何撒孕妈如何撒孕妈如何撒孕妈如何撒孕妈如何撒孕妈如何撒孕妈如何撒孕妈如何撒孕妈如何撒孕妈如何撒孕妈如何撒孕妈如何撒孕妈如何撒孕妈如何撒孕妈如何撒孕妈如何撒
+								{{sub.content}}
 							</view>
 							<view class="flex-r-between">
 								<view class="gray">
-									29个赞
+									{{sub.supportCnt}}个赞
 								</view>
 							</view>
 						</view>
@@ -137,7 +137,7 @@
 						offset: this.tabs[this.tabIndex].offset,
 						total
 					}, res => {
-						console.log(res.data)
+						console.log(res)
 						if (res.data.length) {
 							this.tabs[this.tabIndex].data = this.tabs[this.tabIndex].data.concat(res.data);
 							this.tabs[this.tabIndex].loadingType = 0;
@@ -153,7 +153,7 @@
 						offset: this.tabs[this.tabIndex].offset,
 						total
 					}, res => {
-						console.log(res.data)
+						console.log(res)
 						if (res.data.length) {
 							this.tabs[this.tabIndex].data = this.tabs[this.tabIndex].data.concat(res.data);
 							this.tabs[this.tabIndex].loadingType = 0;

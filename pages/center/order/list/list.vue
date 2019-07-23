@@ -7,16 +7,22 @@
 		<empty v-if="list.length==0" msg="暂无订单信息耶~"></empty>
 		<view class="">
 			<view class="list-item bg-white pd-box flex-r-between" v-for="(el,i) in list" :key="i">
-				<image src="/static/1024.png" mode="widthFix" class="good-img"></image>
+				<image :src="el.mallOrderItemList[0].productUrl" mode="widthFix" class="good-img"></image>
 				<view class="desc">
 					<view class="blod" style="margin-bottom: 20upx;font-size: 32upx;">
-						阿萨德sad阿萨德阿萨德阿萨德
+						{{el.mallOrderItemList[0].productName}}
 					</view>
 					<view class="gray">
-						货品状态：已发货
+						货品状态：
+						<text v-if="el.status==0">待付款</text>
+						<text v-if="el.status==1">待发货</text>
+						<text v-if="el.status==2">已发货</text>
+						<text v-if="el.status==3">已签收</text>
+						<text v-if="el.status==4">已关闭</text>
+						<text v-if="el.status==5">无效订单</text>
 					</view>
 					<view class="gray">
-						物流单号：2121321456465
+						物流单号：{{el.deliverySn?el.deliverySn:'无'}}
 					</view>
 				</view>
 			</view>

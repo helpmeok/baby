@@ -1,6 +1,6 @@
 <template>
 	<scroll-view scroll-y class="scroll-view" :scroll-into-view="scrollIntoId" enable-back-to-top="true" @scroll="scroll"
-	 @scrolltolower="scrolltolower">
+	>
 		<cu-custom bgColor="bg-gradual-red" :isCustom="true" :helper="true">
 			<block slot="backText"></block>
 			<block slot="content">宝宝贝</block>
@@ -31,7 +31,7 @@
 			</view>
 			<view class="fixed-bottom  bg-white" v-if="!showCommentPublish">
 				<view class="flex-r-between">
-					<view class="launchApp-btn flex gray comment-box"  @click="comment">
+					<view class="launchApp-btn flex gray comment-box" @click="comment">
 						<view class="mgr-10 iconfont iconpinglun1"></view>
 						<text style="font-size: 26upx;">缺少你的评论...</text>
 					</view>
@@ -60,38 +60,108 @@
 				</view>
 			</view>
 		</view>
-		<view class="pd-box" id="comments">
-			<view class="blod">
-				<text class="mgr-10">全部评论</text>
-				<text>{{ info.commentNum }}</text>
+		
+		<!-- <view class="uni-tab-bar-loading">
+			<uni-load-more :loadingType="loadingType" :contentText="loadingText"></uni-load-more>
+		</view> -->
+		<view class="questions-box">
+			<view class="" style="height: 2upx;background-color: #f5f5f5;"></view>
+			<view class="flex pd-box question-list-box">
+				<view class="list-item pd-lr mgr-20 flex-r-center" v-for="(el,i) in info.questionList" :key="i" @click="goQuestionList(el.questionId,el.questionName)">
+					{{el.questionName}}
+				</view>
 			</view>
 		</view>
-		<view class="pd-box item-list border-bottom" v-for="(el, i) in commentList" :key="i">
-			<view class="flex">
-				<view class="" style="width: 15%;">
-					<image :src="el.avatar" mode="widthFix" class="header"></image>
+		<view class="cut-off"></view>
+		<view class="comments-box">
+			<view class="pd-box" id="comments">
+				<view class="blod flex-r-between">
+					<text class="mgr-10 font-b">热门评论</text>
+					<view class="gray flex" @click="goAllComments" v-if="info.hotCommentList.length>0">
+						<text>更多</text>
+						<view class="iconfont iconarrow-right-copy mgl-10"></view>
+					</view>
 				</view>
-				<view class="" style="width: 85%;">
-					<view class="flex-r-between">
-						<text>{{ el.nickName }}</text>
-						<view class="flex">
-							<text>{{ el.praiseNum | articleDataNum }}</text>
-							<text class="iconfont icondianzan11 mgl-10 gray" :class="{ red: el.praiseFlag }" @click="toggleCommentPraise(el.commentId, i)"></text>
+			</view>
+			<view class="flex-c-center pd-box gray" v-if="info.hotCommentList.length==0">
+				暂无评论
+			</view>
+			<view class="pd-box item-list border-bottom" v-for="(el, i) in info.hotCommentList" :key="i">
+				<view class="flex">
+					<view class="" style="width: 15%;">
+						<image :src="el.avatar" mode="widthFix" class="header"></image>
+					</view>
+					<view class="" style="width: 85%;">
+						<view class="flex-r-between">
+							<text>{{ el.nickName }}</text>
+							<view class="flex">
+								<text>{{ el.praiseNum | articleDataNum }}</text>
+								<text class="iconfont icondianzan11 mgl-10 gray" :class="{ red: el.praiseFlag }" @click="toggleCommentPraise(el.commentId, i)"></text>
+							</view>
+						</view>
+						<view class="" style="padding: 20upx 0;">{{ el.content }}</view>
+						<view class="flex small">
+							<text class="mgr-20">{{ el.ctime | transformDate }}</text>
+							<button plain="true" open-type="launchApp" :app-parameter="parames" @error="launchAppError" class="launchApp-btn flex gray comment-box">
+								<view class="small">{{ el.replyNum > 0 ? el.replyNum : '' | articleDataNum }}回复</view>
+							</button>
 						</view>
 					</view>
-					<view class="" style="padding: 20upx 0;">{{ el.content }}</view>
-					<view class="flex small">
-						<text class="mgr-20">{{ el.ctime | transformDate }}</text>
-						<button plain="true" open-type="launchApp" :app-parameter="parames" @error="launchAppError" class="launchApp-btn flex gray comment-box">
-							<view class="small">{{ el.replyNum > 0 ? el.replyNum : '' | articleDataNum }}回复</view>
-						</button>
+				</view>
+			</view>
+		</view>
+		<view class="cut-off"></view>
+		<view class="expend-box">
+			<view class="pd-box">
+				<view class="blod flex-r-between">
+					<text class="mgr-10 font-b">延展阅读</text>
+				</view>
+			</view>
+			<view class="flex-r-between pd-box expend-list">
+				<view class="list-item" v-for="(el,i) in info.expendList" :key="i" @click="goOtherArticle(el)">
+					<image :src="el.attachment[0].url" v-if="el.attachment.length>0" mode="widthFix" class="image"></image>
+					<view class="sigle-line-text-2" style="font-size: 32upx;margin-bottom: 10upx;">
+						{{el.title}}
+					</view>
+					<view class="gray">
+						<text class="mgr-20">
+							{{el.author}}
+						</text>
+						<text class="mgr-20">
+							{{el.commentNum | articleDataNum}}评论
+						</text>
 					</view>
 				</view>
 			</view>
 		</view>
-		<view class="uni-tab-bar-loading">
-			<uni-load-more :loadingType="loadingType" :contentText="loadingText"></uni-load-more>
+		<view class="cut-off"></view>
+		<view class="recommend-box">
+			<view class="pd-box">
+				<view class="blod flex-r-between">
+					<text class="mgr-10 font-b">推荐阅读</text>
+				</view>
+			</view>
+			<view class="recommend-list">
+				<view class="list-item flex-r-between pd-box" v-for="(el,i) in info.recommendList" :key="i" @click="goOtherArticle(el)">
+					<image :src="el.attachment[0].url" v-if="el.attachment.length>0" mode="widthFix" class="image"></image>
+					<view class="desc">
+						<view class="sigle-line-text-2" style="font-size: 32upx;margin-bottom: 10upx;">
+							{{el.title}}
+						</view>
+						<view class="gray">
+							<text class="mgr-20">
+								{{el.author}}
+							</text>
+							<text class="mgr-20">
+								{{el.commentNum | articleDataNum}}评论
+							</text>
+						</view>
+					</view>
+				</view>
+			</view>
 		</view>
+		
+		
 		<view class="" style="height: 80px;"></view>
 		<bind-mobile v-on:hideBindMobile="hideBindMobile" :isShow="showBindMobile"></bind-mobile>
 	</scroll-view>
@@ -155,12 +225,6 @@
 				},
 				showCommentPublish:false,
 				commentList: [],
-				loadingType: 0,
-				loadingText: {
-					contentdown: '',
-					contentrefresh: '正在加载...',
-					contentnomore: '没有更多评论了'
-				},
 				hasMobile: false,
 				publishBottom:0,
 				publishText:"",
@@ -238,25 +302,6 @@
 					}
 				);
 			},
-			getMoreComment() {
-				offset += total;
-				this.api.home.article.get_comment_list({
-						ctime,
-						articleId: id,
-						offset,
-						total
-					},
-					res => {
-						console.log(res);
-						if (res.data.length) {
-							this.commentList = this.commentList.concat(res.data);
-							this.loadingType = 0;
-						} else {
-							this.loadingType = 2;
-						}
-					}
-				);
-			},
 			addComment(){
 				if (!this.publishText) {
 					return
@@ -269,10 +314,12 @@
 					uni.showToast({
 						title:"评论成功"
 					})
-					this.commentList.unshift(res.data);
 					this.scrollIntoId = 'comments';
 					this.publishText="";
 					this.showCommentPublish=false;
+					if (this.info.hotCommentList.length<3) {
+						this.info.hotCommentList.push(res.data)
+					}
 				})
 			},
 			scroll() {
@@ -308,6 +355,21 @@
 				uni.navigateTo({
 					url: '../../../classify/detail/detail?id=' + this.info.categoryId
 				});
+			},
+			goQuestionList(id, name) {
+				uni.navigateTo({
+					url: "/pages/helper/list/list?id=" + id + "&name=" + name
+				})
+			},
+			goOtherArticle(el){
+				uni.navigateTo({
+					url: "/pages/home/article/detail/detail?id=" +el.articleId
+				})
+			},
+			goAllComments(){
+				uni.navigateTo({
+					url: "/pages/home/article/comment/comment?id=" +id
+				})
 			},
 			preview() {},
 			toggleCollect() {
@@ -353,31 +415,24 @@
 			toggleCommentPraise(id, i) {
 				this.api.home.comment.toggle_praise({
 						commentId: id,
-						action: this.commentList[i].praiseFlag ? 0 : 1
+						action: this.info.hotCommentList[i].praiseFlag ? 0 : 1
 					},
 					res => {
-						this.commentList[i].praiseFlag = !this.commentList[i].praiseFlag;
-						if (this.commentList[i].praiseFlag) {
-							this.commentList[i].praiseNum++;
+						this.info.hotCommentList[i].praiseFlag = !this.info.hotCommentList[i].praiseFlag;
+						console.log(this.info.hotCommentList[i].praiseFlag)
+						if (this.info.hotCommentList[i].praiseFlag) {
+							this.info.hotCommentList[i].praiseNum++;
 							uni.showToast({
 								title: '点赞成功'
 							});
 						} else {
-							this.commentList[i].praiseNum--;
+							this.info.hotCommentList[i].praiseNum--;
 							uni.showToast({
 								title: '取消点赞'
 							});
 						}
 					}
 				);
-			},
-
-			scrolltolower() {
-				if (this.loadingType != 0) {
-					return;
-				}
-				this.loadingType = 1;
-				this.getMoreComment();
 			},
 			launchAppError(e) {
 				console.log(e);
@@ -402,11 +457,6 @@
 			publishBlur(){
 				this.publishBottom=0;
 			}
-			// showAll() {
-			// 	clearInterval(timer)
-			// 	this.richTextHeight = Math.max.apply(null,heightArr)
-			// 	this.isShowMore = false
-			// }
 		}
 	};
 </script>
@@ -494,42 +544,81 @@
 		margin: 0 !important;
 		padding: 0 !important;
 	}
-
-	.item-list {
-		.header {
-			width: 80upx !important;
-			height: 80upx !important;
-			border-radius: 50%;
+	.comments-box{
+		.item-list {
+			.header {
+				width: 80upx !important;
+				height: 80upx !important;
+				border-radius: 50%;
+			}
+		
+			.comment-box {
+				background-color: #f5f5f5;
+				border-radius: 30upx;
+				padding: 0 10upx !important;
+				border: none !important;
+				margin: 0 !important;
+			}
 		}
-
-		.comment-box {
-			background-color: #f5f5f5;
+	}
+	.publish-mask{
+		.publish-btn-out{
+			padding: 0 30upx;
 			border-radius: 30upx;
-			padding: 0 10upx !important;
-			border: none !important;
-			margin: 0 !important;
+			background-color: #f8f8f8;
+		}
+		.publish-btn-on{
+			padding: 0 30upx;
+			border-radius: 30upx;
+			background-color: $uni-color-default;
+			color: white;
+		}
+		.publish-textarea{
+			background-color: #f8f8f8;
+			height: 100px !important;
+			width: 100%;
+			margin: 20upx 0;
+			padding: 20upx;
+			border-radius: 10upx;
 		}
 	}
-	.publish-btn-out{
-		padding: 0 30upx;
-		border-radius: 30upx;
-		background-color: #f8f8f8;
-	}
-	.publish-btn-on{
-		padding: 0 30upx;
-		border-radius: 30upx;
-		background-color: $uni-color-default;
-		color: white;
-	}
-	.publish-textarea{
-		background-color: #f8f8f8;
-		height: 100px !important;
-		width: 100%;
-		margin: 20upx 0;
-		padding: 20upx;
-		border-radius: 10upx;
-	}
+	
 	.video{
 		width: 90%;
+	}
+	.question-list-box{
+		.list-item {
+			border: 2upx solid #f1f1f1;
+			height: 80upx;
+			border-radius: 40upx;
+			margin-top: 20upx;
+		}
+	}
+	.expend-list{
+		width: 100%;
+		box-sizing: border-box;
+		.list-item {
+				width: 48%;
+				.image{
+					width: 100%;
+					height: 230upx !important;
+				}
+		}
+	}
+	.recommend-list{
+		width: 100%;
+		box-sizing: border-box;
+		.list-item {
+				width: 100%;
+				border-bottom: 2upx solid #f5f5f5;
+				box-sizing: border-box;
+				.image{
+					width: 220upx !important;
+					height: 170upx !important;
+				}
+				.desc{
+					width: calc(100% - 240upx);
+				}
+		}
 	}
 </style>

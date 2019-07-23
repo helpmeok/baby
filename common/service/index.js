@@ -178,6 +178,20 @@ module.exports = {
 					let _url = "/questionReplay/getQuestionDetail";
 					_req.m_send(_url, "GET", d, onok, onno);
 				},
+				add: function(d, onok, onno) { //发布问题
+					let _url = "/questionReplay/addQuestion";
+					_req.m_send(_url, "POST", d, onok, onno);
+				},
+			},
+			answer: {
+				add: function(d, onok, onno) { //回答
+					let _url = "/questionReplay/replayOneQuestion";
+					_req.m_send(_url, "POST", d, onok, onno);
+				},
+				get_list: function(d, onok, onno) { //回答列表
+					let _url = "/questionReplay/getOneQuestionReplayList";
+					_req.m_send(_url, "GET", d, onok, onno);
+				},
 			}
 		}
 	},
@@ -188,6 +202,10 @@ module.exports = {
 		},
 		get_qaset_list: function(d, onok, onno) { //APP“助手”的问题集列表
 			let _url = "/search/qaset";
+			_req.m_send(_url, "GET", d, onok, onno);
+		},
+		get_list_by_search: function(d, onok, onno) { //搜索APP“助手”模块，搜索热门问题列表。
+			let _url = "/search/findQaByKeyword";
 			_req.m_send(_url, "GET", d, onok, onno);
 		},
 	},
@@ -240,7 +258,7 @@ module.exports = {
 				_req.m_send(_url, "POST", d, onok, onno);
 			},
 		},
-		comment:{
+		comment: {
 			get_list: function(d, onok, onno) { //APP“我的”获取我的评论列表
 				let _url = "/my/queryUserComment";
 				_req.m_send(_url, "GET", d, onok, onno);
@@ -304,10 +322,7 @@ module.exports = {
 		},
 		qa: {
 			question: {
-				add: function(d, onok, onno) { //发布问题
-					let _url = "/questionReplay/addQuestion";
-					_req.m_send(_url, "POST", d, onok, onno);
-				},
+
 				get_list: function(d, onok, onno) { //我的问题列表
 					let _url = "/my/getUserAnswerQuestionList";
 					_req.m_send(_url, "GET", d, onok, onno);
@@ -318,9 +333,10 @@ module.exports = {
 					let _url = "/my/getUserAnswerReplayList";
 					_req.m_send(_url, "GET", d, onok, onno);
 				},
+
 			}
 		},
-		order:{
+		order: {
 			get_list: function(d, onok, onno) { //我的订单
 				let _url = "/my/getUserOrderList";
 				_req.m_send(_url, "GET", d, onok, onno);

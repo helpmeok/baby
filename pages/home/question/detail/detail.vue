@@ -10,7 +10,7 @@
 				<view class="flex" @click="goFamous">
 					<image :src="info.userAvatar" mode="widthFix"></image>
 					<view class="mgl-20">
-						<view class=" blod article-font">{{ info.author }}</view>
+						<view class=" blod article-font">{{ info.userName }}</view>
 						<view class=" small gray">{{ info.oauthIntro }}</view>
 					</view>
 				</view>
@@ -20,12 +20,17 @@
 				<view class="question">
 					<image src="/static/assistant_list_ic_question@2x.png" mode="widthFix" class="question-icon mgr-20"></image>
 					<view class="font-b blod text">
-						孕妈如何撒孕妈如何撒孕妈如何撒孕妈如何撒孕妈如何撒
+						{{info.title}}
 					</view>
 				</view>
+				<scroll-view scroll-x style="height: 160upx;margin-bottom: 30upx;" :style="{'width':imageScrollWidth+'px'}" v-if="info.attachment.length>0">
+					<view class="image-box" :style="{'width':imageScrollWidth+'px'}">
+						<image class="img" :src="el.url" mode="widthFix" v-for="(el,i) in info.attachment" :key="i"></image>
+					</view>
+				</scroll-view>
 				<view class="flex-r-between">
 					<view class="gray">
-						29个回答
+						{{info.answerCnt}}个回答
 					</view>
 					<view class="flex" @click="answer()">
 						<view class="default-color">
@@ -79,8 +84,7 @@
 <script>
 	let id = '';
 	let ctime = parseInt(Date.now());
-	let offset = 0,
-		total = 10;
+	let total = 10;
 	export default {
 		components: {},
 		onShareAppMessage(res) {
@@ -97,7 +101,15 @@
 		},
 		data() {
 			return {
-				info: {},
+				offset:0,
+				info: {
+					attachment: [],
+					answerCnt: 0,
+					title: "",
+					userOauthIntro: "",
+					userName: "",
+					userAvatar: ""
+				},
 				parames: {},
 				commentList: [],
 				loadingType: 0,
@@ -117,39 +129,48 @@
 			};
 			this.parames = JSON.stringify(this.parames);
 			this.init();
+			this.getAnswerList();
 			// this.addArticleCountNum('clickNum')
 		},
-		onUnload() {
-			offset = 0;
+		computed: {
+			imageScrollWidth() {
+				return uni.upx2px(180 * this.info.attachment.length)
+			}
 		},
 		methods: {
-			init() {
-				uni.showLoading({
-					title: "加载中"
-				})
+			init() {//初始化详情
 				this.api.home.qa.question.get_detail({
 						questionId: id,
 					},
 					res => {
-						console.log(res.data);
+						console.log(res);
 						this.info = res.data;
-						uni.hideLoading()
-						// this.api.home.article.get_comment_list({
-						// 	ctime,
-						// 	articleId: id,
-						// 	offset,
-						// 	total
-						// }, res => {
-						// 	console.log(res)
-						// 	this.commentList = res.data
-						// 	uni.hideLoading()
-						// });
 					}
 				);
 			},
-			answer(){
+			getAnswerList(){//获取回答列表
+				uni.showLoading({
+					title: "加载中"
+				})
+				this.api.home.article.get_comment_list({
+					ctime,
+					questionId: id,
+					offset:this.offset,
+					total
+				}, res => {
+					console.log(res)
+					this.commentList = res.data
+					uni.hideLoading()
+				});
+			},
+			answer() {
+				let obj = {
+					title: this.info.title,
+					answerCnt: this.info.answerCnt
+				}
+				uni.setStorageSync('answerInfo', JSON.stringify(obj))
 				uni.navigateTo({
-					url:"/pages/home/question/commit/commit?id="+id
+					url: "/pages/home/question/commit/commit?id=" + id
 				})
 			},
 			addArticleCountNum(type) {
@@ -301,7 +322,8 @@
 				padding: 5upx 20upx;
 			}
 		}
-		.line{
+
+		.line {
 			width: calc(100% - 60upx);
 			margin-left: 30upx;
 			height: 2upx;
@@ -322,12 +344,24 @@
 			.question {
 				margin-bottom: 20upx;
 				width: 100%;
+
 				.question-icon {
 					width: 40upx !important;
 					position: relative;
 					top: 15upx;
 					left: 0;
 					float: left;
+				}
+			}
+
+			.image-box {
+				display: flex;
+				flex-direction: row;
+
+				.img {
+					width: 160upx !important;
+					height: 160upx !important;
+					margin-right: 20upx;
 				}
 			}
 

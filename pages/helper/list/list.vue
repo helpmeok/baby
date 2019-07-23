@@ -4,19 +4,38 @@
 			<block slot="backText"></block>
 			<block slot="content">问题集</block>
 		</cu-custom>
-		<view class="pd-box fixed" :style="[{top:CustomBar + 'px'}]">
-			<view class="title flex">
-				<image src="/static/assistant_list_ic_question@2x.png" mode="widthFix"></image>
-				<view class="">{{name}}</view>
+		<scroll-view class="scroll-view" scroll-y :style="{'height':scrollHeight+'px'}" enable-back-to-top @scrolltolower="loadMore"
+		 @scroll="scroll">
+			<view class="fixed-header pd-box" v-show="showHeader" :style="{'top':CustomBar+'px'}">
+				<view class="question">
+					<image src="/static/assistant_list_ic_question@2x.png" mode="widthFix" class="question-icon mgr-20"></image>
+					<view class="font-b blod text">
+						{{name}}
+					</view>
+				</view>
 			</view>
-		</view>
-		<empty v-if="list.length==0" msg="没有任何数据耶~"></empty>
-		<view class="list" :style="[{top:CustomBar + 'px'}]">
-			<article-item :list="list" v-on:showOperate="showOperate"></article-item>
-			<view class="uni-tab-bar-loading" v-if="list.length>0">
-				<uni-load-more :loadingType="loadingType" :contentText="loadingText"></uni-load-more>
+			<view class="question-box" id="header">
+				<view class="question">
+					<image src="/static/assistant_list_ic_question@2x.png" mode="widthFix" class="question-icon mgr-20"></image>
+					<view class="font-b blod text">
+						{{name}}
+					</view>
+				</view>
+				<view class="flex-r-between">
+					<view class="gray">
+						共有{{total}}篇相关回答
+					</view>
+				</view>
 			</view>
-		</view>
+			<empty v-if="list.length==0" msg="没有任何数据耶~"></empty>
+			<view class="list">
+				<article-item :list="list" v-on:showOperate="showOperate"></article-item>
+				<view class="uni-tab-bar-loading" v-if="list.length>0">
+					<uni-load-more :loadingType="loadingType" :contentText="loadingText"></uni-load-more>
+				</view>
+			</view>
+		</scroll-view>
+
 	</view>
 </template>
 
@@ -37,14 +56,18 @@
 				list: [],
 				name: "",
 				CustomBar: this.CustomBar,
-				screenHeight: this.screenHeight
+				screenHeight: this.screenHeight,
+				scrollHeight: this.screenHeight - this.CustomBar,
+				total: 0,
+				headerTop: 0,
+				showHeader: false
 			};
 		},
 		onLoad(options) {
 			qaId = options.id
 			this.name = options.name
 			uni.showLoading({
-				title:"加载中"
+				title: "加载中"
 			})
 			this.init()
 		},
@@ -60,16 +83,18 @@
 					total
 				}, res => {
 					console.log(res)
-					if (res.data.length) {
-						this.list = this.list.concat(res.data)
+					this.total = res.data.total
+					if (res.data.resultList.length) {
+						this.list = this.list.concat(res.data.resultList)
 						this.loadingType = 0
-						if (res.data.length < total) {
+						if (res.data.resultList.length < total) {
 							this.loadingType = 2
 						}
 					} else {
 						this.loadingType = 2
 					}
 					uni.hideLoading()
+					this.getHeight()
 				})
 			},
 			loadMore() {
@@ -80,42 +105,91 @@
 				offset += total
 				this.init()
 			},
-			showOperate() {}
-		},
-		onReachBottom() {
-			this.loadMore()
+			showOperate() {},
+			getElSize(id) { //得到元素的size
+				return new Promise((res, rej) => {
+					uni.createSelectorQuery().select("#" + id).fields({
+						size: true,
+						scrollOffset: true,
+						rect: true
+					}, (data) => {
+						res(data);
+					}).exec();
+				})
+			},
+			async getHeight() {
+				let data = await this.getElSize('header')
+				this.headerTop = data.height
+			},
+			scroll(e) {
+				if (this.headerTop <= e.detail.scrollTop) {
+					this.showHeader = true
+				} else {
+					this.showHeader = false
+				}
+			}
 		}
 	}
 </script>
 
 <style lang="scss">
-	.title {
-		height: 100upx;
-		box-sizing: border-box;
-		font-size: 34upx;
-		color: #FC4041;
-		background-color: #FFECEC;
-		font-weight: bold;
-		letter-spacing: 2upx;
-		border-radius: 10upx;
-		padding: 0 30upx;
-		image{
-			width: 40upx;
-			margin-right: 20upx;
-		}
-	}
-	.fixed{
-		position: fixed;
-		left: 0;
-		width: 100%;
-		background-color: white;
-		z-index: 999;
-	}
-	.list{
+	.scroll-view {
 		position: relative;
 		left: 0;
-		width: 100%;
+		top: 0;
+		.question-box {
+			box-sizing: border-box;
+			background-color: #ffffff;
+			border-radius: 20upx;
+			padding: 40upx 30upx;
+			box-shadow: 0px 10upx 60upx 0px rgba(0, 0, 0, 0.04);
+			width: calc(100% - 60upx);
+			margin-left: 30upx;
+			margin-bottom: 40upx;
+			margin-top: 30upx;
+
+			.question {
+				margin-bottom: 20upx;
+				width: 100%;
+
+				.question-icon {
+					width: 40upx !important;
+					position: relative;
+					top: 15upx;
+					left: 0;
+					float: left;
+				}
+			}
+
+			.answer-icon {
+				width: 40upx;
+			}
+		}
+
+		.fixed-header {
+			box-sizing: border-box;
+			background-color: #ffffff;
+			box-shadow: 0px 10upx 60upx 0px rgba(0, 0, 0, 0.04);
+			position: fixed;
+			left: 0;
+			width: 100%;
+			z-index: 555;
+			.question {
+				width: 100%;
+				.question-icon {
+					width: 40upx !important;
+					position: relative;
+					top: 15upx;
+					left: 0;
+					float: left;
+				}
+			}
+		}
+
+		.list {
+			position: relative;
+			left: 0;
+			width: 100%;
+		}
 	}
 </style>
-
-

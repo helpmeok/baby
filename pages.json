@@ -186,7 +186,8 @@
 				"navigationStyle": "custom"
 			}
 		}
-	],
+	    
+    ],
 	"tabBar": {
 		"color": "#666666",
 		"selectedColor": "#FC4041",
@@ -260,7 +261,12 @@
 			{
 				"name": "文章详情", //模式名称
 				"pathName": "pages/home/article/detail/detail", //启动页面，必选
-				"query": "id=15686"
+				"query": "id=12403"
+			},
+			{
+				"name": "文章评论列表", //模式名称
+				"pathName": "pages/home/article/comment/comment", //启动页面，必选
+				"query": "id=12403"
 			},
 			{
 				"name": "分类详情", //模式名称
@@ -326,7 +332,7 @@
 			{
 				"name": "问答详情",
 				"pathName": "pages/home/question/detail/detail",
-				"query": "id=3"
+				"query": "id=7"
 			},
 			{
 				"name": "发布或回答问题",

@@ -8,12 +8,12 @@
 			<view class="question">
 				<image src="/static/assistant_list_ic_question@2x.png" mode="widthFix" class="question-icon mgr-20"></image>
 				<view class="font-b blod text">
-					孕妈如何撒孕妈如何撒孕妈如何撒孕妈如何撒孕妈如何撒
+					{{info.title}}
 				</view>
 			</view>
 			<view class="flex-r-between">
 				<view class="gray">
-					29个回答
+					{{info.answerCnt}}个回答
 				</view>
 				<view class="flex">
 
@@ -62,11 +62,18 @@ import	bindMobile from '@/components/bind-mobile/bind-mobile.vue';
 				content:"",
 				imageList: [],
 				hasMobile:false,
-				showBindMobile:false
+				showBindMobile:false,
+				info:{
+					title:"",
+					answerCnt:0
+				}
 			}
 		},
 		onLoad(options) {
 			this.id = options.id ? options.id : ""
+			if (this.id) {
+				this.info=JSON.parse(uni.getStorageSync('answerInfo'))
+			}
 			if (uni.getStorageSync("access_token")) {//检查有没有绑定手机
 				this.api.center.user.get_detail(null, res => {
 					console.log(res);
@@ -87,6 +94,7 @@ import	bindMobile from '@/components/bind-mobile/bind-mobile.vue';
             		sizeType: ['original', 'compressed'],
             		count: 6,
             		success: (res) => {
+						console.log(res)
             			this.imageList = this.imageList.concat(res.tempFilePaths);
             		}
             	})
@@ -107,33 +115,49 @@ import	bindMobile from '@/components/bind-mobile/bind-mobile.vue';
 			},
 			confrim(){
 				if (this.hasMobile) {
-					if (this.id) {
-						
-					} else{
 						if (this.content) {
-							this.api.center.qa.question.add({
-								title:this.content,
-								"base64Data[]":this.imageList
-							},res=>{
-								console.log(res)
-								uni.showToast({
-									title:"发布问题成功",
-									success: () => {
-										setTimeout(()=>{
-											uni.navigateBack({
-												delta:1
-											})
-										},1000)
-									}
+							if (this.id) {//回答
+								this.api.home.qa.answer.add({
+									questionId:this.id,
+									content:this.content,
+									"base64Data[]":this.imageList
+								},res=>{
+									console.log(res)
+									uni.showToast({
+										title:"回答问题成功",
+										success: () => {
+											setTimeout(()=>{
+												uni.navigateBack({
+													delta:1
+												})
+											},1000)
+										}
+									})
 								})
-							})
+							}else{//提问
+								this.api.home.qa.question.add({
+									title:this.content,
+									"base64Data[]":this.imageList
+								},res=>{
+									console.log(res)
+									uni.showToast({
+										title:"发布问题成功",
+										success: () => {
+											setTimeout(()=>{
+												uni.navigateBack({
+													delta:1
+												})
+											},1000)
+										}
+									})
+								})
+							}
 						}else{
 							uni.showToast({
 								title:"请输入问题",
 								icon:"none"
 							})
 						}
-					}
 				} else{
 					this.showBindMobile=true;
 				}

@@ -5,7 +5,7 @@ page {
 
 .mask {
 	position: fixed;
-	z-index: 998;
+	z-index: 999;
 	top: 0;
 	right: 0;
 	bottom: 0;
@@ -141,7 +141,7 @@ page {
 	width: 100%;
 	left: 0;
 	bottom: 0;
-	z-index: 999;
+	z-index: 998;
 }
 
 .fixed-bottom-height {
@@ -179,7 +179,10 @@ page {
 	height: 20upx;
 	background-color: #F5F5F5;
 }
-
+.line{
+	height: 2upx;
+	background-color: #f5f5f5;
+}
 .sigle-line-text {
 	width: 100%;
 	overflow: hidden;
