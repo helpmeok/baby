@@ -22,6 +22,9 @@
 						<text v-if="el.status==5">无效订单</text>
 					</view>
 					<view class="gray">
+						物流公司：{{el.deliveryCompany?el.deliveryCompany:'无'}}
+					</view>
+					<view class="gray">
 						物流单号：{{el.deliverySn?el.deliverySn:'无'}}
 					</view>
 				</view>

@@ -26,7 +26,7 @@
 						{{info.title}}
 					</view>
 				</view>
-				<scroll-view scroll-x  style="height: 160upx;margin-bottom: 30upx;width: 100%;"  v-if="info.attachment.length>0">
+				<scroll-view scroll-x  style="height: 160upx;margin-bottom: 30upx;width: 100%;" v-if="info.attachment.length>0">
 					<view class="image-box" :style="{'width':imageScrollWidth+'px'}">
 						<image class="img" :src="el.url" mode="aspectFill" v-for="(el,i) in info.attachment" :key="i"></image>
 					</view>
@@ -61,6 +61,9 @@
 			</view>
 			<view class="sigle-line-text-2" style="padding: 20upx 0;">
 				{{answer.content}}
+			</view>
+			<view class="flex-r-between image-box pd-box" v-if="answer.attachment.length>0">
+				<image :src="el.url" mode="aspectFill" v-for="(el,i) in answer.attachment" :key="i"></image>
 			</view>
 		</view>
 	</view>
