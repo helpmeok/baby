@@ -89,6 +89,7 @@
 						console.log(res)
 						this.tabs[this.tabIndex].data = res.data;
 						onok(res.data)
+						uni.hideLoading()
 					})
 				})
 			},
@@ -108,22 +109,21 @@
 					this.init()
 				})
 			},
-			async changeTab(index) {
+			 changeTab(index) {
 				this.tabs.forEach(item => {
 					item.active = false;
 				});
 				this.tabIndex = index;
 				this.tabs[index].active = true;
+			},
+			async changeSwiper(e) {
+				this.changeTab(e.target.current);
 				if (!this.tabs[this.tabIndex].data.length) {
 					uni.showLoading({
 						title:"加载中"
 					})
 					await this.init();
-					uni.hideLoading()
 				}
-			},
-			changeSwiper(e) {
-				this.changeTab(e.target.current);
 			},
 			async onPulldownReresh() { //下拉刷新
 				ctime = parseInt(Date.now() / 1000); //刷新时间

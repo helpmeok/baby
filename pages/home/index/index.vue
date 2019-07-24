@@ -261,18 +261,18 @@
 					);
 				}
 			},
-			async changeTab(index) {
+			 changeTab(index) {
 				this.tabs.forEach(item => {
 					item.active = false;
 				});
 				this.tabIndex = index;
 				this.tabs[index].active = true;
+			},
+			async changeSwiper(e) {
+				this.changeTab(e.target.current);
 				if (!this.tabs[this.tabIndex].data.length) {
 					await this.init();
 				}
-			},
-			changeSwiper(e) {
-				this.changeTab(e.target.current);
 			},
 			loadMore(i) {
 				if (!this.tabs[this.tabIndex].data.length) {

@@ -309,7 +309,7 @@
 			},
 			clickitem(index, val) {
 				this.tabIndex = index
-				this.changeTab(index);
+				// this.changeTab(index);
 			},
 			changeSwiper(e) {
 				this.tabIndex = e.target.current

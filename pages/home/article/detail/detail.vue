@@ -255,9 +255,9 @@
 			offset = 0;
 		},
 		methods: {
-			hideBindMobile(){
-				console.log('11111')
-				this.showBindMobile=false;
+			hideBindMobile(bind){
+				this.showBindMobile=false
+				this.hasMobile=bind?true:false
 			},
 			comment(){
 				if (this.hasMobile) {

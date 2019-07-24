@@ -72,14 +72,12 @@ import	bindMobile from '@/components/bind-mobile/bind-mobile.vue';
 		onLoad(options) {
 			this.id = options.id ? options.id : ""
 			if (this.id) {
-				this.info=JSON.parse(uni.getStorageSync('answerInfo'))
+				this.info=JSON.parse(uni.getStorageSync('questionInfo'))
 			}
-			if (uni.getStorageSync("access_token")) {//检查有没有绑定手机
-				this.api.center.user.get_detail(null, res => {
-					console.log(res);
-					this.hasMobile = res.data.phone ? true : false
-				});
-			}
+			this.api.center.user.get_detail(null, res => {
+				console.log(res);
+				this.hasMobile = res.data.phone ? true : false
+			});	
 		},
 		methods: {
              async chooseImage() {
@@ -91,7 +89,7 @@ import	bindMobile from '@/components/bind-mobile/bind-mobile.vue';
             		return
             	}
             	uni.chooseImage({
-            		sizeType: ['original', 'compressed'],
+            		sizeType: ['compressed'],
             		count: 6,
             		success: (res) => {
 						console.log(res)
@@ -110,8 +108,9 @@ import	bindMobile from '@/components/bind-mobile/bind-mobile.vue';
 				this.imageList.splice(i,1)
 				console.log(this.imageList)
 			},
-			hideBindMobile(){
+			hideBindMobile(bind){
 				this.showBindMobile=false
+				this.hasMobile=bind?true:false
 			},
 			confrim(){
 				if (this.hasMobile) {
@@ -126,6 +125,7 @@ import	bindMobile from '@/components/bind-mobile/bind-mobile.vue';
 									uni.showToast({
 										title:"回答问题成功",
 										success: () => {
+											uni.setStorageSync('refreshPage',true)
 											setTimeout(()=>{
 												uni.navigateBack({
 													delta:1
@@ -143,6 +143,7 @@ import	bindMobile from '@/components/bind-mobile/bind-mobile.vue';
 									uni.showToast({
 										title:"发布问题成功",
 										success: () => {
+											uni.setStorageSync('refreshPage',true)
 											setTimeout(()=>{
 												uni.navigateBack({
 													delta:1

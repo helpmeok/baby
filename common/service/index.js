@@ -192,6 +192,10 @@ module.exports = {
 					let _url = "/questionReplay/getOneQuestionReplayList";
 					_req.m_send(_url, "GET", d, onok, onno);
 				},
+				toggle_praise: function(d, onok, onno) { //点赞取消点赞
+					let _url = "/questionReplay/praiseAnswerReplayOrNo";
+					_req.m_send(_url, "POST", d, onok, onno);
+				},
 			}
 		}
 	},
@@ -321,8 +325,11 @@ module.exports = {
 			}
 		},
 		qa: {
+			get_header: function(d, onok, onno) { //我的问答头部
+				let _url = "/my/getUserAnswerQuestionHeaderInfo";
+				_req.m_send(_url, "GET", d, onok, onno);
+			},
 			question: {
-
 				get_list: function(d, onok, onno) { //我的问题列表
 					let _url = "/my/getUserAnswerQuestionList";
 					_req.m_send(_url, "GET", d, onok, onno);
@@ -333,7 +340,10 @@ module.exports = {
 					let _url = "/my/getUserAnswerReplayList";
 					_req.m_send(_url, "GET", d, onok, onno);
 				},
-
+				delete_byId: function(d, onok, onno) { //删除回答
+					let _url = "/questionReplay/delAnswerReplay";
+					_req.m_send(_url, "POST", d, onok, onno);
+				},
 			}
 		},
 		order: {

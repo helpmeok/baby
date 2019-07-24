@@ -187,6 +187,12 @@
 			}
 		}
 	    
+        ,{
+            "path" : "pages/center/question/answer/answer",
+            "style" : {
+				"navigationStyle": "custom"
+			}
+        }
     ],
 	"tabBar": {
 		"color": "#666666",
@@ -332,7 +338,7 @@
 			{
 				"name": "问答详情",
 				"pathName": "pages/home/question/detail/detail",
-				"query": "id=7"
+				"query": "id=21"
 			},
 			{
 				"name": "发布或回答问题",
@@ -363,6 +369,10 @@
 				"name": "订单确认",
 				"pathName": "pages/center/order/confrim/confrim",
 				"query": "addrId=41"
+			},
+			{
+				"name": "回答详情",
+				"pathName": "pages/center/question/answer/answer"
 			}
 		]
 	}

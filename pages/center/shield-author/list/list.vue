@@ -143,12 +143,12 @@
 				});
 				this.tabIndex = index;
 				this.tabs[index].active = true;
-				if (!this.tabs[this.tabIndex].data.length) {
-					this.init();
-				}
 			},
 			changeSwiper(e) {
 				this.changeTab(e.target.current);
+				if (!this.tabs[this.tabIndex].data.length) {
+					this.init();
+				}
 			},
 			loadMore(i) {
 				console.log('加载更多')
@@ -163,7 +163,7 @@
 				this.init();
 			},
 			cancel(id, index) {
-				if (this.tabIndex==0) {
+				if (this.tabIndex == 0) {
 					this.api.home.hotVip.toggle_followed({
 						vid: id,
 						action: 0
@@ -173,7 +173,7 @@
 							title: "取消关注"
 						})
 					})
-				} else{
+				} else {
 					this.api.home.article.toggle_shield({
 						vid: id,
 						action: 0
@@ -256,7 +256,8 @@
 			border-bottom: 2upx solid #f5f5f5;
 			padding: 20upx 30upx;
 			background-color: white;
-			.cancle-btn{
+
+			.cancle-btn {
 				padding: 10upx 30upx;
 				border-radius: 50upx;
 			}

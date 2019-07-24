@@ -6,9 +6,9 @@
 		</cu-custom>
 		<view class="header pd-box">
 			<view class="qa-bg white">
-				<view class="font-b blod">回答获60人点赞</view>
+				<view class="font-b blod">回答获{{headerInfo.praiseNum}}人点赞</view>
 				<view class="">
-					本月共20人点赞
+					本月共{{headerInfo.monthPraiseNum}}人点赞
 				</view>
 				<image src="/static/qa_card_pic_praise@3x.png" mode="widthFix" class="icon"></image>
 			</view>
@@ -22,14 +22,13 @@
 				</view>
 			</view>
 			<view class="gray">
-				共3个{{tabIndex==0?"提问":"回答"}}
+				共{{tabIndex==0?headerInfo.questionNum:headerInfo.replayNum}}个{{tabIndex==0?"提问":"回答"}}
 			</view>
 		</view>
 		<navigator url="/pages/home/question/commit/commit" hover-class="none">
 			<image src="/static/qa_bottom_ic_quiz@3x.png" mode="widthFix" class="float-ask"></image>
 		</navigator>
-		<swiper :style="[{'height':scrollHeight+'px'}]" :current="tabIndex"
-		 :duration="300" @change="changeSwiper">
+		<swiper :style="[{'height':scrollHeight+'px'}]" :current="tabIndex" :duration="300" @change="changeSwiper">
 			<swiper-item v-for="(el, i) in tabs" :key="i">
 				<scroll-view @scrolltolower="loadMore(i)" scroll-y :style="[{'height':scrollHeight+'px'}]" :enable-back-to-top="el.active">
 					<empty v-if="tabs[i].data.length == 0 && isLoad" :msg="tabIndex==0?'您还没有提问~':'您还没有回答~'"></empty>
@@ -49,7 +48,7 @@
 						</view>
 					</view>
 					<view class="a-list" v-show="i==1">
-						<view class="list-item" v-for="(sub,index) in tabs[i].data" :key="index">
+						<view class="list-item" v-for="(sub,index) in tabs[i].data" :key="index" @click="goAnswer(sub)">
 							<view class="item">
 								<image src="/static/assistant_list_ic_answer@3x.png" mode="widthFix" class="icon mgr-20"></image>
 								<view class="font-b blod text">
@@ -99,31 +98,67 @@
 				loadingText: {
 					contentdown: "",
 					contentrefresh: "正在加载...",
-					contentnomore: ""
+					contentnomore: "没有更多数据了"
 				},
 				isLoad: false,
 				tabIndex: 0,
 				CustomBar: this.CustomBar,
+				headerInfo: {
+					"monthPraiseNum": 0, // 本月点赞数
+					"praiseNum": 0, // 总的点赞数
+					"questionNum": 1, // 我的提问数
+					"replayNum": 0 // 我的回答数
+				}
 			}
 		},
 		onLoad(options) {
 			uni.showLoading({
-				title:"加载中"
+				title: "加载中"
 			})
 			this.init()
+			this.getHeader()
 		},
-		computed:{
-			scrollHeight(){
-				return this.screenHeight-this.CustomBar-uni.upx2px(300)
+		onShow() {
+			if (uni.getStorageSync('refreshPage')) {
+				uni.removeStorageSync('refreshPage')
+				this.tabs = [{
+						name: "我的提问",
+						active: true,
+						data: [],
+						offset: 0,
+						loadingType: 0
+					},
+					{
+						name: "我的回答",
+						active: false,
+						data: [],
+						offset: 0,
+						loadingType: 0
+					},
+				]
+				this.tabIndex = 0;
+				this.init()
+				this.getHeader()
+			}
+		},
+		computed: {
+			scrollHeight() {
+				return this.screenHeight - this.CustomBar - uni.upx2px(300)
 			}
 		},
 		methods: {
-			goQuestion(id){
+			goQuestion(id) {
 				uni.navigateTo({
-					url:'/pages/home/question/detail/detail?id='+id
+					url: '/pages/home/question/detail/detail?id=' + id
 				})
 			},
-			init(){
+			getHeader() {
+				this.api.center.qa.get_header(null, res => {
+					console.log(res)
+					this.headerInfo = res.data
+				})
+			},
+			init() {
 				if (!this.tabs[this.tabIndex].data.length) {
 					this.isLoad = false
 					uni.showLoading({
@@ -171,12 +206,12 @@
 				});
 				this.tabIndex = index;
 				this.tabs[index].active = true;
-				if (!this.tabs[this.tabIndex].data.length) {
-					this.init()
-				} 
 			},
 			changeSwiper(e) {
 				this.changeTab(e.target.current);
+				if (!this.tabs[this.tabIndex].data.length) {
+					this.init()
+				}
 			},
 			loadMore(i) {
 				if (!this.tabs[this.tabIndex].data.length) {
@@ -189,6 +224,12 @@
 				this.tabs[this.tabIndex].offset += total;
 				this.init();
 			},
+			goAnswer(el) {
+				uni.setStorageSync('answerInfo', JSON.stringify(el))
+				uni.navigateTo({
+					url: "/pages/center/question/answer/answer?userId=" + el.userId
+				})
+			}
 		}
 	}
 </script>
@@ -197,17 +238,19 @@
 	.container {
 		width: 100%;
 		height: 100%;
-		
-		.float-ask{
+
+		.float-ask {
 			position: fixed;
 			right: 20upx;
 			bottom: 20upx;
 			width: 150upx;
 			z-index: 999;
 		}
+
 		.header {
 			box-sizing: border-box;
 			width: 100%;
+
 			.qa-bg {
 				width: 100%;
 				height: 180upx;
@@ -228,9 +271,10 @@
 
 		.tab-bar {
 			// border-bottom: 2upx solid #f1f1f1;
-			padding:0 30upx;
+			padding: 0 30upx;
 			height: 100upx;
 			width: 100%;
+
 			.tabs {
 
 				.item {
@@ -271,16 +315,21 @@
 				border: none;
 			}
 		}
-		.q-list,.a-list{
+
+		.q-list,
+		.a-list {
 			padding-left: 30upx;
-				box-sizing: border-box;
-			.list-item{
+			box-sizing: border-box;
+
+			.list-item {
 				border-bottom: 2upx solid #f5f5f5;
 				padding: 20upx 20upx 20upx 0;
 				position: relative;
+
 				.item {
 					margin-bottom: 20upx;
 					width: 100%;
+
 					.icon {
 						width: 40upx !important;
 						position: relative;
@@ -291,6 +340,6 @@
 				}
 			}
 		}
-		
+
 	}
 </style>

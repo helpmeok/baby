@@ -37,23 +37,26 @@
 				default: true
 			}
 		},
-		created() {
-			if (this.isShow) {
-				uni.checkSession({
-					success: () => {
-						this.wxSessionKey = uni.getStorageSync('wxSessionKey')
-						console.log('wxSessionKey有效')
-						if (!this.wxSessionKey) {
+		watch: {
+			isShow(newValue) {
+				if (newValue) {
+					uni.checkSession({
+						success: () => {
+							this.wxSessionKey = uni.getStorageSync('wxSessionKey')
+							console.log('wxSessionKey有效')
+							if (!this.wxSessionKey) {
+								this.getWxSessionKey()
+							}
+						},
+						fail: () => {
+							console.log('wxSessionKey过期')
 							this.getWxSessionKey()
 						}
-					},
-					fail: () => {
-						console.log('wxSessionKey过期')
-						this.getWxSessionKey()
-					}
-				})
+					})
+				}
 			}
 		},
+		created() {},
 		methods: {
 			getWxSessionKey() {
 				uni.login({
@@ -88,7 +91,7 @@
 							uni.showToast({
 								title: "绑定成功",
 								success: () => {
-									this.$emit('hideBindMobile')
+									this.$emit('hideBindMobile', true)
 								}
 							})
 						})
@@ -96,7 +99,7 @@
 				}
 			},
 			hideModal() {
-				this.$emit('hideBindMobile')
+				this.$emit('hideBindMobile', false)
 			}
 		}
 	}

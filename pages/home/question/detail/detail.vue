@@ -23,16 +23,16 @@
 						{{info.title}}
 					</view>
 				</view>
-				<scroll-view scroll-x style="height: 160upx;margin-bottom: 30upx;" :style="{'width':imageScrollWidth+'px'}" v-if="info.attachment.length>0">
+				<scroll-view scroll-x style="height: 160upx;margin-bottom: 30upx;width: 100%;" v-if="info.attachment.length>0">
 					<view class="image-box" :style="{'width':imageScrollWidth+'px'}">
-						<image class="img" :src="el.url" mode="widthFix" v-for="(el,i) in info.attachment" :key="i"></image>
+						<image class="img" :src="el.url" mode="aspectFill" v-for="(el,i) in info.attachment" :key="i" @click="previewImage(info.attachment,i)"></image>
 					</view>
 				</scroll-view>
 				<view class="flex-r-between">
 					<view class="gray">
 						{{info.answerCnt}}个回答
 					</view>
-					<view class="flex" @click="answer()">
+					<view class="flex" @click="goAnswer()" v-if="!info.isAnswered">
 						<view class="default-color">
 							我来回答
 						</view>
@@ -42,29 +42,22 @@
 			</view>
 			<view class="line"></view>
 		</view>
-		<view class="pd-box item-list border-bottom" v-for="(el,i) in commentList" :key="i">
-			<view class="flex">
-				<view class="" style="width: 15%;">
-					<image :src="el.avatar" mode="widthFix" class="header"></image>
-				</view>
-				<view class="" style="width: 85%;">
-					<view class="flex-r-between">
-						<text>{{el.nickName}}</text>
-						<view class="flex">
-							<text>{{el.praiseNum | articleDataNum}}</text>
-							<text class="iconfont icondianzan11 mgl-10 gray" :class="{'red':el.praiseFlag}" @click="toggleCommentPraise(el.commentId,i)"></text>
-						</view>
-					</view>
-					<view class="" style="padding: 20upx 0;">
-						{{el.content}}
-					</view>
-					<view class="flex small">
-						<text class="mgr-20">{{el.ctime | transformDate}}</text>
-						<button plain="true" open-type="launchApp" :app-parameter="parames" @error="launchAppError" class="launchApp-btn flex gray comment-box">
-							<view class="small">{{el.replyNum>0?el.replyNum:"" | articleDataNum}}回复</view>
-						</button>
+		<view class="pd-box item-list border-bottom" v-for="(el,i) in commentList" :key="i" @click="goAnswerDetail(el)">
+			<view class="flex-r-between">
+				<view class="flex">
+					<image :src="el.userAvatar" mode="widthFix" class="header mgr-20"></image>
+					<view class="">
+						<view class="article-font">{{el.userName}}</view>
+						<view class="gray">{{el.userOauthIntro}}</view>
 					</view>
 				</view>
+				<view class="flex" @click="toggleCommentPraise(el,i)">
+					<text>{{el.supportCnt | articleDataNum}}</text>
+					<text class="iconfont icondianzan11 mgl-10 gray" :class="{'red':el.praiseFlag}"></text>
+				</view>
+			</view>
+			<view class="sigle-line-text-2" style="padding: 20upx 0;">
+				{{el.content}}
 			</view>
 		</view>
 		<view class="uni-tab-bar-loading">
@@ -95,13 +88,12 @@
 			this.addArticleCountNum('forwardNum')
 			return {
 				title: this.info.title,
-				path: '/pages/home/index/index?qaId=' + id,
-				imageUrl: this.info.attachment[0].url
+				path: '/pages/home/index/index?qaId=' + id
 			};
 		},
 		data() {
 			return {
-				offset:0,
+				offset: 0,
 				info: {
 					attachment: [],
 					answerCnt: 0,
@@ -132,13 +124,21 @@
 			this.getAnswerList();
 			// this.addArticleCountNum('clickNum')
 		},
+		onShow() {
+			if (uni.getStorageSync('refreshPage')) {
+				uni.removeStorageSync('refreshPage')
+				this.offset = 0;
+				this.commentList = [];
+				this.getAnswerList();
+			}
+		},
 		computed: {
 			imageScrollWidth() {
 				return uni.upx2px(180 * this.info.attachment.length)
 			}
 		},
 		methods: {
-			init() {//初始化详情
+			init() { //初始化详情
 				this.api.home.qa.question.get_detail({
 						questionId: id,
 					},
@@ -148,27 +148,37 @@
 					}
 				);
 			},
-			getAnswerList(){//获取回答列表
+			previewImage(list, i) {
+				let urls = [];
+				urls = list.map((el) => {
+					return el.url
+				})
+				uni.previewImage({
+					current: i,
+					urls: urls
+				})
+			},
+			getAnswerList() { //获取回答列表
 				uni.showLoading({
 					title: "加载中"
 				})
-				this.api.home.article.get_comment_list({
+				this.api.home.qa.answer.get_list({
 					ctime,
 					questionId: id,
-					offset:this.offset,
+					offset: this.offset,
 					total
 				}, res => {
-					console.log(res)
+					console.log(res.data)
 					this.commentList = res.data
 					uni.hideLoading()
 				});
 			},
-			answer() {
+			goAnswer() {
 				let obj = {
 					title: this.info.title,
 					answerCnt: this.info.answerCnt
 				}
-				uni.setStorageSync('answerInfo', JSON.stringify(obj))
+				uni.setStorageSync('questionInfo', JSON.stringify(obj))
 				uni.navigateTo({
 					url: "/pages/home/question/commit/commit?id=" + id
 				})
@@ -246,20 +256,20 @@
 					}
 				);
 			},
-			toggleCommentPraise(id, i) {
-				this.api.home.comment.toggle_praise({
-						commentId: id,
+			toggleCommentPraise(el, i) {
+				this.api.home.qa.answer.toggle_praise({
+						replayId: el.id,
 						action: this.commentList[i].praiseFlag ? 0 : 1
 					},
 					res => {
 						this.commentList[i].praiseFlag = !this.commentList[i].praiseFlag;
 						if (this.commentList[i].praiseFlag) {
-							this.commentList[i].praiseNum++
+							this.commentList[i].supportCnt++
 							uni.showToast({
 								title: "点赞成功"
 							})
 						} else {
-							this.commentList[i].praiseNum--
+							this.commentList[i].supportCnt--
 							uni.showToast({
 								title: "取消点赞"
 							})
@@ -274,6 +284,12 @@
 				this.loadingType = 1
 				this.getMoreComment();
 			},
+			goAnswerDetail(el) {
+				uni.setStorageSync('answerInfo', JSON.stringify(el))
+				uni.navigateTo({
+					url: "/pages/center/question/answer/answer?userId=" + el.userId
+				})
+			}
 		}
 	};
 </script>

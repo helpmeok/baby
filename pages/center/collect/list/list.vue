@@ -145,12 +145,12 @@
 				});
 				this.tabIndex = index;
 				this.tabs[index].active = true;
-				if (!this.tabs[this.tabIndex].data.length) {
-					this.init();
-				}
 			},
 			changeSwiper(e) {
 				this.changeTab(e.target.current);
+				if (!this.tabs[this.tabIndex].data.length) {
+					this.init();
+				}
 			},
 			loadMore(i) {
 				if (!this.tabs[this.tabIndex].data.length) {

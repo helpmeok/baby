@@ -114,10 +114,10 @@
 				});
 				this.tabIndex = index;
 				this.tabs[index].active = true;
-				this.init()
 			},
 			changeSwiper(e) {
 				this.changeTab(e.target.current);
+				this.init()
 			},
 			goAdd() {
 				if (this.tabIndex == 0) {
