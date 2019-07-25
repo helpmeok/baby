@@ -372,7 +372,8 @@
 			},
 			{
 				"name": "回答详情",
-				"pathName": "pages/center/question/answer/answer"
+				"pathName": "pages/center/question/answer/answer",
+				"query":"userId=2822"
 			}
 		]
 	}

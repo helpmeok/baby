@@ -173,6 +173,10 @@ module.exports = {
 			},
 		},
 		qa: {
+			get_qiuniu_info: function(d, onok, onno) { //获取七牛云信息
+				let _url = "/other/getQiniuInfo";
+				_req.m_send(_url, "GET", d, onok, onno);
+			},
 			question: {
 				get_detail: function(d, onok, onno) { //问答相关功能，某个问题的详情
 					let _url = "/questionReplay/getQuestionDetail";
