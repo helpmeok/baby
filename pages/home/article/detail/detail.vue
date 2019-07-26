@@ -1,150 +1,157 @@
 <template>
-	<scroll-view scroll-y class="scroll-view" :scroll-into-view="scrollIntoId" enable-back-to-top="true" @scroll="scroll"
-	>
+	<scroll-view scroll-y class="scroll-view" :scroll-into-view="scrollIntoId" enable-back-to-top="true" @scroll="scroll">
 		<cu-custom bgColor="bg-gradual-red" :isCustom="true" :helper="true">
 			<block slot="backText"></block>
 			<block slot="content">宝宝贝</block>
 		</cu-custom>
-		<view>
-			<view class="pd-box blod " style="font-size: 42upx;">{{ info.title }}</view>
-			<view class="pd-box flex-r-between author">
-				<view class="flex" @click="goFamous">
-					<image :src="info.userAvatar" mode="widthFix"></image>
-					<view class="mgl-20">
-						<view class=" blod article-font">{{ info.author }}</view>
-						<view class=" small gray">{{ info.oauthIntro }}</view>
-					</view>
-				</view>
-				<view class="tag white small" v-if="info.categoryName" @click="goCategory">{{ info.categoryName }}</view>
-			</view>
-
-			<view class="pd-box rich-box" v-if="info.showType==0 || info.showType==1 || info.showType==2 || info.showType==3 ">
-				<u-parse :content="info.content | imgConversion" @preview="preview" />
-			</view>
-			<!-- http://vfx.mtime.cn/Video/2019/02/04/mp4/190204084208765161.mp4 -->
-			<view class="flex-r-center" v-if="info.showType==5">
-				<imt-audio color="#FC4041" src="https://boblbee.superpapa.com.cn/boblbee/test.mp3" duration="10"></imt-audio>
-			</view>
-			<view class="flex-r-center" v-if="info.showType==5">
-				<video class="video" v-show="!showCommentPublish" id="myVideo" objectFit="fill" autoplay src="https://boblbee.superpapa.com.cn/boblbee/test.mp4"
-				 controls></video>
-			</view>
-			<view class="fixed-bottom  bg-white" v-if="!showCommentPublish">
-				<view class="flex-r-between">
-					<view class="launchApp-btn flex gray comment-box" @click="comment">
-						<view class="mgr-10 iconfont iconpinglun1"></view>
-						<text style="font-size: 26upx;">缺少你的评论...</text>
-					</view>
-					<view class="" style="position: relative;" @click="scrollIntoComment">
-						<view class="iconfont iconpinglun2"></view>
-						<view class="comment-num bg-default-color flex-r-center" v-if="info.commentNum > 0">{{ info.commentNum > 99 ? '99+' : info.commentNum }}</view>
-					</view>
-					<view class="iconfont " :class="{ iconshoucang: info.faFlag, iconshoucang1: !info.faFlag, red: info.faFlag }"
-					 @click="toggleCollect"></view>
-					<view class="iconfont icondianzan11" :class="{ red: info.praiseFlag }" @click="togglePraise"></view>
-					<button open-type="share" plain="true" hover-class="none" type="default" class="share-btn">
-						<view class="iconfont iconweixin" style="color:#09BB07;"></view>
-					</button>
-				</view>
-			</view>
-			<view class="mask publish-mask" v-else @click="showCommentPublish=false">
-				<view class="fixed-bottom  bg-white" @click.stop :style="[{'bottom':publishBottom+'px'}]">
-					<textarea placeholder-class="gray" v-model="publishText" :focus="showCommentPublish" @blur="publishBlur" @focus="publishFocus"
-					 :adjust-position="false" placeholder="缺少你的评论..." class="publish-textarea" />
-					<view class="flex-r-between">
-						<view class=""></view>
-						<view class=" publish-btn-out" :class="{'publish-btn-on':publishText}" @click="addComment()">
-							发布
+		<view class="show-container" v-show="isLoad">
+			<view>
+				<view class="pd-box blod " style="font-size: 42upx;">{{ info.title }}</view>
+				<view class="pd-box flex-r-between author">
+					<view class="flex" @click="goFamous">
+						<image :src="info.userAvatar" mode="widthFix"></image>
+						<view class="mgl-20">
+							<view class=" blod article-font">{{ info.author }}</view>
+							<view class=" small gray">{{ info.oauthIntro }}</view>
 						</view>
 					</view>
+					<view class="tag white small" v-if="info.categoryName" @click="goCategory">{{ info.categoryName }}</view>
 				</view>
-			</view>
-		</view>
-		
-		<!-- <view class="uni-tab-bar-loading">
-			<uni-load-more :loadingType="loadingType" :contentText="loadingText"></uni-load-more>
-		</view> -->
-		<view class="questions-box">
-			<view class="" style="height: 2upx;background-color: #f5f5f5;"></view>
-			<view class="flex pd-box question-list-box">
-				<view class="list-item pd-lr mgr-20 flex-r-center" v-for="(el,i) in info.questionList" :key="i" @click="goQuestionList(el.questionId,el.questionName)">
-					{{el.questionName}}
+
+				<view class="pd-box rich-box" v-if="info.showType==0 || info.showType==1 || info.showType==2 || info.showType==3 ">
+					<u-parse :content="info.content | imgConversion" @preview="preview" />
 				</view>
-			</view>
-		</view>
-		<view class="cut-off"></view>
-		<view class="comments-box">
-			<view class="pd-box" id="comments">
-				<view class="blod flex-r-between">
-					<text class="mgr-10 font-b">热门评论</text>
-					<view class="gray flex" @click="goAllComments" v-if="info.hotCommentList.length>0">
-						<text>更多</text>
-						<view class="iconfont iconarrow-right-copy mgl-10"></view>
+				<!-- http://vfx.mtime.cn/Video/2019/02/04/mp4/190204084208765161.mp4 -->
+				<view class="flex-r-center" style="margin-bottom: 30upx;" v-if="info.showType==4">
+					<imt-audio color="#FC4041" :src="info.attachment[0].url" :duration="info.attachment[0].duration"></imt-audio>
+				</view>
+				<view class="flex-r-center" style="margin-bottom: 30upx;" v-if="info.showType==5">
+					<video class="video" v-show="!showCommentPublish" id="myVideo" objectFit="fill" :poster="info.attachment[0].thumbnail"
+					 :src="info.attachment[0].url" controls>
+						<cover-view style="width: 100%;height: 100%;position: relative;" v-show="showPoster">
+							<cover-image style="width: 100%;height: 100%;" :src="info.attachment[0].thumbnail"></cover-image>
+							<cover-view class="flex-c-center" style="width: 100%;height: 100%;position: absolute;left: 0;top: 0;" @click="listenPlay()">
+								<cover-image style="width: 130upx;height: 130upx;" src="/static/details_list_ic_play_nor@3x.png"></cover-image>
+							</cover-view>
+						</cover-view>
+						<cover-view class="cover-mask flex-r-center" v-show="iscover">
+							<cover-view class="cover-container bg-white">
+								<cover-view class="flex-c-center cover-container-top">
+									<cover-view>
+										<cover-view class="blod font-b align-center">
+											当前非WIFI流量，
+										</cover-view>
+										<cover-view class="blod font-b pd-box align-center">
+											将消耗流量是否继续播放？
+										</cover-view>
+									</cover-view>
+									<cover-view class="cover-container-center gray flex-r-center pd-box ">
+										<cover-image class="cover-container-center-img" @click="checkbok(true)" v-if="!isCheckbok" src="/static/babymanage_list_ic_checkbok_nor@2x.png"></cover-image>
+										<cover-image class="cover-container-center-img" @click="checkbok(false)" v-if="isCheckbok" src="/static/babymanage_list_ic_checkbok_sel@2x.png"></cover-image>
+										<cover-view class="gray mgl-20 font-b">
+											一周内不再提醒
+										</cover-view>
+									</cover-view>
+								</cover-view>
+								<cover-view class="cover-container-bottom flex">
+									<cover-view class="align-center btn font-b" @click="cancelVideoCover">取消播放</cover-view>
+									<cover-view class="align-center btn bg-default-color white font-b" @click="playvideo">继续播放</cover-view>
+								</cover-view>
+							</cover-view>
+						</cover-view>
+					</video>
+				</view>
+				<view class="fixed-bottom  bg-white" v-if="!showCommentPublish">
+					<view class="flex-r-between">
+						<view class="launchApp-btn flex gray comment-box" @click="comment">
+							<view class="mgr-10 iconfont iconpinglun1"></view>
+							<text style="font-size: 26upx;">缺少你的评论...</text>
+						</view>
+						<view class="" style="position: relative;" @click="scrollIntoComment">
+							<view class="iconfont iconpinglun2"></view>
+							<view class="comment-num bg-default-color flex-r-center" v-if="info.commentNum > 0">{{ info.commentNum > 99 ? '99+' : info.commentNum }}</view>
+						</view>
+						<view class="iconfont " :class="{ iconshoucang: info.faFlag, iconshoucang1: !info.faFlag, red: info.faFlag }"
+						 @click="toggleCollect"></view>
+						<view class="iconfont icondianzan11" :class="{ red: info.praiseFlag }" @click="togglePraise"></view>
+						<button open-type="share" plain="true" hover-class="none" type="default" class="share-btn">
+							<view class="iconfont iconweixin" style="color:#09BB07;"></view>
+						</button>
 					</view>
 				</view>
-			</view>
-			<view class="flex-c-center pd-box gray" v-if="info.hotCommentList.length==0">
-				暂无评论
-			</view>
-			<view class="pd-box item-list border-bottom" v-for="(el, i) in info.hotCommentList" :key="i">
-				<view class="flex">
-					<view class="" style="width: 15%;">
-						<image :src="el.avatar" mode="widthFix" class="header"></image>
-					</view>
-					<view class="" style="width: 85%;">
+				<view class="mask publish-mask" v-else @click="showCommentPublish=false">
+					<view class="fixed-bottom  bg-white" @click.stop :style="[{'bottom':publishBottom+'px'}]">
+						<textarea placeholder-class="gray" v-model="publishText" :focus="showCommentPublish" @blur="publishBlur" @focus="publishFocus"
+						 :adjust-position="false" placeholder="缺少你的评论..." class="publish-textarea" />
 						<view class="flex-r-between">
-							<text>{{ el.nickName }}</text>
-							<view class="flex">
-								<text>{{ el.praiseNum | articleDataNum }}</text>
-								<text class="iconfont icondianzan11 mgl-10 gray" :class="{ red: el.praiseFlag }" @click="toggleCommentPraise(el.commentId, i)"></text>
+							<view class=""></view>
+							<view class=" publish-btn-out" :class="{'publish-btn-on':publishText}" @click="addComment()">
+								发布
 							</view>
 						</view>
-						<view class="" style="padding: 20upx 0;">{{ el.content }}</view>
-						<view class="flex small">
-							<text class="mgr-20">{{ el.ctime | transformDate }}</text>
-							<button plain="true" open-type="launchApp" :app-parameter="parames" @error="launchAppError" class="launchApp-btn flex gray comment-box">
-								<view class="small">{{ el.replyNum > 0 ? el.replyNum : '' | articleDataNum }}回复</view>
-							</button>
+					</view>
+				</view>
+			</view>
+			
+			<!-- <view class="uni-tab-bar-loading">
+				<uni-load-more :loadingType="loadingType" :contentText="loadingText"></uni-load-more>
+			</view> -->
+			<view class="questions-box">
+				<view class="" style="height: 3upx;background-color: #f5f5f5;width: 100%;"></view>
+				<view class="flex pd-box question-list-box">
+					<view class="list-item pd-lr mgr-20 flex-r-center" v-for="(el,i) in info.questionList" :key="i" @click="goQuestionList(el.questionId,el.questionName)">
+						{{el.questionName}}
+					</view>
+				</view>
+			</view>
+			<view class="cut-off"></view>
+			<view class="comments-box">
+				<view class="pd-box" id="comments">
+					<view class="blod flex-r-between">
+						<text class="mgr-10 font-b">热门评论</text>
+						<view class="gray flex" @click="goAllComments" v-if="info.hotCommentList.length>0">
+							<text>更多</text>
+							<view class="iconfont iconarrow-right-copy mgl-10"></view>
+						</view>
+					</view>
+				</view>
+				<view class="flex-c-center pd-box gray" v-if="info.hotCommentList.length==0">
+					暂无评论
+				</view>
+				<view class="pd-box item-list border-bottom" v-for="(el, i) in info.hotCommentList" :key="i">
+					<view class="flex">
+						<view class="" style="width: 15%;">
+							<image :src="el.avatar" mode="widthFix" class="header"></image>
+						</view>
+						<view class="" style="width: 85%;">
+							<view class="flex-r-between">
+								<text>{{ el.nickName }}</text>
+								<view class="flex">
+									<text>{{ el.praiseNum | articleDataNum }}</text>
+									<text class="iconfont icondianzan11 mgl-10 gray" :class="{ red: el.praiseFlag }" @click="toggleCommentPraise(el.commentId, i)"></text>
+								</view>
+							</view>
+							<view class="" style="padding: 20upx 0;">{{ el.content }}</view>
+							<view class="flex small">
+								<text class="mgr-20">{{ el.ctime | transformDate }}</text>
+								<button plain="true" open-type="launchApp" :app-parameter="parames" @error="launchAppError" class="launchApp-btn flex gray comment-box">
+									<view class="small">{{ el.replyNum > 0 ? el.replyNum : '' | articleDataNum }}回复</view>
+								</button>
+							</view>
 						</view>
 					</view>
 				</view>
 			</view>
-		</view>
-		<view class="cut-off"></view>
-		<view class="expend-box">
-			<view class="pd-box">
-				<view class="blod flex-r-between">
-					<text class="mgr-10 font-b">延展阅读</text>
-				</view>
-			</view>
-			<view class="flex-r-between pd-box expend-list">
-				<view class="list-item" v-for="(el,i) in info.expendList" :key="i" @click="goOtherArticle(el)">
-					<image :src="el.attachment[0].url" v-if="el.attachment.length>0" mode="widthFix" class="image"></image>
-					<view class="sigle-line-text-2" style="font-size: 32upx;margin-bottom: 10upx;">
-						{{el.title}}
-					</view>
-					<view class="gray">
-						<text class="mgr-20">
-							{{el.author}}
-						</text>
-						<text class="mgr-20">
-							{{el.commentNum | articleDataNum}}评论
-						</text>
+			<view class="cut-off"></view>
+			<view class="expend-box">
+				<view class="pd-box">
+					<view class="blod flex-r-between">
+						<text class="mgr-10 font-b">延展阅读</text>
 					</view>
 				</view>
-			</view>
-		</view>
-		<view class="cut-off"></view>
-		<view class="recommend-box">
-			<view class="pd-box">
-				<view class="blod flex-r-between">
-					<text class="mgr-10 font-b">推荐阅读</text>
-				</view>
-			</view>
-			<view class="recommend-list">
-				<view class="list-item flex-r-between pd-box" v-for="(el,i) in info.recommendList" :key="i" @click="goOtherArticle(el)">
-					<image :src="el.attachment[0].url" v-if="el.attachment.length>0" mode="widthFix" class="image"></image>
-					<view class="desc">
+				<view class="flex-r-between pd-box expend-list">
+					<view class="list-item" v-for="(el,i) in info.expendList" :key="i" @click="goOtherArticle(el)">
+						<image :src="el.attachment[0].url" v-if="el.attachment.length>0" mode="widthFix" class="image"></image>
 						<view class="sigle-line-text-2" style="font-size: 32upx;margin-bottom: 10upx;">
 							{{el.title}}
 						</view>
@@ -159,11 +166,35 @@
 					</view>
 				</view>
 			</view>
+			<view class="cut-off"></view>
+			<view class="recommend-box">
+				<view class="pd-box">
+					<view class="blod flex-r-between">
+						<text class="mgr-10 font-b">推荐阅读</text>
+					</view>
+				</view>
+				<view class="recommend-list">
+					<view class="list-item flex-r-between pd-box" v-for="(el,i) in info.recommendList" :key="i" @click="goOtherArticle(el)">
+						<image :src="el.attachment[0].url" v-if="el.attachment.length>0" mode="widthFix" class="image"></image>
+						<view class="desc">
+							<view class="sigle-line-text-2" style="font-size: 32upx;margin-bottom: 10upx;">
+								{{el.title}}
+							</view>
+							<view class="gray">
+								<text class="mgr-20">
+									{{el.author}}
+								</text>
+								<text class="mgr-20">
+									{{el.commentNum | articleDataNum}}评论
+								</text>
+							</view>
+						</view>
+					</view>
+				</view>
+			</view>
+			<view class="" style="height: 80px;"></view>
+			<bind-mobile v-on:hideBindMobile="hideBindMobile" :isShow="showBindMobile"></bind-mobile>
 		</view>
-		
-		
-		<view class="" style="height: 80px;"></view>
-		<bind-mobile v-on:hideBindMobile="hideBindMobile" :isShow="showBindMobile"></bind-mobile>
 	</scroll-view>
 </template>
 
@@ -228,12 +259,26 @@
 				hasMobile: false,
 				publishBottom:0,
 				publishText:"",
-				wxSessionKey:""
+				wxSessionKey:"",
+				isLoad:false,
+				iscover:true,
+				isCheckbok:true,
+				showPoster:false
 			};
 		},
 		onReady (res) {
            video = uni.createVideoContext('myVideo')
         },
+		watch:{
+			isCheckbok(val){
+				console.log(val)
+				if (val) {
+					uni.setStorageSync('networkType',true)
+				} else{
+					uni.setStorageSync('networkType',false)
+				}
+			}
+		},
 		onLoad(options) {
 			id = options.id;
 			console.log('id============' + id);
@@ -250,11 +295,49 @@
 			this.parames = JSON.stringify(this.parames);
 			this.init();
 			this.addArticleCountNum('clickNum');
+			
 		},
 		onUnload() {
 			offset = 0;
 		},
 		methods: {
+			getNetworkType(){
+				if (uni.getStorageSync('networkType')) {
+					this.iscover=false;
+				} else{
+					uni.getNetworkType({
+						success: (res) => {
+							console.log(res)
+							if (res.networkType=="wifi") {
+								this.iscover=false;
+							}else{
+								this.iscover=true;
+								video.pause();
+							}
+						}
+					})
+				}
+			},
+			checkbok(val){
+				this.isCheckbok=val
+			},
+			listenPlay(){
+				this.getNetworkType();
+			},
+			cancelVideoCover(){
+				this.iscover=false;
+				this.showPoster=true
+			},
+			playvideo(){
+				if (this.isCheckbok) {
+					uni.setStorageSync('networkType',true)
+				}else{
+					uni.setStorageSync('networkType',false)
+				}
+				this.iscover=false;
+				this.showPoster=false;
+				video.play();
+			},
 			hideBindMobile(bind){
 				this.showBindMobile=false
 				this.hasMobile=bind?true:false
@@ -277,18 +360,9 @@
 					res => {
 						console.log(res.data);
 						this.info = res.data;
-						this.api.home.article.get_comment_list({
-								ctime,
-								articleId: id,
-								offset,
-								total
-							},
-							res => {
-								console.log(res);
-								this.commentList = res.data;
-								uni.hideLoading();
-							}
-						);
+						this.isLoad=true;
+						this.getNetworkType()
+						uni.hideLoading();
 					}
 				);
 			},
@@ -621,4 +695,42 @@
 				}
 		}
 	}
+	.cover-mask{
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		z-index: 999;
+		left: 0;
+		top: 0;
+		background-color: rgba(0, 0, 0, .3);
+		.cover-container{
+			width: 90%;
+			height: 90%;
+			border-radius: 10upx;
+			position: absolute;
+			.cover-container-top{
+				height:calc(100% - 100upx);
+			}
+			.cover-container-bottom{
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				height: 100upx;
+				width: 100%;
+				border-top: 3upx solid #f5f5f5;
+				.btn{
+					width: 50%;
+					height: 100%;
+					line-height: 100upx;
+				}
+			}
+			.cover-container-center{
+				.cover-container-center-img{
+					width: 50upx;
+				}
+			}
+			
+		}
+		
+		}
 </style>

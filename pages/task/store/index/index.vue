@@ -6,7 +6,7 @@
 		</cu-custom>
 		<view class="list-box pd-box">
 			<view class="list-item flex-c-center" v-for="(el,i) in list" :key="i" @click="goDetail(el)">
-				<image :src="el.productUrl" mode="widthFix" class="img"></image>
+				<image :src="el.attachmentList[0].thumbnail" mode="aspectFill" class="img"></image>
 				<view class="font-b sigle-line-text" style="text-align: center;">{{el.productName}}</view>
 				<view class="point">{{el.productPrice}}积分</view>
 				<view class="btn bg-default-color white flex-r-center">
@@ -95,8 +95,8 @@
 			margin: 0 2% 30upx 2%;
 
 			.img {
-				width: 200upx;
-				height: 200upx;
+				width: 200upx !important;
+				height: 200upx !important;
 			}
 
 			.point {

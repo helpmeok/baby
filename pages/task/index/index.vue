@@ -46,7 +46,7 @@
 					{{task.taskRemark}}
 				</view>
 				<view class="btn font-b bg-default-color white flex-c-center pd-box" @click="showAward()">
-					我知道了
+					我已完成
 				</view>
 			</view>
 		</view>

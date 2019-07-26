@@ -38,6 +38,10 @@
 				type:Boolean,
 				default:true
 			}, //是否需要上一曲/下一曲按钮
+			isPlay: {
+				type:Boolean,
+				default:true
+			}, //是否需要上一曲/下一曲按钮
 			continue:Boolean,//播放完成后是否继续播放下一首，需定义@next事件
 			color: {
 				type:String,
@@ -60,6 +64,9 @@
 			},
 			//播放/暂停操作
 			operation() {
+				if (!this.isPlay) {
+					return;
+				}
 				if (audio.paused) {
 					audio.play()
 					this.loading = true

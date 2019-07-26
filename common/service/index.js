@@ -38,6 +38,18 @@ function Request() {
 							})
 						}
 					})
+				} else if (res.data.code == 10110) {
+					console.log(res)
+					if (res.data.message) {
+						uni.showToast({
+							title: "请重新点击登录",
+							icon: "none",
+							duration: 2000
+						})
+					}
+					uni.removeStorageSync('access_token')
+					uni.removeStorageSync('wxSessionKey')
+					onno ? onno(res.data) : null
 				} else {
 					console.log(res)
 					if (res.data.message) {

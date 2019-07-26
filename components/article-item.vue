@@ -34,6 +34,16 @@
 				</view>
 				<view class=" content showType4" v-if="item.showType == 4">
 					<view class="desc article-font">{{ item.title }}</view>
+					<view class="">
+						<imt-audio color="#FC4041" :isPlay="false" src="" :duration="item.attachment[0].duration"></imt-audio>
+					</view>
+				</view>
+				<view class=" content showType5" v-if="item.showType == 5">
+					<view class="desc article-font">{{ item.title }}</view>
+					<view class="img-box flex-r-center">
+						<image :src="item.attachment[0].thumbnail" mode="aspectFill" lazy-load="true" class="image"></image>
+						<image src="/static/details_list_ic_play_nor@3x.png" mode="widthFix" class="play-icon"></image>
+					</view>
 				</view>
 				<view class="flex-r-between">
 					<view class="flex">
@@ -68,7 +78,11 @@
 </template>
 
 <script>
+	import	imtAudio from '@/components/imt-audio/imt-audio.vue';
 	export default {
+		components:{
+			imtAudio
+		},
 		name: 'article-item',
 		props: {
 			list: {
@@ -286,6 +300,35 @@
 				-webkit-line-clamp: 2;
 				-webkit-box-orient: vertical;
 				text-overflow: ellipsis;
+			}
+		}
+		.content.showType5 {
+			box-sizing: border-box;
+			background-color: #ffffff;
+			width: 100%;
+		
+			.desc {
+				overflow: hidden;
+				display: -webkit-box !important;
+				-webkit-line-clamp: 2;
+				-webkit-box-orient: vertical;
+				text-overflow: ellipsis;
+			}
+			.img-box{
+				width: 100%;
+				position: relative;
+				height: 500upx !important;
+				.image{
+					width: 100%;
+					height: 500upx !important;
+					position: absolute;
+					left: 0;
+					top: 0;
+				}
+				.play-icon{
+					width: 140upx;
+					height: 140upx;
+				}
 			}
 		}
 	}

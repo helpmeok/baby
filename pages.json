@@ -267,7 +267,7 @@
 			{
 				"name": "文章详情", //模式名称
 				"pathName": "pages/home/article/detail/detail", //启动页面，必选
-				"query": "id=12403"
+				"query": "id=15686"
 			},
 			{
 				"name": "文章评论列表", //模式名称
