@@ -58,7 +58,8 @@ export default {
 				answerCnt: 0
 			},
 			uploadToken: '',
-			serverUrl: ''
+			serverUrl: '',
+			urls:[]
 		};
 	},
 	onLoad(options) {
@@ -162,13 +163,12 @@ export default {
 								console.log(res);
 								this.uploadToken = res.data.uploadToken;
 								this.serverUrl = res.data.serverUrl;
-								let imageList = [];
+								this.urls = [];
 								for (let i in this.imageList) {
 									let url = await this.uploadFile(this.imageList[i]);
-									imageList.push(url);
+									this.urls.push(url);
 								}
-								this.imageList = imageList;
-								console.log(this.imageList);
+								console.log(this.urls)
 								this.postAnswer();
 							});
 						} else {
@@ -181,13 +181,12 @@ export default {
 								console.log(res);
 								this.uploadToken = res.data.uploadToken;
 								this.serverUrl = res.data.serverUrl;
-								let imageList = [];
+								this.urls = [];
 								for (let i in this.imageList) {
 									let url = await this.uploadFile(this.imageList[i]);
-									imageList.push(url);
+									this.urls.push(url);
 								}
-								this.imageList = imageList;
-								console.log(this.imageList);
+								console.log(this.urls)
 								this.postAsk();
 							});
 						} else {

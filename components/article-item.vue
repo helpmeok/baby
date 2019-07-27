@@ -1,12 +1,19 @@
 <template>
 	<view>
-		<view class="list-item" v-for="(item, index1) in newList" :key="index1" @click="goDetail(item.articleId,index1)">
+		<view class="list-item" v-for="(item, index1) in newList" :key="index1" @click="goDetail(item,index1)">
 			<view class="iconfont gray iconcuowutishilimiandecha" v-if="removeType" @click.stop="removeArticle(item.articleId,index1)">
-				
+
 			</view>
 			<view class="pd-box">
 				<view class="flex-r-between">
-					<view class="flex">
+					<view class="flex" v-if="item.showType==6">
+						<image :src="item.answerQuestion.userAvatar" mode="widthFix" class="portrait" lazy-load="true"></image>
+						<view class="">
+							<text class="blod article-font">{{ item.answerQuestion.userName }}</text>
+							<view class="small gray">{{item.answerQuestion.oauthIntro}}</view>
+						</view>
+					</view>
+					<view class="flex" v-else>
 						<image :src="item.userAvatar" mode="widthFix" class="portrait" lazy-load="true" @click.stop="goCelebrity(item.userId)"></image>
 						<view class="">
 							<text class="blod article-font">{{ item.userName }}</text>
@@ -45,8 +52,42 @@
 						<image src="/static/details_list_ic_play_nor@3x.png" mode="widthFix" class="play-icon"></image>
 					</view>
 				</view>
+				<view class=" content showType6" v-if="item.showType == 6">
+					<view class="desc">
+						<view class="flex-r-between" >
+							<image src="/static/home_list_pic_question@3x.png" class="pic-icon" mode="widthFix"></image>
+							<view class="gray">
+								{{item.answerQuestion.answerCnt}}人回答
+							</view>
+						</view>
+						<view class="item-box">
+							<image src="/static/home_list_ic_question@3x.png" class="icon" mode="widthFix"></image>
+							<view class="text blod">
+								{{item.answerQuestion.title}}
+							</view>
+						</view>
+						<view class="item-box" v-if="item.answerQuestion.answerReplayList.length>0">
+							<image src="/static/home_list_ic_answer@3x.png" class="icon" mode="widthFix"></image>
+							<view class="gray text sigle-line-text-2">
+								{{item.answerQuestion.answerReplayList[0].userName}}：{{item.answerQuestion.answerReplayList[0].content}}
+							</view>
+						</view>
+					</view>
+				</view>
 				<view class="flex-r-between">
-					<view class="flex">
+					<view class="flex" v-if="item.showType==6">
+						<view class="list-item-icon flex">
+							<!-- <text class="iconfont iconliulan gray"></text> -->
+							<image src="../static/home/com_list_ic_look@2x.png" mode="widthFix" class="icon"></image>
+							<text class="small gray">{{ item.clickNum | articleDataNum}}</text>
+						</view>
+						<view class="list-item-icon flex">
+							<!-- <text class="iconfont iconzhuanfa gray"></text> -->
+							<image src="../static/home/com_list_ic_forward@2x.png" mode="widthFix" class="icon"></image>
+							<text class="small gray">{{ item.forwardNum | articleDataNum}}</text>
+						</view>
+					</view>
+					<view class="flex" v-if="item.showType!=6">
 						<view class="list-item-icon flex">
 							<!-- <text class="iconfont iconliulan gray"></text> -->
 							<image src="../static/home/com_list_ic_look@2x.png" mode="widthFix" class="icon"></image>
@@ -68,7 +109,8 @@
 							<text class="small gray">{{ item.forwardNum | articleDataNum}}</text>
 						</view>
 					</view>
-					<image v-if="showOperate" src="../../../static/com_list_ic_more_nor@2x.png" mode="widthFix" class="icon-more-nor" @click.stop="showMoreMask($event, item.articleId, item.userId, index1)"></image>
+					<image v-if="showOperate&&item.showType!=6" src="../../../static/com_list_ic_more_nor@2x.png" mode="widthFix" class="icon-more-nor"
+					 @click.stop="showMoreMask($event, item.articleId, item.userId, index1)"></image>
 				</view>
 			</view>
 			<view class="cut-off"></view>
@@ -78,9 +120,9 @@
 </template>
 
 <script>
-	import	imtAudio from '@/components/imt-audio/imt-audio.vue';
+	import imtAudio from '@/components/imt-audio/imt-audio.vue';
 	export default {
-		components:{
+		components: {
 			imtAudio
 		},
 		name: 'article-item',
@@ -115,48 +157,56 @@
 			hideArticleOperate() {
 				this.showArticleOperate = false;
 			},
-			goDetail(id, index) {
-				uni.setStorageSync('articleIndex', index)
-				uni.navigateTo({
-					url: '/pages/home/article/detail/detail?id=' + id
-				});
+			goDetail(el, index) {
+				if (el.showType==6) {
+					uni.setStorageSync('questionIndex', index)
+					uni.navigateTo({
+						url:'/pages/home/question/detail/detail?id='+el.answerQuestion.id
+					})
+				} else{
+					uni.setStorageSync('articleIndex', index)
+					uni.navigateTo({
+						url: '/pages/home/article/detail/detail?id=' + el.articleId
+					});
+				}
+				
 			},
-			goCategory(id){
+			goCategory(id) {
 				uni.navigateTo({
-					url:"/pages/classify/detail/detail?id="+id
+					url: "/pages/classify/detail/detail?id=" + id
 				})
 			},
-			goCelebrity(id){
+			goCelebrity(id) {
 				uni.navigateTo({
 					url: '/pages/home/celebrity/detail/detail?id=' + id
 				});
 			},
-			removeArticle(id,index){
+			removeArticle(id, index) {
 				console.log(this.removeType)
-				let articleId=[id]
+				let articleId = [id]
 				console.log(articleId)
-				if (this.removeType=="record") {
+				if (this.removeType == "record") {
 					this.api.center.record.remove_article_list({
-						"articleId[]":articleId
-					},res=>{
+						"articleId[]": articleId
+					}, res => {
 						console.log(res)
-						this.$emit('removeArticle',index)
+						this.$emit('removeArticle', index)
 					})
 				}
-				if (this.removeType=="collect") {
+				if (this.removeType == "collect") {
 					this.api.center.collect.remove_article_list({
-						"articleId[]":articleId
-					},res=>{
+						"articleId[]": articleId
+					}, res => {
 						console.log(res)
-						this.$emit('removeArticle',index)
+						this.$emit('removeArticle', index)
 					})
 				}
-				if (this.removeType=="shield") {
+				if (this.removeType == "shield") {
 					this.api.center.shield.remove_article_list({
-						"articleId[]":articleId
-					},res=>{
+						"articleId[]": articleId
+					}, res => {
 						console.log(res)
-						this.$emit('removeArticle',index)
+						this.$emit('removeArticle', index)
 					})
 				}
 			}
@@ -176,17 +226,20 @@
 	};
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 	.list-item {
 		position: relative;
-		.iconcuowutishilimiandecha{
+
+		.iconcuowutishilimiandecha {
 			position: absolute;
 			right: 10upx;
 			top: 0;
 		}
-		.content{
+
+		.content {
 			padding: 20upx 0;
 		}
+
 		.portrait {
 			width: 80upx;
 			height: 80upx;
@@ -225,6 +278,7 @@
 			background-color: #f5f5f5;
 			width: 100%;
 			margin: 20upx 0;
+
 			.desc {
 				overflow: hidden;
 				display: -webkit-box !important;
@@ -240,6 +294,7 @@
 			background-color: #f5f5f5;
 			width: 100%;
 			margin: 20upx 0;
+
 			.desc {
 				overflow: hidden;
 				display: -webkit-box !important;
@@ -289,11 +344,12 @@
 				height: 200upx !important;
 			}
 		}
+
 		.content.showType4 {
 			box-sizing: border-box;
 			background-color: #ffffff;
 			width: 100%;
-		
+
 			.desc {
 				overflow: hidden;
 				display: -webkit-box !important;
@@ -302,11 +358,12 @@
 				text-overflow: ellipsis;
 			}
 		}
+
 		.content.showType5 {
 			box-sizing: border-box;
 			background-color: #ffffff;
 			width: 100%;
-		
+
 			.desc {
 				overflow: hidden;
 				display: -webkit-box !important;
@@ -314,22 +371,56 @@
 				-webkit-box-orient: vertical;
 				text-overflow: ellipsis;
 			}
-			.img-box{
+
+			.img-box {
 				width: 100%;
 				position: relative;
 				height: 500upx !important;
-				.image{
+
+				.image {
 					width: 100%;
 					height: 500upx !important;
 					position: absolute;
 					left: 0;
 					top: 0;
 				}
-				.play-icon{
+
+				.play-icon {
 					width: 140upx;
 					height: 140upx;
 				}
 			}
+		}
+
+		.content.showType6 {
+			padding: 20upx 30upx;
+			box-sizing: border-box;
+			background-color: #f5f5f5;
+			width: 100%;
+			margin: 20upx 0;
+
+			.desc {
+				overflow:visible !important; 
+				.pic-icon{
+					width: 90upx;
+					position: relative;
+					left: -40upx;
+					z-index: 888;
+				}
+				.item-box {
+					display: flex;
+					flex-direction: row;
+					margin-top: 20upx;
+					.icon{
+						width: 50upx !important; 
+						margin-right: 20upx
+					}
+					.text{
+						width: calc(100% - 70upx);
+					}
+				}
+			}
+
 		}
 	}
 </style>

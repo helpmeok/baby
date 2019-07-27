@@ -73,11 +73,12 @@ export default {
     }
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 div,
 scroll-view,
 swiper {
 	box-sizing: border-box;
+	height: 100upx !important;
 }
 
 .wuc-tab {

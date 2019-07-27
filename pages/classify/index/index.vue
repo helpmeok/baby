@@ -182,7 +182,7 @@
 	};
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 	.container{
 		height: 100%;
 		overflow: hidden;

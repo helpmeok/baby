@@ -87,7 +87,6 @@ export default {
 				userName: '',
 				userAvatar: ''
 			},
-			parames: {},
 			commentList: [],
 			loadingType: 0,
 			loadingText: {
@@ -100,14 +99,9 @@ export default {
 	onLoad(options) {
 		id = options.id;
 		console.log('id============' + id);
-		this.parames = {
-			articleId: id,
-			target: 'articleDetail'
-		};
-		this.parames = JSON.stringify(this.parames);
 		this.init();
 		this.getAnswerList();
-		// this.addArticleCountNum('clickNum')
+		this.addQuestionCountNum('clickNum');
 	},
 	onShow() {
 		if (uni.getStorageSync('refreshPage')) {
@@ -175,10 +169,10 @@ export default {
 				url: '/pages/home/question/commit/commit?id=' + id
 			});
 		},
-		addArticleCountNum(type) {
-			this.api.home.article.add_count(
+		addQuestionCountNum(type) {
+			this.api.home.qa.question.add_count(
 				{
-					articleId: id,
+					questionId: id,
 					type
 				},
 				res => {
@@ -295,7 +289,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .fixed-bottom {
 	border-top: 2upx solid #f5f5f5;
 	padding: 20upx 50upx;

@@ -186,7 +186,7 @@ module.exports = {
 		},
 		qa: {
 			get_qiuniu_info: function(d, onok, onno) { //获取七牛云信息
-				let _url = "/other/getQiniuInfo";
+				let _url = "/other/getQiniuUploadInfo";
 				_req.m_send(_url, "GET", d, onok, onno);
 			},
 			question: {
@@ -196,6 +196,10 @@ module.exports = {
 				},
 				add: function(d, onok, onno) { //发布问题
 					let _url = "/questionReplay/addQuestion";
+					_req.m_send(_url, "POST", d, onok, onno);
+				},
+				add_count: function(d, onok, onno) { //增加问答的“分享数”或“点击数”
+					let _url = "/questionReplay/addAnswerQuestionCountNum";
 					_req.m_send(_url, "POST", d, onok, onno);
 				},
 			},

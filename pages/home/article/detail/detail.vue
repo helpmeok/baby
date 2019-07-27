@@ -299,6 +299,10 @@
 		},
 		onUnload() {
 			offset = 0;
+			video.pause()
+		},
+		onHide(){
+			video.pause()
 		},
 		methods: {
 			getNetworkType(){
@@ -535,7 +539,7 @@
 	};
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 	.rich-box {
 		overflow: hidden;
 		position: relative;
