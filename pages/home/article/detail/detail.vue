@@ -23,7 +23,7 @@
 				</view>
 				<!-- http://vfx.mtime.cn/Video/2019/02/04/mp4/190204084208765161.mp4 -->
 				<view class="flex-r-center" style="margin-bottom: 30upx;" v-if="info.showType==4">
-					<imt-audio color="#FC4041" :src="info.attachment[0].url" :duration="info.attachment[0].duration"></imt-audio>
+					<imt-audio color="#FC4041" v-if="isShowAudio" :src="info.attachment[0].url" :duration="info.attachment[0].duration"></imt-audio>
 				</view>
 				<view class="flex-r-center" style="margin-bottom: 30upx;" v-if="info.showType==5">
 					<video class="video" v-show="!showCommentPublish" id="myVideo" objectFit="fill" :poster="info.attachment[0].thumbnail"
@@ -263,7 +263,8 @@
 				isLoad:false,
 				iscover:true,
 				isCheckbok:true,
-				showPoster:false
+				showPoster:false,
+				isShowAudio:true
 			};
 		},
 		onReady (res) {
@@ -300,10 +301,16 @@
 		onUnload() {
 			offset = 0;
 			video.pause()
+			this.isShowAudio=false
+			console.log(this.isShowAudio)
+			wx.stopVoice()
 		},
 		onHide(){
 			video.pause()
+			this.isShowAudio=false
+			wx.stopVoice()
 		},
+		
 		methods: {
 			getNetworkType(){
 				if (uni.getStorageSync('networkType')) {
@@ -597,9 +604,9 @@
 
 	.fixed-bottom {
 		border-top: 2upx solid #f5f5f5;
+		// padding-bottom: env(safe-area-inset-bottom);
+		// padding-bottom: constant(safe-area-inset-bottom);
 		padding: 20upx 50upx;
-		padding-bottom: constant(safe-area-inset-bottom);
-		padding-bottom: env(safe-area-inset-bottom);
 		.iconfont{
 			font-size: 40upx;
 		}

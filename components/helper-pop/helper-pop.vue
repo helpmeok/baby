@@ -125,9 +125,9 @@
 		.search-box {
 			width: 100%;
 			box-sizing: border-box;
-			padding-bottom: constant(safe-area-inset-bottom);
-			padding-bottom: env(safe-area-inset-bottom);
-
+			// padding-bottom: env(safe-area-inset-bottom);
+			// padding-bottom: constant(safe-area-inset-bottom);
+			
 			.input {
 				background-color: #E8E8E8;
 				margin: 0 30upx;

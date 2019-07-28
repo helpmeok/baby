@@ -293,9 +293,9 @@ export default {
 .fixed-bottom {
 	border-top: 2upx solid #f5f5f5;
 	padding: 20upx 50upx;
-	padding-bottom: constant(safe-area-inset-bottom);
-	padding-bottom: env(safe-area-inset-bottom);
-
+	// padding-bottom: constant(safe-area-inset-bottom);
+	// padding-bottom: env(safe-area-inset-bottom);
+	
 	.confrim-btn {
 		width: 85%;
 		height: 70upx;

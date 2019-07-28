@@ -41,7 +41,11 @@
 			isPlay: {
 				type:Boolean,
 				default:true
-			}, //是否需要上一曲/下一曲按钮
+			}, 
+			isPause: {
+				type:Boolean,
+				default:true
+			}, 
 			continue:Boolean,//播放完成后是否继续播放下一首，需定义@next事件
 			color: {
 				type:String,
@@ -129,7 +133,16 @@
 			//监听当前进度改变
 			current(e) {
 				this.currentTime = this.format(e)
+			},
+			isPause(val){
+				console.log(val)
+				if(val){
+						audio.pause()
+				}
 			}
+		},
+		destoyed(){
+			audio.pause()
 		}
 	}
 </script>
