@@ -111,7 +111,7 @@
 			return {
 				title: "了解更多育儿专业知识",
 				path: '/pages/home/index/index',
-				imageUrl: '/static/1024.png'
+				imageUrl: '/static/logo.png'
 			};
 		},
 		onLoad(options) {
@@ -371,13 +371,11 @@
 
 	.tab-bar {
 		padding: 0upx 0upx 0upx 30upx;
-		// border-bottom: 2upx solid #f1f1f1;
 		position: relative;
 		left: 0;
 		top: 0;
 		z-index: 2;
 		background-color: #ffffff;
-
 		.tabs {
 			.item {
 				position: relative;
@@ -473,7 +471,7 @@
 	}
 
 	.scroll-view {
-		height: 100%;
+		height: calc(100% - 100upx);
 	}
 
 	.mask {
