@@ -191,29 +191,29 @@ module.exports = {
 			},
 			question: {
 				get_detail: function(d, onok, onno) { //问答相关功能，某个问题的详情
-					let _url = "/questionReplay/getQuestionDetail";
+					let _url = "/questionReply/getQuestionDetail";
 					_req.m_send(_url, "GET", d, onok, onno);
 				},
 				add: function(d, onok, onno) { //发布问题
-					let _url = "/questionReplay/addQuestion";
+					let _url = "/questionReply/addQuestion";
 					_req.m_send(_url, "POST", d, onok, onno);
 				},
 				add_count: function(d, onok, onno) { //增加问答的“分享数”或“点击数”
-					let _url = "/questionReplay/addAnswerQuestionCountNum";
+					let _url = "/questionReply/addAnswerQuestionCountNum";
 					_req.m_send(_url, "POST", d, onok, onno);
 				},
 			},
 			answer: {
 				add: function(d, onok, onno) { //回答
-					let _url = "/questionReplay/replayOneQuestion";
+					let _url = "/questionReply/replyOneQuestion";
 					_req.m_send(_url, "POST", d, onok, onno);
 				},
 				get_list: function(d, onok, onno) { //回答列表
-					let _url = "/questionReplay/getOneQuestionReplayList";
+					let _url = "/questionReply/getOneQuestionReplyList";
 					_req.m_send(_url, "GET", d, onok, onno);
 				},
 				toggle_praise: function(d, onok, onno) { //点赞取消点赞
-					let _url = "/questionReplay/praiseAnswerReplayOrNo";
+					let _url = "/questionReply/praiseAnswerReplyOrNo";
 					_req.m_send(_url, "POST", d, onok, onno);
 				},
 			}
@@ -357,11 +357,11 @@ module.exports = {
 			},
 			answer: {
 				get_list: function(d, onok, onno) { //我的回答列表
-					let _url = "/my/getUserAnswerReplayList";
+					let _url = "/my/getUserAnswerReplyList";
 					_req.m_send(_url, "GET", d, onok, onno);
 				},
 				delete_byId: function(d, onok, onno) { //删除回答
-					let _url = "/questionReplay/delAnswerReplay";
+					let _url = "/questionReply/delAnswerReply";
 					_req.m_send(_url, "POST", d, onok, onno);
 				},
 			}

@@ -22,7 +22,7 @@
 				</view>
 			</view>
 			<view class="gray">
-				共{{tabIndex==0?headerInfo.questionNum:headerInfo.replayNum}}个{{tabIndex==0?"提问":"回答"}}
+				共{{tabIndex==0?headerInfo.questionNum:headerInfo.replyNum}}个{{tabIndex==0?"提问":"回答"}}
 			</view>
 		</view>
 		<navigator url="/pages/home/question/commit/commit" hover-class="none">
@@ -42,7 +42,7 @@
 							</view>
 							<view class="flex-r-between">
 								<view class="gray">
-									{{sub.answerCnt}}个回答
+									{{sub.answerNum}}个回答
 								</view>
 							</view>
 						</view>
@@ -60,7 +60,7 @@
 							</view>
 							<view class="flex-r-between">
 								<view class="gray">
-									{{sub.supportCnt}}个赞
+									{{sub.praiseNum}}个赞
 								</view>
 							</view>
 						</view>
@@ -107,7 +107,7 @@
 					"monthPraiseNum": 0, // 本月点赞数
 					"praiseNum": 0, // 总的点赞数
 					"questionNum": 1, // 我的提问数
-					"replayNum": 0 // 我的回答数
+					"replyNum": 0 // 我的回答数
 				}
 			}
 		},

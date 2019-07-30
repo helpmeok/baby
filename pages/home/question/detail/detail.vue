@@ -26,7 +26,7 @@
 					</view>
 				</scroll-view>
 				<view class="flex-r-between">
-					<view class="gray">{{ info.answerCnt }}个回答</view>
+					<view class="gray">{{ info.answerNum }}个回答</view>
 					<view class="flex" @click="goAnswer()" v-if="!info.isAnswered">
 						<view class="default-color">我来回答</view>
 						<image src="/static/qa_card_ic_answer_nor@3x.png" mode="widthFix" class="answer-icon"></image>
@@ -45,7 +45,7 @@
 					</view>
 				</view>
 				<view class="flex" @click.stop="toggleCommentPraise(el, i)">
-					<text>{{ el.supportCnt | articleDataNum }}</text>
+					<text>{{ el.praiseNum | articleDataNum }}</text>
 					<text class="iconfont icondianzan11 mgl-10 gray" :class="{ red: el.praiseFlag }"></text>
 				</view>
 			</view>
@@ -81,7 +81,7 @@ export default {
 			offset: 0,
 			info: {
 				attachment: [],
-				answerCnt: 0,
+				answerNum: 0,
 				title: '',
 				userOauthIntro: '',
 				userName: '',
@@ -162,7 +162,7 @@ export default {
 		goAnswer() {
 			let obj = {
 				title: this.info.title,
-				answerCnt: this.info.answerCnt
+				answerNum: this.info.answerNum
 			};
 			uni.setStorageSync('questionInfo', JSON.stringify(obj));
 			uni.navigateTo({
@@ -253,18 +253,18 @@ export default {
 		toggleCommentPraise(el, i) {
 			this.api.home.qa.answer.toggle_praise(
 				{
-					replayId: el.id,
+					replyId: el.id,
 					action: this.commentList[i].praiseFlag ? 0 : 1
 				},
 				res => {
 					this.commentList[i].praiseFlag = !this.commentList[i].praiseFlag;
 					if (this.commentList[i].praiseFlag) {
-						this.commentList[i].supportCnt++;
+						this.commentList[i].praiseNum++;
 						uni.showToast({
 							title: '点赞成功'
 						});
 					} else {
-						this.commentList[i].supportCnt--;
+						this.commentList[i].praiseNum--;
 						uni.showToast({
 							title: '取消点赞'
 						});

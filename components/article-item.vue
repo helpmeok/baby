@@ -66,10 +66,10 @@
 								{{item.title}}
 							</view>
 						</view>
-						<view class="item-box" v-if="item.answerReplayList.length>0">
+						<view class="item-box" v-if="item.answerReplyList.length>0">
 							<image src="/static/home_list_ic_answer@3x.png" class="icon" mode="widthFix"></image>
 							<view class="gray text sigle-line-text-2">
-								{{item.answerReplayList[0].userName}}：{{item.answerReplayList[0].content}}
+								{{item.answerReplyList[0].userName}}：{{item.answerReplyList[0].content}}
 							</view>
 						</view>
 					</view>

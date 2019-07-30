@@ -904,7 +904,7 @@ radio-group label, checkbox-group label{
 .uni-comment-date{line-height:38upx; flex-direction:row; justify-content:space-between; display:flex !important; flex-grow:1;}
 .uni-comment-date view{color:#666666; font-size:24upx; line-height:38upx;}
 .uni-comment-content{line-height:1.6em; font-size:28upx; padding:8rpx 0;}
-.uni-comment-replay-btn{background:#FFF; font-size:24upx; line-height:28upx; padding:5rpx 20upx; border-radius:30upx; color:#333 !important; margin:0 10upx;}
+.uni-comment-reply-btn{background:#FFF; font-size:24upx; line-height:28upx; padding:5rpx 20upx; border-radius:30upx; color:#333 !important; margin:0 10upx;}
 
 /* swiper msg */
 .uni-swiper-msg{width:100%; padding:12rpx 0; flex-wrap:nowrap; display:flex;}

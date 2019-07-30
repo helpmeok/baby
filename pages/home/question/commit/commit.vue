@@ -10,7 +10,7 @@
 				<view class="font-b blod text">{{ info.title }}</view>
 			</view>
 			<view class="flex-r-between">
-				<view class="gray">{{ info.answerCnt }}个回答</view>
+				<view class="gray">{{ info.answerNum }}个回答</view>
 				<view class="flex"></view>
 			</view>
 		</view>
@@ -55,7 +55,7 @@ export default {
 			showBindMobile: false,
 			info: {
 				title: '',
-				answerCnt: 0
+				answerNum: 0
 			},
 			uploadToken: '',
 			serverUrl: '',

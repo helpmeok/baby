@@ -33,7 +33,7 @@
 				</scroll-view>
 				<view class="flex-r-between">
 					<view class="gray">
-						{{info.answerCnt}}个回答
+						{{info.answerNum}}个回答
 					</view>
 					<view class="flex" @click="goAnswer()" v-if="!info.isAnswered">
 						<view class="default-color">
@@ -55,7 +55,7 @@
 					</view>
 				</view>
 				<view class="flex"  @click="toggleCommentPraise()">
-					<text>{{answer.supportCnt | articleDataNum}}</text>
+					<text>{{answer.praiseNum | articleDataNum}}</text>
 					<text class="iconfont icondianzan11 mgl-10 gray" :class="{'red':answer.praiseFlag}"></text>
 				</view>
 			</view>
@@ -71,7 +71,7 @@
 
 <script>
 	let questionId = "",
-		replayId = ""
+		replyId = ""
 	export default {
 		data() {
 			return {
@@ -79,7 +79,7 @@
 				userId: "",
 				info: {
 					attachment: [],
-					answerCnt: 0,
+					answerNum: 0,
 					title: "",
 					userOauthIntro: "",
 					userName: "",
@@ -89,7 +89,7 @@
 					userAvatar: "",
 					userName: "",
 					userOauthIntro: "",
-					supportCnt: "",
+					praiseNum: "",
 					content: ""
 				}
 			}
@@ -108,7 +108,7 @@
 				console.log(res.data.uid)
 			});	
 			questionId = this.answer.questionId
-			replayId = this.answer.id
+			replyId = this.answer.id
 			console.log(this.answer)
 			this.init()
 		},
@@ -146,7 +146,7 @@
 					success: (res) => {
 						if (res.confirm) {
 							this.api.center.qa.answer.delete_byId({
-								replayId,
+								replyId,
 								questionId
 							}, res => {
 								uni.showToast({
@@ -174,19 +174,19 @@
 			},
 			toggleCommentPraise() {
 				this.api.home.qa.answer.toggle_praise({
-						replayId,
+						replyId,
 						action: this.answer.praiseFlag ? 0 : 1
 					},
 					res => {
 						this.answer.praiseFlag = !this.answer.praiseFlag;
 						uni.setStorageSync('refreshPage', true)
 						if (this.answer.praiseFlag) {
-							this.answer.supportCnt++
+							this.answer.praiseNum++
 							uni.showToast({
 								title: "点赞成功"
 							})
 						} else {
-							this.answer.supportCnt--
+							this.answer.praiseNum--
 							uni.showToast({
 								title: "取消点赞"
 							})
@@ -197,7 +197,7 @@
 			goAnswer() {
 				let obj = {
 					title: this.info.title,
-					answerCnt: this.info.answerCnt
+					answerNum: this.info.answerNum
 				}
 				uni.setStorageSync('questionInfo', JSON.stringify(obj))
 				uni.navigateTo({
