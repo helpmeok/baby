@@ -151,24 +151,24 @@
 					//TODO handle the exception
 				}
 			}
-			if (uni.getStorageSync('questionIndex').toString()) { //监听文章数据改变
-				let index = parseInt(uni.getStorageSync('questionIndex'))
-				try {
-					let questionId = this.tabs[this.tabIndex].data[index].answerQuestion.id
-					if (questionId.toString()) {
-						this.api.home.qa.question.get_detail({
-							questionId
-						}, res => {
-							console.log(res.data)
-							this.tabs[this.tabIndex].data[index].answerQuestion=res.data;
-							uni.removeStorageSync('questionIndex')
-							this.$forceUpdate()
-						})
-					}
-				} catch (e) {
-					//TODO handle the exception
-				}
-			}
+			// if (uni.getStorageSync('questionIndex').toString()) { //监听文章数据改变
+			// 	let index = parseInt(uni.getStorageSync('questionIndex'))
+			// 	try {
+			// 		let questionId = this.tabs[this.tabIndex].data[index].articleId
+			// 		if (questionId.toString()) {
+			// 			this.api.home.qa.question.get_detail({
+			// 				questionId
+			// 			}, res => {
+			// 				console.log(res.data)
+			// 				this.tabs[this.tabIndex].data[index].answerQuestion=res.data;
+			// 				uni.removeStorageSync('questionIndex')
+			// 				this.$forceUpdate()
+			// 			})
+			// 		}
+			// 	} catch (e) {
+			// 		//TODO handle the exception
+			// 	}
+			// }
 		},
 		onHide() {
 			this.showHotMask = false;

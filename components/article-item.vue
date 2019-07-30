@@ -6,14 +6,14 @@
 			</view>
 			<view class="pd-box">
 				<view class="flex-r-between">
-					<view class="flex" v-if="item.showType==6">
+					<!-- <view class="flex" v-if="item.showType==6">
 						<image :src="item.answerQuestion.userAvatar" mode="widthFix" class="portrait" lazy-load="true"></image>
 						<view class="">
 							<text class="blod article-font">{{ item.answerQuestion.userName }}</text>
 							<view class="small gray">{{item.answerQuestion.oauthIntro}}</view>
 						</view>
-					</view>
-					<view class="flex" v-else>
+					</view> -->
+					<view class="flex">
 						<image :src="item.userAvatar" mode="widthFix" class="portrait" lazy-load="true" @click.stop="goCelebrity(item.userId)"></image>
 						<view class="">
 							<text class="blod article-font">{{ item.userName }}</text>
@@ -57,19 +57,19 @@
 						<view class="flex-r-between" >
 							<image src="/static/home_list_pic_question@3x.png" class="pic-icon" mode="widthFix"></image>
 							<view class="gray">
-								{{item.answerQuestion.answerCnt}}人回答
+								{{item.allowcomments}}人回答
 							</view>
 						</view>
 						<view class="item-box">
 							<image src="/static/home_list_ic_question@3x.png" class="icon" mode="widthFix"></image>
 							<view class="text blod">
-								{{item.answerQuestion.title}}
+								{{item.title}}
 							</view>
 						</view>
-						<view class="item-box" v-if="item.answerQuestion.answerReplayList.length>0">
+						<view class="item-box" v-if="item.answerReplayList.length>0">
 							<image src="/static/home_list_ic_answer@3x.png" class="icon" mode="widthFix"></image>
 							<view class="gray text sigle-line-text-2">
-								{{item.answerQuestion.answerReplayList[0].userName}}：{{item.answerQuestion.answerReplayList[0].content}}
+								{{item.answerReplayList[0].userName}}：{{item.answerReplayList[0].content}}
 							</view>
 						</view>
 					</view>
@@ -161,7 +161,7 @@
 				if (el.showType==6) {
 					uni.setStorageSync('questionIndex', index)
 					uni.navigateTo({
-						url:'/pages/home/question/detail/detail?id='+el.answerQuestion.id
+						url:'/pages/home/question/detail/detail?id='+el.articleId
 					})
 				} else{
 					uni.setStorageSync('articleIndex', index)

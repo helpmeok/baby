@@ -93,24 +93,24 @@
 					})
 				}
 			}
-			if (uni.getStorageSync('questionIndex').toString()) { //监听问答数据改变
-				let index = parseInt(uni.getStorageSync('questionIndex'))
-				try {
-					let questionId = this.list[index].answerQuestion.id
-					if (questionId.toString()) {
-						this.api.home.qa.question.get_detail({
-							questionId
-						}, res => {
-							console.log(res.data)
-							this.list[index].answerQuestion=res.data;
-							uni.removeStorageSync('questionIndex')
-							this.$forceUpdate()
-						})
-					}
-				} catch (e) {
-					//TODO handle the exception
-				}
-			}
+			// if (uni.getStorageSync('questionIndex').toString()) { //监听问答数据改变
+			// 	let index = parseInt(uni.getStorageSync('questionIndex'))
+			// 	try {
+			// 		let questionId = this.list[index].answerQuestion.id
+			// 		if (questionId.toString()) {
+			// 			this.api.home.qa.question.get_detail({
+			// 				questionId
+			// 			}, res => {
+			// 				console.log(res.data)
+			// 				this.list[index].answerQuestion=res.data;
+			// 				uni.removeStorageSync('questionIndex')
+			// 				this.$forceUpdate()
+			// 			})
+			// 		}
+			// 	} catch (e) {
+			// 		//TODO handle the exception
+			// 	}
+			// }
 		},
 		onReachBottom() {
 			this.loadMore()
