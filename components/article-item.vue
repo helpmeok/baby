@@ -57,7 +57,7 @@
 						<view class="flex-r-between" >
 							<image src="/static/home_list_pic_question@3x.png" class="pic-icon" mode="widthFix"></image>
 							<view class="gray">
-								{{item.allowcomments}}人回答
+								{{item.answerNum}}人回答
 							</view>
 						</view>
 						<view class="item-box">

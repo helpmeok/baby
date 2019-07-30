@@ -70,7 +70,7 @@ export default {
 			// 来自页面内分享按钮
 			console.log(res.target);
 		}
-		this.addArticleCountNum('forwardNum');
+		this.addQuestionCountNum('forwardNum');
 		return {
 			title: this.info.title,
 			path: '/pages/home/index/index?qaId=' + id
