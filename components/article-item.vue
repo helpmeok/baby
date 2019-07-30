@@ -27,16 +27,16 @@
 				</view>
 				<view class="flex-r-between content showType1" v-if="item.showType == 1">
 					<view class="desc article-font" style="width: 72%;">{{ item.title }}</view>
-					<image :src="item.attachment[0].url" mode="aspectFill" lazy-load="true" class="image"></image>
+					<image :src="item.attachment[0].thumbnail" mode="aspectFill" lazy-load="true" class="image"></image>
 				</view>
 				<view class="content showType2" v-if="item.showType == 2">
 					<view class="desc article-font">{{ item.title }}</view>
-					<image :src="item.attachment[0].url" mode="aspectFill" lazy-load="true" class="image"></image>
+					<image :src="item.attachment[0].thumbnail" mode="aspectFill" lazy-load="true" class="image"></image>
 				</view>
 				<view class=" content showType3" v-if="item.showType == 3">
 					<view class="desc article-font">{{ item.title }}</view>
 					<view class="flex-r-between">
-						<image :src="el.url" class="image" mode="aspectFill" lazy-load="true" v-for="(el,i) in item.attachment" :key="i"></image>
+						<image :src="el.thumbnail" class="image" mode="aspectFill" lazy-load="true" v-for="(el,i) in item.attachment" :key="i"></image>
 					</view>
 				</view>
 				<view class=" content showType4" v-if="item.showType == 4">
