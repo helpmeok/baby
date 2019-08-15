@@ -16,7 +16,7 @@
 						<view class="gray">
 							{{el.ctime | transformDate}}
 						</view>
-						<view class="">
+						<view class="break-word">
 							{{el.content}}
 						</view>
 						<view class="article-box flex-r-between" @click="goDetail(el)">
@@ -89,10 +89,10 @@
 				offset += total
 				this.init()
 			},
-			goDetail(el){
-				if(el.articleShowType!==6){
+			goDetail(el) {
+				if (el.articleShowType !== 6) {
 					uni.navigateTo({
-						url:"/pages/home/article/detail/detail?id="+el.articleId
+						url: "/pages/home/article/detail/detail?id=" + el.articleId
 					})
 				}
 			}

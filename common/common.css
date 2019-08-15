@@ -12,7 +12,10 @@ page {
 	left: 0;
 	background-color: rgba(0, 0, 0, .3);
 }
-
+.break-word{
+	word-break: break-all;
+	word-wrap: break-word;
+}
 .color-FFA904 {
 	color: #FFA904;
 }

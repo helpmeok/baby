@@ -105,6 +105,7 @@
 							this.list[index].clickNum=res.data.clickNum;
 							this.list[index].forwardNum = res.data.forwardNum
 							this.list[index].answerNum = res.data.answerNum
+							this.list[index].answerReplyList = res.data.answerReplyList
 							uni.removeStorageSync('questionIndex')
 							this.$forceUpdate()
 						})

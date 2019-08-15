@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view class="list-item" v-for="(item, index1) in newList" :key="index1" @click="goDetail(item,index1)">
-			<view class="iconfont gray iconcuowutishilimiandecha" v-if="removeType" @click.stop="removeArticle(item.articleId,index1)">
+			<view class="iconfont gray iconcuowutishilimiandecha" v-if="removeType" @click.stop="removeArticle(item,index1)">
 
 			</view>
 			<view class="pd-box">
@@ -14,7 +14,7 @@
 						</view>
 					</view> -->
 					<view class="flex">
-						<image :src="item.userAvatar" mode="widthFix" class="portrait" lazy-load="true" @click.stop="goCelebrity(item.userId)"></image>
+						<image :src="item.userAvatar" mode="widthFix" class="portrait" lazy-load="true" @click.stop="goCelebrity(item,index1)"></image>
 						<view class="">
 							<text class="blod article-font">{{ item.userName }}</text>
 							<view class="small gray">{{item.oauthIntro}}</view>
@@ -36,7 +36,8 @@
 				<view class=" content showType3" v-if="item.showType == 3">
 					<view class="desc article-font">{{ item.title }}</view>
 					<view class="flex-r-between">
-						<image :src="el.thumbnail" class="image" mode="aspectFill" lazy-load="true" v-for="(el,i) in item.attachment" :key="i"></image>
+						<image :src="el.thumbnail" class="image" mode="aspectFill" lazy-load="true" v-for="(el,i) in item.attachment"
+						 :key="i"></image>
 					</view>
 				</view>
 				<view class=" content showType4" v-if="item.showType == 4">
@@ -54,7 +55,7 @@
 				</view>
 				<view class=" content showType6" v-if="item.showType == 6">
 					<view class="desc">
-						<view class="flex-r-between" >
+						<view class="flex-r-between">
 							<image src="/static/home_list_pic_question@3x.png" class="pic-icon" mode="widthFix"></image>
 							<view class="gray">
 								{{item.answerNum}}人回答
@@ -62,14 +63,17 @@
 						</view>
 						<view class="item-box">
 							<image src="/static/home_list_ic_question@3x.png" class="icon" mode="widthFix"></image>
-							<view class="text blod">
+							<view class="text blod sigle-line-text-2">
 								{{item.title}}
 							</view>
 						</view>
-						<view class="item-box" v-if="item.answerReplyList.length>0">
+						<view class="item-box">
 							<image src="/static/home_list_ic_answer@3x.png" class="icon" mode="widthFix"></image>
-							<view class="gray text sigle-line-text-2">
+							<view class="gray text sigle-line-text-2" v-if="item.answerReplyList.length>0">
 								{{item.answerReplyList[0].userName}}：{{item.answerReplyList[0].content}}
+							</view>
+							<view class="gray text sigle-line-text-2" v-else>
+								暂无回答，期待您的回答
 							</view>
 						</view>
 					</view>
@@ -109,8 +113,8 @@
 							<text class="small gray">{{ item.forwardNum | articleDataNum}}</text>
 						</view>
 					</view>
-					<image v-if="showOperate&&item.showType!=6" src="../../../static/com_list_ic_more_nor@2x.png" mode="widthFix" class="icon-more-nor"
-					 @click.stop="showMoreMask($event, item.articleId, item.userId, index1)"></image>
+					<image v-if="showOperate&&item.showType!=6" src="../../../static/com_list_ic_more_nor@2x.png" mode="widthFix"
+					 class="icon-more-nor" @click.stop="showMoreMask($event, item.articleId, item.userId, index1)"></image>
 				</view>
 			</view>
 			<view class="cut-off"></view>
@@ -158,36 +162,45 @@
 				this.showArticleOperate = false;
 			},
 			goDetail(el, index) {
-				if (el.showType==6) {
+				if (el.showType == 6) {
 					uni.setStorageSync('questionIndex', index)
 					uni.navigateTo({
-						url:'/pages/home/question/detail/detail?id='+el.articleId
+						url: '/pages/home/question/detail/detail?id=' + el.articleId
 					})
-				} else{
+				} else {
 					uni.setStorageSync('articleIndex', index)
 					uni.navigateTo({
 						url: '/pages/home/article/detail/detail?id=' + el.articleId
 					});
 				}
-				
+
 			},
 			goCategory(id) {
 				uni.navigateTo({
 					url: "/pages/classify/detail/detail?id=" + id
 				})
 			},
-			goCelebrity(id) {
-				uni.navigateTo({
-					url: '/pages/home/celebrity/detail/detail?id=' + id
-				});
+			goCelebrity(el, index) {
+				if (el.showType == 6) {
+					uni.setStorageSync('questionIndex', index)
+					uni.navigateTo({
+						url: '/pages/home/question/detail/detail?id=' + el.articleId
+					})
+				} else {
+					uni.navigateTo({
+						url: '/pages/home/celebrity/detail/detail?id=' + el.userId
+					});
+				}
+
 			},
-			removeArticle(id, index) {
-				console.log(this.removeType)
-				let articleId = [id]
+			removeArticle(el, index) {
+				console.log(el)
+				let articleId = [el.articleId]
 				console.log(articleId)
+				let item = el.showType + '_' + el.articleId
 				if (this.removeType == "record") {
 					this.api.center.record.remove_article_list({
-						"articleId[]": articleId
+						"articleId[]": [item]
 					}, res => {
 						console.log(res)
 						this.$emit('removeArticle', index)
@@ -241,8 +254,8 @@
 		}
 
 		.portrait {
-			width: 80upx;
-			height: 80upx;
+			width: 80upx !important;
+			height: 80upx !important;
 			border-radius: 50%;
 			margin-right: 30upx;
 		}
@@ -400,22 +413,26 @@
 			margin: 20upx 0;
 
 			.desc {
-				overflow:visible !important; 
-				.pic-icon{
+				overflow: visible !important;
+
+				.pic-icon {
 					width: 90upx;
 					position: relative;
 					left: -40upx;
 					z-index: 888;
 				}
+
 				.item-box {
 					display: flex;
 					flex-direction: row;
 					margin-top: 20upx;
-					.icon{
-						width: 50upx !important; 
+
+					.icon {
+						width: 50upx !important;
 						margin-right: 20upx
 					}
-					.text{
+
+					.text {
 						width: calc(100% - 70upx);
 					}
 				}

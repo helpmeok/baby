@@ -10,11 +10,13 @@
 					<view class="iconfont iconchaxun-zhongzhi mgl-10 blod" :class="{'rotate':isLoading}"></view>
 				</view>
 			</view>
-			<view class="flex pd-box">
-				<view class="list-item pd-lr mgr-20 flex-r-center" v-for="(el,i) in list" :key="i" @click="goList(el.questionId,el.questionName)">
-					{{el.questionName}}
+			<scroll-view scroll-y style="height: 500upx;">
+				<view class="flex pd-box">
+					<view class="list-item pd-lr mgr-20 flex-r-center" v-for="(el,i) in list" :key="i" @click="goList(el.questionId,el.questionName)">
+						{{el.questionName}}
+					</view>
 				</view>
-			</view>
+			</scroll-view>
 			<view class="line"></view>
 			<view class="search-box flex-r-between pd-box">
 				<input type="text" class="input" placeholder="育儿助手随时待命" placeholder-class="gray" v-model="searchText" @blur="publishBlur"
@@ -26,7 +28,7 @@
 </template>
 
 <script>
-	let total = 4
+	let total = 10
 	export default {
 		data() {
 			return {

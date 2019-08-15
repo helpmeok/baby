@@ -1,6 +1,6 @@
 <template>
 	<scroll-view scroll-y class="scroll-view" :scroll-into-view="scrollIntoId" enable-back-to-top="true" @scroll="scroll">
-		<cu-custom bgColor="bg-gradual-red" :isCustom="true" :helper="true">
+		<cu-custom bgColor="bg-gradual-red" v-on:closeAudio="closeAudio" :isCustom="true" :helper="true">
 			<block slot="backText"></block>
 			<block slot="content">宝宝贝</block>
 		</cu-custom>
@@ -23,7 +23,7 @@
 				</view>
 				<!-- http://vfx.mtime.cn/Video/2019/02/04/mp4/190204084208765161.mp4 -->
 				<view class="flex-r-center" style="margin-bottom: 30upx;" v-if="info.showType==4">
-					<imt-audio color="#FC4041" v-if="isShowAudio" :src="info.attachment[0].url" :duration="info.attachment[0].duration"></imt-audio>
+					<imt-audio color="#FC4041" :isPause="isPause" :src="info.attachment[0].url" :duration="info.attachment[0].duration"></imt-audio>
 				</view>
 				<view class="flex-r-center" style="margin-bottom: 30upx;" v-if="info.showType==5">
 					<video class="video" v-show="!showCommentPublish" id="myVideo" objectFit="fill" :poster="info.attachment[0].thumbnail"
@@ -82,7 +82,7 @@
 				<view class="mask publish-mask" v-else @click="showCommentPublish=false">
 					<view class="fixed-bottom  bg-white" @click.stop :style="[{'bottom':publishBottom+'px'}]">
 						<textarea placeholder-class="gray" v-model="publishText" :focus="showCommentPublish" @blur="publishBlur" @focus="publishFocus"
-						 :adjust-position="false" placeholder="缺少你的评论..." class="publish-textarea" />
+						 :adjust-position="false" placeholder="缺少你的评论..." class="publish-textarea break-word" />
 						<view class="flex-r-between">
 							<view class=""></view>
 							<view class=" publish-btn-out" :class="{'publish-btn-on':publishText}" @click="addComment()">
@@ -131,7 +131,7 @@
 									<text class="iconfont icondianzan11 mgl-10 gray" :class="{ red: el.praiseFlag }" @click="toggleCommentPraise(el.commentId, i)"></text>
 								</view>
 							</view>
-							<view class="" style="padding: 20upx 0;">{{ el.content }}</view>
+							<view class="break-word" style="padding: 20upx 0;">{{ el.content }}</view>
 							<view class="flex small">
 								<text class="mgr-20">{{ el.ctime | transformDate }}</text>
 								<button plain="true" open-type="launchApp" :app-parameter="parames" @error="launchAppError" class="launchApp-btn flex gray comment-box">
@@ -143,7 +143,7 @@
 				</view>
 			</view>
 			<view class="cut-off"></view>
-			<view class="expend-box">
+			<view class="expend-box" v-if="info.expendList.length>0">
 				<view class="pd-box">
 					<view class="blod flex-r-between">
 						<text class="mgr-10 font-b">延展阅读</text>
@@ -167,7 +167,7 @@
 				</view>
 			</view>
 			<view class="cut-off"></view>
-			<view class="recommend-box">
+			<view class="recommend-box" v-if="info.recommendList.length>0">
 				<view class="pd-box">
 					<view class="blod flex-r-between">
 						<text class="mgr-10 font-b">推荐阅读</text>
@@ -264,7 +264,8 @@
 				iscover:true,
 				isCheckbok:true,
 				showPoster:false,
-				isShowAudio:true
+				isPause:false,
+				isCommentPublish:true
 			};
 		},
 		onReady (res) {
@@ -301,14 +302,9 @@
 		onUnload() {
 			offset = 0;
 			video.pause()
-			this.isShowAudio=false
-			console.log(this.isShowAudio)
-			wx.stopVoice()
 		},
 		onHide(){
 			video.pause()
-			this.isShowAudio=false
-			wx.stopVoice()
 		},
 		
 		methods: {
@@ -339,6 +335,10 @@
 				this.iscover=false;
 				this.showPoster=true
 			},
+			closeAudio(){
+				console.log('11111')
+				this.isPause=true;
+			},
 			playvideo(){
 				if (this.isCheckbok) {
 					uni.setStorageSync('networkType',true)
@@ -357,7 +357,12 @@
 				if (this.hasMobile) {
 					this.showCommentPublish=true;
 				} else{
-					this.showBindMobile=true;
+					this.api.center.user.get_detail(null, res => {
+						console.log(res);
+						this.hasMobile = res.data.phone ? true : false
+						this.showCommentPublish = res.data.phone ? true : false
+						this.showBindMobile = res.data.phone ? false : true
+					});
 				}
 			},
 			init() {
@@ -388,9 +393,10 @@
 				);
 			},
 			addComment(){
-				if (!this.publishText) {
+				if (!this.publishText || !this.isCommentPublish) {
 					return
 				}
+				this.isCommentPublish=false;
 				this.api.home.article.comment({
 					articleId:id,
 					content:this.publishText
@@ -399,6 +405,7 @@
 					uni.showToast({
 						title:"评论成功"
 					})
+					this.isCommentPublish=true;
 					this.scrollIntoId = 'comments';
 					this.publishText="";
 					this.showCommentPublish=false;
@@ -665,6 +672,7 @@
 			margin: 20upx 0;
 			padding: 20upx;
 			border-radius: 10upx;
+			
 		}
 	}
 	

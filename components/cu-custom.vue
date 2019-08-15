@@ -113,6 +113,7 @@
 				this.isHelpShow=false
 			},
 			BackPage() {
+				this.$emit('closeAudio')
 				uni.navigateBack({
 					delta: 1
 				});

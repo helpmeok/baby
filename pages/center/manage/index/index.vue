@@ -16,7 +16,7 @@
 		<swiper class="swiper-box" :current="tabIndex" :duration="300" @change="changeSwiper">
 			<swiper-item v-for="(el, i) in tabs" :key="i">
 				<view class="swiper-box">
-					<empty v-if="tabs[i].data.length == 0 && isLoad" url="/static/com_ic_nobaby@2x.png" msg="添加宝宝信息后,获得更适合您的内容哦~"></empty>
+					<empty v-if="tabs[i].data.length == 0 && isLoad" url="/static/com_ic_nobaby@2x.png" :msg="i==0?'添加宝宝信息后,获得更适合您的内容哦~':'添加孕期信息后,获得更适合您的内容哦~'"></empty>
 					<view class="list-box" v-if="i==0">
 						<view class="list-cell flex-r-between pd-box" v-for="(item, index1) in tabs[i].data" :key="index1" @click="goBabyHandle(item)">
 							<view class="list-cell-left blod">

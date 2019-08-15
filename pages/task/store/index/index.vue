@@ -9,8 +9,11 @@
 				<image :src="el.attachmentList[0].thumbnail" mode="aspectFill" class="img"></image>
 				<view class="font-b sigle-line-text" style="text-align: center;">{{el.productName}}</view>
 				<view class="point">{{el.productPrice}}积分</view>
-				<view class="btn bg-default-color white flex-r-center">
+				<view class="btn bg-default-color flex-r-center white" v-if="productPrice>el.productPrice">
 					兑换
+				</view>
+				<view class="btn  white flex-r-center" style="background-color: #C8C8C8;" v-else>
+					积分不足
 				</view>
 			</view>
 		</view>
@@ -23,7 +26,7 @@
 
 <script>
 	var ctime = parseInt(Date.now());
-	const total = 20;
+	const total = 15;
 	export default {
 		data() {
 			return {
@@ -35,12 +38,14 @@
 					contentrefresh: "正在加载...",
 					contentnomore: "没有更多商品了"
 				},
+				productPrice:0
 			}
 		},
 		onLoad() {
 			uni.showLoading({
 				title: "加载中"
 			})
+			this.productPrice=JSON.parse(uni.getStorageSync('userInfo')).userPoint;
 			this.init()
 		},
 		methods: {
@@ -104,7 +109,8 @@
 			}
 
 			.btn {
-				padding: 10upx 50upx;
+				width: 190upx;
+				height: 70upx;
 				border-radius: 40upx;
 			}
 		}

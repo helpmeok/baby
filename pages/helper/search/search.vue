@@ -26,7 +26,7 @@
 					</view>
 					<view class="flex-r-between">
 						<view class="gray">
-							共有{{el.count}}个内容
+							共有{{el.articleNum}}个内容
 						</view>
 					</view>
 				</view>
@@ -91,7 +91,7 @@
 			},
 			goDetail(el) {
 				uni.navigateTo({
-					url: "/pages/home/question/detail/detail?id=" + el.questionId
+					url: "../list/list?id=" + el.questionId + "&name=" + el.questionName
 				})
 			},
 			loadMore() {

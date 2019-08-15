@@ -23,6 +23,9 @@
 				{{el.questionName}}
 			</view>
 		</view>
+		<view class="" style="height: 150upx;">
+			
+		</view>
 		<view class="search-box flex-r-between pd-box">
 			<input type="text" class="input" placeholder="育儿助手随时待命" placeholder-class="gray" v-model="searchText" />
 			<view class="btn bg-default-color white flex-r-center" @click="search()">查找</view>
@@ -32,7 +35,7 @@
 
 <script>
 	let offset = 0
-	let total = 5
+	let total = 10
 	export default {
 		data() {
 			return {
@@ -46,6 +49,9 @@
 		},
 		onUnload() {
 			offset = 0;
+		},
+		onShow() {
+			this.searchText=""
 		},
 		methods: {
 			init() {
@@ -126,7 +132,7 @@
 		left: 0;
 		bottom: 0;
 		box-sizing: border-box;
-
+		background-color: white;
 		.input {
 			background-color: #E8E8E8;
 			margin: 0 30upx;

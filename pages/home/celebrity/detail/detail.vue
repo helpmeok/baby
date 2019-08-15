@@ -226,6 +226,7 @@
 							this.tabs[this.tabIndex].data[index].clickNum=res.data.clickNum;
 							this.tabs[this.tabIndex].data[index].forwardNum = res.data.forwardNum
 							this.tabs[this.tabIndex].data[index].answerNum = res.data.answerNum
+							this.tabs[this.tabIndex].data[index].answerReplyList = res.data.answerReplyList
 							uni.removeStorageSync('questionIndex')
 							this.$forceUpdate()
 						})

@@ -10,7 +10,7 @@
 		</cu-custom>
 		<view class="header">
 			<view class="pd-box flex-r-between author">
-				<view class="flex" @click="goFamous">
+				<view class="flex">
 					<image :src="info.userAvatar" mode="widthFix"></image>
 					<view class="mgl-20">
 						<view class=" blod article-font">{{ info.userName }}</view>
@@ -59,7 +59,7 @@
 					<text class="iconfont icondianzan11 mgl-10 gray" :class="{'red':answer.praiseFlag}"></text>
 				</view>
 			</view>
-			<view class="sigle-line-text-2" style="padding: 20upx 0;">
+			<view class="" style="padding: 20upx 0;">
 				{{answer.content}}
 			</view>
 			<view class="image-box" v-if="answer.attachment.length>0">
@@ -167,11 +167,6 @@
 					}
 				});
 			},
-			goFamous() {
-				uni.navigateTo({
-					url: '../../celebrity/detail/detail?id=' + this.info.userId
-				});
-			},
 			toggleCommentPraise() {
 				this.api.home.qa.answer.toggle_praise({
 						replyId,
@@ -201,7 +196,7 @@
 				}
 				uni.setStorageSync('questionInfo', JSON.stringify(obj))
 				uni.navigateTo({
-					url: "/pages/home/question/commit/commit?id=" + id
+					url: "/pages/home/question/commit/commit?id=" + questionId
 				})
 			},
 		}

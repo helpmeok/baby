@@ -5,7 +5,7 @@
 		</cu-custom>
 		<view class="container">
 			<view class="flex-r-between pd-box user-box">
-				<view class="" style="width: 20%;">
+				<view class="flex-r-center" style="width: 20%;">
 					<image :src="userInfo.avatar" mode="widthFix" class="portrait"></image>
 				</view>
 				<view class="flex-r-between" style="width: 75%;">
@@ -147,7 +147,8 @@
 		}
 
 		.portrait {
-			width: 100% !important;
+			width: 120upx !important;
+			height: 120upx !important;
 			border-radius: 50%;
 		}
 

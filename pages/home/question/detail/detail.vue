@@ -1,12 +1,12 @@
 <template>
-	<scroll-view scroll-y class="scroll-view" :scroll-into-view="scrollIntoId" enable-back-to-top="true" @scroll="scroll" @scrolltolower="scrolltolower">
+	<scroll-view scroll-y class="scroll-view" :scroll-into-view="scrollIntoId" enable-back-to-top="true"  @scrolltolower="scrolltolower">
 		<cu-custom bgColor="bg-gradual-red" :isCustom="true" :helper="true">
 			<block slot="backText"></block>
 			<block slot="content">宝宝贝</block>
 		</cu-custom>
 		<view>
 			<view class="pd-box flex-r-between author">
-				<view class="flex" @click="goFamous">
+				<view class="flex">
 					<image :src="info.userAvatar" mode="widthFix"></image>
 					<view class="mgl-20">
 						<view class=" blod article-font">{{ info.userName }}</view>
@@ -52,6 +52,9 @@
 			<view class="sigle-line-text-2" style="padding: 20upx 0;">{{ el.content }}</view>
 		</view>
 		<view class="uni-tab-bar-loading"><uni-load-more :loadingType="loadingType" :contentText="loadingText"></uni-load-more></view>
+		<view class="" style="height: 150upx;">
+			
+		</view>
 		<view class="fixed-bottom flex-r-between">
 			<navigator url="/pages/home/question/commit/commit" hover-class="none" class="bg-default-color white confrim-btn flex-r-center">发布新问题</navigator>
 			<button open-type="share" plain="true" hover-class="none" type="default" class="share-btn"><view class="iconfont iconweixin" style="color:#09BB07;"></view></button>
@@ -181,12 +184,12 @@ export default {
 			);
 		},
 		getMoreComment() {
-			offset += total;
+			this.offset += total;
 			this.api.home.article.get_comment_list(
 				{
 					ctime,
 					articleId: id,
-					offset,
+					offset:this.offset,
 					total
 				},
 				res => {
@@ -216,11 +219,6 @@ export default {
 						}
 					)
 					.exec();
-			});
-		},
-		goFamous() {
-			uni.navigateTo({
-				url: '../../celebrity/detail/detail?id=' + this.info.userId
 			});
 		},
 		goCategory() {
@@ -295,7 +293,7 @@ export default {
 	padding: 20upx 50upx;
 	// padding-bottom: constant(safe-area-inset-bottom);
 	// padding-bottom: env(safe-area-inset-bottom);
-	
+	background-color: white;
 	.confrim-btn {
 		width: 85%;
 		height: 70upx;

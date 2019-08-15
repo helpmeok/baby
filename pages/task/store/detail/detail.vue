@@ -7,7 +7,7 @@
 		<view class="pd-box content-box">
 			<swiper class="swiper" indicator-dots :autoplay="false" circular>
 				<swiper-item v-for="(el,i) in info.attachmentList" :key="i">
-					<image :src="el.url" mode="widthFix" class="good-img"></image>
+					<image :src="el.url" mode="aspectFill" class="good-img" @click="previewImage(info.attachmentList,i)"></image>
 				</swiper-item>
 			</swiper>
 			<view class="blod font-b" style="margin-top: 20upx;">
@@ -22,7 +22,8 @@
 			</view>
 			<view class="" style="height: 120upx;"></view>
 		</view>
-		<view class="fixed-bottom fixed-bottom-height bg-default-color white flex-r-center font-b" :class="{'disable':!isEnough}" @click="chooseAddress">
+		<view class="fixed-bottom fixed-bottom-height bg-default-color white flex-r-center font-b" :class="{'disable':!isEnough}"
+		 @click="chooseAddress">
 			{{isEnough?'立即兑换':'积分不足'}}
 		</view>
 	</view>
@@ -42,7 +43,7 @@
 					productName: "",
 					attachmentList: []
 				},
-				isEnough:false
+				isEnough: false
 			}
 		},
 		onLoad(options) {
@@ -59,23 +60,31 @@
 				}, res => {
 					console.log(res)
 					this.info = res.data
-					if (Number(res.data.productPrice)>Number(JSON.parse(uni.getStorageSync('userInfo')).userPoint)) {
-						this.isEnough=false
-					} else{
-						this.isEnough=true
+					if (Number(res.data.productPrice) > Number(JSON.parse(uni.getStorageSync('userInfo')).userPoint)) {
+						this.isEnough = false
+					} else {
+						this.isEnough = true
 					}
 					uni.hideLoading()
 				})
 			},
-			preview() {
-
+			
+			previewImage(list, i) {
+				let urls = [];
+				urls = list.map(el => {
+					return el.url;
+				});
+				uni.previewImage({
+					current: i,
+					urls: urls
+				});
 			},
 			chooseAddress() {
 				if (this.isEnough) {
-					var newObj = Object.assign({}, this.info); 
+					var newObj = Object.assign({}, this.info);
 					delete(newObj["productDetail"]);
 					console.log(newObj)
-					uni.setStorageSync('goodInfo',JSON.stringify(newObj))
+					uni.setStorageSync('goodInfo', JSON.stringify(newObj))
 					uni.navigateTo({
 						url: "/pages/center/address/address-list/address-list?choose=1"
 					})
@@ -112,7 +121,8 @@
 				background-color: #f5f5f5;
 			}
 		}
-		.disable{
+
+		.disable {
 			background-color: #C8C8C8 !important;
 		}
 	}

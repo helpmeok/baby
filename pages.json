@@ -338,7 +338,7 @@
 			{
 				"name": "问答详情",
 				"pathName": "pages/home/question/detail/detail",
-				"query": "id=21"
+				"query": "id=50"
 			},
 			{
 				"name": "发布或回答问题",

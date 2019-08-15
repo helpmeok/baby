@@ -16,27 +16,27 @@
 			</block>
 		</cu-custom>
 		<image src="/static/task/dailytasks_bg_picture@2x.png" mode="widthFix" class="welfar-bg"></image>
-		<scroll-view scroll-y class="scroll-view" :style="[{height:scrollHeight+ 'px'}]">
-			<view class="list-item bg-white flex-r-between pd-box" v-for="(el,i) in list" :key="i" @click="showModel(el,i)">
-				<view class="item-l">
-					<image src="/static/center/me_list_ic_integral@3x.png" mode="widthFix" class="icon"></image>
-					<view class="point">
-						<text>X</text>
-						<text class="font-b">{{el.taskPoint}}</text>
+			<scroll-view scroll-y class="scroll-view" :style="[{height:scrollHeight+ 'px'}]" @scrolltoupper="scrolltoupper">
+				<view class="list-item bg-white flex-r-between pd-box" v-for="(el,i) in list" :key="i" @click="showModel(el,i)">
+					<view class="item-l">
+						<image src="/static/center/me_list_ic_integral@3x.png" mode="widthFix" class="icon"></image>
+						<view class="point">
+							<text>X</text>
+							<text class="font-b">{{el.taskPoint}}</text>
+						</view>
+					</view>
+					<view class="item-c">
+						<view class="task-name align-left">
+							{{el.taskName}}
+						</view>
+					</view>
+					<view class="item-r flex">
+						<text class="gray" v-if="el.completeStatus">已完成</text>
+						<text class="default-color" v-else>去完成</text>
+						<text class="iconfont gray iconarrow-right-copy blod"></text>
 					</view>
 				</view>
-				<view class="item-c">
-					<view class="task-name">
-						{{el.taskName}}
-					</view>
-				</view>
-				<view class="item-r flex">
-					<text class="gray" v-if="el.completeStatus">已完成</text>
-					<text class="default-color" v-else>去完成</text>
-					<text class="iconfont gray iconarrow-right-copy blod"></text>
-				</view>
-			</view>
-		</scroll-view>
+			</scroll-view>
 		<view class="cu-modal flex-r-center align-left" :class="{'show':isShowModel}" @tap="hideModal">
 			<view class="cu-content bg-white " @tap.stop="">
 				<view class="font-b blod pd-box">
@@ -93,7 +93,7 @@
 					taskPoint: 0,
 					taskNo: ""
 				},
-				taskIndex:0,
+				taskIndex: 0,
 				userInfo: {
 					userPoint: 0
 				}
@@ -107,23 +107,27 @@
 		},
 		methods: {
 			init() {
+				this.list=[]
 				this.api.task.get_list(null, res => {
 					console.log(res)
 					this.list = res.data
 				})
 			},
+			scrolltoupper(){
+				// this.init()
+			},
 			getUserInfo() {
 				this.api.center.user.get_detail(null, res => {
 					console.log(res);
 					this.userInfo = res.data;
-					uni.setStorageSync('userInfo',JSON.stringify(res.data))
+					uni.setStorageSync('userInfo', JSON.stringify(res.data))
 				});
 			},
-			showModel(el,i) {
+			showModel(el, i) {
 				if (!el.completeStatus) {
 					this.task = el
 					this.isShowModel = true
-					this.taskIndex=i
+					this.taskIndex = i
 				}
 			},
 			showAward() {
@@ -133,7 +137,7 @@
 				}, res => {
 					console.log(res)
 					this.isShowAward = true
-					this.init()
+					this.list[this.taskIndex].completeStatus=true;
 					this.getUserInfo()
 				})
 			},
@@ -230,6 +234,7 @@
 
 	.scroll-view {
 		padding-top: 50upx;
+		overflow: hidden;
 	}
 
 	.list-item {
@@ -255,12 +260,16 @@
 		}
 
 		.item-c {
+			width: 60%;
+
 			.task-name {
 				font-size: 32upx;
 			}
 		}
 
 		.item-r {
+			width: 20%;
+
 			.btn {
 				background-color: #FFA904;
 				padding: 10upx 30upx;

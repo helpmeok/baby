@@ -18,7 +18,7 @@
 								<text class="iconfont icondianzan11 mgl-10 gray" :class="{ red: el.praiseFlag }" @click="toggleCommentPraise(el.commentId, i)"></text>
 							</view>
 						</view>
-						<view class="" style="padding: 20upx 0;">{{ el.content }}</view>
+						<view class="break-word" style="padding: 20upx 0;">{{ el.content }}</view>
 						<view class="flex small">
 							<text class="mgr-20">{{ el.ctime | transformDate }}</text>
 							<button plain="true" open-type="launchApp" :app-parameter="parames" @error="launchAppError" class="launchApp-btn flex gray comment-box">
@@ -81,7 +81,8 @@
 				hasMobile: false,
 				publishBottom:0,
 				publishText:"",
-				bottomHeight:0
+				bottomHeight:0,
+				isCommentPublish:true
 			}
 		},
 		onLoad(options) {
@@ -146,8 +147,9 @@
 				let data =await this.getElSize('comment')	
 				this.bottomHeight=data.height
 			},
-			hideBindMobile() {
+			hideBindMobile(bind) {
 				this.showBindMobile = false;
+				this.hasMobile=bind?true:false
 			},
 			launchAppError(e) {
 				console.log(e);
@@ -193,13 +195,16 @@
 					this.api.center.user.get_detail(null, res => {
 						console.log(res);
 						this.hasMobile = res.data.phone ? true : false
+						this.showCommentPublish = res.data.phone ? true : false
+						this.showBindMobile = res.data.phone ? false : true
 					});
 				}
 			},
 			addComment(){
-				if (!this.publishText) {
+				if (!this.publishText || !this.isCommentPublish) {
 					return
 				}
+				this.isCommentPublish=false
 				this.api.home.article.comment({
 					articleId:id,
 					content:this.publishText
@@ -208,6 +213,7 @@
 					uni.showToast({
 						title:"评论成功"
 					})
+					this.isCommentPublish=true;//防止点击多次
 					this.list.unshift(res.data)
 					this.publishText="";
 					this.showCommentPublish=false;
@@ -270,8 +276,6 @@
 	.fixed-bottom {
 		border-top: 2upx solid #f5f5f5;
 		padding: 20upx 50upx;
-		padding-bottom: constant(safe-area-inset-bottom);
-		padding-bottom: env(safe-area-inset-bottom);
 
 		.iconfont {
 			font-size: 40upx;
