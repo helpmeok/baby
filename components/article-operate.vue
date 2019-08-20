@@ -3,19 +3,23 @@
 		<view class="uni-mask" v-show="show" :style="{ top: offsetTop + 'px' }" @click="hide"></view>
 		<view class="uni-popup" :class="{ 'uni-popup-show': show }" @click.stop :style="{ top: top + 'px' }">
 			<view class="item flex" @click="unInterest(articleId,index)">
-				<text class="iconfont iconerror-1"></text>
+				<!-- <text class="iconfont iconerror-1"></text> -->
+				<image src="/static/home_popup_ic_nointerest@3x.png" mode="widthFix"  class="iconfont"></image>
 				<text>不感兴趣</text>
 			</view>
 			<view class="item flex" @click="shield(userId,index)">
-				<text class="iconfont iconpingbi1"></text>
+				<!-- <text class="iconfont iconpingbi1"></text> -->
+				<image src="/static/home_popup_ic_shield@3x.png" mode="widthFix"  class="iconfont"></image>
 				<text>屏蔽作者</text>
 			</view>
 			<view class="item flex" @click="unInterest(articleId,index)">
-				<text class="iconfont iconzhongfubaojing"></text>
+				<!-- <text class="iconfont iconzhongfubaojing"></text> -->
+				<image src="/static/home_popup_ic_repeat@3x.png" mode="widthFix"  class="iconfont"></image>
 				<text>内容重复</text>
 			</view>
 			<view class="item flex" style="border: none;" @click="unInterest(articleId,index)">
-				<text class="iconfont iconbuganxingqu"></text>
+				<!-- <text class="iconfont iconbuganxingqu"></text> -->
+				<image src="/static/home_popup_ic_notgood@3x.png" mode="widthFix" class="iconfont"></image>
 				<text>内容引起不适</text>
 			</view>
 		</view>
@@ -115,9 +119,8 @@
 			padding: 0upx 30upx;
 
 			.iconfont {
+				width: 46upx !important;
 				margin-right: 20upx;
-				font-size: 50upx;
-				color: gray;
 			}
 		}
 	}

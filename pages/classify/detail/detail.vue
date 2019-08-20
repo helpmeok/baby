@@ -11,19 +11,19 @@
 			<view class="" style="width: 70%;">
 				<view class="flex-r-between" style="padding: 0 20upx;">
 					<view class="flex-c-center">
-						<text>{{info.original}}</text>
+						<text class="font-b blod">{{info.original | articleDataNum}}</text>
 						<text class="gray">原创</text>
 					</view>
 					<view class="flex-c-center">
-						<text>{{info.fans}}</text>
+						<text class="font-b blod">{{info.fans | articleDataNum}}</text>
 						<text class="gray">粉丝</text>
 					</view>
 					<view class="flex-c-center">
-						<text>{{info.forwarding}}</text>
+						<text class="font-b blod">{{info.forwarding | articleDataNum}}</text>
 						<text class="gray">转发</text>
 					</view>
 					<view class="flex-c-center">
-						<text>{{info.clicknum}}</text>
+						<text class="font-b blod">{{info.clicknum | articleDataNum}}</text>
 						<text class="gray">点击</text>
 					</view>
 				</view>
@@ -442,7 +442,7 @@
 		}
 
 		.recommend-btn {
-			border: 2upx solid #cccccc;
+			border: 2upx solid #E8E8E8;
 			height: 60upx;
 			width: 190upx;
 			border-radius: 30upx;

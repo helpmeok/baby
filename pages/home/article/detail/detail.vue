@@ -67,15 +67,20 @@
 							<view class="mgr-10 iconfont iconpinglun1"></view>
 							<text style="font-size: 26upx;">缺少你的评论...</text>
 						</view>
-						<view class="" style="position: relative;" @click="scrollIntoComment">
-							<view class="iconfont iconpinglun2"></view>
+						<view class="flex-r-center" style="position: relative;" @click="scrollIntoComment">
+							<!-- <view class="iconfont iconpinglun2"></view> -->
+							<image src="/static/com_tab_ic_comment_nor@3x.png" mode="widthFix" class="app-icon"></image>
 							<view class="comment-num bg-default-color flex-r-center" v-if="info.commentNum > 0">{{ info.commentNum > 99 ? '99+' : info.commentNum }}</view>
 						</view>
-						<view class="iconfont " :class="{ iconshoucang: info.faFlag, iconshoucang1: !info.faFlag, red: info.faFlag }"
-						 @click="toggleCollect"></view>
-						<view class="iconfont icondianzan11" :class="{ red: info.praiseFlag }" @click="togglePraise"></view>
-						<button open-type="share" plain="true" hover-class="none" type="default" class="share-btn">
-							<view class="iconfont iconweixin" style="color:#09BB07;"></view>
+						<!-- 	<view class="iconfont " :class="{ iconshoucang: info.faFlag, iconshoucang1: !info.faFlag, red: info.faFlag }"
+						 @click="toggleCollect"></view> -->
+						<image src="/static/com_tab_ic_like_nor@3x.png" v-if="!info.faFlag" mode="widthFix" class="app-icon" @click="toggleCollect"></image>
+						<image src="/static/com_tab_ic_like_sel@3x.png" v-if="info.faFlag" mode="widthFix" class="app-icon" @click="toggleCollect"></image>
+						<image src="/static/com_tab_ic_praise_nor@3x.png" v-if="!info.praiseFlag" mode="widthFix" class="app-icon" @click="togglePraise"></image>
+						<image src="/static/com_tab_ic_praise_sel@3x.png" v-if="info.praiseFlag" mode="widthFix" class="app-icon" @click="togglePraise"></image>
+						<button open-type="share" plain="true" hover-class="none" type="default" class="share-btn flex-r-center">
+							<!-- <view class="iconfont iconweixin" style="color:#09BB07;"></view> -->
+							<image src="/static/com_tab_ic_forwar_nor@3x.png" mode="widthFix" class="app-icon"></image>
 						</button>
 					</view>
 				</view>
@@ -96,9 +101,9 @@
 			<!-- <view class="uni-tab-bar-loading">
 				<uni-load-more :loadingType="loadingType" :contentText="loadingText"></uni-load-more>
 			</view> -->
-			<view class="questions-box">
+			<view class="questions-box" >
 				<view class="" style="height: 3upx;background-color: #f5f5f5;width: 100%;"></view>
-				<view class="flex pd-box question-list-box">
+				<view class="flex pd-box question-list-box" style="padding-top: 0;">
 					<view class="list-item pd-lr mgr-20 flex-r-center" v-for="(el,i) in info.questionList" :key="i" @click="goQuestionList(el.questionId,el.questionName)">
 						{{el.questionName}}
 					</view>
@@ -106,7 +111,7 @@
 			</view>
 			<view class="cut-off"></view>
 			<view class="comments-box">
-				<view class="pd-box" id="comments">
+				<view class="pd-box" id="comments" style="padding-bottom: 0;">
 					<view class="blod flex-r-between">
 						<text class="mgr-10 font-b">热门评论</text>
 						<view class="gray flex" @click="goAllComments" v-if="info.hotCommentList.length>0">
@@ -127,8 +132,10 @@
 							<view class="flex-r-between">
 								<text>{{ el.nickName }}</text>
 								<view class="flex">
-									<text>{{ el.praiseNum | articleDataNum }}</text>
-									<text class="iconfont icondianzan11 mgl-10 gray" :class="{ red: el.praiseFlag }" @click="toggleCommentPraise(el.commentId, i)"></text>
+									<text class="gray">{{ el.praiseNum | articleDataNum }}</text>
+									<!-- <text class="iconfont icondianzan11 mgl-10 gray" :class="{ red: el.praiseFlag }" @click="toggleCommentPraise(el.commentId, i)"></text> -->
+									<image src="/static/com_tab_ic_praise_pre@3x.png" v-if="!el.praiseFlag" mode="widthFix" class="app-icon-praise-s" @click="toggleCommentPraise(el.commentId, i)"></image>
+									<image src="/static/com_tab_ic_praise_sel@3x.png" v-if="el.praiseFlag" mode="widthFix" class="app-icon-praise-s" @click="toggleCommentPraise(el.commentId, i)"></image>
 								</view>
 							</view>
 							<view class="break-word" style="padding: 20upx 0;">{{ el.content }}</view>
@@ -144,7 +151,7 @@
 			</view>
 			<view class="cut-off"></view>
 			<view class="expend-box" v-if="info.expendList.length>0">
-				<view class="pd-box">
+				<view class="pd-box" style="padding-bottom: 0;">
 					<view class="blod flex-r-between">
 						<text class="mgr-10 font-b">延展阅读</text>
 					</view>
@@ -168,7 +175,7 @@
 			</view>
 			<view class="cut-off"></view>
 			<view class="recommend-box" v-if="info.recommendList.length>0">
-				<view class="pd-box">
+				<view class="pd-box" style="padding-bottom: 0;">
 					<view class="blod flex-r-between">
 						<text class="mgr-10 font-b">推荐阅读</text>
 					</view>
@@ -571,7 +578,8 @@
 			z-index: 2;
 		}
 	}
-
+	
+	
 	.comment-num {
 		position: absolute;
 		color: white;

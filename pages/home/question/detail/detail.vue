@@ -5,7 +5,7 @@
 			<block slot="content">宝宝贝</block>
 		</cu-custom>
 		<view>
-			<view class="pd-box flex-r-between author">
+			<view class="pd-box flex-r-between author" style="padding-bottom: 0;">
 				<view class="flex">
 					<image :src="info.userAvatar" mode="widthFix"></image>
 					<view class="mgl-20">
@@ -45,8 +45,10 @@
 					</view>
 				</view>
 				<view class="flex" @click.stop="toggleCommentPraise(el, i)">
-					<text>{{ el.praiseNum | articleDataNum }}</text>
-					<text class="iconfont icondianzan11 mgl-10 gray" :class="{ red: el.praiseFlag }"></text>
+					<text class="gray">{{ el.praiseNum | articleDataNum }}</text>
+					<!-- <text class="iconfont icondianzan11 mgl-10 gray" :class="{ red: el.praiseFlag }"></text> -->
+					<image src="/static/com_tab_ic_praise_pre@3x.png" v-if="!el.praiseFlag" mode="widthFix" class="app-icon-praise-s"></image>
+					<image src="/static/com_tab_ic_praise_sel@3x.png" v-if="el.praiseFlag" mode="widthFix" class="app-icon-praise-s"></image>
 				</view>
 			</view>
 			<view class="sigle-line-text-2" style="padding: 20upx 0;">{{ el.content }}</view>
@@ -57,7 +59,9 @@
 		</view>
 		<view class="fixed-bottom flex-r-between">
 			<navigator url="/pages/home/question/commit/commit" hover-class="none" class="bg-default-color white confrim-btn flex-r-center">发布新问题</navigator>
-			<button open-type="share" plain="true" hover-class="none" type="default" class="share-btn"><view class="iconfont iconweixin" style="color:#09BB07;"></view></button>
+			<button open-type="share" plain="true" hover-class="none" type="default" class="share-btn flex-r-center">
+				<image src="/static/com_tab_ic_forwar_nor@3x.png" mode="widthFix" class="app-icon"></image>
+				</button>
 		</view>
 	</scroll-view>
 </template>
@@ -370,7 +374,7 @@ export default {
 			.img {
 				width: 160upx !important;
 				height: 160upx !important;
-				margin-right: 20upx;
+				margin-right: 10upx;
 			}
 		}
 

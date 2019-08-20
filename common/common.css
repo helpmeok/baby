@@ -12,10 +12,12 @@ page {
 	left: 0;
 	background-color: rgba(0, 0, 0, .3);
 }
-.break-word{
+
+.break-word {
 	word-break: break-all;
 	word-wrap: break-word;
 }
+
 .color-FFA904 {
 	color: #FFA904;
 }
@@ -133,6 +135,16 @@ page {
 	margin-bottom: 150upx;
 }
 
+.mb-20 {
+	margin-bottom: 20upx;
+}
+
+.app-icon-praise-s {
+	width: 40upx !important;
+}
+.app-icon{
+		width: 54upx !important;
+	}
 /* #ifdef H5 */
 .h5-pb {
 	padding-bottom: 150upx;
@@ -148,7 +160,7 @@ page {
 }
 
 .fixed-bottom-height {
-	height: 120upx;
+	height: 100upx;
 }
 
 .font-b {
@@ -182,10 +194,12 @@ page {
 	height: 20upx;
 	background-color: #F5F5F5;
 }
-.line{
+
+.line {
 	height: 2upx;
 	background-color: #f5f5f5;
 }
+
 .sigle-line-text {
 	width: 100%;
 	overflow: hidden;

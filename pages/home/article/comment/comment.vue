@@ -14,8 +14,10 @@
 						<view class="flex-r-between">
 							<text>{{ el.nickName }}</text>
 							<view class="flex">
-								<text>{{ el.praiseNum | articleDataNum }}</text>
-								<text class="iconfont icondianzan11 mgl-10 gray" :class="{ red: el.praiseFlag }" @click="toggleCommentPraise(el.commentId, i)"></text>
+								<text class="gray">{{ el.praiseNum | articleDataNum }}</text>
+								<!-- <text class="iconfont icondianzan11 mgl-10 gray" :class="{ red: el.praiseFlag }" @click="toggleCommentPraise(el.commentId, i)"></text> -->
+								<image src="/static/com_tab_ic_praise_pre@3x.png" v-if="!el.praiseFlag" mode="widthFix" class="app-icon-praise-s" @click="toggleCommentPraise(el.commentId, i)"></image>
+								<image src="/static/com_tab_ic_praise_sel@3x.png" v-if="el.praiseFlag" mode="widthFix" class="app-icon-praise-s" @click="toggleCommentPraise(el.commentId, i)"></image>
 							</view>
 						</view>
 						<view class="break-word" style="padding: 20upx 0;">{{ el.content }}</view>

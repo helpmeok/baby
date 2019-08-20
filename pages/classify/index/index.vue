@@ -244,7 +244,7 @@
 			height: 60upx;
 			padding: 10upx 30upx;
 			border-radius: 40upx;
-			border: 2upx solid #f1f1f1;
+			border: 2upx solid #E8E8E8;
 			margin-top: 20upx;
 		}
 	}

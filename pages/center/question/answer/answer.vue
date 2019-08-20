@@ -9,7 +9,7 @@
 			<block slot="content">{{cuText}}</block>
 		</cu-custom>
 		<view class="header">
-			<view class="pd-box flex-r-between author">
+			<view class="pd-box flex-r-between author" style="padding-bottom: 0;">
 				<view class="flex">
 					<image :src="info.userAvatar" mode="widthFix"></image>
 					<view class="mgl-20">
@@ -55,8 +55,10 @@
 					</view>
 				</view>
 				<view class="flex"  @click="toggleCommentPraise()">
-					<text>{{answer.praiseNum | articleDataNum}}</text>
-					<text class="iconfont icondianzan11 mgl-10 gray" :class="{'red':answer.praiseFlag}"></text>
+					<text class="gray">{{answer.praiseNum | articleDataNum}}</text>
+					<!-- <text class="iconfont icondianzan11 mgl-10 gray" :class="{'red':answer.praiseFlag}"></text> -->
+					<image src="/static/com_tab_ic_praise_pre@3x.png" v-if="!answer.praiseFlag" mode="widthFix" class="app-icon-praise-s"></image>
+					<image src="/static/com_tab_ic_praise_sel@3x.png" v-if="answer.praiseFlag" mode="widthFix" class="app-icon-praise-s"></image>
 				</view>
 			</view>
 			<view class="" style="padding: 20upx 0;">

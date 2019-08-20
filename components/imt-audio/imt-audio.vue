@@ -1,11 +1,13 @@
 <template>
 	<view class="imt-audio">
-		<view class="audio-wrapper" :style="[{'width':screenWidth+'px'}]">
-			<view class="iconfont default-color  audio-control-switch" :class="{'iconbofang':paused,'iconzanting':!paused}" @click="operation"></view>
-			<view class="audio-number">{{currentTime}}</view>
+		<view class="audio-wrapper " :style="[{'width':screenWidth+'px'}]">
+			<!-- <view class="iconfont default-color  audio-control-switch" :class="{'iconbofang':paused,'iconzanting':!paused}" @click="operation"></view> -->
+			<image src="/static/home_list_ic_play_nor@3x.png" mode="widthFix" class="icon-operation" v-if="paused" @click="operation"></image>
+			<image src="/static/home_list_ic_pause_nor@3x.png" mode="widthFix" class="icon-operation" v-if="!paused" @click="operation"></image>
+			<view class="audio-number gray">{{currentTime}}</view>
 			<slider class="audio-slider" :activeColor="color" block-size="16" :value="current" :max="duration" @changing="seek=true,current=$event.detail.value"
 			 @change="change"></slider>
-			<view class="audio-number">{{durationTime}}</view>
+			<view class="audio-number gray">{{durationTime}}</view>
 		</view>
 		
 		<!-- <view class="audio-control-wrapper" :style="{color:color}">
@@ -163,17 +165,18 @@
 		background: #F8F8F8;
 		border-radius: 100upx;
 	}
-
+	.icon-operation{
+		width: 80upx !important;
+		height: 80upx !important;
+		margin-right: 20upx;
+	}
 	.audio-wrapper {
 		display: flex;
 		align-items: center;
-		
+		padding: 20upx 0;
 	}
 
 	.audio-number {
-		font-size: 24upx;
-		line-height: 1;
-		color: #333;
 	}
 
 	.audio-slider {

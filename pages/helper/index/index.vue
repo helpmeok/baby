@@ -134,7 +134,7 @@
 		box-sizing: border-box;
 		background-color: white;
 		.input {
-			background-color: #E8E8E8;
+			background-color: #F5F5F5;
 			margin: 0 30upx;
 			width: 70%;
 			height: 60upx;

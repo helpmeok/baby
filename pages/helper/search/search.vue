@@ -4,9 +4,10 @@
 			<block slot="backText"></block>
 			<block slot="search">
 				<view class="search-box flex">
-					<text class="iconfont iconsousuo gray"></text>
+					<!-- <text class="iconfont iconsousuo gray"></text> -->
+					<image src="/static/com_nav_ic_search_pre@3x.png" mode="widthFix" style="width: 60upx;"></image>
 					<input type="text" v-model="keyword" confirm-type="search" placeholder="请输入问题" placeholder-class="gray" @confirm="init('search')"
-					 class="input mgl-20" />
+					 class="input " />
 					<!-- <text class="iconfont iconshanchu gray" v-show="keyword" @click="keyword=''"></text> -->
 				</view>
 			</block>

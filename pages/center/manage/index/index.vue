@@ -43,7 +43,7 @@
 				</view>
 			</swiper-item>
 		</swiper>
-		<view class="fixed-bottom bg-default-color white font-b flex-r-center" @click="goAdd()">
+		<view class="fixed-bottom fixed-bottom-height bg-default-color white font-b flex-r-center" @click="goAdd()">
 			{{linkText}}
 		</view>
 	</view>
@@ -216,9 +216,7 @@
 		top: 60upx;
 	}
 
-	.fixed-bottom {
-		height: 120upx;
-	}
+	
 
 	.list-box {
 		background-color: white;

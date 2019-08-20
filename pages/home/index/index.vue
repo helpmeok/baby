@@ -13,9 +13,7 @@
 					</view>
 				</view>
 				<view class="icons flex">
-					<navigator url="../search/search" hover-class="none">
-						<view class="iconfont iconsousuo" style="margin-right: 30upx;"></view>
-					</navigator>
+					<image src="/static/com_nav_ic_search_nor@3x.png" @click="goSearch" mode="widthFix" class="hot-icon"></image>
 					<image src="/static/com_nav_ic_hot_nor@3x.png" mode="widthFix" class="hot-icon" @click="showHotMask = true"></image>
 				</view>
 			</view>
@@ -160,7 +158,7 @@
 							questionId
 						}, res => {
 							console.log(res.data)
-							this.tabs[this.tabIndex].data[index].clickNum=res.data.clickNum;
+							this.tabs[this.tabIndex].data[index].clickNum = res.data.clickNum;
 							this.tabs[this.tabIndex].data[index].forwardNum = res.data.forwardNum
 							this.tabs[this.tabIndex].data[index].answerNum = res.data.answerNum
 							this.tabs[this.tabIndex].data[index].answerReplyList = res.data.answerReplyList
@@ -183,10 +181,14 @@
 					this.hotList = res.data;
 				});
 			},
-
+			goSearch() {
+				uni.navigateTo({
+					url: '/pages/home/search/search'
+				})
+			},
 			init() {
 				if (!this.tabs[this.tabIndex].data.length) {
-					this.isLoad=false
+					this.isLoad = false
 					uni.showLoading({
 						title: '加载中'
 					});
@@ -208,7 +210,7 @@
 								console.log(res);
 								this.tabs[this.tabIndex].data = res.data.concat(this.tabs[this.tabIndex].data);
 								isLaunch = false
-								this.isLoad=true
+								this.isLoad = true
 								uni.hideLoading();
 								onok(res.data);
 							}
@@ -226,7 +228,7 @@
 								console.log(res);
 								this.tabs[this.tabIndex].data = res.data.concat(this.tabs[this.tabIndex].data);
 								isLaunch = false
-								this.isLoad=true
+								this.isLoad = true
 								uni.hideLoading();
 								onok(res.data);
 							}
@@ -282,7 +284,7 @@
 					);
 				}
 			},
-			 changeTab(index) {
+			changeTab(index) {
 				this.tabs.forEach(item => {
 					item.active = false;
 				});
@@ -379,6 +381,7 @@
 		top: 0;
 		z-index: 2;
 		background-color: #ffffff;
+
 		.tabs {
 			.item {
 				position: relative;
@@ -419,7 +422,7 @@
 		}
 
 		.hot-icon {
-			width: 80upx;
+			width: 80upx !important;
 		}
 	}
 

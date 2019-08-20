@@ -21,12 +21,12 @@
 				<view class="list-cell-left blod">
 					宝宝性别
 				</view>
-				<radio-group class="list-cell-right flex-r-center" style="width: auto;" @change="sexChange">
-					<label class="radio mgr-30 flex-r-center">
+				<radio-group class="list-cell-right flex-r-between" style="width: auto;" @change="sexChange">
+					<label class="radio  flex-r-center">
 						<radio value="1" name="sex" class="red" :checked="from.sex==1" style="transform:scale(0.9);" />
 						<text class="mgl-10">小王子</text>
 					</label>
-					<label class="radio flex-r-center">
+					<label class="radio flex-r-center" style="padding-right: 0;">
 						<radio value="2" name="sex" class="red" :checked="from.sex==2" style="transform:scale(0.9);" />
 						<text class="mgl-10">小公主</text>
 					</label>

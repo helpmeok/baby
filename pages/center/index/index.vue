@@ -191,8 +191,7 @@
 	.list-cell {
 		box-sizing: border-box;
 		border-bottom: 2upx solid #f1f1f1;
-		padding: 20upx 0;
-
+			height: 120upx;
 		.icon {
 			width: 60upx;
 			margin-right: 20upx;

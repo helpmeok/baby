@@ -8,7 +8,8 @@
 			<view class="flex-r-between search-box" :style="[{top:CustomBar + 'px'}]">
 				<view class="flex-r-between search">
 					<view class="flex">
-						<view class="iconfont iconsousuo" style="margin-right: 20upx;"></view>
+						<!-- <view class="iconfont iconsousuo" style="margin-right: 20upx;"></view> -->
+						<image src="/static/com_nav_ic_search_pre@3x.png" mode="widthFix" style="width: 60upx;"></image>
 						<input type="text" focus="true" confirm-type="search" v-model="value" placeholder="输入要搜索的内容" @confirm="inputConfirm" />
 					</view>
 					<view class="iconfont iconshanchu gray" style="margin-left: 30upx;" @click="value = ''" v-show="show"></view>
@@ -235,7 +236,7 @@
 			padding: 30upx;
 
 			.item {
-				border: 2upx solid #cccccc;
+				border: 2upx solid #E8E8E8;
 				height: 60upx;
 				padding: 0upx 20upx;
 				border-radius: 30upx;

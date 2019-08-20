@@ -201,32 +201,32 @@
 		"backgroundColor": "#ffffff",
 		"list": [{
 				"pagePath": "pages/home/index/index",
-				"iconPath": "static/tabbar/com_tab_ic_home_pre@2x.png",
-				"selectedIconPath": "static/tabbar/com_tab_ic_home_sel@2x.png",
+				"iconPath": "static/tabbar/com_tab_ic_home_nor@3x.png",
+				"selectedIconPath": "static/tabbar/com_tab_ic_home_sel@3x.png",
 				"text": "首页"
 			},
 			{
 				"pagePath": "pages/classify/index/index",
-				"iconPath": "static/tabbar/com_tab_ic_classify_pre@2x.png",
-				"selectedIconPath": "static/tabbar/com_tab_ic_classify_sel@2x.png",
+				"iconPath": "static/tabbar/com_tab_ic_classify_nor@3x.png",
+				"selectedIconPath": "static/tabbar/com_tab_ic_classify_sel@3x.png",
 				"text": "分类"
 			},
 			{
 				"pagePath": "pages/helper/index/index",
-				"iconPath": "static/tabbar/helper.png",
-				"selectedIconPath": "static/tabbar/helper1.png",
+				"iconPath": "static/tabbar/com_tab_ic_assistant_nor@3x.png",
+				"selectedIconPath": "static/tabbar/com_tab_ic_assistant_sel@3x.png",
 				"text": "助手"
 			},
 			{
 				"pagePath": "pages/task/index/index",
-				"iconPath": "static/tabbar/com_tab_ic_day_pre@3x.png",
+				"iconPath": "static/tabbar/com_tab_ic_day_nor@3x.png",
 				"selectedIconPath": "static/tabbar/com_tab_ic_day_sel@3x.png",
 				"text": "任务"
 			},
 			{
 				"pagePath": "pages/center/index/index",
-				"iconPath": "static/tabbar/com_tab_ic_me_pre@2x.png",
-				"selectedIconPath": "static/tabbar/com_tab_ic_me_sel@2x.png",
+				"iconPath": "static/tabbar/com_tab_ic_me_nor@3x.png",
+				"selectedIconPath": "static/tabbar/com_tab_ic_me_sel@3x.png",
 				"text": "我的"
 			}
 		]
