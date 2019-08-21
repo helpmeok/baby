@@ -1,9 +1,9 @@
 <template>
 	<view class="container">
-		<!-- <cu-custom bgColor="bg-gradual-red" :isBack="true">
+		<cu-custom bgColor="bg-gradual-red" :isBack="true">
 			<block slot="backText"></block>
 			<block slot="content">{{title}}</block>
-		</cu-custom> -->
+		</cu-custom>
 		<view class="header-detail flex">
 			<view class="flex-r-center" style="width: 30%;">
 				<image :src="info.avatar" mode="widthFix" class="portrait" @click="previewImage(info.avatar)"></image>
@@ -71,7 +71,7 @@
 			</view> -->
 		</view>
 		<view class="" style="height: 20upx;background-color: #F5F5F5;"></view>
-		<view id="sticky" :class="{'fixed-top':isFixed}">
+		<view id="sticky" :class="{'fixed-top':isFixed}" :style="{'top':isFixed?CustomBar+'px':0}">
 			<wuc-tab :tab-list="[
 					{ name: '最新发布' },
 					{ name: '转发最多' },
@@ -144,7 +144,8 @@
 					contentnomore: '没有更多数据了'
 				},
 				stickyTop: 0,
-				title: ""
+				title: "",
+				CustomBar: this.CustomBar
 			};
 		},
 		computed: {
@@ -452,8 +453,8 @@
 		// 	this.loadMore()
 		// },
 		onPageScroll(e) {
-			// console.log(this.stickyTop+'---'+e.scrollTop)
-			if (this.stickyTop >= e.scrollTop) {
+			console.log(this.stickyTop+'---'+e.scrollTop)
+			if (this.stickyTop >=(this.CustomBar+e.scrollTop)) {
 				this.isFixed = false
 			} else {
 				this.isFixed = true

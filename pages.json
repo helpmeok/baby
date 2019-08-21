@@ -46,7 +46,8 @@
 		}, {
 			"path": "pages/home/celebrity/detail/detail",
 			"style": {
-				"navigationBarTitleText": ""
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
 			}
 		},
 		{
@@ -72,7 +73,8 @@
 		}, {
 			"path": "pages/classify/detail/detail",
 			"style": {
-				"enablePullDownRefresh": true
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
 			}
 		}, {
 			"path": "pages/center/comment/list/list",
