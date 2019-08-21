@@ -6,7 +6,7 @@
 		</cu-custom>
 		<view class="comments-box">
 			<view class="pd-box item-list border-bottom" v-for="(el, i) in list" :key="i">
-				<view class="flex">
+				<view class="flex" style="align-items: flex-start;">
 					<view class="" style="width: 15%;">
 						<image :src="el.avatar" mode="widthFix" class="header"></image>
 					</view>

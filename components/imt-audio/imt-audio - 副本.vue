@@ -9,7 +9,7 @@
 			 @change="change"></slider>
 			<view class="audio-number gray">{{durationTime}}</view>
 		</view>
-
+		
 		<!-- <view class="audio-control-wrapper" :style="{color:color}">
 			<view class="audio-control audio-control-prev" v-if="control" :style="{borderColor:color}" @click="prev">&#xe601;</view>
 			<view class="audio-control audio-control-switch" :class="{audioLoading:loading}" :style="{borderColor:color}" @click="operation">{{loading?'&#xe600;':(paused?'&#xe865;':'&#xe612;')}}</view>
@@ -19,45 +19,40 @@
 </template>
 
 <script>
-	const backgroundAudioManager = uni.getBackgroundAudioManager()
+	const backgroundAudioManager = wx.getBackgroundAudioManager()
+	const audio = uni.createInnerAudioContext(); //创建音频
 	export default {
 		data() {
 			return {
 				currentTime: '', //当前播放时间
 				durationTime: '', //总时长
 				current: '', //slider当前进度
+				loading: false, //是否处于读取状态
 				paused: true, //是否处于暂停状态
-				seek: false, //是否处于拖动状态
-				screenWidth: this.screenWidth - 60
+				seek: false ,//是否处于拖动状态
+				screenWidth:this.screenWidth-60
 			}
 		},
 		props: {
 			src: String, //音频链接
-			title: {
-				type: String,
-				default: "宝宝贝"
-			}, //标题
-			singer: {
-				type: String,
-				default: "宝宝贝"
-			}, //作者名称
 			autoplay: Boolean, //是否自动播放
 			duration: Number, //总时长（单位：s）
 			control: {
-				type: Boolean,
-				default: true
+				type:Boolean,
+				default:true
 			}, //是否需要上一曲/下一曲按钮
 			isPlay: {
-				type: Boolean,
-				default: true
-			},
+				type:Boolean,
+				default:true
+			}, 
 			isPause: {
-				type: Boolean,
-				default: true
-			},
+				type:Boolean,
+				default:true
+			}, 
+			continue:Boolean,//播放完成后是否继续播放下一首，需定义@next事件
 			color: {
-				type: String,
-				default: '#169af3'
+				type:String,
+				default:'#169af3'
 			} //主色调
 		},
 		methods: {
@@ -79,54 +74,65 @@
 				if (!this.isPlay) {
 					return;
 				}
-				console.log(backgroundAudioManager.paused)
-				if (backgroundAudioManager.paused) {
-					backgroundAudioManager.play()
+				if (audio.paused) {
+					audio.play()
+					this.loading = true
 				} else {
-					backgroundAudioManager.pause()
+					audio.pause()
 				}
 			},
 			//完成拖动事件
 			change(e) {
-				backgroundAudioManager.seek(e.detail.value)
+				audio.seek(e.detail.value)
 			}
 		},
 		created() {
+			audio.src = this.src
+			this.current = 0
 			this.durationTime = this.format(this.duration)
-			backgroundAudioManager.title = this.title;
-			backgroundAudioManager.singer = this.singer;
-			backgroundAudioManager.coverImgUrl = '/static/1024.png';
-			backgroundAudioManager.src = this.src;
+			audio.obeyMuteSwitch = false
+			audio.autoplay = this.autoplay
+			const bgAudioMannager = uni.getBackgroundAudioManager();
+			bgAudioMannager.title = '致爱丽丝';
+			bgAudioMannager.singer = '暂无';
+			bgAudioMannager.src = this.src;
+			bgAudioMannager.play();
 			//音频进度更新事件
-			backgroundAudioManager.onTimeUpdate(() => {
-					this.current = backgroundAudioManager.currentTime
+			audio.onTimeUpdate(() => {
+				if (!this.seek) {
+					this.current = audio.currentTime
+				}
 			})
 			//音频播放事件
-			backgroundAudioManager.onPlay(() => {
+			audio.onPlay(() => {
 				this.paused = false
+				this.loading = false
 			})
 			//音频暂停事件
-			backgroundAudioManager.onPause(() => {
+			audio.onPause(() => {
 				this.paused = true
 			})
 			//音频结束事件
-			backgroundAudioManager.onEnded(() => {
-				backgroundAudioManager.seek(0)
-				backgroundAudioManager.title = this.title;
-				backgroundAudioManager.singer = this.singer;
-				backgroundAudioManager.coverImgUrl = '/static/1024.png';
-				backgroundAudioManager.src = this.src;
-				this.paused = true
-				this.current = 0
+			audio.onEnded(() => {
+				if (this.continue) {
+					this.next()
+				} else {
+					this.paused = true
+					this.current = 0
+				}
+			})
+			//音频完成更改进度事件
+			audio.onSeeked(() => {
 				this.seek = false
 			})
 		},
 		watch: {
 			//监听音频地址更改
 			src(e) {
-				backgroundAudioManager.src = e;
+				audio.src = e
 				this.current = 0
-				backgroundAudioManager.play()
+				audio.play()
+				this.loading = true
 			},
 			//监听总时长改变
 			duration(e) {
@@ -136,17 +142,15 @@
 			current(e) {
 				this.currentTime = this.format(e)
 			},
-			isPause(val) {
+			isPause(val){
 				console.log(val)
-				if (val) {
-					backgroundAudioManager.pause()
-				} else {
-					backgroundAudioManager.play()
+				if(val){
+						audio.pause()
 				}
 			}
 		},
-		destoyed() {
-			backgroundAudioManager.pause()
+		destoyed(){
+			audio.pause()
 		}
 	}
 </script>
@@ -167,20 +171,19 @@
 		background: #F8F8F8;
 		border-radius: 100upx;
 	}
-
-	.icon-operation {
+	.icon-operation{
 		width: 80upx !important;
 		height: 80upx !important;
 		margin-right: 20upx;
 	}
-
 	.audio-wrapper {
 		display: flex;
 		align-items: center;
 		padding: 20upx 0;
 	}
 
-	.audio-number {}
+	.audio-number {
+	}
 
 	.audio-slider {
 		flex: 1;

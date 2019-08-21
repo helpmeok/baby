@@ -44,7 +44,9 @@
 					"<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>"
 				]
 			},
-			"ios": {},
+			"ios": {
+				"UIBackgroundModes":["audio"]
+			},
 			/* ios打包配置 */
 			"sdkConfigs": {}
 		}

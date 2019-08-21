@@ -1,5 +1,5 @@
 <template>
-	<scroll-view scroll-y class="scroll-view" :scroll-into-view="scrollIntoId" enable-back-to-top="true"  @scrolltolower="scrolltolower">
+	<scroll-view scroll-y class="scroll-view" :scroll-into-view="scrollIntoId" enable-back-to-top="true" @scrolltolower="scrolltolower">
 		<cu-custom bgColor="bg-gradual-red" :isCustom="true" :helper="true">
 			<block slot="backText"></block>
 			<block slot="content">宝宝贝</block>
@@ -51,352 +51,351 @@
 					<image src="/static/com_tab_ic_praise_sel@3x.png" v-if="el.praiseFlag" mode="widthFix" class="app-icon-praise-s"></image>
 				</view>
 			</view>
-			<view class="sigle-line-text-2" style="padding: 20upx 0;">{{ el.content }}</view>
+			<view class="" style="padding: 20upx 0;">{{ el.contents }}{{el.content.length>48?"...":""}}<text class="red" v-if="el.content.length>48">全文</text></view>
 		</view>
-		<view class="uni-tab-bar-loading"><uni-load-more :loadingType="loadingType" :contentText="loadingText"></uni-load-more></view>
+		<view class="uni-tab-bar-loading">
+			<uni-load-more :loadingType="loadingType" :contentText="loadingText"></uni-load-more>
+		</view>
 		<view class="" style="height: 150upx;">
-			
+
 		</view>
 		<view class="fixed-bottom flex-r-between">
 			<navigator url="/pages/home/question/commit/commit" hover-class="none" class="bg-default-color white confrim-btn flex-r-center">发布新问题</navigator>
 			<button open-type="share" plain="true" hover-class="none" type="default" class="share-btn flex-r-center">
 				<image src="/static/com_tab_ic_forwar_nor@3x.png" mode="widthFix" class="app-icon"></image>
-				</button>
+			</button>
 		</view>
 	</scroll-view>
 </template>
 
 <script>
-let id = '';
-let ctime = parseInt(Date.now());
-let total = 10;
-export default {
-	components: {},
-	onShareAppMessage(res) {
-		if (res.from === 'button') {
-			// 来自页面内分享按钮
-			console.log(res.target);
-		}
-		this.addQuestionCountNum('forwardNum');
-		return {
-			title: this.info.title,
-			path: '/pages/home/index/index?qaId=' + id
-		};
-	},
-	data() {
-		return {
-			offset: 0,
-			info: {
-				attachment: [],
-				answerNum: 0,
-				title: '',
-				userOauthIntro: '',
-				userName: '',
-				userAvatar: ''
-			},
-			commentList: [],
-			loadingType: 0,
-			loadingText: {
-				contentdown: '',
-				contentrefresh: '正在加载...',
-				contentnomore: '没有更多评论了'
+	let id = '';
+	let ctime = parseInt(Date.now());
+	let total = 10;
+	export default {
+		components: {},
+		onShareAppMessage(res) {
+			if (res.from === 'button') {
+				// 来自页面内分享按钮
+				console.log(res.target);
 			}
-		};
-	},
-	onLoad(options) {
-		id = options.id;
-		console.log('id============' + id);
-		this.init();
-		this.getAnswerList();
-		this.addQuestionCountNum('clickNum');
-	},
-	onShow() {
-		if (uni.getStorageSync('refreshPage')) {
-			uni.removeStorageSync('refreshPage');
-			this.offset = 0;
-			this.commentList = [];
+			this.addQuestionCountNum('forwardNum');
+			return {
+				title: this.info.title,
+				path: '/pages/home/index/index?qaId=' + id
+			};
+		},
+		data() {
+			return {
+				offset: 0,
+				info: {
+					attachment: [],
+					answerNum: 0,
+					title: '',
+					userOauthIntro: '',
+					userName: '',
+					userAvatar: ''
+				},
+				commentList: [],
+				loadingType: 0,
+				loadingText: {
+					contentdown: '',
+					contentrefresh: '正在加载...',
+					contentnomore: '没有更多评论了'
+				}
+			};
+		},
+		onLoad(options) {
+			id = options.id;
+			console.log('id============' + id);
 			this.init();
 			this.getAnswerList();
-		}
-	},
-	computed: {
-		imageScrollWidth() {
-			return uni.upx2px(180 * this.info.attachment.length);
-		}
-	},
-	methods: {
-		init() {
-			//初始化详情
-			this.api.home.qa.question.get_detail(
-				{
-					questionId: id
-				},
-				res => {
-					console.log(res);
-					this.info = res.data;
-				}
-			);
+			this.addQuestionCountNum('clickNum');
 		},
-		previewImage(list, i) {
-			let urls = [];
-			urls = list.map(el => {
-				return el.url;
-			});
-			uni.previewImage({
-				current: i,
-				urls: urls
-			});
-		},
-		getAnswerList() {
-			//获取回答列表
-			uni.showLoading({
-				title: '加载中'
-			});
-			this.api.home.qa.answer.get_list(
-				{
-					ctime,
-					questionId: id,
-					offset: this.offset,
-					total
-				},
-				res => {
-					console.log(res.data);
-					this.commentList = res.data;
-					uni.hideLoading();
-				}
-			);
-		},
-		goAnswer() {
-			let obj = {
-				title: this.info.title,
-				answerNum: this.info.answerNum
-			};
-			uni.setStorageSync('questionInfo', JSON.stringify(obj));
-			uni.navigateTo({
-				url: '/pages/home/question/commit/commit?id=' + id
-			});
-		},
-		addQuestionCountNum(type) {
-			this.api.home.qa.question.add_count(
-				{
-					questionId: id,
-					type
-				},
-				res => {
-					console.log(res);
-				}
-			);
-		},
-		getMoreComment() {
-			this.offset += total;
-			this.api.home.article.get_comment_list(
-				{
-					ctime,
-					articleId: id,
-					offset:this.offset,
-					total
-				},
-				res => {
-					console.log(res);
-					if (res.data.length) {
-						this.commentList = this.commentList.concat(res.data);
-						this.loadingType = 0;
-					} else {
-						this.loadingType = 2;
-					}
-				}
-			);
-		},
-		getElSize(id) {
-			//得到元素的size
-			return new Promise((res, rej) => {
-				uni.createSelectorQuery()
-					.select('#' + id)
-					.fields(
-						{
-							size: true,
-							scrollOffset: true,
-							rect: true
-						},
-						data => {
-							res(data);
-						}
-					)
-					.exec();
-			});
-		},
-		goCategory() {
-			uni.navigateTo({
-				url: '../../../classify/detail/detail?id=' + this.info.categoryId
-			});
-		},
-		preview() {},
-		togglePraise() {
-			console.log('id============' + id);
-			this.api.home.article.toggle_praise(
-				{
-					articleId: id,
-					action: this.info.praiseFlag ? 0 : 1
-				},
-				res => {
-					this.info.praiseFlag = !this.info.praiseFlag;
-					if (this.info.praiseFlag) {
-						uni.showToast({
-							title: '点赞成功'
-						});
-					} else {
-						uni.showToast({
-							title: '取消点赞'
-						});
-					}
-				}
-			);
-		},
-		toggleCommentPraise(el, i) {
-			this.api.home.qa.answer.toggle_praise(
-				{
-					replyId: el.id,
-					action: this.commentList[i].praiseFlag ? 0 : 1
-				},
-				res => {
-					this.commentList[i].praiseFlag = !this.commentList[i].praiseFlag;
-					if (this.commentList[i].praiseFlag) {
-						this.commentList[i].praiseNum++;
-						uni.showToast({
-							title: '点赞成功'
-						});
-					} else {
-						this.commentList[i].praiseNum--;
-						uni.showToast({
-							title: '取消点赞'
-						});
-					}
-				}
-			);
-		},
-		scrolltolower() {
-			if (this.loadingType != 0) {
-				return;
+		onShow() {
+			if (uni.getStorageSync('refreshPage')) {
+				uni.removeStorageSync('refreshPage');
+				this.offset = 0;
+				this.commentList = [];
+				this.init();
+				this.getAnswerList();
 			}
-			this.loadingType = 1;
-			this.getMoreComment();
 		},
-		goAnswerDetail(el) {
-			uni.setStorageSync('answerInfo', JSON.stringify(el));
-			uni.navigateTo({
-				url: '/pages/center/question/answer/answer?userId=' + el.userId
-			});
+		computed: {
+			imageScrollWidth() {
+				return uni.upx2px(180 * this.info.attachment.length);
+			}
+		},
+		methods: {
+			init() {
+				//初始化详情
+				this.api.home.qa.question.get_detail({
+						questionId: id
+					},
+					res => {
+						console.log(res);
+						this.info = res.data;
+					}
+				);
+			},
+			previewImage(list, i) {
+				let urls = [];
+				urls = list.map(el => {
+					return el.url;
+				});
+				uni.previewImage({
+					current: i,
+					urls: urls
+				});
+			},
+			getAnswerList() {
+				//获取回答列表
+				uni.showLoading({
+					title: '加载中'
+				});
+				this.api.home.qa.answer.get_list({
+						ctime,
+						questionId: id,
+						offset: this.offset,
+						total
+					},
+					res => {
+						console.log(res.data);
+						for (let el of res.data) {
+							el.contents = el.content.length > 48 ? el.content.substr(0, 45) : el.content
+						}
+						this.commentList = res.data;
+						uni.hideLoading();
+					}
+				);
+			},
+			goAnswer() {
+				let obj = {
+					title: this.info.title,
+					answerNum: this.info.answerNum
+				};
+				uni.setStorageSync('questionInfo', JSON.stringify(obj));
+				uni.navigateTo({
+					url: '/pages/home/question/commit/commit?id=' + id
+				});
+			},
+			addQuestionCountNum(type) {
+				this.api.home.qa.question.add_count({
+						questionId: id,
+						type
+					},
+					res => {
+						console.log(res);
+					}
+				);
+			},
+			getMoreComment() {
+				this.offset += total;
+				this.api.home.article.get_comment_list({
+						ctime,
+						articleId: id,
+						offset: this.offset,
+						total
+					},
+					res => {
+						console.log(res);
+						if (res.data.length) {
+							this.commentList = this.commentList.concat(res.data);
+							this.loadingType = 0;
+						} else {
+							this.loadingType = 2;
+						}
+					}
+				);
+			},
+			getElSize(id) {
+				//得到元素的size
+				return new Promise((res, rej) => {
+					uni.createSelectorQuery()
+						.select('#' + id)
+						.fields({
+								size: true,
+								scrollOffset: true,
+								rect: true
+							},
+							data => {
+								res(data);
+							}
+						)
+						.exec();
+				});
+			},
+			goCategory() {
+				uni.navigateTo({
+					url: '../../../classify/detail/detail?id=' + this.info.categoryId
+				});
+			},
+			preview() {},
+			togglePraise() {
+				console.log('id============' + id);
+				this.api.home.article.toggle_praise({
+						articleId: id,
+						action: this.info.praiseFlag ? 0 : 1
+					},
+					res => {
+						this.info.praiseFlag = !this.info.praiseFlag;
+						if (this.info.praiseFlag) {
+							uni.showToast({
+								title: '点赞成功'
+							});
+						} else {
+							uni.showToast({
+								title: '取消点赞'
+							});
+						}
+					}
+				);
+			},
+			toggleCommentPraise(el, i) {
+				this.api.home.qa.answer.toggle_praise({
+						replyId: el.id,
+						action: this.commentList[i].praiseFlag ? 0 : 1
+					},
+					res => {
+						this.commentList[i].praiseFlag = !this.commentList[i].praiseFlag;
+						if (this.commentList[i].praiseFlag) {
+							this.commentList[i].praiseNum++;
+							uni.showToast({
+								title: '点赞成功'
+							});
+						} else {
+							this.commentList[i].praiseNum--;
+							uni.showToast({
+								title: '取消点赞'
+							});
+						}
+					}
+				);
+			},
+			scrolltolower() {
+				if (this.loadingType != 0) {
+					return;
+				}
+				this.loadingType = 1;
+				this.getMoreComment();
+			},
+			goAnswerDetail(el) {
+				uni.setStorageSync('answerInfo', JSON.stringify(el));
+				uni.navigateTo({
+					url: '/pages/center/question/answer/answer?userId=' + el.userId
+				});
+			}
 		}
-	}
-};
+	};
 </script>
 
 <style lang="scss" scoped>
-.fixed-bottom {
-	border-top: 2upx solid #f5f5f5;
-	padding: 20upx 50upx;
-	// padding-bottom: constant(safe-area-inset-bottom);
-	// padding-bottom: env(safe-area-inset-bottom);
-	background-color: white;
-	.confrim-btn {
-		width: 85%;
-		height: 70upx;
-		border-radius: 40upx;
-		font-size: 32upx;
-	}
+	.fixed-bottom {
+		border-top: 2upx solid #f5f5f5;
+		padding: 20upx 50upx;
+		// padding-bottom: constant(safe-area-inset-bottom);
+		// padding-bottom: env(safe-area-inset-bottom);
+		background-color: white;
 
-	.share-btn {
-		border: none !important;
-		margin: 0 !important;
-		padding: 0 !important;
-
-		.iconweixin {
-			font-size: 40upx;
-		}
-	}
-}
-
-.scroll-view {
-	width: 100%;
-	box-sizing: border-box;
-	height: 100% !important;
-
-	.author {
-		image {
-			width: 80upx !important;
-			height: 80upx !important;
-			border-radius: 50%;
+		.confrim-btn {
+			width: 85%;
+			height: 70upx;
+			border-radius: 40upx;
+			font-size: 32upx;
 		}
 
-		.tag {
-			background-repeat: no-repeat;
-			background-size: 100% 100%;
-			background-image: url('~@/static/com_list_pic@2x.png');
-			padding: 5upx 20upx;
-		}
-	}
-
-	.line {
-		width: calc(100% - 60upx);
-		margin-left: 30upx;
-		height: 2upx;
-		background-color: #eeeeee;
-	}
-
-	.question-box {
-		box-sizing: border-box;
-		background-color: #ffffff;
-		border-radius: 20upx;
-		padding: 40upx 30upx;
-		box-shadow: 0px 10upx 60upx 0px rgba(0, 0, 0, 0.04);
-		width: calc(100% - 60upx);
-		margin-left: 30upx;
-		margin-bottom: 40upx;
-		margin-top: 30upx;
-
-		.question {
-			margin-bottom: 20upx;
-			width: 100%;
-
-			.question-icon {
-				width: 40upx !important;
-				position: relative;
-				top: 15upx;
-				left: 0;
-				float: left;
-			}
-		}
-
-		.image-box {
-			display: flex;
-			flex-direction: row;
-
-			.img {
-				width: 160upx !important;
-				height: 160upx !important;
-				margin-right: 10upx;
-			}
-		}
-
-		.answer-icon {
-			width: 40upx;
-		}
-	}
-
-	.item-list {
-		.header {
-			width: 80upx !important;
-			height: 80upx !important;
-			border-radius: 50%;
-		}
-
-		.comment-box {
-			background-color: #f5f5f5;
-			border-radius: 30upx;
-			padding: 0 10upx !important;
+		.share-btn {
 			border: none !important;
 			margin: 0 !important;
+			padding: 0 !important;
+
+			.iconweixin {
+				font-size: 40upx;
+			}
 		}
 	}
-}
+
+	.scroll-view {
+		width: 100%;
+		box-sizing: border-box;
+		height: 100% !important;
+
+		.author {
+			image {
+				width: 80upx !important;
+				height: 80upx !important;
+				border-radius: 50%;
+			}
+
+			.tag {
+				background-repeat: no-repeat;
+				background-size: 100% 100%;
+				background-image: url('~@/static/com_list_pic@2x.png');
+				padding: 5upx 20upx;
+			}
+		}
+
+		.line {
+			width: calc(100% - 60upx);
+			margin-left: 30upx;
+			height: 2upx;
+			background-color: #eeeeee;
+		}
+
+		.question-box {
+			box-sizing: border-box;
+			background-color: #ffffff;
+			border-radius: 20upx;
+			padding: 40upx 30upx;
+			box-shadow: 0px 10upx 60upx 0px rgba(0, 0, 0, 0.04);
+			width: calc(100% - 60upx);
+			margin-left: 30upx;
+			margin-bottom: 40upx;
+			margin-top: 30upx;
+
+			.question {
+				margin-bottom: 20upx;
+				width: 100%;
+
+				.question-icon {
+					width: 40upx !important;
+					position: relative;
+					top: 15upx;
+					left: 0;
+					float: left;
+				}
+			}
+
+			.image-box {
+				display: flex;
+				flex-direction: row;
+
+				.img {
+					width: 160upx !important;
+					height: 160upx !important;
+					margin-right: 10upx;
+				}
+			}
+
+			.answer-icon {
+				width: 40upx;
+			}
+		}
+
+		.item-list {
+			.header {
+				width: 80upx !important;
+				height: 80upx !important;
+				border-radius: 50%;
+			}
+
+			.comment-box {
+				background-color: #f5f5f5;
+				border-radius: 30upx;
+				padding: 0 10upx !important;
+				border: none !important;
+				margin: 0 !important;
+			}
+		}
+	}
 </style>

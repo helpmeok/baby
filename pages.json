@@ -188,14 +188,15 @@
 				"navigationStyle": "custom"
 			}
 		}
-	    
-        ,{
-            "path" : "pages/center/question/answer/answer",
-            "style" : {
+
+		, {
+			"path": "pages/center/question/answer/answer",
+			"style": {
 				"navigationStyle": "custom"
 			}
-        }
-    ],
+		}
+	],
+	"requiredBackgroundModes": ["audio"],
 	"tabBar": {
 		"color": "#666666",
 		"selectedColor": "#FC4041",
@@ -340,7 +341,7 @@
 			{
 				"name": "问答详情",
 				"pathName": "pages/home/question/detail/detail",
-				"query": "id=50"
+				"query": "id=58"
 			},
 			{
 				"name": "发布或回答问题",
@@ -375,7 +376,7 @@
 			{
 				"name": "回答详情",
 				"pathName": "pages/center/question/answer/answer",
-				"query":"userId=2822"
+				"query": "userId=2822"
 			}
 		]
 	}

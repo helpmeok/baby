@@ -23,11 +23,11 @@
 				</view>
 				<!-- http://vfx.mtime.cn/Video/2019/02/04/mp4/190204084208765161.mp4 -->
 				<view class="flex-r-center" style="margin-bottom: 30upx;" v-if="info.showType==4">
-					<imt-audio color="#FC4041" :isPause="isPause" :src="info.attachment[0].url" :duration="info.attachment[0].duration"></imt-audio>
+					<imt-audio color="#FC4041" :isPause="isPause" :src="info.attachment[0].url" :title="info.title" :singer="info.userName" :duration="info.attachment[0].duration"></imt-audio>
 				</view>
 				<view class="flex-r-center" style="margin-bottom: 30upx;" v-if="info.showType==5">
 					<video class="video" v-show="!showCommentPublish" id="myVideo" objectFit="fill" :poster="info.attachment[0].thumbnail"
-					 :src="info.attachment[0].url" controls>
+					 :src="info.attachment[0].url" controls :autoplay="!iscover">
 						<cover-view style="width: 100%;height: 100%;position: relative;" v-show="showPoster">
 							<cover-image style="width: 100%;height: 100%;" :src="info.attachment[0].thumbnail"></cover-image>
 							<cover-view class="flex-c-center" style="width: 100%;height: 100%;position: absolute;left: 0;top: 0;" @click="listenPlay()">
@@ -124,7 +124,7 @@
 					暂无评论
 				</view>
 				<view class="pd-box item-list border-bottom" v-for="(el, i) in info.hotCommentList" :key="i">
-					<view class="flex">
+					<view class="flex" style="align-items: flex-start;">
 						<view class="" style="width: 15%;">
 							<image :src="el.avatar" mode="widthFix" class="header"></image>
 						</view>
@@ -313,7 +313,6 @@
 		onHide(){
 			video.pause()
 		},
-		
 		methods: {
 			getNetworkType(){
 				if (uni.getStorageSync('networkType')) {
@@ -384,6 +383,7 @@
 						console.log(res.data);
 						this.info = res.data;
 						this.isLoad=true;
+						
 						this.getNetworkType()
 						uni.hideLoading();
 					}
