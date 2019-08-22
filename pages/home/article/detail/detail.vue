@@ -308,10 +308,18 @@
 		},
 		onUnload() {
 			offset = 0;
-			video.pause()
+			if (this.info.showType==4) {
+				const backgroundAudioManager = uni.getBackgroundAudioManager()
+				backgroundAudioManager.stop();
+			}
+			if (this.info.showType==5) {
+				video.pause()
+			}
 		},
 		onHide(){
-			video.pause()
+			if (this.info.showType==5) {
+				video.pause()
+			}
 		},
 		methods: {
 			getNetworkType(){

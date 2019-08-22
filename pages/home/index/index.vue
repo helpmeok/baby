@@ -127,6 +127,7 @@
 		},
 		onShow() {
 			this.getHot();
+			
 			if (uni.getStorageSync('articleIndex').toString()) { //监听文章数据改变
 				let index = parseInt(uni.getStorageSync('articleIndex'))
 				try {

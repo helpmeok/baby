@@ -95,7 +95,7 @@
 			this.durationTime = this.format(this.duration)
 			backgroundAudioManager.title = this.title;
 			backgroundAudioManager.singer = this.singer;
-			backgroundAudioManager.coverImgUrl = '/static/1024.png';
+			backgroundAudioManager.coverImgUrl = 'https://boblbee.superpapa.com.cn/boblbee/detail/images/logo.png';
 			backgroundAudioManager.src = this.src;
 			//音频进度更新事件
 			backgroundAudioManager.onTimeUpdate(() => {
