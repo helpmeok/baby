@@ -54,7 +54,7 @@
 				<view class="list-cell flex-r-between">
 					<view class="list-cell-left flex-r-center">
 						<image src="../../../static/me_list_ic_follow@2x.png" mode="widthFix" class="icon"></image>
-						<text class="font-b">我关注的主题</text>
+						<text class="font-b">我关注的话题</text>
 					</view>
 					<view class="list-cell-right flex-r-center"><text class="iconfont iconarrow-right-copy" style="color: #B2B2B2;"></text></view>
 				</view>

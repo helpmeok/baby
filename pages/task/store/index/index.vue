@@ -8,7 +8,10 @@
 			<view class="list-item flex-c-center" v-for="(el,i) in list" :key="i" @click="goDetail(el)">
 				<image :src="el.attachmentList[0].thumbnail" mode="aspectFill" class="img"></image>
 				<view class="font-b sigle-line-text" style="text-align: center;">{{el.productName}}</view>
-				<view class="point">{{el.productPrice}}积分</view>
+				<view class="flex-r-between" style="width: 100%;margin-bottom: 10upx;">
+					<view class="point">{{el.productPrice}}积分</view>
+					<view class="gray">剩余5</view>
+				</view>
 				<view class="btn bg-default-color flex-r-center white" v-if="productPrice>el.productPrice">
 					兑换
 				</view>
@@ -26,7 +29,7 @@
 
 <script>
 	var ctime = parseInt(Date.now());
-	const total = 15;
+	const total = 10;
 	export default {
 		data() {
 			return {
@@ -91,17 +94,17 @@
 		align-items: center;
 		width: 100%;
 		flex-direction: row;
+		justify-content: space-between;
 		flex-wrap: wrap;
 		box-sizing: border-box;
 
 		.list-item {
-			width: 29.33%;
+			width: 330upx !important;
 			margin-bottom: 30upx;
-			margin: 0 2% 30upx 2%;
 
 			.img {
-				width: 200upx !important;
-				height: 200upx !important;
+				width: 330upx !important;
+				height: 300upx !important;
 			}
 
 			.point {
@@ -109,7 +112,7 @@
 			}
 
 			.btn {
-				width: 190upx;
+				width: 330upx;
 				height: 70upx;
 				border-radius: 40upx;
 			}

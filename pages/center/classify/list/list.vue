@@ -2,7 +2,7 @@
 	<view>
 		<cu-custom bgColor="bg-gradual-red"  :isEdit='isEdit' :showCancel="true" v-on:edit="edit">
 			<block slot="backText"></block>
-			<block slot="content">主题关注</block>
+			<block slot="content">话题关注</block>
 		</cu-custom>
 		<empty v-if="list.length==0" msg="您还没有关注主题~"></empty>
 		<view class="">

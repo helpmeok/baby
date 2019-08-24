@@ -1,13 +1,13 @@
 <template>
 	<view class="container">
 		<cu-custom>
-			<block slot="task" style="color: white;">
+			<block slot="task">
 				<view class="flex-r-between pd-box" style="position: relative;z-index: 999;">
 					<view class="font-b blod">今日任务</view>
-					<view class="white flex">
+					<view class="flex">
 						<view class="">当前拥有：</view>
 						<image src="/static/center/me_list_ic_integral@3x.png" mode="widthFix" style="width: 40upx;"></image>
-						<view class="font-b mgl-10">
+						<view class="font-b mgl-10" style="color: #FFA904;">
 							{{userInfo.userPoint}}
 						</view>
 					</view>
@@ -15,28 +15,31 @@
 				</view>
 			</block>
 		</cu-custom>
-		<image src="/static/task/dailytasks_bg_picture@2x.png" mode="widthFix" class="welfar-bg"></image>
-			<scroll-view scroll-y class="scroll-view" :style="[{height:scrollHeight+ 'px'}]" @scrolltoupper="scrolltoupper">
-				<view class="list-item bg-white flex-r-between pd-box" v-for="(el,i) in list" :key="i" @click="showModel(el,i)">
-					<view class="item-l">
-						<image src="/static/center/me_list_ic_integral@3x.png" mode="widthFix" class="icon"></image>
-						<view class="point">
-							<text>X</text>
-							<text class="font-b">{{el.taskPoint}}</text>
-						</view>
-					</view>
-					<view class="item-c">
-						<view class="task-name align-left">
-							{{el.taskName}}
-						</view>
-					</view>
-					<view class="item-r flex">
-						<text class="gray" v-if="el.completeStatus">已完成</text>
-						<text class="default-color" v-else>去完成</text>
-						<text class="iconfont gray iconarrow-right-copy blod"></text>
+		<!-- <image src="/static/task/dailytasks_bg_picture@2x.png" mode="widthFix" class="welfar-bg"></image> -->
+		<scroll-view scroll-y class="scroll-view" :style="[{height:scrollHeight+ 'px'}]" @scrolltoupper="scrolltoupper">
+			<view class="list-item bg-white flex-r-between pd-box" v-for="(el,i) in list" :key="i" @click="goDetail(el,i)">
+				<view class="item-l">
+					<image src="/static/center/me_list_ic_integral@3x.png" mode="widthFix" class="icon"></image>
+					<view class="point">
+						<text>X</text>
+						<text class="font-b">{{el.taskPoint}}</text>
 					</view>
 				</view>
-			</scroll-view>
+				<view class="item-c">
+					<view class="task-name align-left">
+						{{el.taskName}}
+					</view>
+				</view>
+				<view class="item-r flex">
+					<text class="gray" v-if="el.completeStatus">已完成</text>
+					<text class="default-color" v-else>去完成</text>
+					<text class="iconfont gray iconarrow-right-copy blod"></text>
+				</view>
+			</view>
+			<view class="" style="height: 50upx;width: 100%;">
+
+			</view>
+		</scroll-view>
 		<view class="cu-modal flex-r-center align-left" :class="{'show':isShowModel}" @tap="hideModal">
 			<view class="cu-content bg-white " @tap.stop="">
 				<view class="font-b blod pd-box">
@@ -107,13 +110,13 @@
 		},
 		methods: {
 			init() {
-				this.list=[]
+				this.list = []
 				this.api.task.get_list(null, res => {
 					console.log(res)
 					this.list = res.data
 				})
 			},
-			scrolltoupper(){
+			scrolltoupper() {
 				// this.init()
 			},
 			getUserInfo() {
@@ -130,6 +133,11 @@
 					this.taskIndex = i
 				}
 			},
+			goDetail(el) {
+				uni.navigateTo({
+					url: '/pages/task/detail/detail?id=' + el.taskId
+				})
+			},
 			showAward() {
 				this.isShowModel = false
 				this.api.task.get_award({
@@ -137,7 +145,7 @@
 				}, res => {
 					console.log(res)
 					this.isShowAward = true
-					this.list[this.taskIndex].completeStatus=true;
+					this.list[this.taskIndex].completeStatus = true;
 					this.getUserInfo()
 				})
 			},
@@ -152,7 +160,6 @@
 <style lang="scss">
 	.container {
 		height: 100%;
-		background-color: #FFF2EF;
 		width: 100%;
 	}
 
@@ -233,14 +240,14 @@
 	}
 
 	.scroll-view {
-		padding-top: 50upx;
 		overflow: hidden;
 	}
 
 	.list-item {
+		box-shadow: 0px 10upx 60upx 0px rgba(0, 0, 0, 0.08);
 		width: 90%;
 		margin-left: 5%;
-		margin-bottom: 50upx;
+		margin-top: 50upx;
 		border-radius: 20upx;
 		height: 150upx;
 

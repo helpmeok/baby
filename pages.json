@@ -21,7 +21,7 @@
 		}, {
 			"path": "pages/classify/index/index",
 			"style": {
-				"navigationBarTitleText": "分类",
+				"navigationBarTitleText": "专题",
 				"navigationStyle": "custom"
 			}
 		}, {
@@ -195,7 +195,13 @@
 				"navigationStyle": "custom"
 			}
 		}
-	],
+	    ,{
+            "path" : "pages/task/detail/detail",
+            "style" : {
+				"navigationStyle": "custom"
+			}
+        }
+    ],
 	"requiredBackgroundModes": ["audio"],
 	"tabBar": {
 		"color": "#666666",
@@ -212,7 +218,7 @@
 				"pagePath": "pages/classify/index/index",
 				"iconPath": "static/tabbar/com_tab_ic_classify_nor@3x.png",
 				"selectedIconPath": "static/tabbar/com_tab_ic_classify_sel@3x.png",
-				"text": "分类"
+				"text": "专题"
 			},
 			{
 				"pagePath": "pages/helper/index/index",
@@ -377,6 +383,11 @@
 				"name": "回答详情",
 				"pathName": "pages/center/question/answer/answer",
 				"query": "userId=2822"
+			},
+			{
+				"name": "任务详情",
+				"pathName": "pages/task/detail/detail",
+				"query": "id=2822"
 			}
 		]
 	}

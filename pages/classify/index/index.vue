@@ -1,7 +1,7 @@
 <template>
 	<view class="container">
 		<cu-custom bgColor="bg-gradual-red">
-			<block slot="content">分类</block>
+			<block slot="content">专题</block>
 		</cu-custom>
 		<view class="uni-tab-bar">
 			<view class="tab-bar flex-r-between">
@@ -46,7 +46,7 @@
 <script>
 	import uniLoadMore from '@/components/uni-load-more.vue';
 	import uniTag from '@/components/uni-tag.vue';
-	import mixPulldownRefresh from '@/components/mix-pulldown-refresh';
+	import mixPulldownRefresh from '@/components/mix-pulldown-refresh'; //上拉刷新组件
 	// import { chGMT } from '@/common/util/date.js';
 	import articleOperate from '@/components/article-operate';
 	import empty from '@/components/empty-data.vue'
@@ -109,7 +109,7 @@
 					this.init()
 				})
 			},
-			 changeTab(index) {
+			changeTab(index) {
 				this.tabs.forEach(item => {
 					item.active = false;
 				});
@@ -120,7 +120,7 @@
 				this.changeTab(e.target.current);
 				if (!this.tabs[this.tabIndex].data.length) {
 					uni.showLoading({
-						title:"加载中"
+						title: "加载中"
 					})
 					await this.init();
 				}
@@ -128,10 +128,10 @@
 			async onPulldownReresh() { //下拉刷新
 				ctime = parseInt(Date.now() / 1000); //刷新时间
 				this.tabs[this.tabIndex].offset = 0;
-				setTimeout(async ()=>{
+				setTimeout(async () => {
 					await this.init();
 					this.$refs.mixPulldownRefresh && this.$refs.mixPulldownRefresh.endPulldownRefresh();
-				},1000)
+				}, 1000)
 			},
 			getMore() {
 				this.tabs[this.tabIndex].offset += total;
@@ -183,10 +183,11 @@
 </script>
 
 <style lang="scss" scoped>
-	.container{
+	.container {
 		height: 100%;
 		overflow: hidden;
 	}
+
 	.tab-bar {
 		// border-bottom: 2upx solid #f1f1f1;
 		padding-left: 30upx;
@@ -195,7 +196,7 @@
 		top: 0;
 		z-index: 2;
 		background-color: #ffffff;
-		
+
 		.tabs {
 			width: 100%;
 
@@ -250,6 +251,6 @@
 	}
 
 	.scroll-view {
-		height:calc(100% - 140upx);
+		height: calc(100% - 140upx);
 	}
 </style>

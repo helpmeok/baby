@@ -1,27 +1,39 @@
 <template>
 	<view class="container">
-		<cu-custom bgColor="bg-gradual-red">
-			<block slot="content">宝宝贝</block>
-		</cu-custom>
+		<view class="header-custom flex-r-between" :style="[{height:CustomBar + 'px','padding-top':StatusBar+'px'}]">
+			<view class="flex search-box" @click="goSearch">
+				<image src="/static/com_nav_ic_search_pre@3x.png" mode="widthFix" class="search-icon app-icon"></image>
+				<view class="gray">
+					孩子发烧了怎么办？
+				</view>
+			</view>
+			<image src="/static/com_nav_ic_hot_nor@3x.png" mode="widthFix" class="hot-icon" @click="showHotMask = true"></image>
+		</view>
 		<view class="uni-tab-bar">
 			<view class="tab-bar flex-r-between">
-				<view class="tabs flex">
-					<view class="gray item" style="margin-right: 60upx;" v-for="(item, index) in tabs" :key="index" :class="{ active: item.active }"
-					 @click="changeTab(index)">
-						<view :class="{'bottom-line':item.active}"></view>
-						<view class="name" :class="{ active: item.active }">{{ item.name }}</view>
-					</view>
+				<view class="tabs">
+					<scroll-view scroll-x class="tabs-scroll-view flex" scroll-with-animation :scroll-left="scrollLeft">
+						<view class="flex item-box">
+							<view class="gray item" v-for="(item, index) in tabs" :key="index" :class="{ active: item.active }" @click="changeTab(index)">
+								<view :class="{'bottom-line':item.active}"></view>
+								<view class="name" :class="{ active: item.active }">{{ item.name }}</view>
+							</view>
+						</view>
+						<!-- <view class="blur"></view> -->
+					</scroll-view>
 				</view>
 				<view class="icons flex">
-					<image src="/static/com_nav_ic_search_nor@3x.png" @click="goSearch" mode="widthFix" class="hot-icon"></image>
-					<image src="/static/com_nav_ic_hot_nor@3x.png" mode="widthFix" class="hot-icon" @click="showHotMask = true"></image>
+					<!-- <image src="/static/com_nav_ic_search_nor@3x.png" @click="goSearch" mode="widthFix" class="hot-icon"></image>
+					<image src="/static/com_nav_ic_hot_nor@3x.png" mode="widthFix" class="hot-icon" @click="showHotMask = true"></image> -->
+
 				</view>
 			</view>
 			<mix-pulldown-refresh ref="mixPulldownRefresh" class="panel-content" :top="90" @refresh="onPulldownReresh"
 			 @setEnableScroll="setEnableScroll">
 				<swiper class="swiper-box" :current="tabIndex" :duration="300" @change="changeSwiper">
 					<swiper-item v-for="(el, i) in tabs" :key="i">
-						<scroll-view @scrolltolower="loadMore(i)" :scroll-y="!showArticleOperate" class="scroll-view" :enable-back-to-top="el.active">
+						<scroll-view @scrolltolower="loadMore(i)" :scroll-y="!showArticleOperate" class="scroll-view" :style="{height:articleScrollHeight+'px'}"
+						 :enable-back-to-top="el.active">
 							<empty v-if="tabs[i].data.length == 0 && isLoad" msg="暂无资讯，下拉加载试试~"></empty>
 							<article-item :list="tabs[i].data" :showOperate="true" v-on:showOperate="showOperate"></article-item>
 							<view class="uni-tab-bar-loading">
@@ -32,7 +44,7 @@
 				</swiper>
 			</mix-pulldown-refresh>
 			<view class="mask" v-if="showHotMask" @click="hideHotMask">
-				<view class="triangle_border_up" :style="{'margin-top':CustomBar+30+'px'}"></view>
+				<view class="triangle_border_up" :style="{'margin-top':CustomBar+'px'}"></view>
 				<view class="content flex" @click.stop>
 					<view class="flex-c-center" style="width: 20%;" v-for="(el, i) in hotList" :key="i">
 						<image :src="el.avatar" mode="widthFix" @click="goDetail(el.userId)"></image>
@@ -91,6 +103,27 @@
 						data: [],
 						offset: 0,
 						loadingType: 0
+					},
+					{
+						name: '问答',
+						active: false,
+						data: [],
+						offset: 0,
+						loadingType: 0
+					},
+					{
+						name: '音频',
+						active: false,
+						data: [],
+						offset: 0,
+						loadingType: 0
+					},
+					{
+						name: '视频',
+						active: false,
+						data: [],
+						offset: 0,
+						loadingType: 0
 					}
 				],
 				loadingText: {
@@ -98,7 +131,11 @@
 					contentrefresh: '正在加载...',
 					contentnomore: '没有更多数据了'
 				},
-				CustomBar: this.CustomBar
+				CustomBar: this.CustomBar,
+				Custom: this.Custom,
+				StatusBar: this.StatusBar,
+				ScreenHeight: this.screenHeight,
+				WindowHeight:this.windowHeight
 			};
 		},
 		onShareAppMessage(res) {
@@ -127,7 +164,6 @@
 		},
 		onShow() {
 			this.getHot();
-			
 			if (uni.getStorageSync('articleIndex').toString()) { //监听文章数据改变
 				let index = parseInt(uni.getStorageSync('articleIndex'))
 				try {
@@ -174,6 +210,14 @@
 		},
 		onHide() {
 			this.showHotMask = false;
+		},
+		computed: {
+			scrollLeft() {
+				return (this.tabIndex - 1) * 40
+			},
+			articleScrollHeight() {
+				return (this.WindowHeight - this.CustomBar - uni.upx2px(88))
+			}
 		},
 		methods: {
 			getHot() {
@@ -370,6 +414,22 @@
 </script>
 
 <style lang="scss">
+	.header-custom {
+		padding: 40upx 220upx 0 30upx;
+
+		.search-box {
+			background-color: #F8F8F8;
+			border-radius: 100upx;
+			width: 85%;
+			height: 75%;
+			padding: 0 20upx;
+		}
+
+		.hot-icon {
+			width: 80upx !important;
+		}
+	}
+
 	.container {
 		height: 100%;
 		overflow: hidden;
@@ -382,36 +442,54 @@
 		top: 0;
 		z-index: 2;
 		background-color: #ffffff;
+		height: 88upx !important;
 
 		.tabs {
-			.item {
+			width: calc(100% - 100upx) !important;
+			height: 100%;
+
+			.tabs-scroll-view {
+				width: 100%;
 				position: relative;
-				left: 0;
-				top: 0;
-				z-index: 2;
+				height: 100%;
 
-				.name {
-					position: relative;
-					left: 0;
-					top: 0;
-					z-index: 2;
-					font-size: 34upx;
-				}
-
-				.active {
-					font-size: 46upx !important;
-
-				}
-
-				.bottom-line {
-					position: absolute;
-					left: 0;
-					bottom: 10upx;
-					z-index: 1;
+				.item-box {
 					width: 100%;
-					height: 20upx;
-					border-radius: 10upx;
-					background-color: yellow;
+					flex-wrap: nowrap;
+					height: 100%;
+
+					.item {
+						position: relative;
+						left: 0;
+						top: 0;
+						z-index: 2;
+						margin-right: 40upx;
+
+						.name {
+							position: relative;
+							left: 0;
+							top: 0;
+							z-index: 2;
+							font-size: 34upx;
+							width: 100upx;
+						}
+
+						.active {
+							font-size: 46upx !important;
+
+						}
+
+						.bottom-line {
+							position: absolute;
+							left: 0;
+							bottom: 10upx;
+							z-index: 1;
+							height: 20upx;
+							border-radius: 10upx;
+							width: 100%;
+							background-color: yellow;
+						}
+					}
 				}
 			}
 		}
@@ -478,7 +556,6 @@
 	}
 
 	.scroll-view {
-		height: calc(100% - 100upx);
 	}
 
 	.mask {
@@ -487,7 +564,7 @@
 			width: 90%;
 			padding: 30upx;
 			box-sizing: border-box;
-			border-radius: 20upx 0 20upx 20upx;
+			border-radius: 20upx;
 			margin-left: 5%;
 
 			image {
@@ -501,8 +578,11 @@
 	.triangle_border_up {
 		width: 0;
 		height: 0;
-		border-top: 30upx solid transparent;
-		border-right: 50upx solid white;
-		margin-left: calc(95% - 50upx);
+		// border-top: 30upx solid transparent;
+		// border-right: 50upx solid white;
+		border-left: 30upx solid transparent;
+		border-right: 30upx solid transparent;
+		border-bottom: 30upx solid white;
+		margin-left: calc(100% - 290upx);
 	}
 </style>
