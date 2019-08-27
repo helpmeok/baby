@@ -55,7 +55,8 @@
 		},
 		computed: {
 			contentHeight() {
-				return this.windowHeight - this.CustomBar - 10
+				console.log(this.WindowHeight - this.CustomBar - 10)
+				return this.WindowHeight - this.CustomBar - 10
 			}
 		},
 		methods: {
@@ -92,6 +93,7 @@
 	}
 
 	.content {
+		box-sizing: border-box;
 		.close-icon {
 			margin-left: 30upx;
 			width: 32upx;

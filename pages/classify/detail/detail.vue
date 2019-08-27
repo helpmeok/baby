@@ -6,7 +6,7 @@
 		</cu-custom>
 		<view class="header-detail flex">
 			<view class="flex-r-center" style="width: 30%;">
-				<image src="../../../static/classify_list_ic_special_1@2x.png" mode="widthFix" class="portrait"></image>
+				<image src="/static/classify_list_ic_special@2x.png" mode="widthFix" class="portrait"></image>
 			</view>
 			<view class="" style="width: 70%;">
 				<view class="flex-r-between" style="padding: 0 20upx;">
@@ -62,14 +62,14 @@
 		</scroll-view>
 		<view class="" style="height: 20upx;background-color: #F5F5F5;"></view>
 		<view id="sticky" :class="{'fixed-top':isFixed}" :style="{'top':isFixed?CustomBar+'px':0}">
-			<wuc-tab :tab-list="[
-						{ name: '最新发布' },
-						{ name: '转发最多' },
-						{ name: '评论最多' },
-						{ name: '点赞最高' }
+			<!-- <wuc-tab :tab-list="[
+						{ name: '全部' },
+						{ name: '音频' },
+						{ name: '视频' }
 					]"
 			 :tabCur.sync="tabIndex" tab-class="text-center bg-white wuc-tab" :tab-style="CustomBar" select-class="text-blue"
-			 @change="clickitem"></wuc-tab>
+			 @change="clickitem"></wuc-tab> -->
+			 <detail-tabs :tabIndex="tabIndex" v-on:changeTabIndex="changeTabIndex"></detail-tabs>
 		</view>
 		<swiper class="swiper-box" :current="tabIndex" @change="changeSwiper" :style="{ height: swiperHeight + 'px','margin-top':isFixed?stickyHeight:0+'px' }">
 			<swiper-item v-for="(el, i) in tabs" :key="i">
@@ -89,13 +89,15 @@
 <script>
 	// import glanceSlideNavTabBar from '@/components/glance-SlideNavTabBar.vue';
 	import WucTab from '@/components/wuc-tab/wuc-tab.vue';
+	import detailTabs from '@/components/detail-tabs.vue';
 	let id = ""
 	var ctime = parseInt(Date.now());
 	const total = 10;
 	export default {
 		components: {
 			// glanceSlideNavTabBar
-			WucTab
+			WucTab,
+			detailTabs
 		},
 		data() {
 			return {
@@ -330,7 +332,7 @@
 			showRecommend() {
 				this.isShowRecommend = !this.isShowRecommend;
 			},
-			clickitem(index, val) {
+			changeTabIndex(index) {
 				this.tabIndex = index
 				// this.changeTab(index);
 			},
@@ -419,9 +421,8 @@
 <style lang="scss">
 	.header-detail {
 		width: 100%;
-		height: 200upx;
-		padding: 0 30upx 0 0;
-		box-sizing: border-box;
+		height: 220upx;
+		padding: 0 30upx 20upx 0;
 
 		.portrait {
 			width: 150upx !important;

@@ -24,7 +24,8 @@
 				</view>
 				<view class="flex-r-between" style="margin-top: 20upx;" v-if="historyList.length>0">
 					<text class="blod">历史搜索</text>
-					<view class="iconfont icon- gray blod" @click="clearHistoryList"></view>
+					<image src="/static/search_list_ic_delete_nor@3x.png" style="width: 88upx;" mode="widthFix" @click="clearHistoryList"></image>
+					<!-- <view class="iconfont icon- gray blod"></view> -->
 				</view>
 				<view class="flex">
 					<view class="item small " v-for="(item, index) in historyList" :key="index" @click="search(item)">{{ item }}</view>
