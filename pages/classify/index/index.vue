@@ -1,256 +1,124 @@
 <template>
 	<view class="container">
-		<cu-custom bgColor="bg-gradual-red">
-			<block slot="content">专题</block>
-		</cu-custom>
-		<view class="uni-tab-bar">
-			<view class="tab-bar flex-r-between">
-				<view class="tabs flex">
-					<view class="gray item" style="margin-right: 60upx;" v-for="(item, index) in tabs" :key="index" :class="{ active: item.active }"
-					 @click="changeTab(index)">
-						<view :class="{'bottom-line':item.active}"></view>
-						<view class="name" :class="{ active: item.active }">{{ item.name }}</view>
+		<view class="header-custom flex-r-between" :style="[{height:CustomBar + 'px','padding-top':StatusBar+'px'}]">
+			<view class="font-b blod title">专题</view>
+			<view class="baby-btn flex-r-center" @click="goBaby">宝宝管理</view>
+		</view>
+		<scroll-view scroll-y :style="{height:scrollHeight+'px'}">
+			<view class="pd-box">
+				<view class="list-item" v-for="(el,i) in list" :key="i">
+					<image src="/static/com_list_pic@2x.png" mode="aspectFill" class="bg-img"></image>
+					<view class=" mask"></view>
+					<view class="white font-b title flex-r-center">
+						撒旦撒旦
 					</view>
 				</view>
 			</view>
-			<mix-pulldown-refresh ref="mixPulldownRefresh" class="panel-content" :top="90" @refresh="onPulldownReresh"
-			 @setEnableScroll="setEnableScroll">
-				<swiper class="swiper-box" :current="tabIndex" :duration="300" @change="changeSwiper">
-					<swiper-item v-for="(el, i) in tabs" :key="i">
-						<scroll-view @scrolltolower="loadMore(i)" scroll-y class="scroll-view" :enable-back-to-top="el.active">
-							<empty v-if="tabs[i].data.length == 0" msg="暂无资讯，下拉加载试试~"></empty>
-							<view class="list-item" v-for="(item, index1) in tabs[i].data" :key="index1">
-								<view class="pd-box">
-									<view class="blod font-b">
-										{{item.name}}
-									</view>
-									<view class="flex">
-										<view class="sub-class mgr-20 flex-r-center" @click="goDetail(sub.categoryId)" v-for="(sub,index2) in item.category_list"
-										 :key="index2">
-											{{sub.categoryName}}
-										</view>
-									</view>
-								</view>
-								<view class="cut-off"></view>
-							</view>
-							<uni-load-more :loadingType="el.loadingType" :contentText="loadingText"></uni-load-more>
-						</scroll-view>
-					</swiper-item>
-				</swiper>
-			</mix-pulldown-refresh>
-		</view>
+		</scroll-view>
 	</view>
-
 </template>
 
 <script>
-	import uniLoadMore from '@/components/uni-load-more.vue';
-	import uniTag from '@/components/uni-tag.vue';
-	import mixPulldownRefresh from '@/components/mix-pulldown-refresh'; //上拉刷新组件
-	// import { chGMT } from '@/common/util/date.js';
-	import articleOperate from '@/components/article-operate';
-	import empty from '@/components/empty-data.vue'
-	var ctime = parseInt(Date.now() / 1000);
-	const total = 20;
 	export default {
-		components: {
-			uniLoadMore,
-			uniTag,
-			mixPulldownRefresh,
-			articleOperate,
-			empty
-		},
 		data() {
 			return {
-				tabIndex: 0,
-				tabs: [],
-				enableScroll: true,
-				loadingText: {
-					contentdown: '',
-					contentrefresh: '正在加载...',
-					contentnomore: '没有更多数据了'
-				},
-			};
+				CustomBar: this.CustomBar,
+				StatusBar: this.StatusBar,
+				WindowHeight: this.windowHeight,
+				list: 5
+			}
 		},
 		onLoad() {
-			this.get_top_category();
+			this.init()
 		},
-		onHide() {},
+		computed: {
+			scrollHeight() {
+				return this.WindowHeight - this.CustomBar
+			}
+		},
 		methods: {
-			async init() {
-				return new Promise((onok, onno) => {
-					this.api.classify.get_sub_category({
-						categoryId: this.tabs[this.tabIndex].id,
-						status: 1,
-						total: total,
-						offset: this.tabs[this.tabIndex].offset,
-						ctime: ctime
-					}, res => {
-						console.log(res)
-						this.tabs[this.tabIndex].data = res.data;
-						onok(res.data)
-						uni.hideLoading()
+			init() {
+
+			},
+			goBaby() {
+				if (uni.getStorageSync('access_token')) {
+					uni.navigateTo({
+						url: '/pages/center/manage/index/index'
 					})
-				})
-			},
-			get_top_category() {
-				this.api.classify.get_top_category(null, res => {
-					this.tabs = res.data.map((el, i) => {
-						if (i == 0) {
-							el.active = true
-						} else {
-							el.active = false
-						}
-						el.data = [];
-						el.offset = 0;
-						el.loadingType = 0;
-						return el;
-					});
-					this.init()
-				})
-			},
-			changeTab(index) {
-				this.tabs.forEach(item => {
-					item.active = false;
-				});
-				this.tabIndex = index;
-				this.tabs[index].active = true;
-			},
-			async changeSwiper(e) {
-				this.changeTab(e.target.current);
-				if (!this.tabs[this.tabIndex].data.length) {
-					uni.showLoading({
-						title: "加载中"
-					})
-					await this.init();
-				}
-			},
-			async onPulldownReresh() { //下拉刷新
-				ctime = parseInt(Date.now() / 1000); //刷新时间
-				this.tabs[this.tabIndex].offset = 0;
-				setTimeout(async () => {
-					await this.init();
-					this.$refs.mixPulldownRefresh && this.$refs.mixPulldownRefresh.endPulldownRefresh();
-				}, 1000)
-			},
-			getMore() {
-				this.tabs[this.tabIndex].offset += total;
-				this.api.classify.get_sub_category({
-						categoryId: this.tabs[this.tabIndex].id,
-						status: 1,
-						total: total,
-						offset: this.tabs[this.tabIndex].offset,
-						ctime: ctime
-					},
-					res => {
-						console.log(res);
-						if (res.data.length) {
-							this.tabs[this.tabIndex].data = this.tabs[this.tabIndex].data.concat(res.data);
-							this.tabs[this.tabIndex].loadingType = 0;
-						} else {
-							this.tabs[this.tabIndex].loadingType = 2;
-						}
-					},
-					err => {
-						this.tabs[this.tabIndex].offset -= total;
-						this.tabs[this.tabIndex].loadingType = 0;
-					}
-				);
-			},
-			loadMore(i) {
-				if (!this.tabs[this.tabIndex].data.length) {
-					return;
-				}
-				if (this.tabs[i].loadingType !== 0) {
-					return;
 				} else {
-					this.tabs[i].loadingType = 1;
-					this.getMore();
+					uni.navigateTo({
+						url: '/pages/index/index'
+					})
 				}
-			},
-			setEnableScroll(enable) {
-				if (this.enableScroll !== enable) {
-					this.enableScroll = enable;
-				}
-			},
-			goDetail(id) {
-				uni.navigateTo({
-					url: "../detail/detail?id=" + id
-				})
 			}
 		}
-	};
+	}
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 	.container {
 		height: 100%;
-		overflow: hidden;
+		width: 100%;
 	}
 
-	.tab-bar {
-		// border-bottom: 2upx solid #f1f1f1;
-		padding-left: 30upx;
-		position: relative;
-		left: 0;
-		top: 0;
-		z-index: 2;
-		background-color: #ffffff;
+	.header-custom {
+		padding: 40upx 220upx 0 30upx;
 
-		.tabs {
-			width: 100%;
-
-			.item {
-				position: relative;
-				left: 0;
-				top: 0;
-				z-index: 2;
-
-				.name {
-					position: relative;
-					left: 0;
-					top: 0;
-					z-index: 2;
-					font-size: 34upx;
-				}
-
-				.active {
-					font-size: 46upx !important;
-
-				}
-
-				.bottom-line {
-					position: absolute;
-					left: 0;
-					bottom: 10upx;
-					z-index: 1;
-					width: 100%;
-					height: 20upx;
-					border-radius: 10upx;
-					background-color: yellow;
-				}
-			}
+		.title {
+			font-size: 40upx;
+			color: #090909;
 		}
 
-		.active {
-			font-weight: bold;
-			color: black;
-			border: none;
+		.baby-btn {
+			width: 160upx;
+			height: 60upx;
+			color: white;
+			background-color: #FC4041;
+			border-radius: 30upx;
+
 		}
+
 	}
 
 	.list-item {
-		.sub-class {
-			width: auto;
-			height: 60upx;
-			padding: 10upx 30upx;
-			border-radius: 40upx;
-			border: 2upx solid #E8E8E8;
-			margin-top: 20upx;
-		}
-	}
+		width: 100%;
+		height: 220upx;
+		border-radius: 20upx;
+		position: relative;
+		left: 0;
+		top: 0;
+		margin-bottom: 20upx;
+		overflow: hidden;
 
-	.scroll-view {
-		height: calc(100% - 140upx);
+		.bg-img {
+			width: 100%;
+			height: 100%;
+			position: absolute;
+			left: 0;
+			top: 0;
+			z-index: 1;
+		}
+
+		.mask {
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			background-color: #000000;
+			opacity: 0.4;
+			z-index: 2;
+			font-weight: 500;
+		}
+
+		.title {
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			z-index: 3;
+			font-weight: 500;
+		}
 	}
 </style>

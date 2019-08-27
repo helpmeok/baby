@@ -194,14 +194,13 @@
 			"style": {
 				"navigationStyle": "custom"
 			}
-		}
-	    ,{
-            "path" : "pages/task/detail/detail",
-            "style" : {
+		}, {
+			"path": "pages/task/detail/detail",
+			"style": {
 				"navigationStyle": "custom"
 			}
-        }
-    ],
+		}
+	],
 	"requiredBackgroundModes": ["audio"],
 	"tabBar": {
 		"color": "#666666",
@@ -250,6 +249,10 @@
 		//编译模式配置，仅开发期间生效
 		"current": 1, //当前激活的编译模式（list 的索引项）
 		"list": [{
+				"name": "登录", //模式名称
+				"pathName": "pages/index/index" //启动页面，必选
+			},
+			{
 				"name": "首页", //模式名称
 				"pathName": "pages/home/index/index" //启动页面，必选
 			},

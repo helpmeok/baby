@@ -5,7 +5,7 @@
 
 			</view>
 			<view class="pd-box">
-				<view class="flex-r-between">
+				<view class="flex-r-between" v-if="item.showType!=6">
 					<!-- <view class="flex" v-if="item.showType==6">
 						<image :src="item.answerQuestion.userAvatar" mode="widthFix" class="portrait" lazy-load="true"></image>
 						<view class="">
@@ -14,7 +14,7 @@
 						</view>
 					</view> -->
 					<view class="flex">
-						<image :src="item.userAvatar" mode="widthFix" class="portrait" lazy-load="true" @click.stop="goCelebrity(item,index1)"></image>
+						<image :src="item.userAvatar" mode="aspectFill" class="portrait" lazy-load="true" @click.stop="goCelebrity(item,index1)"></image>
 						<view class="">
 							<text class="blod article-font">{{ item.userName }}</text>
 							<view class="small gray">{{item.oauthIntro}}</view>
@@ -30,7 +30,7 @@
 					<image :src="item.attachment[0].thumbnail" mode="aspectFill" lazy-load="true" class="image"></image>
 				</view>
 				<view class="content showType2" v-if="item.showType == 2">
-					<view class="desc article-font mb-20" >{{ item.title }}</view>
+					<view class="desc article-font mb-20">{{ item.title }}</view>
 					<image :src="item.attachment[0].thumbnail" mode="aspectFill" lazy-load="true" class="image"></image>
 				</view>
 				<view class=" content showType3" v-if="item.showType == 3">

@@ -126,7 +126,7 @@
 				<view class="pd-box item-list border-bottom" v-for="(el, i) in info.hotCommentList" :key="i">
 					<view class="flex" style="align-items: flex-start;">
 						<view class="" style="width: 15%;">
-							<image :src="el.avatar" mode="widthFix" class="header"></image>
+							<image :src="el.avatar" mode="aspectFill" class="header"></image>
 						</view>
 						<view class="" style="width: 85%;">
 							<view class="flex-r-between">

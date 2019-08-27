@@ -22,10 +22,10 @@
 						<!-- <view class="blur"></view> -->
 					</scroll-view>
 				</view>
-				<view class="icons flex">
+				<view class="icons flex-r-center">
 					<!-- <image src="/static/com_nav_ic_search_nor@3x.png" @click="goSearch" mode="widthFix" class="hot-icon"></image>
 					<image src="/static/com_nav_ic_hot_nor@3x.png" mode="widthFix" class="hot-icon" @click="showHotMask = true"></image> -->
-
+					<image src="/static/home_nav_ic_more_nor@3x.png" mode="widthFix" @click="showChannelOperate=true" class="nav-more-icon"></image>
 				</view>
 			</view>
 			<mix-pulldown-refresh ref="mixPulldownRefresh" class="panel-content" :top="90" @refresh="onPulldownReresh"
@@ -58,6 +58,7 @@
 			</view>
 			<article-operate :show="showArticleOperate" :top="articleOffsetTop" :articleId="articleId" :userId="userId" :index="articleIndex"
 			 v-on:hideArticleOperate="hideArticleOperate" v-on:refreshList="refreshList" v-on:removeArticle="removeArticle"></article-operate>
+			 <channel-operate :show="showChannelOperate" v-on:hideChannelOperate='hideChannelOperate'></channel-operate>
 		</view>
 	</view>
 
@@ -68,6 +69,7 @@
 	import mixPulldownRefresh from '@/components/mix-pulldown-refresh';
 	// import { chGMT } from '@/common/util/date.js';
 	import articleOperate from '@/components/article-operate';
+	import channelOperate from '@/components/channel-operate';
 	var ctime = parseInt(Date.now());
 	const total = 10;
 	let isLaunch = true
@@ -75,7 +77,8 @@
 		components: {
 			uniTag,
 			mixPulldownRefresh,
-			articleOperate
+			articleOperate,
+			channelOperate
 		},
 		data() {
 			return {
@@ -90,6 +93,7 @@
 				articleIndex: '',
 				articleOffsetTop: 0,
 				changeArticleIndex: "",
+				showChannelOperate:true,
 				tabs: [{
 						name: '推荐',
 						active: true,
@@ -387,6 +391,9 @@
 			hideArticleOperate() {
 				this.showArticleOperate = false;
 			},
+			hideChannelOperate(){
+				this.showChannelOperate=false
+			},
 			async refreshList() {
 				//刷新列表
 				// ctime = parseInt(Date.now());
@@ -499,9 +506,13 @@
 			color: black;
 			border: none;
 		}
-
-		.hot-icon {
-			width: 80upx !important;
+		.icons{
+			width: 100upx;
+			height: 100%;
+			.nav-more-icon {
+				width: 80upx !important;
+				height: 80upx;
+			}
 		}
 	}
 

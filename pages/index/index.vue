@@ -16,19 +16,25 @@
 				</navigator>
 			</view>
 		</view>
+		<relevance-label :show="showRelevanceLabel"></relevance-label>
 	</view>
 </template>
 
 <script>
 	let redirect = "";
+	import relevanceLabel from '@/components/relevance-label'
 	export default {
 		data() {
 			return {
 				title: 'Hello',
 				code: '',
 				isShow: false,
-				wxSessionKey: ""
+				wxSessionKey: "",
+				showRelevanceLabel: false
 			};
+		},
+		components: {
+			relevanceLabel
 		},
 		onLoad(options) {
 			// uni.switchTab({
@@ -59,7 +65,7 @@
 				uni.checkSession({
 					success: () => {
 						this.wxSessionKey = uni.getStorageSync('wxSessionKey')
-						console.log('wxSessionKey值：'+uni.getStorageSync('wxSessionKey'))
+						console.log('wxSessionKey值：' + uni.getStorageSync('wxSessionKey'))
 						console.log('wxSessionKey有效')
 						if (!this.wxSessionKey) {
 							this.getWXCode()

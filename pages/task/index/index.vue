@@ -33,7 +33,7 @@
 				<view class="item-r flex">
 					<text class="gray" v-if="el.completeStatus">已完成</text>
 					<text class="default-color" v-else>去完成</text>
-					<text class="iconfont gray iconarrow-right-copy blod"></text>
+					<text class="iconfont gray iconarrow-right-copy blod" v-if="!el.completeStatus"></text>
 				</view>
 			</view>
 			<view class="" style="height: 50upx;width: 100%;">
