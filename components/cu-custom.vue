@@ -30,6 +30,9 @@
 				<view class="content" :style="[{top:StatusBar + 'px'}]">
 					<slot name="content"></slot>
 				</view>
+				<view class="" v-if="searchCelebrity">
+					<image src="/static/com_nav_ic_search_nor@3x.png" mode="widthFix" class="search-icon" :style="[{top:StatusBar + 'px'}]"></image>
+				</view>
 				<view class="task" :style="[{top:StatusBar + 'px'}]">
 					<slot name="task"></slot>
 				</view>
@@ -107,6 +110,10 @@
 				type: [Boolean, String],
 				default: false
 			},
+			searchCelebrity:{
+				type: [Boolean, String],
+				default: false
+			}
 		},
 		methods: {
 			helpHide(){
@@ -148,5 +155,12 @@
 			width: 45upx;
 		}
 	}
-	
+	.content{
+		width: 200upx !important;
+	}
+	.search-icon{
+		width: 88upx;
+		position: absolute;
+		right: 200upx;
+	}
 </style>

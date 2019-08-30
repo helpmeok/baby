@@ -81,7 +81,7 @@
 				<view class="list-cell flex-r-between">
 					<view class="list-cell-left flex-r-center">
 						<image src="../../../static/me_list_ic_record@2x.png" mode="widthFix" class="icon"></image>
-						<text class="font-b">文章浏览历史</text>
+						<text class="font-b">浏览历史</text>
 					</view>
 					<view class="list-cell-right flex-r-center"><text class="iconfont iconarrow-right-copy" style="color: #B2B2B2;"></text></view>
 				</view>

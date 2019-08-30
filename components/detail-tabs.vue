@@ -14,15 +14,20 @@
 			<view class="icon-box flex-r-center">
 				<image src="/static/com_list_ic_screen_nor@3x.png" mode="widthFix" class="icon" @click="show=true"></image>
 			</view>
-			
+
 		</view>
 		<view class="uni-mask" v-show="show" @click="hide">
 		</view>
 		<view class="content bg-white" :class="{'animation':show}">
-			<view class="flex-r-between">
+			<view class="flex-r-between" style="">
 				<view class="title">
 					排序
 				</view>
+				<image src="/static/home_more_ic_close_nor@3x.png" mode="widthFix" @click="hide" class="close-icon"></image>
+			</view>
+			<view class="list-item flex-r-between" v-for="(el,i) in list" :key="i" @click="chooseItem(i)">
+				<text :class="{'default-color':el.active}" style="font-size: 30upx;color: #404040;">{{el.name}}</text>
+				<image src="/static/com_dialog_ic_choose@3x.png" mode="widthFix" v-if="el.active" class="icon"></image>
 			</view>
 		</view>
 	</view>
@@ -39,7 +44,20 @@
 		data() {
 			return {
 				tabs: ['全部', '音频', '视频'],
-				show: false
+				show: false,
+				list: [{
+					name: "最新发布",
+					active: true,
+				}, {
+					name: "转发最多",
+					active: false,
+				}, {
+					name: "评论最多",
+					active: false,
+				}, {
+					name: "点赞最多",
+					active: false,
+				}]
 			};
 		},
 		methods: {
@@ -49,6 +67,12 @@
 			},
 			hide() {
 				this.show = false
+			},
+			chooseItem(i) {
+				this.list.forEach((el) => {
+					el.active = false
+				})
+				this.list[i].active = true;
 			}
 		}
 	}
@@ -57,7 +81,7 @@
 <style lang="scss">
 	.uni-mask {
 		position: fixed;
-		z-index: 998;
+		z-index: 888;
 		top: 0;
 		right: 0;
 		bottom: 0;
@@ -72,10 +96,33 @@
 		bottom: 0;
 		border-radius: 30upx 30upx 0 0;
 		width: 100%;
-		padding-top: 30upx;
+		padding: 30upx;
 		transform: translateY(100%);
 		transition: all 0.3s ease-out;
 		z-index: 999;
+
+		.title {
+			font-weight: bold;
+			font-size: 34upx;
+			color: #404040;
+		}
+
+		.close-icon {
+			width: 30upx;
+		}
+
+		.list-item {
+			padding: 30upx 0;
+			border-bottom: 2upx solid #F1F1F1;
+
+			.icon {
+				width: 30upx;
+
+			}
+		}
+		.list-item:nth-last-of-type(1){
+			border-bottom:none;
+		}
 	}
 
 	.content.animation {

@@ -103,7 +103,7 @@
 		}, {
 			"path": "pages/center/classify/list/list",
 			"style": {
-				"navigationBarTitleText": "主题关注",
+				"navigationBarTitleText": "我关注的话题",
 				"navigationStyle": "custom"
 			}
 		}, {
@@ -200,7 +200,13 @@
 				"navigationStyle": "custom"
 			}
 		}
-	],
+	    ,{
+            "path" : "pages/classify/special-detail/special-detail",
+            "style" : {
+				"navigationStyle": "custom"
+			}
+        }
+    ],
 	"requiredBackgroundModes": ["audio"],
 	"tabBar": {
 		"color": "#666666",
@@ -325,11 +331,11 @@
 				"pathName": "pages/center/comment/list/list"
 			},
 			{
-				"name": "主题关注",
+				"name": "我关注的话题",
 				"pathName": "pages/center/classify/list/list"
 			},
 			{
-				"name": "问题集",
+				"name": "大V解答",
 				"pathName": "pages/helper/list/list",
 				"query": "id=327&name=孩子的情商问题"
 			},
@@ -390,6 +396,11 @@
 			{
 				"name": "任务详情",
 				"pathName": "pages/task/detail/detail",
+				"query": "id=2822"
+			},
+			{
+				"name": "专题详情",
+				"pathName": "pages/classify/special-detail/special-detail",
 				"query": "id=2822"
 			}
 		]

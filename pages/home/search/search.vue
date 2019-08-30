@@ -78,6 +78,7 @@
 		onShow() {
 			if (uni.getStorageSync('articleIndex').toString()) { //监听文章数据改变
 				let index = parseInt(uni.getStorageSync('articleIndex'))
+				uni.removeStorageSync('articleIndex')
 				let articleId = this.articleList[index].articleId
 				if (articleId.toString()) {
 					this.api.home.article.get_detail({
@@ -89,29 +90,24 @@
 						this.articleList[index].commentNum = res.data.commentNum
 						this.articleList[index].praiseNum = res.data.praiseNum
 						this.articleList[index].forwardNum = res.data.forwardNum
-						uni.removeStorageSync('articleIndex')
 						this.$forceUpdate()
 					})
 				}
 			}
 			if (uni.getStorageSync('questionIndex').toString()) { //监听文章数据改变
 				let index = parseInt(uni.getStorageSync('questionIndex'))
-				try {
-					let questionId = this.articleList[index].articleId
-					if (questionId.toString()) {
-						this.api.home.qa.question.get_detail({
-							questionId
-						}, res => {
-							console.log(res.data)
-							this.articleList[index].clickNum=res.data.clickNum;
-							this.articleList[index].forwardNum = res.data.forwardNum
-							this.articleList[index].answerNum = res.data.answerNum
-							uni.removeStorageSync('questionIndex')
-							this.$forceUpdate()
-						})
-					}
-				} catch (e) {
-					//TODO handle the exception
+				uni.removeStorageSync('questionIndex')
+				let questionId = this.articleList[index].articleId
+				if (questionId.toString()) {
+					this.api.home.qa.question.get_detail({
+						questionId
+					}, res => {
+						console.log(res.data)
+						this.articleList[index].clickNum = res.data.clickNum;
+						this.articleList[index].forwardNum = res.data.forwardNum
+						this.articleList[index].answerNum = res.data.answerNum
+						this.$forceUpdate()
+					})
 				}
 			}
 		},

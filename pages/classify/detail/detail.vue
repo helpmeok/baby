@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<cu-custom bgColor="bg-gradual-red" :isBack="true">
+		<cu-custom bgColor="bg-gradual-red" :isCustom="true" :helper="true">
 			<block slot="backText"></block>
 			<block slot="content">{{title}}</block>
 		</cu-custom>
@@ -12,7 +12,7 @@
 				<view class="flex-r-between" style="padding: 0 20upx;">
 					<view class="flex-c-center">
 						<text class="font-b blod">{{info.original | articleDataNum}}</text>
-						<text class="gray">原创</text>
+						<text class="gray">内容</text>
 					</view>
 					<view class="flex-c-center">
 						<text class="font-b blod">{{info.fans | articleDataNum}}</text>
@@ -30,7 +30,7 @@
 				<view class="flex-r-between" style="margin-top: 20upx;">
 					<view class="attention-btn flex-r-center" @click="toggleFollowed(info)" :class="{'white':!info.isFollowed,'followed':info.isFollowed}">
 						<!-- <text class="iconfont iconjiahao  mgr-10" v-if="!info.isFollowed"></text> -->
-						<text>{{info.isFollowed?"已关注":"关注"}}</text>
+						<text>{{info.isFollowed?"没兴趣了":"我有兴趣"}}</text>
 					</view>
 					<view class="recommend-btn flex-r-center gray" @click="showRecommend">
 						<text style="margin-right: 5upx;">相关推荐</text>
@@ -69,7 +69,7 @@
 					]"
 			 :tabCur.sync="tabIndex" tab-class="text-center bg-white wuc-tab" :tab-style="CustomBar" select-class="text-blue"
 			 @change="clickitem"></wuc-tab> -->
-			 <detail-tabs :tabIndex="tabIndex" v-on:changeTabIndex="changeTabIndex"></detail-tabs>
+			<detail-tabs :tabIndex="tabIndex" v-on:changeTabIndex="changeTabIndex"></detail-tabs>
 		</view>
 		<swiper class="swiper-box" :current="tabIndex" @change="changeSwiper" :style="{ height: swiperHeight + 'px','margin-top':isFixed?stickyHeight:0+'px' }">
 			<swiper-item v-for="(el, i) in tabs" :key="i">
@@ -135,7 +135,7 @@
 					contentnomore: '没有更多数据了'
 				},
 				stickyTop: 0,
-				title:"",
+				title: "",
 				CustomBar: this.CustomBar
 			};
 		},
@@ -158,6 +158,7 @@
 		onShow() {
 			if (uni.getStorageSync('articleIndex').toString()) { //监听文章数据改变
 				let index = parseInt(uni.getStorageSync('articleIndex'))
+				uni.removeStorageSync('articleIndex')
 				let articleId = this.tabs[this.tabIndex].data[index].articleId
 				if (articleId.toString()) {
 					this.api.home.article.get_detail({
@@ -169,31 +170,25 @@
 						this.tabs[this.tabIndex].data[index].commentNum = res.data.commentNum
 						this.tabs[this.tabIndex].data[index].praiseNum = res.data.praiseNum
 						this.tabs[this.tabIndex].data[index].forwardNum = res.data.forwardNum
-						uni.removeStorageSync('articleIndex')
 						this.$forceUpdate()
 					})
 				}
 			}
 			if (uni.getStorageSync('questionIndex').toString()) { //监听文章数据改变
 				let index = parseInt(uni.getStorageSync('questionIndex'))
-				try {
-					let questionId = this.tabs[this.tabIndex].data[index].articleId
-					if (questionId.toString()) {
-						this.api.home.qa.question.get_detail({
-							questionId
-						}, res => {
-							console.log(res.data)
-							this.tabs[this.tabIndex].data[index].clickNum=res.data.clickNum;
-							this.tabs[this.tabIndex].data[index].forwardNum = res.data.forwardNum
-							this.tabs[this.tabIndex].data[index].answerNum = res.data.answerNum
-							this.tabs[this.tabIndex].data[index].answerReplyList = res.data.answerReplyList
-
-							uni.removeStorageSync('questionIndex')
-							this.$forceUpdate()
-						})
-					}
-				} catch (e) {
-					//TODO handle the exception
+				uni.removeStorageSync('questionIndex')
+				let questionId = this.tabs[this.tabIndex].data[index].articleId
+				if (questionId.toString()) {
+					this.api.home.qa.question.get_detail({
+						questionId
+					}, res => {
+						console.log(res.data)
+						this.tabs[this.tabIndex].data[index].clickNum = res.data.clickNum;
+						this.tabs[this.tabIndex].data[index].forwardNum = res.data.forwardNum
+						this.tabs[this.tabIndex].data[index].answerNum = res.data.answerNum
+						this.tabs[this.tabIndex].data[index].answerReplyList = res.data.answerReplyList
+						this.$forceUpdate()
+					})
 				}
 			}
 		},
@@ -203,14 +198,14 @@
 		methods: {
 			init() {
 				uni.showLoading({
-					title:"加载中"
+					title: "加载中"
 				})
 				this.api.classify.get_sub_category_header({
 					categoryId: id
 				}, res => {
 					console.log(res)
 					this.info = res.data
-					this.title=res.data.categoryName
+					this.title = res.data.categoryName
 					uni.setNavigationBarTitle({
 						title: res.data.categoryName
 					});
@@ -299,13 +294,13 @@
 						} else {
 							this.recommendList[index].isFollowed = !this.recommendList[index].isFollowed;
 						}
-						if (el.isFollowed==1) {
+						if (el.isFollowed == 1) {
 							uni.showToast({
-								title:"关注成功"
+								title: "关注成功"
 							})
-						} else{
+						} else {
 							uni.showToast({
-								title:"取消关注成功"
+								title: "取消关注成功"
 							})
 						}
 					}
@@ -318,13 +313,13 @@
 				}, res => {
 					console.log(res)
 					this.info.isFollowed = !this.info.isFollowed
-					if (el.isFollowed==1) {
+					if (el.isFollowed == 1) {
 						uni.showToast({
-							title:"关注成功"
+							title: "关注成功"
 						})
-					} else{
+					} else {
 						uni.showToast({
-							title:"取消关注成功"
+							title: "取消关注成功"
 						})
 					}
 				})
@@ -409,7 +404,7 @@
 		// 	this.loadMore()
 		// },
 		onPageScroll(e) {
-			if (this.stickyTop >= (this.CustomBar+e.scrollTop)) {
+			if (this.stickyTop >= (this.CustomBar + e.scrollTop)) {
 				this.isFixed = false
 			} else {
 				this.isFixed = true
@@ -450,13 +445,16 @@
 			border-radius: 30upx;
 		}
 	}
-.introduce-box {
+
+	.introduce-box {
+
 		.approve,
 		.desc {
 			align-items: flex-start;
 			padding: 10upx 20upx;
 		}
 	}
+
 	.recommend-scroll {
 		background-color: #f5f5f5;
 		box-sizing: border-box;

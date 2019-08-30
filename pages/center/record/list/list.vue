@@ -6,7 +6,8 @@
 		</cu-custom>
 		<empty v-if="list.length==0" msg="您还没有浏览过文章~"></empty>
 		<view class="">
-			<article-item :list="list" removeType="record" v-on:removeArticle="removeArticle" :showOperate="false" v-on:showOperate="showOperate"></article-item>
+			<article-item :list="list" removeType="record" v-on:removeArticle="removeArticle" :showOperate="false"
+			 v-on:showOperate="showOperate"></article-item>
 			<view class="uni-tab-bar-loading" v-if="list.length>0">
 				<uni-load-more :loadingType="loadingType" :contentText="loadingText"></uni-load-more>
 			</view>
@@ -33,7 +34,7 @@
 		},
 		onLoad() {
 			uni.showLoading({
-				title:"加载中"
+				title: "加载中"
 			})
 			this.init()
 		},
@@ -50,9 +51,9 @@
 					console.log(res.data)
 					if (res.data.length) {
 						this.list = this.list.concat(res.data)
-						if (res.data.length<total) {
+						if (res.data.length < total) {
 							this.loadingType = 2
-						} else{
+						} else {
 							this.loadingType = 0
 						}
 					} else {
@@ -70,13 +71,14 @@
 				this.init()
 			},
 			showOperate() {},
-			removeArticle(i){
-				this.list.splice(i,1)
+			removeArticle(i) {
+				this.list.splice(i, 1)
 			}
 		},
 		onShow() {
 			if (uni.getStorageSync('articleIndex').toString()) { //监听文章数据改变
 				let index = parseInt(uni.getStorageSync('articleIndex'))
+				uni.removeStorageSync('articleIndex')
 				let articleId = this.list[index].articleId
 				if (articleId.toString()) {
 					this.api.home.article.get_detail({
@@ -88,30 +90,25 @@
 						this.list[index].commentNum = res.data.commentNum
 						this.list[index].praiseNum = res.data.praiseNum
 						this.list[index].forwardNum = res.data.forwardNum
-						uni.removeStorageSync('articleIndex')
 						this.$forceUpdate()
 					})
 				}
 			}
 			if (uni.getStorageSync('questionIndex').toString()) { //监听文章数据改变
 				let index = parseInt(uni.getStorageSync('questionIndex'))
-				try {
-					let questionId = this.list[index].articleId
-					if (questionId.toString()) {
-						this.api.home.qa.question.get_detail({
-							questionId
-						}, res => {
-							console.log(res.data)
-							this.list[index].clickNum=res.data.clickNum;
-							this.list[index].forwardNum = res.data.forwardNum
-							this.list[index].answerNum = res.data.answerNum
-							this.list[index].answerReplyList = res.data.answerReplyList
-							uni.removeStorageSync('questionIndex')
-							this.$forceUpdate()
-						})
-					}
-				} catch (e) {
-					//TODO handle the exception
+				uni.removeStorageSync('questionIndex')
+				let questionId = this.list[index].articleId
+				if (questionId.toString()) {
+					this.api.home.qa.question.get_detail({
+						questionId
+					}, res => {
+						console.log(res.data)
+						this.list[index].clickNum = res.data.clickNum;
+						this.list[index].forwardNum = res.data.forwardNum
+						this.list[index].answerNum = res.data.answerNum
+						this.list[index].answerReplyList = res.data.answerReplyList
+						this.$forceUpdate()
+					})
 				}
 			}
 		},
@@ -122,5 +119,5 @@
 </script>
 
 <style lang="scss">
-	
+
 </style>

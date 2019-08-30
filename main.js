@@ -1,4 +1,6 @@
+// #ifdef MP-WEIXIN
 import './common/util/aldSdk/ald-stat.js' //接入阿拉丁统计数据
+// #endif
 import Vue from 'vue'
 import App from './App'
 import filters from './common/util/filters.js'; //过滤器

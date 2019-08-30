@@ -85,7 +85,6 @@
 	export default {
 		data() {
 			return {
-				scrollHeight: this.windowHeight - 80 - this.CustomBar,
 				list: [],
 				isShowModel: false,
 				isShowAward: false,
@@ -107,6 +106,12 @@
 		},
 		onShow() {
 			this.getUserInfo()
+		},
+		computed: {
+			scrollHeight() {
+				let res = uni.getSystemInfoSync()
+				return res.windowHeight - 80 - this.CustomBar
+			}
 		},
 		methods: {
 			init() {

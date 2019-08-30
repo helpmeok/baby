@@ -3,7 +3,7 @@
 		<view class="bg-white content-box" @click.stop="" :style="{'bottom':publishBottom+'px'}">
 			<view class="pd-box flex-r-between">
 				<view class="blod font-b">
-					大家都在问
+					您可能碰到如下问题：
 				</view>
 				<view class="flex transform pd-lr" @click="exchange">
 					<text>换一组</text>
@@ -19,7 +19,7 @@
 			</scroll-view>
 			<view class="line"></view>
 			<view class="search-box flex-r-between pd-box">
-				<input type="text" class="input" placeholder="育儿助手随时待命" placeholder-class="gray" v-model="searchText" @blur="publishBlur"
+				<input type="text" class="input" placeholder="您还需要了解点什么？" placeholder-class="gray" v-model="searchText" @blur="publishBlur"
 				 @focus="publishFocus" :adjust-position="false" />
 				<view class="btn bg-default-color white flex-r-center" @click="search()">查找</view>
 			</view>

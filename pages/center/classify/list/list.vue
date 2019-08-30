@@ -1,24 +1,17 @@
 <template>
 	<view>
-		<cu-custom bgColor="bg-gradual-red"  :isEdit='isEdit' :showCancel="true" v-on:edit="edit">
+		<cu-custom bgColor="bg-gradual-red" :isEdit='isEdit' :showCancel="true" v-on:edit="edit">
 			<block slot="backText"></block>
 			<block slot="content">话题关注</block>
 		</cu-custom>
-		<empty v-if="list.length==0" msg="您还没有关注主题~"></empty>
+		<empty v-if="list.length==0" msg="您还没有关注话题~"></empty>
 		<view class="">
-			<view class="list-item" v-for="(item, index1) in list" :key="index1">
-				<view class="pd-box">
-					<view class="blod font-b">
+			<view class="list-box pd-box">
+				<view class="list-item" v-for="(item, index1) in list" :key="index1">
+					<view class="item flex-r-center" :class="{'active':sub.active}" @click="goDetail(sub.categoryId,index1,index2)">
 						{{item.name}}
 					</view>
-					<view class="flex">
-						<view class="sub-class mgr-20 flex-r-center" :class="{'active':sub.active}" @click="goDetail(sub.categoryId,index1,index2)"
-						 v-for="(sub,index2) in item.category_list" :key="index2">
-							{{sub.categoryName}}
-						</view>
-					</view>
 				</view>
-				<view class="cut-off"></view>
 			</view>
 			<view class="uni-tab-bar-loading" v-if="list.length>0">
 				<uni-load-more :loadingType="loadingType" :contentText="loadingText"></uni-load-more>
@@ -64,7 +57,7 @@
 							el.active = false
 						})
 					})
-					this.ids=[];
+					this.ids = [];
 				}
 			}
 		},
@@ -89,7 +82,7 @@
 					}
 					if (type == 'remove') {
 						uni.hideLoading();
-						this.isEdit=true;
+						this.isEdit = true;
 						uni.showToast({
 							title: "取消关注成功"
 						});
@@ -111,18 +104,6 @@
 					})
 				} else {
 
-					let id = this.list[index1].category_list[index2].categoryId;
-					console.log(id)
-					this.list[index1].category_list[index2].active = !this.list[index1].category_list[index2].active;
-					if (this.list[index1].category_list[index2].active) {
-						if (this.ids.indexOf(id) < 0) {
-							this.ids.push(id)
-						}
-					} else {
-						this.ids.splice(this.ids.indexOf(id), 1)
-					}
-					console.log(this.ids)
-					this.$forceUpdate(); //视图强制刷新
 				}
 
 			},
@@ -152,7 +133,7 @@
 										title: "取消关注中"
 									})
 									offset = 0;
-									this.list=[];
+									this.list = [];
 									this.init('remove')
 								})
 							} else if (res.cancel) {
@@ -170,22 +151,41 @@
 </script>
 
 <style lang="scss">
-	.list-item {
-		.sub-class {
-			width: auto;
-			height: 60upx;
-			padding: 10upx 30upx;
-			border-radius: 40upx;
-			border: 2upx solid #f1f1f1;
-			margin-top: 20upx;
+	.list-box {
+		display: flex;
+		flex-wrap: wrap;
+		flex-direction: row;
 
+		.list-item {
+			width: 33.3333%;
+			display: flex;
+			justify-content: center;
+			margin-bottom: 20upx;
+			height:84upx;
+			.item {
+				width: 210upx;
+				height: 80upx;
+				border-radius: 42upx;
+				border: 2upx solid #f1f1f1;
+				text-align: center;
+				line-height: 80upx;
+			}
+
+			.active {
+				background-color: $uni-color-default;
+				color: white;
+				border: 2upx solid $uni-color-default;
+			}
 		}
 
-		.active {
-			background-color: $uni-color-default;
-			color: white;
-			border: 2upx solid $uni-color-default;
+		.list-item:nth-of-type(3n) {
+			justify-content: flex-end;
 		}
+
+		.list-item:nth-of-type(3n-2) {
+			justify-content: flex-start;
+		}
+
 	}
 
 	.fixed-bottom {

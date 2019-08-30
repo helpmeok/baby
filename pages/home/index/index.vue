@@ -58,7 +58,7 @@
 			</view>
 			<article-operate :show="showArticleOperate" :top="articleOffsetTop" :articleId="articleId" :userId="userId" :index="articleIndex"
 			 v-on:hideArticleOperate="hideArticleOperate" v-on:refreshList="refreshList" v-on:removeArticle="removeArticle"></article-operate>
-			 <channel-operate :show="showChannelOperate" v-on:hideChannelOperate='hideChannelOperate'></channel-operate>
+			<channel-operate :show="showChannelOperate" v-on:hideChannelOperate='hideChannelOperate'></channel-operate>
 		</view>
 	</view>
 
@@ -93,7 +93,7 @@
 				articleIndex: '',
 				articleOffsetTop: 0,
 				changeArticleIndex: "",
-				showChannelOperate:true,
+				showChannelOperate: false,
 				tabs: [{
 						name: '推荐',
 						active: true,
@@ -139,7 +139,7 @@
 				Custom: this.Custom,
 				StatusBar: this.StatusBar,
 				ScreenHeight: this.screenHeight,
-				WindowHeight:this.windowHeight
+				WindowHeight: this.windowHeight
 			};
 		},
 		onShareAppMessage(res) {
@@ -170,45 +170,37 @@
 			this.getHot();
 			if (uni.getStorageSync('articleIndex').toString()) { //监听文章数据改变
 				let index = parseInt(uni.getStorageSync('articleIndex'))
-				try {
-					let articleId = this.tabs[this.tabIndex].data[index].articleId
-					if (articleId.toString()) {
-						this.api.home.article.get_detail({
-							article_id: articleId,
-							request_type: "h5"
-						}, res => {
-							console.log(res.data)
-							this.tabs[this.tabIndex].data[index].clickNum = res.data.clickNum
-							this.tabs[this.tabIndex].data[index].commentNum = res.data.commentNum
-							this.tabs[this.tabIndex].data[index].praiseNum = res.data.praiseNum
-							this.tabs[this.tabIndex].data[index].forwardNum = res.data.forwardNum
-							uni.removeStorageSync('articleIndex')
-							this.$forceUpdate()
-						})
-					}
-				} catch (e) {
-					//TODO handle the exception
+				uni.removeStorageSync('articleIndex')
+				let articleId = this.tabs[this.tabIndex].data[index].articleId
+				if (articleId.toString()) {
+					this.api.home.article.get_detail({
+						article_id: articleId,
+						request_type: "h5"
+					}, res => {
+						console.log(res.data)
+						this.tabs[this.tabIndex].data[index].clickNum = res.data.clickNum
+						this.tabs[this.tabIndex].data[index].commentNum = res.data.commentNum
+						this.tabs[this.tabIndex].data[index].praiseNum = res.data.praiseNum
+						this.tabs[this.tabIndex].data[index].forwardNum = res.data.forwardNum
+						this.$forceUpdate()
+					})
 				}
 			}
 			if (uni.getStorageSync('questionIndex').toString()) { //监听文章数据改变
 				let index = parseInt(uni.getStorageSync('questionIndex'))
-				try {
-					let questionId = this.tabs[this.tabIndex].data[index].articleId
-					if (questionId.toString()) {
-						this.api.home.qa.question.get_detail({
-							questionId
-						}, res => {
-							console.log(res.data)
-							this.tabs[this.tabIndex].data[index].clickNum = res.data.clickNum;
-							this.tabs[this.tabIndex].data[index].forwardNum = res.data.forwardNum
-							this.tabs[this.tabIndex].data[index].answerNum = res.data.answerNum
-							this.tabs[this.tabIndex].data[index].answerReplyList = res.data.answerReplyList
-							uni.removeStorageSync('questionIndex')
-							this.$forceUpdate()
-						})
-					}
-				} catch (e) {
-					//TODO handle the exception
+				uni.removeStorageSync('questionIndex')
+				let questionId = this.tabs[this.tabIndex].data[index].articleId
+				if (questionId.toString()) {
+					this.api.home.qa.question.get_detail({
+						questionId
+					}, res => {
+						console.log(res.data)
+						this.tabs[this.tabIndex].data[index].clickNum = res.data.clickNum;
+						this.tabs[this.tabIndex].data[index].forwardNum = res.data.forwardNum
+						this.tabs[this.tabIndex].data[index].answerNum = res.data.answerNum
+						this.tabs[this.tabIndex].data[index].answerReplyList = res.data.answerReplyList
+						this.$forceUpdate()
+					})
 				}
 			}
 		},
@@ -391,8 +383,8 @@
 			hideArticleOperate() {
 				this.showArticleOperate = false;
 			},
-			hideChannelOperate(){
-				this.showChannelOperate=false
+			hideChannelOperate() {
+				this.showChannelOperate = false
 			},
 			async refreshList() {
 				//刷新列表
@@ -506,9 +498,11 @@
 			color: black;
 			border: none;
 		}
-		.icons{
+
+		.icons {
 			width: 100upx;
 			height: 100%;
+
 			.nav-more-icon {
 				width: 80upx !important;
 				height: 80upx;
@@ -566,8 +560,7 @@
 		}
 	}
 
-	.scroll-view {
-	}
+	.scroll-view {}
 
 	.mask {
 		.content {

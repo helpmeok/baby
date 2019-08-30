@@ -55,8 +55,8 @@
 		},
 		computed: {
 			contentHeight() {
-				console.log(this.WindowHeight - this.CustomBar - 10)
-				return this.WindowHeight - this.CustomBar - 10
+				let res= uni.getSystemInfoSync()
+				return res.windowHeight - this.CustomBar - 10
 			}
 		},
 		methods: {

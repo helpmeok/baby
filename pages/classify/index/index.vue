@@ -6,7 +6,7 @@
 		</view>
 		<scroll-view scroll-y :style="{height:scrollHeight+'px'}">
 			<view class="pd-box">
-				<view class="list-item" v-for="(el,i) in list" :key="i">
+				<view class="list-item" v-for="(el,i) in list" :key="i" @click="goDetail(el,i)">
 					<image src="/static/com_list_pic@2x.png" mode="aspectFill" class="bg-img"></image>
 					<view class=" mask"></view>
 					<view class="white font-b title flex-r-center">
@@ -50,6 +50,11 @@
 						url: '/pages/index/index'
 					})
 				}
+			},
+			goDetail(){
+				uni.navigateTo({
+					url:"/pages/classify/special-detail/special-detail?id=1"
+				})
 			}
 		}
 	}

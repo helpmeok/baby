@@ -1,8 +1,8 @@
 <template>
 	<view class="container">
-		<cu-custom bgColor="bg-gradual-red" :isBack="true">
+		<cu-custom bgColor="bg-gradual-red" :isCustom="true" :helper="true" :searchCelebrity="true">
 			<block slot="backText"></block>
-			<block slot="content">{{title}}</block>
+			<block slot="content" class="sigle-line-text" style="text-align: center;">{{title}}</block>
 		</cu-custom>
 		<view class="header-detail flex">
 			<view class="flex-r-center" style="width: 30%;">
@@ -72,7 +72,7 @@
 		</view>
 		<view class="" style="height: 20upx;background-color: #F5F5F5;"></view>
 		<view id="sticky" :class="{'fixed-top':isFixed}" :style="{'top':isFixed?CustomBar+'px':0}">
-			<wuc-tab :tab-list="[
+			<!-- <wuc-tab :tab-list="[
 					{ name: '最新发布' },
 					{ name: '转发最多' },
 					{ name: '评论最多' },
@@ -80,7 +80,8 @@
 					
 				]"
 			 :tabCur.sync="tabIndex" tab-class="text-center bg-white wuc-tab" :tab-style="CustomBar" select-class="text-blue"
-			 @change="clickitem"></wuc-tab>
+			 @change="clickitem"></wuc-tab> -->
+			<detail-tabs :tabIndex="tabIndex" v-on:changeTabIndex="changeTabIndex"></detail-tabs>
 		</view>
 		<swiper class="swiper-box" :current="tabIndex" @change="changeSwiper" :style="{ height: swiperHeight + 'px','margin-top':isFixed?stickyHeight:0+'px' }">
 			<swiper-item v-for="(el, i) in tabs" :key="i">
@@ -100,13 +101,15 @@
 <script>
 	// import glanceSlideNavTabBar from '@/components/glance-SlideNavTabBar.vue';
 	import WucTab from '@/components/wuc-tab/wuc-tab.vue';
+	import detailTabs from '@/components/detail-tabs.vue';
 	let id = '';
 	var ctime = parseInt(Date.now());
 	const total = 10;
 	export default {
 		components: {
 			// glanceSlideNavTabBar,
-			WucTab
+			WucTab,
+			detailTabs
 		},
 		data() {
 			return {
@@ -199,6 +202,7 @@
 		onShow() {
 			if (uni.getStorageSync('articleIndex').toString()) { //监听文章数据改变
 				let index = parseInt(uni.getStorageSync('articleIndex'))
+				uni.removeStorageSync('articleIndex')
 				let articleId = this.tabs[this.tabIndex].data[index].articleId
 				if (articleId.toString()) {
 					this.api.home.article.get_detail({
@@ -210,30 +214,25 @@
 						this.tabs[this.tabIndex].data[index].commentNum = res.data.commentNum
 						this.tabs[this.tabIndex].data[index].praiseNum = res.data.praiseNum
 						this.tabs[this.tabIndex].data[index].forwardNum = res.data.forwardNum
-						uni.removeStorageSync('articleIndex')
 						this.$forceUpdate()
 					})
 				}
 			}
 			if (uni.getStorageSync('questionIndex').toString()) { //监听文章数据改变
 				let index = parseInt(uni.getStorageSync('questionIndex'))
-				try {
-					let questionId = this.tabs[this.tabIndex].data[index].articleId
-					if (questionId.toString()) {
-						this.api.home.qa.question.get_detail({
-							questionId
-						}, res => {
-							console.log(res.data)
-							this.tabs[this.tabIndex].data[index].clickNum=res.data.clickNum;
-							this.tabs[this.tabIndex].data[index].forwardNum = res.data.forwardNum
-							this.tabs[this.tabIndex].data[index].answerNum = res.data.answerNum
-							this.tabs[this.tabIndex].data[index].answerReplyList = res.data.answerReplyList
-							uni.removeStorageSync('questionIndex')
-							this.$forceUpdate()
-						})
-					}
-				} catch (e) {
-					//TODO handle the exception
+				uni.removeStorageSync('questionIndex')
+				let questionId = this.tabs[this.tabIndex].data[index].articleId
+				if (questionId.toString()) {
+					this.api.home.qa.question.get_detail({
+						questionId
+					}, res => {
+						console.log(res.data)
+						this.tabs[this.tabIndex].data[index].clickNum = res.data.clickNum;
+						this.tabs[this.tabIndex].data[index].forwardNum = res.data.forwardNum
+						this.tabs[this.tabIndex].data[index].answerNum = res.data.answerNum
+						this.tabs[this.tabIndex].data[index].answerReplyList = res.data.answerReplyList
+						this.$forceUpdate()
+					})
 				}
 			}
 		},
@@ -374,8 +373,8 @@
 			showRecommend() {
 				this.isShowRecommend = !this.isShowRecommend;
 			},
-			clickitem(index, val) {
-				this.tabIndex = index;
+			changeTabIndex(index) {
+				this.tabIndex = index
 				// this.changeTab(index);
 			},
 			changeSwiper(e) {
@@ -453,8 +452,8 @@
 		// 	this.loadMore()
 		// },
 		onPageScroll(e) {
-			console.log(this.stickyTop+'---'+e.scrollTop)
-			if (this.stickyTop >=(this.CustomBar+e.scrollTop)) {
+			console.log(this.stickyTop + '---' + e.scrollTop)
+			if (this.stickyTop >= (this.CustomBar + e.scrollTop)) {
 				this.isFixed = false
 			} else {
 				this.isFixed = true

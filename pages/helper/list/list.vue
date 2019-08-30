@@ -2,7 +2,7 @@
 	<view>
 		<cu-custom bgColor="bg-gradual-red" :isBack="true">
 			<block slot="backText"></block>
-			<block slot="content">问题集</block>
+			<block slot="content">大V解答</block>
 		</cu-custom>
 		<scroll-view class="scroll-view" scroll-y :style="{'height':scrollHeight+'px'}" enable-back-to-top @scrolltolower="loadMore"
 		 @scroll="scroll">
@@ -24,6 +24,10 @@
 				<view class="flex-r-between">
 					<view class="gray">
 						共有{{total}}篇相关回答
+					</view>
+					<view class="flex default-color" @click="goAsk">
+						<text>没有我要的答案</text>
+						<image src="/static/com_list_arrow_nor@2x.png" mode="widthFix" class="arrow-icon"></image>
 					</view>
 				</view>
 			</view>
@@ -127,6 +131,11 @@
 				} else {
 					this.showHeader = false
 				}
+			},
+			goAsk(){
+				uni.navigateTo({
+					url:"/pages/home/question/commit/commit"
+				})
 			}
 		}
 	}
@@ -137,6 +146,7 @@
 		position: relative;
 		left: 0;
 		top: 0;
+
 		.question-box {
 			box-sizing: border-box;
 			background-color: #ffffff;
@@ -159,6 +169,11 @@
 					left: 0;
 					float: left;
 				}
+
+			}
+
+			.arrow-icon {
+				width: 50upx;
 			}
 
 			.answer-icon {
@@ -174,8 +189,10 @@
 			left: 0;
 			width: 100%;
 			z-index: 555;
+
 			.question {
 				width: 100%;
+
 				.question-icon {
 					width: 40upx !important;
 					position: relative;
