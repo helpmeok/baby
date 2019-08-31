@@ -2,7 +2,7 @@
 	<view>
 		<cu-custom bgColor="bg-gradual-red" :isEdit='isEdit' :showCancel="true" v-on:edit="edit">
 			<block slot="backText"></block>
-			<block slot="content">话题关注</block>
+			<block slot="content">我关注的话题</block>
 		</cu-custom>
 		<empty v-if="list.length==0" msg="您还没有关注话题~"></empty>
 		<view class="">
@@ -18,8 +18,9 @@
 			</view>
 		</view>
 		<view class="flex-r-center default-color fixed-bottom" @click="removeList" v-if="!isEdit">
-			<view class="">删除</view>
-			<view class="" v-if="ids.length>0">（{{ids.length}}）</view>
+			<image src="/static/com_tab_ic_delete_nor@3x.png" mode="widthFix" class="icon"></image>
+			<view class="baby-font-size">删除</view>
+			<view class="baby-font-size" v-if="ids.length>0">（{{ids.length}}）</view>
 		</view>
 	</view>
 </template>
@@ -194,7 +195,11 @@
 		height: 120upx;
 		padding: 20upx 0;
 		box-sizing: border-box;
-		padding-bottom: constant(safe-area-inset-bottom);
-		padding-bottom: env(safe-area-inset-bottom);
+		// padding-bottom: constant(safe-area-inset-bottom);
+		// padding-bottom: env(safe-area-inset-bottom);
+		padding: 20upx 50upx;
+		.icon{
+			width: 60upx;
+		}
 	}
 </style>

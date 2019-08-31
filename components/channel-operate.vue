@@ -2,7 +2,7 @@
 	<view>
 		<view class="uni-mask" v-show="show" @click="hide">
 		</view>
-		<view class="content bg-white" :class="{'animation':show}" @click.stop :style="{height:contentHeight+'px'}">
+		<view class="content bg-white" :class="{'animation':show}"   @click.stop :style="{height:contentHeight+'px'}">
 			<image src="/static/home_more_ic_close_nor@3x.png" mode="widthFix" @click="hide" class="close-icon"></image>
 			<!-- <text class="iconfont iconguanbi close-icon" @click="hide"></text> -->
 			<view class="flex-r-between pd-box">

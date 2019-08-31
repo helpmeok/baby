@@ -16,7 +16,7 @@
 					<view class="flex">
 						<image :src="item.userAvatar" mode="aspectFill" class="portrait" lazy-load="true" @click.stop="goCelebrity(item,index1)"></image>
 						<view class="">
-							<text class="blod article-font">{{ item.userName }}</text>
+							<text class="blod article-font baby-black">{{ item.userName }}</text>
 							<view class="small gray">{{item.oauthIntro}}</view>
 						</view>
 					</view>
@@ -63,7 +63,7 @@
 						</view>
 						<view class="item-box">
 							<image src="/static/home_list_ic_question@3x.png" class="icon" mode="widthFix"></image>
-							<view class="text blod sigle-line-text-2">
+							<view class="text blod sigle-line-text-2 baby-black">
 								{{item.title}}
 							</view>
 						</view>

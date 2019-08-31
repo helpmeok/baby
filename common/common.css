@@ -33,7 +33,12 @@ page {
 	z-index: 9999;
 	width: 100%;
 }
-
+.baby-black{
+	color: #090909;
+}
+.baby-font-size{
+	font-size: 30upx;
+}
 .gray {
 	color: #9e9e9e;
 }

@@ -206,6 +206,12 @@
 				"navigationStyle": "custom"
 			}
         }
+        ,{
+            "path" : "pages/home/celebrity/detail/search/search",
+            "style" : {
+				"navigationStyle": "custom"
+			}
+        }
     ],
 	"requiredBackgroundModes": ["audio"],
 	"tabBar": {
@@ -246,7 +252,7 @@
 		]
 	},
 	"globalStyle": {
-		"navigationBarTextStyle": "white",
+		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "",
 		"navigationBarBackgroundColor": "#FC4041",
 		"backgroundColor": "#c05750"
@@ -402,6 +408,10 @@
 				"name": "专题详情",
 				"pathName": "pages/classify/special-detail/special-detail",
 				"query": "id=2822"
+			},
+			{
+				"name": "大V内容搜索",
+				"pathName": "pages/home/celebrity/detail/search/search"
 			}
 		]
 	}

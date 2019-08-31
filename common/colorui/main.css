@@ -47,6 +47,7 @@ body {
 	/* 渐变色 */
 	--gradualRed: linear-gradient(45deg, #f43f3b, #ec008c);
 	/* --gradualRed: linear-gradient(45deg, #ff9700, #ed1c24); */
+	--gradualWhite: linear-gradient(180deg, #000000, #ffffff);
 	--gradualOrange: linear-gradient(45deg, #ff9700, #ed1c24);
 	--gradualGreen: linear-gradient(45deg, #39b54a, #8dc63f);
 	--gradualPurple: linear-gradient(45deg, #9000ff, #5e00ff);
@@ -1780,6 +1781,7 @@ button.icon.lg {
 	white-space: nowrap;
 	overflow: hidden;
 }
+
 .cu-bar .task {
 	position: absolute;
 	text-align: center;
@@ -1795,6 +1797,7 @@ button.icon.lg {
 	white-space: nowrap;
 	overflow: hidden;
 }
+
 .cu-bar.ios .content {
 	bottom: 7px;
 	height: 30px;
@@ -2691,11 +2694,13 @@ button.icon.lg {
 .cu-modal.drawer-modal.show .cu-dialog {
 	transform: translateX(0%);
 }
-.cu-modal .cu-dialog>.cu-bar:first-child .action{
-  min-width: 100rpx;
-  margin-right: 0;
-  min-height: 100rpx;
+
+.cu-modal .cu-dialog>.cu-bar:first-child .action {
+	min-width: 100rpx;
+	margin-right: 0;
+	min-height: 100rpx;
 }
+
 /* ==================
          轮播
  ==================== */
@@ -3125,11 +3130,13 @@ scroll-view.cu-steps .cu-item {
 	position: relative;
 	overflow: hidden;
 }
+
 .grid.grid-square>view.bg-img image {
 	width: 100%;
 	height: 100%;
 	position: absolute;
 }
+
 .grid.col-1.grid-square>view {
 	padding-bottom: 100%;
 	height: 0;
@@ -3743,6 +3750,11 @@ scroll-view.cu-steps .cu-item {
 
 .bg-gradual-red {
 	background-image: var(--gradualRed);
+	color: var(--white);
+}
+
+.bg-gradual-white {
+	background-image: var(--gradualWhite);
 	color: var(--white);
 }
 

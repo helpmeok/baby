@@ -1,5 +1,7 @@
 <template>
 	<view class="container">
+		<!-- 自定义导航栏 -->
+		<channel-operate :show="showChannelOperate" v-on:hideChannelOperate='hideChannelOperate'></channel-operate>
 		<view class="header-custom flex-r-between" :style="[{height:CustomBar + 'px','padding-top':StatusBar+'px'}]">
 			<view class="flex search-box" @click="goSearch">
 				<image src="/static/com_nav_ic_search_pre@3x.png" mode="widthFix" class="search-icon app-icon"></image>
@@ -9,7 +11,9 @@
 			</view>
 			<image src="/static/com_nav_ic_hot_nor@3x.png" mode="widthFix" class="hot-icon" @click="showHotMask = true"></image>
 		</view>
+		<!-- 自定义导航栏 -->
 		<view class="uni-tab-bar">
+			<!-- 头部tabs -->
 			<view class="tab-bar flex-r-between">
 				<view class="tabs">
 					<scroll-view scroll-x class="tabs-scroll-view flex" scroll-with-animation :scroll-left="scrollLeft">
@@ -28,21 +32,120 @@
 					<image src="/static/home_nav_ic_more_nor@3x.png" mode="widthFix" @click="showChannelOperate=true" class="nav-more-icon"></image>
 				</view>
 			</view>
+			<!-- 头部tabs -->
+			<!-- 滚动列表区域 -->
 			<mix-pulldown-refresh ref="mixPulldownRefresh" class="panel-content" :top="90" @refresh="onPulldownReresh"
 			 @setEnableScroll="setEnableScroll">
 				<swiper class="swiper-box" :current="tabIndex" :duration="300" @change="changeSwiper">
 					<swiper-item v-for="(el, i) in tabs" :key="i">
 						<scroll-view @scrolltolower="loadMore(i)" :scroll-y="!showArticleOperate" class="scroll-view" :style="{height:articleScrollHeight+'px'}"
 						 :enable-back-to-top="el.active">
-							<empty v-if="tabs[i].data.length == 0 && isLoad" msg="暂无资讯，下拉加载试试~"></empty>
-							<article-item :list="tabs[i].data" :showOperate="true" v-on:showOperate="showOperate"></article-item>
-							<view class="uni-tab-bar-loading">
-								<uni-load-more :loadingType="el.loadingType" :contentText="loadingText"></uni-load-more>
+							<view class="" v-if="el.name!='关注'">
+								<!-- 问答头部 -->
+								<view class="qa-box" v-if="el.name=='问答'&&isLogin">
+									<view class="qa-user">
+										<view class="flex-r-between">
+											<view class="flex">
+												<image :src="userInfo.avatar" mode="aspectFill" class="user-avatar"></image>
+												<view class="">
+													<view class="name">
+														{{userInfo.nickname}}
+													</view>
+													<view class="ans-count gray">
+														回答获得60个赞
+													</view>
+												</view>
+											</view>
+											<view class="flex gray">
+												<text>我的回答</text>
+												<image src="/static/com_list_ic_arrow@3x.png" mode="widthFix" class="icon"></image>
+											</view>
+										</view>
+										<view class="flex-r-center">
+											<view class="flex-r-center btn bg-default-color">
+												<image src="/static/bigv_list_ic_follow@3x.png" mode="widthFix" class="icon"></image>
+												<text class="white">提问</text>
+											</view>
+										</view>
+									</view>
+									<view class="cut-off"></view>
+								</view>
+								<empty v-if="tabs[i].data.length == 0 && isLoad" msg="暂无资讯，下拉加载试试~"></empty>
+								<!-- 问答头部 -->
+								<article-item :list="tabs[i].data" :showOperate="true" v-on:showOperate="showOperate"></article-item>
+								<view class="uni-tab-bar-loading">
+									<uni-load-more :loadingType="el.loadingType" :contentText="loadingText"></uni-load-more>
+								</view>
 							</view>
+							<!-- 关注列表 -->
+							<view class="" v-if="el.name=='关注'">
+								<view class="attention-no" v-if="isLogin">
+									<view class="pd-box celebrity-box flex-c-center">
+										<view class="flex-r-center avatar-box">
+											<image :src="userInfo.avatar" mode="aspectFill" v-for="(el,i) in 4" :key="i" class="celebrity-avatar" :style="{left:-(i*8)+'px'}"></image>
+										</view>
+										<view class="title font-b blod">
+											与大V们一起来探讨育儿的方法
+										</view>
+										<view class="flex-r-center btn bg-default-color white">
+											开始吧
+										</view>
+									</view>
+									<view class="cut-off"></view>
+									<view class="pd-box care-celebrity-box">
+										<view class="title font-b blod baby-black">
+											你可能感兴趣的人
+										</view>
+										<view class="list-item flex-r-between" v-for="(el,sub) in 4" :key="sub" @click="goDetail(el.userId)">
+											<view class="list-item-l">
+												<!-- <view class="cu-avatar round lg">{{item.letter}}</view> -->
+												<image :src="userInfo.avatar" mode="widthFix" lazy-load class="avatar mgr-20"></image>
+												<view class="content">
+													<view class="article-font blod baby-black baby-font-size">阿萨德啊</view>
+													<view class="text-gray text-sm">
+														知名微信公众好
+													</view>
+													<view class="text-gray text-sm">
+														已有123人关注
+													</view>
+												</view>
+											</view>
+											<view class=" bg-default-color  pd-lr btn flex-r-center" :class="{'followed':el.isFollowed ,'white':!el.isFollowed }"
+											 @click.stop="toggleFollowed(el,index,sub)">
+												<text class="iconfont iconjiahao white small mgr-10" v-if="!el.isFollowed"></text>
+												<text class="">{{el.isFollowed ?"已关注":"关注"}}</text>
+											</view>
+										</view>
+									</view>
+								</view>
+								<view class="attention-yes" v-else>
+									<view class="flex-r-between box">
+										<view class="title blod font-b baby-black">
+											发现更多感兴趣的人
+										</view>
+										<view class="flex">
+											<view class="flex-r-center avatar-box">
+												<image src="https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKxRpvZNm1MXWEvpFlgTYRGA37XkBzsyRQiaTJZnodRcyKalc29Evzv00WbsqiaibcgujzAlZvzMUp8w/132" mode="aspectFill" v-for="(el,i) in 4" :key="i" class="celebrity-avatar" :style="{left:-(i*8)+'px'}"></image>
+											</view>
+											<image src="/static/com_list_ic_arrow@3x.png" mode="widthFix" class="icon"></image>
+										</view>
+									</view>
+									<view class="cut-off"></view>
+									<empty v-if="tabs[i].data.length == 0 && isLoad" msg="暂无资讯，下拉加载试试~"></empty>
+									<!-- 问答头部 -->
+									<article-item :list="tabs[i].data" :showOperate="true" v-on:showOperate="showOperate"></article-item>
+									<view class="uni-tab-bar-loading">
+										<uni-load-more :loadingType="el.loadingType" :contentText="loadingText"></uni-load-more>
+									</view>
+								</view>
+							</view>
+							<!-- 关注列表 -->
 						</scroll-view>
 					</swiper-item>
 				</swiper>
 			</mix-pulldown-refresh>
+			<!-- 滚动列表区域 -->
+			<!-- 热门大V遮罩 -->
 			<view class="mask" v-if="showHotMask" @click="hideHotMask">
 				<view class="triangle_border_up" :style="{'margin-top':CustomBar+'px'}"></view>
 				<view class="content flex" @click.stop>
@@ -56,9 +159,9 @@
 					</view>
 				</view>
 			</view>
+			<!-- 热门大V遮罩 -->
 			<article-operate :show="showArticleOperate" :top="articleOffsetTop" :articleId="articleId" :userId="userId" :index="articleIndex"
 			 v-on:hideArticleOperate="hideArticleOperate" v-on:refreshList="refreshList" v-on:removeArticle="removeArticle"></article-operate>
-			<channel-operate :show="showChannelOperate" v-on:hideChannelOperate='hideChannelOperate'></channel-operate>
 		</view>
 	</view>
 
@@ -68,8 +171,8 @@
 	import uniTag from '@/components/uni-tag.vue';
 	import mixPulldownRefresh from '@/components/mix-pulldown-refresh';
 	// import { chGMT } from '@/common/util/date.js';
-	import articleOperate from '@/components/article-operate';
-	import channelOperate from '@/components/channel-operate';
+	import articleOperate from '@/components/article-operate'; //文章操作组件
+	import channelOperate from '@/components/channel-operate'; //频道操作组件
 	var ctime = parseInt(Date.now());
 	const total = 10;
 	let isLaunch = true
@@ -96,7 +199,7 @@
 				showChannelOperate: false,
 				tabs: [{
 						name: '推荐',
-						active: true,
+						active: false,
 						data: [],
 						offset: 0,
 						loadingType: 0
@@ -139,7 +242,9 @@
 				Custom: this.Custom,
 				StatusBar: this.StatusBar,
 				ScreenHeight: this.screenHeight,
-				WindowHeight: this.windowHeight
+				WindowHeight: this.windowHeight,
+				isLogin: false,
+				userInfo: {}
 			};
 		},
 		onShareAppMessage(res) {
@@ -154,6 +259,8 @@
 			};
 		},
 		onLoad(options) {
+			this.hasLogin()
+			this.currentTab()
 			this.init();
 			if (options.articleId) {
 				uni.navigateTo({
@@ -216,6 +323,14 @@
 			}
 		},
 		methods: {
+			currentTab() {
+				this.tabs[this.tabIndex].active = true;
+			},
+			hasLogin() {
+				this.isLogin = uni.getStorageSync('access_token') ? true : false
+				this.userInfo = this.isLogin ? JSON.parse(uni.getStorageSync('userInfo')) : {};
+				console.log(this.userInfo)
+			},
 			getHot() {
 				this.api.home.get_hotVip_List(null, res => {
 					console.log(res);
@@ -333,6 +448,7 @@
 				this.tabs[index].active = true;
 			},
 			async changeSwiper(e) {
+				this.hasLogin();
 				this.changeTab(e.target.current);
 				if (!this.tabs[this.tabIndex].data.length) {
 					await this.init();
@@ -415,7 +531,6 @@
 <style lang="scss">
 	.header-custom {
 		padding: 40upx 220upx 0 30upx;
-
 		.search-box {
 			background-color: #F8F8F8;
 			border-radius: 100upx;
@@ -430,8 +545,12 @@
 	}
 
 	.container {
+		width: 100%;
 		height: 100%;
-		overflow: hidden;
+		position: fixed;
+		left: 0;
+		top: 0;
+		box-sizing: border-box;
 	}
 
 	.tab-bar {
@@ -510,57 +629,146 @@
 		}
 	}
 
-	.iconsousuo {
-		font-size: 40upx;
-	}
 
-	.portrait {
-		width: 80upx;
-		height: 80upx;
-		border-radius: 50%;
-		margin-right: 30upx;
-	}
 
-	.list-item {
-		&-icon {
-			margin-right: 20upx;
+	.scroll-view {
+		.qa-box {
+			.qa-user {
+				padding: 20upx 10upx 20upx 30upx;
 
-			.iconfont {
-				margin-right: 10upx;
+				.name {
+					color: #090909;
+					font-weight: bold;
+					font-size: 30upx;
+				}
+
+				.ans-count {
+					font-size: 24upx;
+				}
+
+				.user-avatar {
+					width: 90upx;
+					border-radius: 50%;
+					height: 90upx;
+					margin-right: 20upx;
+				}
+
+				.icon {
+					width: 60upx;
+				}
+			}
+
+			.btn {
+				width: 260upx;
+				height: 72upx;
+				border-radius: 40upx;
+				margin: 20upx;
+
+				.icon {
+					width: 50upx;
+				}
+
+				.white {
+					font-size: 30upx;
+				}
 			}
 		}
 
-		.tag {
-			background-repeat: no-repeat;
-			background-size: 100% 100%;
-			background-image: url('~@/static/com_list_pic@2x.png');
-			padding: 5upx 20upx;
-		}
+		.attention-no {
+			.celebrity-box {
+				.avatar-box {
+					position: relative;
+					left: 12px;
+					top: 0;
 
-		.icon-more-nor {
-			width: 60upx;
-		}
+					.celebrity-avatar {
+						width: 64upx;
+						height: 64upx;
+						border-radius: 50%;
+						position: relative;
+						top: 0;
+						border: 4upx solid #FFFFFF;
+					}
+				}
 
-		.content {
-			box-sizing: border-box;
-			background-color: #f5f5f5;
-			width: 100%;
+				.btn {
+					width: 260upx;
+					height: 72upx;
+					border-radius: 40upx;
+					margin: 20upx;
+					font-size: 30upx;
+				}
 
-			.desc {
-				overflow: hidden;
-				display: -webkit-box !important;
-				-webkit-line-clamp: 3;
-				-webkit-box-orient: vertical;
-				text-overflow: ellipsis;
+				.title {
+					color: #090909;
+					margin-top: 20upx;
+				}
 			}
 
-			.image {
-				width: 120upx;
+			.care-celebrity-box {
+				.title{
+					margin: 20upx 0;
+				}
+				.list-item {
+					box-sizing: border-box;
+					padding: 20upx 0;
+					border-bottom:2upx solid #F5F5F5;
+					&-l {
+						display: flex;
+						flex-direction: row;
+
+						.avatar {
+							width: 90upx;
+							height: 90upx;
+							border-radius: 50%;
+						}
+					}
+
+
+					.btn {
+						height: 60upx;
+						border-radius: 30upx;
+						width: 160upx;
+						border: 2upx solid $uni-color-default;
+						font-size: 26upx;
+
+						.iconjiahao {
+							font-size: 26upx !important;
+							font-weight: blod;
+						}
+					}
+
+					.followed {
+						background-color: #ffffff !important;
+						border-color: #f1f1f1 !important;
+					}
+				}
+			}
+
+		}
+		.attention-yes{
+			.box{
+				padding:20upx 10upx 30upx 30upx;
+				.avatar-box {
+					position: relative;
+					left: 24px;
+					top: 0;
+				
+					.celebrity-avatar {
+						width: 64upx;
+						height: 64upx;
+						border-radius: 50%;
+						position: relative;
+						top: 0;
+						border: 4upx solid #FFFFFF;
+					}
+				}
+				.icon{
+					width: 60upx;
+				}
 			}
 		}
 	}
-
-	.scroll-view {}
 
 	.mask {
 		.content {

@@ -31,7 +31,7 @@
 					<slot name="content"></slot>
 				</view>
 				<view class="" v-if="searchCelebrity">
-					<image src="/static/com_nav_ic_search_nor@3x.png" mode="widthFix" class="search-icon" :style="[{top:StatusBar + 'px'}]"></image>
+					<image src="/static/com_nav_ic_search_nor@3x.png" mode="widthFix" @click="goSearchCelebrity" class="search-icon" :style="[{top:StatusBar + 'px'}]"></image>
 				</view>
 				<view class="task" :style="[{top:StatusBar + 'px'}]">
 					<slot name="task"></slot>
@@ -140,6 +140,11 @@
 			goQa(){
 				uni.navigateTo({
 					url:"/pages/home/question/commit/commit"
+				})
+			},
+			goSearchCelebrity(){
+				uni.navigateTo({
+					url:'/pages/home/celebrity/detail/search/search'
 				})
 			}
 		}
