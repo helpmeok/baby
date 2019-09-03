@@ -10,7 +10,7 @@
 				</view>
 				<view class="add-list" style="padding-top: 40upx;">
 					<view class="add-list-item" v-for="(el,i) in list" :key="i">
-						<view class="item flex-r-center">
+						<view class="item flex-r-center" @click="choose(el,i)">
 							<image class="mgr-10 add-icon" src="/static/home_more_ic_add@3x.png" mode="widthFix"></image>
 							<text>{{el}}</text>
 						</view>
@@ -46,6 +46,20 @@
 				CustomBar: this.CustomBar,
 				list:['阿萨德', 'asdsad', '奥术师多', '撒打算', 'sad'],
 			};
+		},
+		created() {
+			this.init()
+		},
+		methods:{
+			init(){
+				uni.showLoading({
+					title:"加载中"
+				})
+				this.api.home.get_tag_list(null,res=>{
+					console.log(res)
+					uni.hideLoading()
+				})
+			}
 		}
 	}
 </script>

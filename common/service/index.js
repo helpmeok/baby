@@ -112,6 +112,30 @@ module.exports = {
 			let _url = "/home/getHotVipList";
 			_req.m_send(_url, "GET", d, onok, onno);
 		},
+		get_tag_list: function(d, onok, onno) { //【首页】 获取所有标签列表
+			let _url = "/home/getTagList";
+			_req.m_send(_url, "GET", d, onok, onno);
+		},
+		get_user_tag_list: function(d, onok, onno) { //【首页】 获取用户已选标签
+			let _url = "/home/getUserTagList";
+			_req.m_send(_url, "GET", d, onok, onno);
+		},
+		save_tag: function(d, onok, onno) { //【首页】 用户保存标签
+			let _url = "/home/saveUserTagList";
+			_req.m_send(_url, "POST", d, onok, onno);
+		},
+		get_chanel_list: function(d, onok, onno) { //【首页】 获取频道列表
+			let _url = "/home/getChanelList";
+			_req.m_send(_url, "GET", d, onok, onno);
+		},
+		get_user_chanel_list: function(d, onok, onno) { //【首页】 获取用户已选的频道列表
+			let _url = "/home/getUserChanelList";
+			_req.m_send(_url, "GET", d, onok, onno);
+		},
+		save_chanel: function(d, onok, onno) { //【首页】 保存用户选择的频道列表
+			let _url = "/home/saveUserChanelList";
+			_req.m_send(_url, "POST", d, onok, onno);
+		},
 		search: {
 			get_query_list: function(d, onok, onno) { //获取APP“搜索”模块的热门问题列表。
 				let _url = "/search/query";

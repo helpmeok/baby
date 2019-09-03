@@ -30,7 +30,7 @@
 				code: '',
 				isShow: false,
 				wxSessionKey: "",
-				showRelevanceLabel: false
+				showRelevanceLabel: true
 			};
 		},
 		components: {
@@ -119,6 +119,7 @@
 							console.log(res)
 							let access_token = res.data.userId + "_" + res.data.token
 							uni.setStorageSync('access_token', access_token);
+							uni.setStorageSync('userInfo',JSON.stringify(res.data))
 							console.log(redirect)
 							if (redirect) {
 								uni.redirectTo({
