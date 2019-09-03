@@ -30,17 +30,13 @@
 				code: '',
 				isShow: false,
 				wxSessionKey: "",
-				showRelevanceLabel: true
+				showRelevanceLabel: false,
 			};
 		},
 		components: {
 			relevanceLabel
 		},
 		onLoad(options) {
-			// uni.switchTab({
-			// 	url: '/pages/home/index/index',
-			// 	success: () => {}
-			// });
 			if (options.redirect) {
 				redirect = options.redirect
 			}
@@ -119,35 +115,38 @@
 							console.log(res)
 							let access_token = res.data.userId + "_" + res.data.token
 							uni.setStorageSync('access_token', access_token);
-							uni.setStorageSync('userInfo',JSON.stringify(res.data))
-							console.log(redirect)
-							if (redirect) {
-								uni.redirectTo({
-									url: redirect,
-									success: () => {
-										uni.hideLoading();
-									},
-									fail: () => {
-										uni.switchTab({
-											url: redirect,
-											success: () => {
-												uni.hideLoading();
-											}
-										});
-									}
-								});
-							} else {
-								uni.switchTab({
-									url: '/pages/home/index/index',
-									success: () => {}
-								});
-							}
+							uni.setStorageSync('userInfo', JSON.stringify(res.data))
+							this.routePush()
 						},
 						err => {
 							this.getWXCode();
 							uni.hideLoading();
 						}
 					);
+				}
+			},
+			routePush() {
+				console.log(redirect)
+				if (redirect) {
+					uni.redirectTo({
+						url: redirect,
+						success: () => {
+							uni.hideLoading();
+						},
+						fail: () => {
+							uni.switchTab({
+								url: redirect,
+								success: () => {
+									uni.hideLoading();
+								}
+							});
+						}
+					});
+				} else {
+					uni.switchTab({
+						url: '/pages/home/index/index',
+						success: () => {}
+					});
 				}
 			}
 		}

@@ -136,6 +136,10 @@ module.exports = {
 			let _url = "/home/saveUserChanelList";
 			_req.m_send(_url, "POST", d, onok, onno);
 		},
+		get_chanel_list_byId: function(d, onok, onno) { //【首页】 根据频道id获取内容数据
+			let _url = "/home/getArticleByChannelId";
+			_req.m_send(_url, "GET", d, onok, onno);
+		},
 		search: {
 			get_query_list: function(d, onok, onno) { //获取APP“搜索”模块的热门问题列表。
 				let _url = "/search/query";

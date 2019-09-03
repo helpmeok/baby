@@ -259,6 +259,7 @@
 			};
 		},
 		onLoad(options) {
+			this.getChanelList()
 			this.hasLogin()
 			this.currentTab()
 			this.init();
@@ -323,6 +324,11 @@
 			}
 		},
 		methods: {
+			getChanelList(){
+				this.api.home.get_chanel_list(null,res=>{
+					console.log(res)
+				})
+			},
 			currentTab() {
 				this.tabs[this.tabIndex].active = true;
 			},

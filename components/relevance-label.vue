@@ -10,15 +10,15 @@
 				</view>
 				<view class="add-list" style="padding-top: 40upx;">
 					<view class="add-list-item" v-for="(el,i) in list" :key="i">
-						<view class="item flex-r-center" @click="choose(el,i)">
-							<image class="mgr-10 add-icon" src="/static/home_more_ic_add@3x.png" mode="widthFix"></image>
-							<text>{{el}}</text>
+						<view class="item flex-r-center" @click="choose(el,i)" :class="{active:el.active}">
+							<image class="mgr-10 add-icon" src="/static/home_more_ic_add@3x.png" mode="widthFix" v-if="!el.active"></image>
+							<text>{{el.name}}</text>
 						</view>
 					</view>
 				</view>
 			</scroll-view>
 			<view class="bottom-btn-box">
-				<view class="btn white flex-r-center">
+				<view class="btn white flex-r-center" @click="goHome">
 					开启我的宝宝贝
 				</view>
 			</view>
@@ -44,21 +44,48 @@
 			return {
 				WindowHeight: this.windowHeight,
 				CustomBar: this.CustomBar,
-				list:['阿萨德', 'asdsad', '奥术师多', '撒打算', 'sad'],
+				list: [],
+				chooseList: []
 			};
 		},
 		created() {
 			this.init()
 		},
-		methods:{
-			init(){
+		methods: {
+			init() {
 				uni.showLoading({
-					title:"加载中"
+					title: "加载中"
 				})
-				this.api.home.get_tag_list(null,res=>{
-					console.log(res)
+				this.api.home.get_tag_list(null, res => {
+					this.list = res.data.slice(0, 20)
+					this.list.map((el) => {
+						el.active = false;
+						return el
+					})
+					console.log(this.list)
 					uni.hideLoading()
 				})
+			},
+			choose(el, i) {
+				this.list[i].active = !this.list[i].active
+				console.log(this.list[i].active)
+				if (this.list[i].active) {
+					this.chooseList.push(this.list[i].tagId)
+				} else {
+					this.chooseList.splice(this.chooseList.indexOf(this.list[i].tagId), 1)
+				}
+				console.log(this.chooseList)
+				this.$forceUpdate()
+			},
+			goHome() {
+				if (this.chooseList.length) {
+					this.$emit('routePush')
+				} else {
+					uni.showToast({
+						title: "请至少选择一个感兴趣的话题",
+						icon: "none"
+					})
+				}
 			}
 		}
 	}
@@ -108,6 +135,12 @@
 						width: 20upx;
 						height: 20upx;
 					}
+				}
+
+				.item.active {
+					background-color: #FC4041;
+					color: #FFFFFF;
+					border-color: #FC4041;
 				}
 			}
 
