@@ -1,6 +1,7 @@
 <template>
 	<view>
 		<view class="cu-custom" :style="[{height:CustomBar + 'px'}]">
+			<image src="/static/details_pic_masking@3x.png" v-if="isMaskBg" mode="aspectFill" class="cu-custom-bg" :style="[{height:CustomBar + 'px',top:StatusBar + 'px'}]"></image>
 			<view class="cu-bar fixed" :style="style" :class="[bgImage!=''?'none-bg text-white bg-img':'',bgColor]">
 				<view class="action" @tap="BackPage" v-if="isBack">
 					<text class="cuIcon-back"></text>
@@ -16,7 +17,7 @@
 					<text class="cuIcon-back" @tap="BackPage"></text>
 					<view class="helper-box flex-r-center" @click="deleteHandle()">
 						<view class="iconfont icon- white" style="font-size: 40upx;">
-							
+
 						</view>
 					</view>
 				</view>
@@ -31,7 +32,8 @@
 					<slot name="content"></slot>
 				</view>
 				<view class="" v-if="searchCelebrity">
-					<image src="/static/com_nav_ic_search_nor@3x.png" mode="widthFix" @click="goSearchCelebrity" class="search-icon" :style="[{top:StatusBar + 'px'}]"></image>
+					<image src="/static/com_nav_ic_search_nor@3x.png" mode="widthFix" @click="goSearchCelebrity" class="search-icon"
+					 :style="[{top:(StatusBar+10) + 'px'}]"></image>
 				</view>
 				<view class="task" :style="[{top:StatusBar + 'px'}]">
 					<slot name="task"></slot>
@@ -57,7 +59,7 @@
 				StatusBar: this.StatusBar,
 				CustomBar: this.CustomBar,
 				Custom: this.Custom,
-				isHelpShow:false
+				isHelpShow: false
 			};
 		},
 		name: 'cu-custom',
@@ -110,14 +112,18 @@
 				type: [Boolean, String],
 				default: false
 			},
-			searchCelebrity:{
+			searchCelebrity: {
+				type: [Boolean, String],
+				default: false
+			},
+			isMaskBg: {
 				type: [Boolean, String],
 				default: false
 			}
 		},
 		methods: {
-			helpHide(){
-				this.isHelpShow=false
+			helpHide() {
+				this.isHelpShow = false
 			},
 			BackPage() {
 				this.$emit('closeAudio')
@@ -132,19 +138,19 @@
 				// uni.reLaunch({
 				// 	url: '/pages/helper/index/index',
 				// })
-				this.isHelpShow=true
+				this.isHelpShow = true
 			},
-			deleteHandle(){
+			deleteHandle() {
 				this.$emit('deleteHandle')
 			},
-			goQa(){
+			goQa() {
 				uni.navigateTo({
-					url:"/pages/home/question/commit/commit"
+					url: "/pages/home/question/commit/commit"
 				})
 			},
-			goSearchCelebrity(){
+			goSearchCelebrity() {
 				uni.navigateTo({
-					url:'/pages/home/celebrity/detail/search/search'
+					url: '/pages/home/celebrity/detail/search/search'
 				})
 			}
 		}
@@ -152,20 +158,29 @@
 </script>
 
 <style lang="scss">
-	
-	.helper-box{
+	.helper-box {
 		width: 90upx;
 		height: 30px;
-		.helper{
+
+		.helper {
 			width: 45upx;
 		}
 	}
-	.content{
+
+	.content {
 		width: 200upx !important;
 	}
-	.search-icon{
-		width: 88upx;
+
+	.search-icon {
+		width: 40upx;
 		position: absolute;
-		right: 200upx;
+		right: 210upx;
+	}
+
+	.cu-custom-bg {
+		position: fixed;
+		left: 0;
+		width: 100%;
+		z-index: 9998;
 	}
 </style>

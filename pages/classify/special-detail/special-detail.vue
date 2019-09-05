@@ -2,7 +2,7 @@
 	<view>
 		<cu-custom bgColor="bg-gradual-red" :isBack="true" class="cu-custom" :style="{'opacity':opacity}">
 			<block slot="backText"></block>
-			<block slot="content">标题</block>
+			<block slot="content">{{info.name}}</block>
 		</cu-custom>
 		<cu-custom   :isBack="true" class="cu-custom1">
 			<block slot="backText"></block>
@@ -10,16 +10,16 @@
 		</cu-custom>
 		<view class="container" :style="{height:ScreenHeight+'px',width:ScreenWidth+'px'}">
 			<view class="header-custom flex-r-between" :style="{width:ScreenWidth+'px'}">
-				<image src="/static/12483715_143815299000_2.jpg" mode="aspectFill" :style="{width:ScreenWidth+'px'}" class="header-bg-img"></image>
+				<image :src="info.image" mode="aspectFill" :style="{width:ScreenWidth+'px'}" class="header-bg-img"></image>
 				<view class="mask" :style="{width:ScreenWidth+'px'}">
 
 				</view>
 				<view class="desc white" :style="{width:ScreenWidth+'px','padding-top':CustomBar+'px'}">
 					<view class="title  blod">
-						标题
+						{{info.name}}
 					</view>
 					<view class="content">
-						描述
+						{{info.description}}
 					</view>
 				</view>
 			</view>
@@ -34,9 +34,8 @@
 </template>
 
 <script>
-	var ctime = parseInt(Date.now());
 	const total = 10;
-	let offset = 0;
+	let id=""
 	export default {
 		data() {
 			return {
@@ -52,19 +51,24 @@
 				ScreenWidth: this.screenWidth,
 				opacity: 0,
 				CustomBar: this.CustomBar,
+				info:{},
 			}
 		},
-		onLoad() {
+		onLoad(options) {
+			id=options.id
+			this.info=JSON.parse(uni.getStorageSync('subjectItem'))
+			uni.showLoading({
+				title: "加载中"
+			})
 			this.init()
 		},
 		methods: {
 			init() {
-				this.api.center.record.get_list({
-					ctime,
-					offset,
+				this.api.subject.get_detail_byId({
+					subjectId:id,
 					total
 				}, res => {
-					console.log(res.data)
+					console.log(res)
 					if (res.data.length) {
 						this.list = this.list.concat(res.data)
 						if (res.data.length < total) {
@@ -78,10 +82,19 @@
 					uni.hideLoading()
 				})
 			},
-
+			loadMore() {
+				if (this.loadingType != 0) {
+					return
+				}
+				this.loadingType = 1
+				this.init()
+			},
 		},
 		onPageScroll(e) {
 			this.opacity = Number(e.scrollTop / uni.upx2px(415)) >= 1 ? 1 : Number(e.scrollTop / uni.upx2px(415));
+		},
+		onReachBottom() {
+			this.loadMore()
 		}
 	}
 </script>
@@ -126,8 +139,9 @@
 				position: absolute;
 				height: 415upx !important;
 				z-index: 3;
-				padding-left: 30upx;
-
+				padding:20upx 30upx;
+				width: 100%;
+				
 				.title {
 					font-size: 44upx;
 				}
@@ -135,6 +149,10 @@
 				.content {
 					font-size: 30upx;
 					font-weight: 500;
+					display: -webkit-box;
+					-webkit-box-orient: vertical;
+					-webkit-line-clamp: 3;
+					overflow: hidden;
 				}
 			}
 

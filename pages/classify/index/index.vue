@@ -2,33 +2,47 @@
 	<view class="container">
 		<view class="header-custom flex-r-between" :style="[{height:CustomBar + 'px','padding-top':StatusBar+'px'}]">
 			<view class="font-b blod title">专题</view>
-			<view class="baby-btn flex-r-center" @click="goBaby">宝宝管理</view>
+			<view class="baby-btn flex-r-center" @click="goBaby" v-if="isLogin">宝宝管理</view>
 		</view>
-		<scroll-view scroll-y :style="{height:scrollHeight+'px'}">
+		<scroll-view scroll-y :style="{height:scrollHeight+'px'}" @scrolltolower="loadMore()">
 			<view class="pd-box">
 				<view class="list-item" v-for="(el,i) in list" :key="i" @click="goDetail(el,i)">
-					<image src="/static/com_list_pic@2x.png" mode="aspectFill" class="bg-img"></image>
+					<image :src="el.image" mode="aspectFill" class="bg-img"></image>
 					<view class=" mask"></view>
 					<view class="white font-b title flex-r-center">
-						撒旦撒旦
+						{{el.name}}
 					</view>
 				</view>
 			</view>
+			<uni-load-more :loadingType="loadingType" :contentText="loadingText"></uni-load-more>
 		</scroll-view>
 	</view>
 </template>
 
 <script>
+	var ctime = parseInt(Date.now());
+	const total = 10;
 	export default {
 		data() {
 			return {
 				CustomBar: this.CustomBar,
 				StatusBar: this.StatusBar,
 				WindowHeight: this.windowHeight,
-				list: 5
+				list: [],
+				offset: 0,
+				loadingText: {
+					contentdown: '',
+					contentrefresh: '正在加载...',
+					contentnomore: '没有更多专题了'
+				},
+				loadingType: 0,
+				isLogin: false
 			}
 		},
 		onLoad() {
+			uni.showLoading({
+				title: "加载中"
+			})
 			this.init()
 		},
 		computed: {
@@ -36,9 +50,29 @@
 				return this.WindowHeight - this.CustomBar
 			}
 		},
+		onShow() {
+			this.isLogin = uni.getStorageSync('access_token') ? true : false
+		},
 		methods: {
 			init() {
-
+				this.api.subject.get_list({
+					ctime,
+					total,
+					offset: this.offset
+				}, res => {
+					console.log(res)
+					if (res.data.length) {
+						this.list = this.list.concat(res.data)
+						if (res.data.length < total) {
+							this.loadingType = 2
+						} else {
+							this.loadingType = 0
+						}
+					} else {
+						this.loadingType = 2
+					}
+					uni.hideLoading()
+				})
 			},
 			goBaby() {
 				if (uni.getStorageSync('access_token')) {
@@ -51,11 +85,26 @@
 					})
 				}
 			},
-			goDetail(){
-				uni.navigateTo({
-					url:"/pages/classify/special-detail/special-detail?id=1"
+			goDetail(el, i) {
+				this.api.subject.add_count_num({
+					subjectId:el.subjectId,
+					type:"clickNum"
+				},res=>{
+					console.log(res)
 				})
-			}
+				uni.setStorageSync('subjectItem',JSON.stringify(el))
+				uni.navigateTo({
+					url: "/pages/classify/special-detail/special-detail?id=" + el.subjectId
+				})
+			},
+			loadMore() {
+				if (this.loadingType != 0) {
+					return
+				}
+				this.loadingType = 1
+				this.offset += total
+				this.init()
+			},
 		}
 	}
 </script>

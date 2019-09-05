@@ -199,20 +199,23 @@
 			"style": {
 				"navigationStyle": "custom"
 			}
+		}, {
+			"path": "pages/classify/special-detail/special-detail",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "pages/home/celebrity/detail/search/search",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "pages/center/classify/add-list/add-list",
+			"style": {
+				"navigationStyle": "custom"
+			}
 		}
-	    ,{
-            "path" : "pages/classify/special-detail/special-detail",
-            "style" : {
-				"navigationStyle": "custom"
-			}
-        }
-        ,{
-            "path" : "pages/home/celebrity/detail/search/search",
-            "style" : {
-				"navigationStyle": "custom"
-			}
-        }
-    ],
+	],
 	"requiredBackgroundModes": ["audio"],
 	"tabBar": {
 		"color": "#666666",
@@ -285,7 +288,7 @@
 				"pathName": "pages/task/index/index" //启动页面，必选
 			},
 			{
-				"name": "分类", //模式名称
+				"name": "专题", //模式名称
 				"pathName": "pages/classify/index/index" //启动页面，必选
 			},
 			{
@@ -412,6 +415,10 @@
 			{
 				"name": "大V内容搜索",
 				"pathName": "pages/home/celebrity/detail/search/search"
+			},
+			{
+				"name": "添加话题",
+				"pathName": "pages/center/classify/add-list/add-list"
 			}
 		]
 	}

@@ -50,7 +50,7 @@
 	// import { chGMT } from '@/common/util/date.js';
 	import articleOperate from '@/components/article-operate';
 	import empty from '@/components/empty-data.vue'
-	var ctime = parseInt(Date.now() / 1000);
+	var ctime = parseInt(Date.now());
 	const total = 20;
 	export default {
 		components: {

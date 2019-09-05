@@ -317,12 +317,38 @@ module.exports = {
 			},
 		},
 		classify: {
-			get_list: function(d, onok, onno) { //内容相关功能，获取用户关注的主题列表
-				let _url = "/my/getAttentionCategoryPageList";
+			// get_list: function(d, onok, onno) { //内容相关功能，获取用户关注的主题列表
+			// 	let _url = "/my/getAttentionCategoryPageList";
+			// 	_req.m_send(_url, "GET", d, onok, onno);
+			// },
+			// delete_attention: function(d, onok, onno) { //内容相关功能，删除用户收藏的文章
+			// 	let _url = "/my/delAttentionCategory";
+			// 	_req.m_send(_url, "POST", d, onok, onno);
+			// },
+			get_list: function(d, onok, onno) { //内容相关功能，获取我关注的话题列表
+				let _url = "/my/getUserTagList";
 				_req.m_send(_url, "GET", d, onok, onno);
 			},
-			delete_attention: function(d, onok, onno) { //内容相关功能，删除用户收藏的文章
-				let _url = "/my/delAttentionCategory";
+			get_add_list: function(d, onok, onno) { //内容相关功能，获取我可关注的话题列表
+				let _url = "/my/getUserAddTagList";
+				_req.m_send(_url, "GET", d, onok, onno);
+			},
+			delete_attention: function(d, onok, onno) { //内容相关功能，删除我关注的话题列表
+				let _url = "/my/batchDelUserTag";
+				_req.m_send(_url, "POST", d, onok, onno);
+			},
+		},
+		tag: {
+			get_list: function(d, onok, onno) { //获取我关注的话题列表
+				let _url = "/my/getUserTagList";
+				_req.m_send(_url, "GET", d, onok, onno);
+			},
+			get_add_list: function(d, onok, onno) { //获取我可关注的话题列表
+				let _url = "/my/getUserAddTagList";
+				_req.m_send(_url, "GET", d, onok, onno);
+			},
+			remove: function(d, onok, onno) { //删除我关注的话题列表
+				let _url = "/my/batchDelUserTag";
 				_req.m_send(_url, "POST", d, onok, onno);
 			},
 		},
@@ -421,6 +447,20 @@ module.exports = {
 		toggle_followed: function(d, onok, onno) { //关注或取消关注某分类
 			let _url = "/category/attentionCategoryOrNo";
 			_req.m_send(_url, "POST", d, onok, onno);
+		},
+	},
+	subject: {
+		get_list: function(d, onok, onno) { //获取专题列表
+			let _url = "/subject/getList";
+			_req.m_send(_url, "GET", d, onok, onno);
+		},
+		add_count_num: function(d, onok, onno) { //增加专题统计数
+			let _url = "/subject/addCountNum";
+			_req.m_send(_url, "POST", d, onok, onno);
+		},
+		get_detail_byId: function(d, onok, onno) { //根据专题ID获取某专题下的文章列表
+			let _url = "/subject/getArticle";
+			_req.m_send(_url, "GET", d, onok, onno);
 		},
 	},
 	task: {

@@ -22,6 +22,9 @@
 			<view class="baby-font-size">删除</view>
 			<view class="baby-font-size" v-if="ids.length>0">（{{ids.length}}）</view>
 		</view>
+		<view class="flex-r-center white bg-default-color fixed-bottom" @click="addList" v-if="isEdit">
+			<text class="baby-font-size">添加话题</text>
+		</view>
 	</view>
 </template>
 
@@ -122,7 +125,7 @@
 				if (this.ids.length) {
 					uni.showModal({
 						title: '提示',
-						content: '确定取消关注所有主题？',
+						content: '确定取消关注所有话题？',
 						success: (res) => {
 							if (res.confirm) {
 								let categorys = this.ids.join(',')

@@ -4,7 +4,7 @@
 			<block slot="backText"></block>
 			<block slot="content">标题</block>
 		</cu-custom>
-		<cu-custom :isBack="true"  class="cu-custom1">
+		<cu-custom :isBack="true" class="cu-custom1" :isMaskBg="isMaskBg">
 			<block slot="backText"></block>
 			<block slot="content"></block>
 		</cu-custom>
@@ -18,11 +18,13 @@
 				</view>
 				<view class="content font-b">
 					宝宝辅食添加全攻略，科学添加喂养让宝宝茁壮成长没烦恼宝宝辅食添加全攻略科学添加喂养让宝宝茁壮成长没烦恼宝宝辅食添加全攻科学添加喂养让宝宝茁壮成长没烦恼壮成长没烦恼宝宝辅食添加全攻科学喂养让宝宝茁壮成长没烦恼壮成长没烦恼宝宝辅
+					宝宝辅食添加全攻略，科学添加喂养让宝宝茁壮成长没烦恼宝宝辅食添加全攻略科学添加喂养让宝宝茁壮成长没烦恼宝宝辅食添加全攻科学添加喂养让宝宝茁壮成长没烦恼壮成长没烦恼宝宝辅食添加全攻科学喂养让宝宝茁壮成长没烦恼壮成长没烦恼宝宝辅
 				</view>
 			</view>
 			<view class="pd-box flex-r-between">
 				<view class="flex-r-center avatar-box">
-					<image src="https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKxRpvZNm1MXWEvpFlgTYRGA37XkBzsyRQiaTJZnodRcyKalc29Evzv00WbsqiaibcgujzAlZvzMUp8w/132" mode="aspectFill" v-for="(el,i) in 4" :key="i" class="celebrity-avatar" :style="{left:-(i*8)+'px'}"></image>
+					<image src="https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKxRpvZNm1MXWEvpFlgTYRGA37XkBzsyRQiaTJZnodRcyKalc29Evzv00WbsqiaibcgujzAlZvzMUp8w/132"
+					 mode="aspectFill" v-for="(el,i) in 4" :key="i" class="celebrity-avatar" :style="{left:-(i*8)+'px'}"></image>
 				</view>
 				<view class="gray">
 					5000人已完成
@@ -57,6 +59,7 @@
 				ScreenWidth: this.screenWidth,
 				opacity: 0,
 				CustomBar: this.CustomBar,
+				isMaskBg: true
 			}
 		},
 		onLoad() {
@@ -64,11 +67,12 @@
 		},
 		methods: {
 			init() {
-				
+
 			},
 		},
 		onPageScroll(e) {
 			this.opacity = Number(e.scrollTop / uni.upx2px(415)) >= 1 ? 1 : Number(e.scrollTop / uni.upx2px(415));
+			this.isMaskBg = this.opacity > 0.5 ? false : true
 		}
 	}
 </script>
@@ -85,6 +89,7 @@
 		position: fixed;
 		left: 0;
 		z-index: 9999;
+
 	}
 
 	.container {
@@ -102,22 +107,24 @@
 				height: 415upx !important;
 			}
 		}
-		.desc{
-			.title{
+
+		.desc {
+			.title {
 				font-size: 44upx;
 				margin: 20upx 0;
 			}
-			.content{
+
+			.content {
 				color: #404040;
 			}
-			
+
 		}
-		
+
 		.avatar-box {
 			position: relative;
 			left: 0;
 			top: 0;
-		
+
 			.celebrity-avatar {
 				width: 64upx;
 				height: 64upx;
@@ -130,9 +137,10 @@
 	}
 
 	.fixed-bottom {
-		padding-bottom:40upx;
+		padding-bottom: 40upx;
 		background-color: #FFFFFF;
-		.btn{
+
+		.btn {
 			width: 100%;
 			border-radius: 40upx;
 			height: 80upx;

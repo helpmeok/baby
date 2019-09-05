@@ -69,7 +69,8 @@
 					]"
 			 :tabCur.sync="tabIndex" tab-class="text-center bg-white wuc-tab" :tab-style="CustomBar" select-class="text-blue"
 			 @change="clickitem"></wuc-tab> -->
-			<detail-tabs :tabIndex="tabIndex" v-on:changeTabIndex="changeTabIndex"></detail-tabs>
+			<detail-tabs :tabIndex="tabIndex" :tabList="tabList" :typeList="typeList" v-on:changeTabIndex="changeTabIndex"
+			 v-on:changeTypeListIndex="changeTypeListIndex"></detail-tabs>
 		</view>
 		<swiper class="swiper-box" :current="tabIndex" @change="changeSwiper" :style="{ height: swiperHeight + 'px','margin-top':isFixed?stickyHeight:0+'px' }">
 			<swiper-item v-for="(el, i) in tabs" :key="i">
@@ -108,6 +109,16 @@
 				recommendList: [],
 				tabIndex: 0,
 				info: {},
+				tabList: [{
+					name: '全部',
+					showType: ""
+				}, {
+					name: '音频',
+					showType: 4
+				}, {
+					name: '视频',
+					showType: 5
+				}],
 				tabs: [{
 						data: [],
 						offset: 0,
@@ -129,6 +140,23 @@
 						loadingType: 0
 					}
 				],
+				typeList: [{
+					name: "最新发布",
+					active: true,
+					type: 0
+				}, {
+					name: "转发最多",
+					active: false,
+					type: 1
+				}, {
+					name: "评论最多",
+					active: false,
+					type: 2
+				}, {
+					name: "点赞最多",
+					active: false,
+					type: 3
+				}],
 				loadingText: {
 					contentdown: '',
 					contentrefresh: '正在加载...',
@@ -240,42 +268,18 @@
 					res => {
 						console.log(res);
 						this.recommendList = res.data
-						// this.recommendList = res.data.map(el => {
-						// 	let approve = '';
-						// 	if (el.weixinOauthStatus == '2') {
-						// 		approve = '母婴领域知名微信公众号';
-						// 		el.approve = approve;
-						// 		return el;
-						// 	} else {
-						// 		if (el.toutiaoOauthStatus == '2') {
-						// 			approve = '今日头条APP知名作者';
-						// 			el.approve = approve;
-						// 			return el;
-						// 		} else {
-						// 			if (el.douyinOauthStatus == '2') {
-						// 				approve = '知名母婴抖音号';
-						// 				el.approve = approve;
-						// 				return el;
-						// 			} else {
-						// 				if (el.appOauthStatus == '2') {
-						// 					approve = '宝宝贝APP特邀作者';
-						// 					el.approve = approve;
-						// 					return el;
-						// 				}
-						// 			}
-						// 		}
-						// 	}
-						// });
 					}
 				);
 			},
 			getArticle() {
 				this.api.classify.get_category_article({
 					categoryId: id,
-					type: this.tabIndex,
+					type: this.typeList[this.tabIndex].type,
 					ctime,
 					offset: this.tabs[this.tabIndex].offset,
-					total
+					total,
+					keyword: "",
+					showType: this.tabList[this.tabIndex].showType
 				}, res => {
 					console.log(res)
 					uni.hideLoading()
@@ -334,6 +338,12 @@
 			changeSwiper(e) {
 				this.tabIndex = e.target.current
 				this.changeTab(e.target.current);
+			},
+			changeTypeListIndex(index){
+				this.typeList.forEach((el)=>{
+					el.active=false
+				})
+				this.typeList[index].active=true
 			},
 			getMoreArticle() {
 				console.log('111')

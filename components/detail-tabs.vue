@@ -2,9 +2,9 @@
 	<view class="">
 		<view class="tabs-box flex-r-between">
 			<view class="tabs flex">
-				<view class="item mgr-60" v-for="(el,i) in tabs" :key="i" @click="clickItem(i)">
+				<view class="item mgr-60" v-for="(el,i) in tabList" :key="i" @click="clickItem(i)">
 					<view class="gray" :class="{'click':tabIndex==i}">
-						{{el}}
+						{{el.name}}
 					</view>
 					<view class="flex-r-center click-icon-box">
 						<view class="click-icon" v-if="tabIndex==i"></view>
@@ -25,7 +25,7 @@
 				</view>
 				<image src="/static/home_more_ic_close_nor@3x.png" mode="widthFix" @click="hide" class="close-icon"></image>
 			</view>
-			<view class="list-item flex-r-between" v-for="(el,i) in list" :key="i" @click="chooseItem(i)">
+			<view class="list-item flex-r-between" v-for="(el,i) in typeList" :key="i" @click="chooseItem(i)">
 				<text :class="{'default-color':el.active}" style="font-size: 30upx;color: #404040;">{{el.name}}</text>
 				<image src="/static/com_dialog_ic_choose@3x.png" mode="widthFix" v-if="el.active" class="icon"></image>
 			</view>
@@ -39,40 +39,34 @@
 			tabIndex: {
 				type: Number,
 				default: 0
-			}
+			},
+			tabList: {
+				type: Array,
+				default () {
+					return [];
+				}
+			},
+			typeList: {
+				type: Array,
+				default () {
+					return [];
+				}
+			},
 		},
 		data() {
 			return {
-				tabs: ['全部', '音频', '视频'],
 				show: false,
-				list: [{
-					name: "最新发布",
-					active: true,
-				}, {
-					name: "转发最多",
-					active: false,
-				}, {
-					name: "评论最多",
-					active: false,
-				}, {
-					name: "点赞最多",
-					active: false,
-				}]
 			};
 		},
 		methods: {
 			clickItem(i) {
-				console.log('1111')
 				this.$emit('changeTabIndex', i)
 			},
 			hide() {
 				this.show = false
 			},
 			chooseItem(i) {
-				this.list.forEach((el) => {
-					el.active = false
-				})
-				this.list[i].active = true;
+				this.$emit('changeTypeListIndex', i)
 			}
 		}
 	}
