@@ -59,7 +59,15 @@
 				return res.windowHeight - this.CustomBar - 10
 			}
 		},
+		created() {
+			this.init()
+		},
 		methods: {
+			init(){
+				this.api.home.get_user_chanel_list(null,res=>{
+					console.log(res)
+				})
+			},
 			hide() {
 				this.$emit('hideChannelOperate');
 			},

@@ -16,7 +16,7 @@
 				</navigator>
 			</view>
 		</view>
-		<relevance-label :show="showRelevanceLabel"></relevance-label>
+		<relevance-label :show="showRelevanceLabel" v-on:routePush="routePush"></relevance-label>
 	</view>
 </template>
 
@@ -51,10 +51,15 @@
 				redirect = redirect + "?" + arr.join('&')
 			}
 			if (uni.getStorageSync('access_token')) {
-				this.isShow = false;
-				uni.switchTab({
-					url: '/pages/home/index/index',
-					success: () => {}
+				this.api.center.user.get_detail({}, res => {
+					console.log(res);
+					uni.setStorageSync('userInfo', JSON.stringify(res.data))
+					if (res.data.isSetTag) {
+						this.isShow = false;
+						this.routePush()
+					} else {
+						this.showRelevanceLabel = true;
+					}
 				});
 			} else {
 				this.isShow = true;
@@ -115,8 +120,17 @@
 							console.log(res)
 							let access_token = res.data.userId + "_" + res.data.token
 							uni.setStorageSync('access_token', access_token);
-							uni.setStorageSync('userInfo', JSON.stringify(res.data))
-							this.routePush()
+							this.api.center.user.get_detail({}, res => {
+								console.log(res);
+								uni.setStorageSync('userInfo', JSON.stringify(res.data))
+								if (res.data.isSetTag) {
+									this.routePush()
+								} else {
+									this.showRelevanceLabel = true;
+								}
+								uni.hideLoading();
+							});
+
 						},
 						err => {
 							this.getWXCode();

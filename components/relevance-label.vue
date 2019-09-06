@@ -49,7 +49,9 @@
 			};
 		},
 		created() {
-			this.init()
+			if (this.show) {
+				this.init()
+			} 
 		},
 		methods: {
 			init() {
@@ -57,7 +59,7 @@
 					title: "加载中"
 				})
 				this.api.home.get_tag_list(null, res => {
-					this.list = res.data.slice(0, 20)
+					this.list = res.data
 					this.list.map((el) => {
 						el.active = false;
 						return el
@@ -79,7 +81,16 @@
 			},
 			goHome() {
 				if (this.chooseList.length) {
-					this.$emit('routePush')
+					uni.showLoading({
+						title:"加载中"
+					})
+					this.api.home.save_tag({
+						"tagId[]":this.chooseList
+					},res=>{
+						console.log(res)
+						uni.hideLoading()
+						this.$emit('routePush')
+					})
 				} else {
 					uni.showToast({
 						title: "请至少选择一个感兴趣的话题",
