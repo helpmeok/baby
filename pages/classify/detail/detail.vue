@@ -11,19 +11,19 @@
 			<view class="" style="width: 70%;">
 				<view class="flex-r-between" style="padding: 0 20upx;">
 					<view class="flex-c-center">
-						<text class="font-b blod">{{info.original | articleDataNum}}</text>
+						<text class="font-b blod">{{info.originalNum | articleDataNum}}</text>
 						<text class="gray">内容</text>
 					</view>
 					<view class="flex-c-center">
-						<text class="font-b blod">{{info.fans | articleDataNum}}</text>
+						<text class="font-b blod">{{info.fansNum | articleDataNum}}</text>
 						<text class="gray">粉丝</text>
 					</view>
 					<view class="flex-c-center">
-						<text class="font-b blod">{{info.forwarding | articleDataNum}}</text>
+						<text class="font-b blod">{{info.forwardNum | articleDataNum}}</text>
 						<text class="gray">转发</text>
 					</view>
 					<view class="flex-c-center">
-						<text class="font-b blod">{{info.clicknum | articleDataNum}}</text>
+						<text class="font-b blod">{{info.clickNum | articleDataNum}}</text>
 						<text class="gray">点击</text>
 					</view>
 				</view>
@@ -108,7 +108,13 @@
 				isFixed: false,
 				recommendList: [],
 				tabIndex: 0,
-				info: {},
+				info: {
+					originalNum: 0,
+					clickNum: 0,
+					forwardNum: 0,
+					fansNum: 0,
+					name: ""
+				},
 				tabList: [{
 					name: '全部',
 					showType: ""
@@ -140,6 +146,7 @@
 						loadingType: 0
 					}
 				],
+				typeIndex:0,
 				typeList: [{
 					name: "最新发布",
 					active: true,
@@ -228,15 +235,12 @@
 				uni.showLoading({
 					title: "加载中"
 				})
-				this.api.classify.get_sub_category_header({
-					categoryId: id
+				this.api.center.classify.get_tag_top_info({
+					tagId: id
 				}, res => {
 					console.log(res)
 					this.info = res.data
-					this.title = res.data.categoryName
-					uni.setNavigationBarTitle({
-						title: res.data.categoryName
-					});
+					this.title = res.data.name
 				})
 				this.getArticle()
 				this.getRecommend()
@@ -272,9 +276,9 @@
 				);
 			},
 			getArticle() {
-				this.api.classify.get_category_article({
-					categoryId: id,
-					type: this.typeList[this.tabIndex].type,
+				this.api.center.classify.get_article_by_tagId({
+					tagId: id,
+					type: this.typeList[this.typeIndex].type,
 					ctime,
 					offset: this.tabs[this.tabIndex].offset,
 					total,
@@ -311,8 +315,8 @@
 				);
 			},
 			toggleFollowed(el) {
-				this.api.classify.toggle_followed({
-					categoryId: id,
+				this.api.center.classify.toggle_followed({
+					tagId: id,
 					action: el.isFollowed ? 0 : 1
 				}, res => {
 					console.log(res)
@@ -339,21 +343,34 @@
 				this.tabIndex = e.target.current
 				this.changeTab(e.target.current);
 			},
-			changeTypeListIndex(index){
-				this.typeList.forEach((el)=>{
-					el.active=false
+			changeTypeListIndex(index) {
+				if (this.typeList[index].active) {
+					return
+				}
+				uni.showLoading({
+					title: "加载中"
 				})
-				this.typeList[index].active=true
+				this.typeList.forEach((el) => {
+					el.active = false
+				})
+				console.log(index)
+				this.typeList[index].active = true
+				this.tabs[this.tabIndex].data = [];
+				this.typeIndex= index;
+				this.tabs[this.tabIndex].offset = 0;
+				this.getArticle();
 			},
 			getMoreArticle() {
 				console.log('111')
 				this.tabs[this.tabIndex].offset += total;
-				this.api.classify.get_category_article({
-						categoryId: id,
-						type: this.tabIndex,
+				this.api.center.classify.get_article_by_tagId({
+						tagId: id,
+						type: this.typeList[this.typeIndex].type,
 						ctime,
 						offset: this.tabs[this.tabIndex].offset,
-						total
+						total,
+						keyword: "",
+						showType: this.tabList[this.tabIndex].showType
 					}, res => {
 						console.log(res)
 						if (res.data.length) {

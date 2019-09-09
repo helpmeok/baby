@@ -337,6 +337,18 @@ module.exports = {
 				let _url = "/my/batchDelUserTag";
 				_req.m_send(_url, "POST", d, onok, onno);
 			},
+			get_tag_top_info: function(d, onok, onno) { //获取某话题的详情
+				let _url = "/home/getTagExtInfo";
+				_req.m_send(_url, "GET", d, onok, onno);
+			},
+			get_article_by_tagId: function(d, onok, onno) { //底部4种分类数据列表（最新发布、转发最多、评论最多、点赞最多）
+				let _url = "/home/getArticleByTagId";
+				_req.m_send(_url, "GET", d, onok, onno);
+			},
+			toggle_followed: function(d, onok, onno) {
+				let _url = "/home/addOrDeleteUserTag";
+				_req.m_send(_url, "POST", d, onok, onno);
+			},
 		},
 		tag: {
 			get_list: function(d, onok, onno) { //获取我关注的话题列表
@@ -428,26 +440,27 @@ module.exports = {
 		}
 	},
 	classify: {
-		get_top_category: function(d, onok, onno) { //获取分类头部数据列表
-			let _url = "/category/getTopCategory";
-			_req.m_send(_url, "GET", d, onok, onno);
-		},
-		get_sub_category: function(d, onok, onno) { //获取某个分类下的子类
-			let _url = "/category/getSubCategory";
-			_req.m_send(_url, "GET", d, onok, onno);
-		},
-		get_category_article: function(d, onok, onno) { //APP“分类”模块，点击某个小类进入该小类详情主界面，底部4种分页菜单列表（最新发布、转发最多、评论最多、点赞最多）
-			let _url = "/category/queryArticleByCategory";
-			_req.m_send(_url, "GET", d, onok, onno);
-		},
-		get_sub_category_header: function(d, onok, onno) { //获取某个小类的详情头部信息
-			let _url = "/category/getSubCategoryHeader";
-			_req.m_send(_url, "GET", d, onok, onno);
-		},
-		toggle_followed: function(d, onok, onno) { //关注或取消关注某分类
-			let _url = "/category/attentionCategoryOrNo";
-			_req.m_send(_url, "POST", d, onok, onno);
-		},
+		// get_top_category: function(d, onok, onno) { //获取分类头部数据列表
+		// 	let _url = "/category/getTopCategory";
+		// 	_req.m_send(_url, "GET", d, onok, onno);
+		// },
+		// get_sub_category: function(d, onok, onno) { //获取某个分类下的子类
+		// 	let _url = "/category/getSubCategory";
+		// 	_req.m_send(_url, "GET", d, onok, onno);
+		// },
+		// get_category_article: function(d, onok, onno) { //APP“分类”模块，点击某个小类进入该小类详情主界面，底部4种分页菜单列表（最新发布、转发最多、评论最多、点赞最多）
+		// 	let _url = "/category/queryArticleByCategory";
+		// 	_req.m_send(_url, "GET", d, onok, onno);
+		// },
+		// get_sub_category_header: function(d, onok, onno) { //获取某个小类的详情头部信息
+		// 	let _url = "/category/getSubCategoryHeader";
+		// 	_req.m_send(_url, "GET", d, onok, onno);
+		// },
+		// toggle_followed: function(d, onok, onno) { //关注或取消关注某分类
+		// 	let _url = "/category/attentionCategoryOrNo";
+		// 	_req.m_send(_url, "POST", d, onok, onno);
+		// },
+
 	},
 	subject: {
 		get_list: function(d, onok, onno) { //获取专题列表

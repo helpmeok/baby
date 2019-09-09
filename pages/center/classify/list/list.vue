@@ -7,8 +7,8 @@
 		<empty v-if="list.length==0" msg="您还没有关注话题~"></empty>
 		<view class="">
 			<view class="list-box pd-box">
-				<view class="list-item" v-for="(item, index1) in list" :key="index1">
-					<view class="item flex-r-center" :class="{'active':sub.active}" @click="goDetail(sub.categoryId,index1,index2)">
+				<view class="list-item" v-for="(item, index) in list" :key="index">
+					<view class="item flex-r-center" :class="{'active':item.active}" @click="goDetail(item,index)">
 						{{item.name}}
 					</view>
 				</view>
@@ -48,6 +48,11 @@
 			};
 		},
 		onLoad() {
+		},
+		onShow() {
+			uni.showLoading({
+				title:"加载中"
+			})
 			this.init()
 		},
 		onUnload() {
@@ -57,9 +62,7 @@
 			isEdit(newValue, oldValue) {
 				if (newValue) {
 					this.list.forEach((item) => {
-						item.category_list.forEach((el) => {
-							el.active = false
-						})
+						item.active = false
 					})
 					this.ids = [];
 				}
@@ -73,24 +76,26 @@
 					total
 				}, res => {
 					console.log(res)
-					if (res.data.length) {
-						this.list = this.list.concat(res.data)
-						this.list.forEach((item) => {
-							item.category_list.forEach((el) => {
-								el.active = false
-							})
-						})
-						this.loadingType = 0
-					} else {
-						this.loadingType = 2
-					}
+					this.list = res.data
+					this.list.forEach((item) => {
+						item.active = false
+					})
+					// if (res.data.length) {
+					// 	this.list = this.list.concat(res.data)
+					// 	this.list.forEach((item) => {
+					// 		item.active = false
+					// 	})
+					// 	this.loadingType = 0
+					// } else {
+					// 	this.loadingType = 2
+					// }
 					if (type == 'remove') {
-						uni.hideLoading();
 						this.isEdit = true;
 						uni.showToast({
 							title: "取消关注成功"
 						});
 					}
+					uni.hideLoading();
 				})
 			},
 			loadMore() {
@@ -101,13 +106,20 @@
 				offset += total
 				this.init()
 			},
-			goDetail(id, index1, index2) {
+			goDetail(el,index) {
 				if (this.isEdit) {
 					uni.navigateTo({
-						url: "/pages/classify/detail/detail?id=" + id
+						url: "/pages/classify/detail/detail?id=" + el.tagId
 					})
 				} else {
-
+					this.list[index].active=!this.list[index].active;
+					this.$forceUpdate();
+					if (this.list[index].active) {
+						this.ids.push(this.list[index].tagId)
+					} else{
+						this.ids.splice(this.ids.indexOf(this.list[index].tagId),1)
+					}
+					console.log(this.ids)
 				}
 
 			},
@@ -115,9 +127,7 @@
 				this.isEdit = !this.isEdit
 				if (this.isEdit) {
 					this.list.forEach((item) => {
-						item.category_list.forEach((el) => {
-							el.active = false
-						})
+						item.active = false
 					})
 				}
 			},
@@ -128,10 +138,8 @@
 						content: '确定取消关注所有话题？',
 						success: (res) => {
 							if (res.confirm) {
-								let categorys = this.ids.join(',')
-								console.log(this.ids)
 								this.api.center.classify.delete_attention({
-									"category[]": this.ids
+									"tagId[]": this.ids
 								}, res => {
 									uni.showLoading({
 										title: "取消关注中"
@@ -146,11 +154,16 @@
 						}
 					});
 				}
+			},
+			addList(){
+				uni.navigateTo({
+					url:"/pages/center/classify/add-list/add-list"
+				})
 			}
 		},
-		onReachBottom() {
-			this.loadMore()
-		}
+		// onReachBottom() {
+		// 	this.loadMore()
+		// }
 	}
 </script>
 
@@ -175,8 +188,8 @@
 				line-height: 80upx;
 			}
 
-			.active {
-				background-color: $uni-color-default;
+			.item.active {
+				background-color: $uni-color-default !important;
 				color: white;
 				border: 2upx solid $uni-color-default;
 			}

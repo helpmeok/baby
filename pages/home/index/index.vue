@@ -6,7 +6,7 @@
 			<view class="flex search-box" @click="goSearch">
 				<image src="/static/com_nav_ic_search_pre@3x.png" mode="widthFix" class="search-icon app-icon"></image>
 				<view class="gray">
-					孩子发烧了怎么办？
+					{{issueKeyword}}
 				</view>
 			</view>
 			<image src="/static/com_nav_ic_hot_nor@3x.png" mode="widthFix" class="hot-icon" @click="showHotMask = true"></image>
@@ -125,7 +125,8 @@
 										</view>
 										<view class="flex">
 											<view class="flex-r-center avatar-box">
-												<image src="https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKxRpvZNm1MXWEvpFlgTYRGA37XkBzsyRQiaTJZnodRcyKalc29Evzv00WbsqiaibcgujzAlZvzMUp8w/132" mode="aspectFill" v-for="(el,i) in 4" :key="i" class="celebrity-avatar" :style="{left:-(i*8)+'px'}"></image>
+												<image src="https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKxRpvZNm1MXWEvpFlgTYRGA37XkBzsyRQiaTJZnodRcyKalc29Evzv00WbsqiaibcgujzAlZvzMUp8w/132"
+												 mode="aspectFill" v-for="(el,i) in 4" :key="i" class="celebrity-avatar" :style="{left:-(i*8)+'px'}"></image>
 											</view>
 											<image src="/static/com_list_ic_arrow@3x.png" mode="widthFix" class="icon"></image>
 										</view>
@@ -244,7 +245,8 @@
 				ScreenHeight: this.screenHeight,
 				WindowHeight: this.windowHeight,
 				isLogin: false,
-				userInfo: {}
+				userInfo: {},
+				issueKeyword: ""
 			};
 		},
 		onShareAppMessage(res) {
@@ -324,8 +326,8 @@
 			}
 		},
 		methods: {
-			getChanelList(){
-				this.api.home.get_chanel_list(null,res=>{
+			getChanelList() {
+				this.api.home.get_chanel_list(null, res => {
 					console.log(res)
 				})
 			},
@@ -349,6 +351,18 @@
 				})
 			},
 			init() {
+				this.api.home.search.get_query_list({ //问题关键词
+						type: 2,
+						ctime: Date.now(),
+						offset: 0,
+						total: 10
+					},
+					res => {
+						console.log(res);
+						var index = Math.floor((Math.random() * res.data.length));
+						this.issueKeyword = res.data[index]
+					}
+				);
 				if (!this.tabs[this.tabIndex].data.length) {
 					this.isLoad = false
 					uni.showLoading({
@@ -537,6 +551,7 @@
 <style lang="scss">
 	.header-custom {
 		padding: 40upx 220upx 0 30upx;
+
 		.search-box {
 			background-color: #F8F8F8;
 			border-radius: 100upx;
@@ -712,13 +727,15 @@
 			}
 
 			.care-celebrity-box {
-				.title{
+				.title {
 					margin: 20upx 0;
 				}
+
 				.list-item {
 					box-sizing: border-box;
 					padding: 20upx 0;
-					border-bottom:2upx solid #F5F5F5;
+					border-bottom: 2upx solid #F5F5F5;
+
 					&-l {
 						display: flex;
 						flex-direction: row;
@@ -752,14 +769,16 @@
 			}
 
 		}
-		.attention-yes{
-			.box{
-				padding:20upx 10upx 30upx 30upx;
+
+		.attention-yes {
+			.box {
+				padding: 20upx 10upx 30upx 30upx;
+
 				.avatar-box {
 					position: relative;
 					left: 24px;
 					top: 0;
-				
+
 					.celebrity-avatar {
 						width: 64upx;
 						height: 64upx;
@@ -769,7 +788,8 @@
 						border: 4upx solid #FFFFFF;
 					}
 				}
-				.icon{
+
+				.icon {
 					width: 60upx;
 				}
 			}

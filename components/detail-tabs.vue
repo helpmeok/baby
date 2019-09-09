@@ -67,6 +67,7 @@
 			},
 			chooseItem(i) {
 				this.$emit('changeTypeListIndex', i)
+				this.hide()
 			}
 		}
 	}

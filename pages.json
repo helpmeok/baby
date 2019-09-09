@@ -302,9 +302,9 @@
 				"query": "id=12403"
 			},
 			{
-				"name": "分类详情", //模式名称
+				"name": "话题详情", //模式名称
 				"pathName": "pages/classify/detail/detail", //启动页面，必选
-				"query": "id=27"
+				"query": "id=26"
 			},
 			{
 				"name": "大V详情", //模式名称 

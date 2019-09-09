@@ -69,7 +69,20 @@
 				this.$forceUpdate()
 			},
 			add() {
-
+				uni.showLoading({
+					title:"加载中"
+				})
+				this.api.home.save_tag({
+					"tagId[]":this.chooseList
+				},res=>{
+					console.log(res)
+					uni.showToast({
+						title:"添加成功"
+					})
+					uni.navigateBack({
+						delta:1
+					})
+				})
 			}
 		}
 	}

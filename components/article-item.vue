@@ -20,7 +20,12 @@
 							<view class="small gray">{{item.oauthIntro}}</view>
 						</view>
 					</view>
-					<view class="tag white small" v-if="item.categoryName" @click.stop="goCategory(item.categoryId)">{{ item.categoryName }}</view>
+					<view class="flex">
+						<view class="tag" v-for="(el,i) in item.tagList" :key="i" @click.stop="geTagDetail(el.tagId)">
+							{{el.name}}
+						</view>
+					</view>
+					<!-- <view class="tag white small" v-if="item.categoryName" @click.stop="goCategory(item.categoryId)">{{ item.categoryName }}</view> -->
 				</view>
 				<view class="content showType0" v-if="item.showType == 0">
 					<view class="desc article-font">{{ item.title }}</view>
@@ -193,6 +198,11 @@
 				}
 
 			},
+			geTagDetail(id) {
+				uni.navigateTo({
+					url: "/pages/classify/detail/detail?id=" + id
+				})
+			},
 			removeArticle(el, index) {
 				console.log(el)
 				let articleId = [el.articleId]
@@ -275,10 +285,16 @@
 		}
 
 		.tag {
-			background-repeat: no-repeat;
-			background-size: 100% 100%;
-			background-image: url('~@/static/com_list_pic@2x.png');
-			padding: 5upx 20upx;
+			// background-repeat: no-repeat;
+			// background-size: 100% 100%;
+			// background-image: url('~@/static/com_list_pic@2x.png');
+			// padding: 5upx 20upx;
+			font-size: 22upx;
+			border: 2upx solid #E8E8E8;
+			border-radius: 20upx;
+			padding: 0 10upx;
+			margin-right: 10upx;
+			color: #404040;
 		}
 
 		.icon-more-nor {
