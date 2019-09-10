@@ -243,7 +243,7 @@
 		},
 		onLoad(options) {
 			this.getKeyWord()
-			this.getChanelList()
+			this.getUserChanelList()
 			this.hasLogin()
 			this.currentTab()
 			this.init();
@@ -308,11 +308,11 @@
 			}
 		},
 		methods: {
-			getChanelList() {
-				this.api.home.get_chanel_list(null, res => {
-					console.log('获取频道列表')
+			getUserChanelList() {
+				this.api.home.get_user_chanel_list(null, res => {
+					console.log('获取用户已选频道列表')
 					console.log(res)
-					let chanelList = res.data.map((el) => {
+					let myChanelList = res.data.map((el) => {
 						let obj = {
 							channelName: el.channelName,
 							active: false,
@@ -323,7 +323,7 @@
 						}
 						return obj
 					})
-					this.tabs=this.tabs.concat(chanelList)
+					this.tabs=this.tabs.concat(myChanelList)
 				})
 			},
 			currentTab() {

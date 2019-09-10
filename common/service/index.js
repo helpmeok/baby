@@ -124,8 +124,12 @@ module.exports = {
 			let _url = "/home/saveUserTagList";
 			_req.m_send(_url, "POST", d, onok, onno);
 		},
-		get_chanel_list: function(d, onok, onno) { //【首页】 获取频道列表
+		get_chanel_list: function(d, onok, onno) { //【首页】 获取频道列表(暂时没用)
 			let _url = "/home/getChanelList";
+			_req.m_send(_url, "GET", d, onok, onno);
+		},
+		get_chanel_add_list: function(d, onok, onno) { //【首页】 获取可添加频道列表
+			let _url = "/home/getChanelListForAdd";
 			_req.m_send(_url, "GET", d, onok, onno);
 		},
 		get_user_chanel_list: function(d, onok, onno) { //【首页】 获取用户已选的频道列表
