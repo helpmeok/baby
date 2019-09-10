@@ -312,6 +312,11 @@
 				"query": "id=2792"
 			},
 			{
+				"name": "搜索大V内容", //模式名称 
+				"pathName": "pages/home/celebrity/detail/search/search", //启动页面，必选
+				"query": "id=2792"
+			},
+			{
 				"name": "大V列表", //模式名称 
 				"pathName": "pages/home/celebrity/more/more" //启动页面，必选
 			},
@@ -411,10 +416,6 @@
 				"name": "专题详情",
 				"pathName": "pages/classify/special-detail/special-detail",
 				"query": "id=2822"
-			},
-			{
-				"name": "大V内容搜索",
-				"pathName": "pages/home/celebrity/detail/search/search"
 			},
 			{
 				"name": "添加话题",

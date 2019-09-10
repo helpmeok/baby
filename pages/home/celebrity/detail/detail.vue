@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<cu-custom bgColor="bg-gradual-red" :isCustom="true" :helper="true" :searchCelebrity="true">
+		<cu-custom bgColor="bg-gradual-red" :isCustom="true" :helper="true" :searchCelebrity="true" :hotId="hotId">
 			<block slot="backText"></block>
 			<block slot="content" class="sigle-line-text" style="text-align: center;">{{title}}</block>
 		</cu-custom>
@@ -113,6 +113,7 @@
 		},
 		data() {
 			return {
+				hotId:"",
 				swiperHeight: 0,
 				stickyHeight: 0,
 				isShowRecommend: false,
@@ -151,6 +152,7 @@
 						loadingType: 0
 					}
 				],
+				typeIndex:0,
 				typeList: [{
 					name: "最新发布",
 					active: true,
@@ -223,6 +225,7 @@
 		},
 
 		onLoad(options) {
+			this.hotId=options.id
 			id = options.id;
 			this.init();
 		},
@@ -335,7 +338,7 @@
 			getArticle() {
 				this.api.home.hotVip.get_article({
 						vid: id,
-						type: this.typeList[this.tabIndex].type,
+						type: this.typeList[this.typeIndex].type,
 						ctime,
 						offset: this.tabs[this.tabIndex].offset,
 						total,
@@ -384,21 +387,34 @@
 				this.tabIndex = e.target.current;
 				this.changeTab(e.target.current);
 			},
-			changeTypeListIndex(index){
-				this.typeList.forEach((el)=>{
-					el.active=false
+			changeTypeListIndex(index) {
+				if (this.typeList[index].active) {
+					return
+				}
+				uni.showLoading({
+					title: "加载中"
 				})
-				this.typeList[index].active=true
+				this.typeList.forEach((el) => {
+					el.active = false
+				})
+				console.log(index)
+				this.typeList[index].active = true
+				this.tabs[this.tabIndex].data = [];
+				this.typeIndex= index;
+				this.tabs[this.tabIndex].offset = 0;
+				this.getArticle();
 			},
 			getMoreArticle() {
 				console.log('111');
 				this.tabs[this.tabIndex].offset += total;
 				this.api.home.hotVip.get_article({
 						vid: id,
-						type: this.tabIndex,
+						type: this.typeList[this.typeIndex].type,
 						ctime,
 						offset: this.tabs[this.tabIndex].offset,
-						total
+						total,
+						keyword: "",
+						showType: this.tabList[this.tabIndex].showType
 					},
 					res => {
 						console.log(res);

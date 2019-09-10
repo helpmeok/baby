@@ -12,9 +12,12 @@
 				</view>
 			</view>
 			<view class="pd-box present-list">
-				<view class="present-list-item" v-for="(el,i) in presentList" :key="i">
-					<view class="item">
-						{{el}}
+				<view class="present-list-item" v-for="(el,i) in myChanelList" :key="i">
+					<view class="item" v-if="i<2" :class="{'disable':isEdit}">
+						{{el.channelName}}
+					</view>
+					<view class="item" v-else>
+						{{el.channelName}}
 						<image src="/static/home_more_ic_clean_nor@3x.png" mode="widthFix" @click="deleted(el,i)" class="del-icon" v-if="isEdit"></image>
 					</view>
 				</view>
@@ -43,6 +46,12 @@
 			show: {
 				type: Boolean,
 				default: false
+			},
+			myChanelList:{
+				type: Array,
+				default () {
+					return [];
+				}
 			}
 		},
 		data() {
@@ -157,6 +166,10 @@
 						right: -10upx;
 						top: -10upx;
 					}
+				}
+				.item.disable{
+					border-color: #E8E8E8;
+					color: #A3A3A3;
 				}
 			}
 

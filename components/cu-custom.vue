@@ -119,6 +119,10 @@
 			isMaskBg: {
 				type: [Boolean, String],
 				default: false
+			},
+			hotId: {
+				type: String,
+				default: ''
 			}
 		},
 		methods: {
@@ -150,7 +154,7 @@
 			},
 			goSearchCelebrity() {
 				uni.navigateTo({
-					url: '/pages/home/celebrity/detail/search/search'
+					url: '/pages/home/celebrity/detail/search/search?id=' + this.hotId
 				})
 			}
 		}

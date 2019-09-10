@@ -1,7 +1,7 @@
 <template>
 	<view class="container">
 		<!-- 自定义导航栏 -->
-		<channel-operate :show="showChannelOperate" v-on:hideChannelOperate='hideChannelOperate'></channel-operate>
+		<channel-operate :show="showChannelOperate" v-on:hideChannelOperate='hideChannelOperate' :myChanelList="tabs"></channel-operate>
 		<view class="header-custom flex-r-between" :style="[{height:CustomBar + 'px','padding-top':StatusBar+'px'}]">
 			<view class="flex search-box" @click="goSearch">
 				<image src="/static/com_nav_ic_search_pre@3x.png" mode="widthFix" class="search-icon app-icon"></image>
@@ -20,7 +20,7 @@
 						<view class="flex item-box">
 							<view class="gray item" v-for="(item, index) in tabs" :key="index" :class="{ active: item.active }" @click="changeTab(index)">
 								<view :class="{'bottom-line':item.active}"></view>
-								<view class="name" :class="{ active: item.active }">{{ item.name }}</view>
+								<view class="name" :class="{ active: item.active }">{{ item.channelName }}</view>
 							</view>
 						</view>
 						<!-- <view class="blur"></view> -->
@@ -199,39 +199,20 @@
 				changeArticleIndex: "",
 				showChannelOperate: false,
 				tabs: [{
-						name: '推荐',
+						channelName: '推荐',
 						active: false,
 						data: [],
 						offset: 0,
-						loadingType: 0
+						loadingType: 0,
+						channelId: -1
 					},
 					{
-						name: '关注',
+						channelName: '关注',
 						active: false,
 						data: [],
 						offset: 0,
-						loadingType: 0
-					},
-					{
-						name: '问答',
-						active: false,
-						data: [],
-						offset: 0,
-						loadingType: 0
-					},
-					{
-						name: '音频',
-						active: false,
-						data: [],
-						offset: 0,
-						loadingType: 0
-					},
-					{
-						name: '视频',
-						active: false,
-						data: [],
-						offset: 0,
-						loadingType: 0
+						loadingType: 0,
+						channelId: -2
 					}
 				],
 				loadingText: {
@@ -246,7 +227,7 @@
 				WindowHeight: this.windowHeight,
 				isLogin: false,
 				userInfo: {},
-				issueKeyword: ""
+				issueKeyword: "",
 			};
 		},
 		onShareAppMessage(res) {
@@ -261,6 +242,7 @@
 			};
 		},
 		onLoad(options) {
+			this.getKeyWord()
 			this.getChanelList()
 			this.hasLogin()
 			this.currentTab()
@@ -328,7 +310,20 @@
 		methods: {
 			getChanelList() {
 				this.api.home.get_chanel_list(null, res => {
+					console.log('获取频道列表')
 					console.log(res)
+					let chanelList = res.data.map((el) => {
+						let obj = {
+							channelName: el.channelName,
+							active: false,
+							data: [],
+							offset: 0,
+							loadingType: 0,
+							channelId: el.channelId
+						}
+						return obj
+					})
+					this.tabs=this.tabs.concat(chanelList)
 				})
 			},
 			currentTab() {
@@ -350,7 +345,7 @@
 					url: '/pages/home/search/search'
 				})
 			},
-			init() {
+			getKeyWord(){
 				this.api.home.search.get_query_list({ //问题关键词
 						type: 2,
 						ctime: Date.now(),
@@ -360,9 +355,11 @@
 					res => {
 						console.log(res);
 						var index = Math.floor((Math.random() * res.data.length));
-						this.issueKeyword = res.data[index]
+						this.issueKeyword = res.data[index].keywordName
 					}
 				);
+			},
+			init() {
 				if (!this.tabs[this.tabIndex].data.length) {
 					this.isLoad = false
 					uni.showLoading({
