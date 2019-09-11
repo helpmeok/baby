@@ -3,6 +3,11 @@
 		<!-- <view class="iconfont iconzanwuchiyouzhongdingdan default-color" style="font-size: 150upx;"></view> -->
 		<image :src="url" mode="widthFix"></image>
 		<view class="gray">{{msg}}</view>
+		<navigator url="/pages/index/index" hover-class="none" v-if="isLogin">
+			<view class="bg-default-color flex-r-center baby-font-size white btn">
+				前往登录
+			</view>
+		</navigator>
 	</view>
 </template>
 
@@ -17,6 +22,10 @@
 				type: String,
 				default: "/static/com_ic_no@2x.png"
 			},
+			isLogin:{
+				type: [Boolean, String],
+				default: false
+			}
 		},
 		data() {
 			return {
@@ -30,5 +39,11 @@
 <style lang="scss">
 	image {
 		width: 300upx;
+	}
+	.btn{
+		width: 230upx;
+		height: 80upx;
+		border-radius: 40upx;
+		margin-top: 30upx;
 	}
 </style>

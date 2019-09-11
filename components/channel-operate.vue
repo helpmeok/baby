@@ -2,7 +2,7 @@
 	<view>
 		<view class="uni-mask" v-show="show" @click="hide">
 		</view>
-		<view class="content bg-white" :class="{'animation':show}"   @click.stop :style="{height:contentHeight+'px'}">
+		<view class="content bg-white" :class="{'animation':show}" @click.stop :style="{height:contentHeight+'px'}">
 			<image src="/static/home_more_ic_close_nor@3x.png" mode="widthFix" @click="hide" class="close-icon"></image>
 			<!-- <text class="iconfont iconguanbi close-icon" @click="hide"></text> -->
 			<view class="flex-r-between pd-box">
@@ -16,22 +16,22 @@
 					<view class="item" v-if="i<2" :class="{'disable':isEdit}">
 						{{el.channelName}}
 					</view>
-					<view class="item" v-else>
+					<view class="item" v-else @click="delChanel(el,i)">
 						{{el.channelName}}
-						<image src="/static/home_more_ic_clean_nor@3x.png" mode="widthFix" @click="deleted(el,i)" class="del-icon" v-if="isEdit"></image>
+						<image src="/static/home_more_ic_clean_nor@3x.png" mode="widthFix" class="del-icon" v-if="isEdit"></image>
 					</view>
 				</view>
 			</view>
-		
+
 			<view class="line-gray"></view>
 			<view class="flex-r-between pd-box">
 				<view class="font-b blod title">添加频道</view>
 			</view>
 			<view class="pd-box add-list">
-				<view class="add-list-item" v-for="(el,i) in presentList" :key="i">
+				<view class="add-list-item" v-for="(el,i) in addChanelList" :key="i" @click="addChanel(el,i)">
 					<view class="item flex-r-center">
 						<image src="/static/home_more_ic_add@3x.png" mode="widthFix" class="add-icon"></image>
-						<text class="mgl-10">{{el}}</text>
+						<text class="mgl-10">{{el.channelName}}</text>
 					</view>
 				</view>
 			</view>
@@ -47,7 +47,13 @@
 				type: Boolean,
 				default: false
 			},
-			myChanelList:{
+			myChanelList: {
+				type: Array,
+				default () {
+					return [];
+				}
+			},
+			addChanelList: {
 				type: Array,
 				default () {
 					return [];
@@ -58,13 +64,12 @@
 			return {
 				WindowHeight: this.windowHeight,
 				CustomBar: this.CustomBar,
-				presentList: ['阿萨德', 'asdsad', '奥术师多', '撒打算', 'sad'],
 				isEdit: false
 			};
 		},
 		computed: {
 			contentHeight() {
-				let res= uni.getSystemInfoSync()
+				let res = uni.getSystemInfoSync()
 				return res.windowHeight - this.CustomBar - 10
 			}
 		},
@@ -72,8 +77,8 @@
 			this.init()
 		},
 		methods: {
-			init(){
-				this.api.home.get_user_chanel_list(null,res=>{
+			init() {
+				this.api.home.get_user_chanel_list(null, res => {
 					console.log(res)
 				})
 			},
@@ -83,8 +88,13 @@
 			edit() {
 				this.isEdit = !this.isEdit
 			},
-			deleted(el, i) {
-				this.presentList.splice(i, 1)
+			delChanel(el, i) {
+				if (this.isEdit) {
+					this.$emit('delChanelOperate', el, i);
+				}
+			},
+			addChanel(el, i) {
+				this.$emit('addChanelOperate', el, i);
 			}
 		}
 	}
@@ -111,6 +121,7 @@
 
 	.content {
 		box-sizing: border-box;
+
 		.close-icon {
 			margin-left: 30upx;
 			width: 32upx;
@@ -125,6 +136,7 @@
 		transform: translateY(100%);
 		transition: all 0.3s ease-out;
 		z-index: 999;
+
 		.edit-btn {
 			width: 110upx;
 			height: 60upx;
@@ -167,7 +179,8 @@
 						top: -10upx;
 					}
 				}
-				.item.disable{
+
+				.item.disable {
 					border-color: #E8E8E8;
 					color: #A3A3A3;
 				}
@@ -186,18 +199,19 @@
 		.title {
 			color: #090909;
 		}
+
 		.add-list {
 			display: flex;
 			flex-wrap: wrap;
 			flex-direction: row;
-		
+
 			.add-list-item {
 				width: 33.3333%;
 				height: 64upx;
 				display: flex;
 				justify-content: center;
 				margin-bottom: 20upx;
-		
+
 				.item {
 					border: 2upx solid #E8E8E8;
 					border-radius: 35upx;
@@ -208,23 +222,25 @@
 					position: relative;
 					left: 0;
 					top: 0;
-					.add-icon{
+
+					.add-icon {
 						width: 20upx;
 						height: 20upx;
 					}
 				}
 			}
-		
+
 			.add-list-item:nth-of-type(3n) {
 				justify-content: flex-end;
 			}
-		
+
 			.add-list-item:nth-of-type(3n-2) {
 				justify-content: flex-start;
 			}
-		
+
 		}
 	}
+
 	.content.animation {
 		transform: translateY(0%);
 	}

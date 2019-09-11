@@ -61,7 +61,7 @@
 
 <script>
 	var ctime = parseInt(Date.now());
-	const total = 2;
+	const total = 10;
 	export default {
 		data() {
 			return {

@@ -140,7 +140,7 @@ module.exports = {
 			let _url = "/home/saveUserChanelList";
 			_req.m_send(_url, "POST", d, onok, onno);
 		},
-		get_chanel_list_byId: function(d, onok, onno) { //【首页】 根据频道id获取内容数据
+		get_article_by_chanelId:function(d, onok, onno) { //【首页】 根据频道id获取内容数据
 			let _url = "/home/getArticleByChannelId";
 			_req.m_send(_url, "GET", d, onok, onno);
 		},
@@ -173,6 +173,10 @@ module.exports = {
 			},
 			get_recommend_list: function(d, onok, onno) { //APP“首页”模块，大V详情主界面里的相关推荐功能
 				let _url = "/home/getRecommendVipList";
+				_req.m_send(_url, "GET", d, onok, onno);
+			},
+			get_hobby_list_byUser: function(d, onok, onno) { //某用户可能感兴趣的所有大V列表	
+				let _url = "/home/getVipListByUser";
 				_req.m_send(_url, "GET", d, onok, onno);
 			},
 		},

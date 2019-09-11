@@ -1,7 +1,8 @@
 <template>
 	<view class="container">
 		<!-- 自定义导航栏 -->
-		<channel-operate :show="showChannelOperate" v-on:hideChannelOperate='hideChannelOperate' :myChanelList="tabs"></channel-operate>
+		<channel-operate :show="showChannelOperate" v-on:hideChannelOperate='hideChannelOperate' :myChanelList="tabs"
+		 :addChanelList="addChanelList" v-on:addChanelOperate="addChanelOperate" v-on:delChanelOperate="delChanelOperate"></channel-operate>
 		<view class="header-custom flex-r-between" :style="[{height:CustomBar + 'px','padding-top':StatusBar+'px'}]">
 			<view class="flex search-box" @click="goSearch">
 				<image src="/static/com_nav_ic_search_pre@3x.png" mode="widthFix" class="search-icon app-icon"></image>
@@ -40,9 +41,9 @@
 					<swiper-item v-for="(el, i) in tabs" :key="i">
 						<scroll-view @scrolltolower="loadMore(i)" :scroll-y="!showArticleOperate" class="scroll-view" :style="{height:articleScrollHeight+'px'}"
 						 :enable-back-to-top="el.active">
-							<view class="" v-if="el.name!='关注'">
+							<view class="" v-if="el.channelName!='关注'">
 								<!-- 问答头部 -->
-								<view class="qa-box" v-if="el.name=='问答'&&isLogin">
+								<view class="qa-box" v-if="el.channelName=='问答'&&isLogin">
 									<view class="qa-user">
 										<view class="flex-r-between">
 											<view class="flex">
@@ -56,13 +57,13 @@
 													</view>
 												</view>
 											</view>
-											<view class="flex gray">
+											<view class="flex gray" @click="goQa()">
 												<text>我的回答</text>
 												<image src="/static/com_list_ic_arrow@3x.png" mode="widthFix" class="icon"></image>
 											</view>
 										</view>
 										<view class="flex-r-center">
-											<view class="flex-r-center btn bg-default-color">
+											<view class="flex-r-center btn bg-default-color" @click="goAskQuestion()">
 												<image src="/static/bigv_list_ic_follow@3x.png" mode="widthFix" class="icon"></image>
 												<text class="white">提问</text>
 											</view>
@@ -71,73 +72,81 @@
 									<view class="cut-off"></view>
 								</view>
 								<empty v-if="tabs[i].data.length == 0 && isLoad" msg="暂无资讯，下拉加载试试~"></empty>
-								<!-- 问答头部 -->
 								<article-item :list="tabs[i].data" :showOperate="true" v-on:showOperate="showOperate"></article-item>
 								<view class="uni-tab-bar-loading">
 									<uni-load-more :loadingType="el.loadingType" :contentText="loadingText"></uni-load-more>
 								</view>
 							</view>
 							<!-- 关注列表 -->
-							<view class="" v-if="el.name=='关注'">
-								<view class="attention-no" v-if="isLogin">
-									<view class="pd-box celebrity-box flex-c-center">
-										<view class="flex-r-center avatar-box">
-											<image :src="userInfo.avatar" mode="aspectFill" v-for="(el,i) in 4" :key="i" class="celebrity-avatar" :style="{left:-(i*8)+'px'}"></image>
+							<view class="" v-if="el.channelName=='关注'">
+								<view class="" v-if="isLogin">
+									<view class="attention-no" v-if="tabs[i].data.length == 0">
+										<view class="pd-box celebrity-box flex-c-center">
+											<view class="flex-r-center avatar-box">
+												<image :src="el.avatar" mode="aspectFill" v-for="(el,i) in hotList" :key="i" class="celebrity-avatar"
+												 :style="{left:-(i*8)+'px'}"></image>
+											</view>
+											<view class="title font-b blod">
+												与大V们一起来探讨育儿的方法
+											</view>
+											<navigator url="/pages/home/celebrity/more/more" hover-class="none">
+												<view class="flex-r-center btn bg-default-color white">
+													开始吧
+												</view>
+											</navigator>
 										</view>
-										<view class="title font-b blod">
-											与大V们一起来探讨育儿的方法
-										</view>
-										<view class="flex-r-center btn bg-default-color white">
-											开始吧
-										</view>
-									</view>
-									<view class="cut-off"></view>
-									<view class="pd-box care-celebrity-box">
-										<view class="title font-b blod baby-black">
-											你可能感兴趣的人
-										</view>
-										<view class="list-item flex-r-between" v-for="(el,sub) in 4" :key="sub" @click="goDetail(el.userId)">
-											<view class="list-item-l">
-												<!-- <view class="cu-avatar round lg">{{item.letter}}</view> -->
-												<image :src="userInfo.avatar" mode="widthFix" lazy-load class="avatar mgr-20"></image>
-												<view class="content">
-													<view class="article-font blod baby-black baby-font-size">阿萨德啊</view>
-													<view class="text-gray text-sm">
-														知名微信公众好
-													</view>
-													<view class="text-gray text-sm">
-														已有123人关注
+										<view class="cut-off"></view>
+										<view class="pd-box care-celebrity-box">
+											<view class="title font-b blod baby-black">
+												你可能感兴趣的人
+											</view>
+											<view class="list-item flex-r-between" v-for="(el,index) in hobbyVipList" :key="index" @click="goDetail(el.userId)">
+												<view class="list-item-l">
+													<!-- <view class="cu-avatar round lg">{{item.letter}}</view> -->
+													<image :src="el.avatar" mode="aspectFill" lazy-load class="avatar mgr-20"></image>
+													<view class="content">
+														<view class="article-font blod baby-black baby-font-size">{{el.name}}</view>
+														<view class="text-gray text-sm">
+															{{el.oauthIntro}}
+														</view>
+														<view class="text-gray text-sm">
+															已有{{el.fansNum}}人关注
+														</view>
 													</view>
 												</view>
-											</view>
-											<view class=" bg-default-color  pd-lr btn flex-r-center" :class="{'followed':el.isFollowed ,'white':!el.isFollowed }"
-											 @click.stop="toggleFollowed(el,index,sub)">
-												<text class="iconfont iconjiahao white small mgr-10" v-if="!el.isFollowed"></text>
-												<text class="">{{el.isFollowed ?"已关注":"关注"}}</text>
+												<view class=" bg-default-color  pd-lr btn flex-r-center" :class="{'followed':el.isFollowed ,'white':!el.isFollowed }"
+												 @click.stop="toggleFollowed(el,index)">
+													<text class="iconfont iconjiahao white small mgr-10" v-if="!el.isFollowed"></text>
+													<text class="">{{el.isFollowed ?"已关注":"关注"}}</text>
+												</view>
 											</view>
 										</view>
 									</view>
-								</view>
-								<view class="attention-yes" v-else>
-									<view class="flex-r-between box">
-										<view class="title blod font-b baby-black">
-											发现更多感兴趣的人
-										</view>
-										<view class="flex">
-											<view class="flex-r-center avatar-box">
-												<image src="https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKxRpvZNm1MXWEvpFlgTYRGA37XkBzsyRQiaTJZnodRcyKalc29Evzv00WbsqiaibcgujzAlZvzMUp8w/132"
-												 mode="aspectFill" v-for="(el,i) in 4" :key="i" class="celebrity-avatar" :style="{left:-(i*8)+'px'}"></image>
+									<view class="attention-yes" v-else>
+										<navigator url="/pages/home/celebrity/more/more" hover-class="none">
+											<view class="flex-r-between box">
+												<view class="title blod font-b baby-black">
+													发现更多感兴趣的人
+												</view>
+												<view class="flex">
+													<view class="flex-r-center avatar-box">
+														<image :src="el.avatar" mode="aspectFill" v-for="(el,i) in hotList" :key="i" class="celebrity-avatar"
+														 :style="{left:-(i*8)+'px'}"></image>
+													</view>
+													<image src="/static/com_list_ic_arrow@3x.png" mode="widthFix" class="icon"></image>
+												</view>
 											</view>
-											<image src="/static/com_list_ic_arrow@3x.png" mode="widthFix" class="icon"></image>
-										</view>
+										</navigator>
+										<view class="cut-off"></view>
 									</view>
-									<view class="cut-off"></view>
-									<empty v-if="tabs[i].data.length == 0 && isLoad" msg="暂无资讯，下拉加载试试~"></empty>
-									<!-- 问答头部 -->
+									<empty msg="暂无资讯，下拉加载试试~" v-if="tabs[i].data==0"></empty>
 									<article-item :list="tabs[i].data" :showOperate="true" v-on:showOperate="showOperate"></article-item>
 									<view class="uni-tab-bar-loading">
 										<uni-load-more :loadingType="el.loadingType" :contentText="loadingText"></uni-load-more>
 									</view>
+								</view>
+								<view class="" v-else>
+									<empty msg="登录后才能看到关注的信息哦~" :isLogin="true"></empty>
 								</view>
 							</view>
 							<!-- 关注列表 -->
@@ -176,7 +185,6 @@
 	import channelOperate from '@/components/channel-operate'; //频道操作组件
 	var ctime = parseInt(Date.now());
 	const total = 10;
-	let isLaunch = true
 	export default {
 		components: {
 			uniTag,
@@ -228,6 +236,8 @@
 				isLogin: false,
 				userInfo: {},
 				issueKeyword: "",
+				addChanelList: [],
+				hobbyVipList: []
 			};
 		},
 		onShareAppMessage(res) {
@@ -244,7 +254,7 @@
 		onLoad(options) {
 			this.getKeyWord()
 			this.getUserChanelList()
-			this.hasLogin()
+			this.getAddChanelList()
 			this.currentTab()
 			this.init();
 			if (options.articleId) {
@@ -260,6 +270,10 @@
 		},
 		onShow() {
 			this.getHot();
+			this.hasLogin()
+			if (this.isLogin) {
+				this.getHobbyVipList()
+			}
 			if (uni.getStorageSync('articleIndex').toString()) { //监听文章数据改变
 				let index = parseInt(uni.getStorageSync('articleIndex'))
 				uni.removeStorageSync('articleIndex')
@@ -308,7 +322,7 @@
 			}
 		},
 		methods: {
-			getUserChanelList() {
+			getUserChanelList() { //获取用户已选频道列表
 				this.api.home.get_user_chanel_list(null, res => {
 					console.log('获取用户已选频道列表')
 					console.log(res)
@@ -323,13 +337,45 @@
 						}
 						return obj
 					})
-					this.tabs=this.tabs.concat(myChanelList)
+					this.tabs = this.tabs.concat(myChanelList)
 				})
+			},
+			getAddChanelList() { //获取用户可选频道列表
+				this.api.home.get_chanel_add_list(null, res => {
+					console.log('获取用户可选频道列表')
+					console.log(res)
+					this.addChanelList = res.data.map((el) => {
+						let obj = {
+							channelName: el.channelName,
+							active: false,
+							data: [],
+							offset: 0,
+							loadingType: 0,
+							channelId: el.channelId
+						}
+						return obj
+					})
+				})
+			},
+			getHobbyVipList() {
+				this.api.home.hotVip.get_hobby_list_byUser(null, res => {
+					console.log('获取感兴趣的大V列表')
+					console.log(res)
+					this.hobbyVipList = res.data
+				})
+			},
+			addChanelOperate(el, i) {
+				this.addChanelList.splice(i, 1)
+				this.tabs.push(el)
+			},
+			delChanelOperate(el, i) {
+				this.tabs.splice(i, 1)
+				this.addChanelList.unshift(el)
 			},
 			currentTab() {
 				this.tabs[this.tabIndex].active = true;
 			},
-			hasLogin() {
+			hasLogin() { //判断是否登录
 				this.isLogin = uni.getStorageSync('access_token') ? true : false
 				this.userInfo = this.isLogin ? JSON.parse(uni.getStorageSync('userInfo')) : {};
 				console.log(this.userInfo)
@@ -345,10 +391,15 @@
 					url: '/pages/home/search/search'
 				})
 			},
-			getKeyWord(){
+			goAskQuestion() {
+				uni.navigateTo({
+					url: "/pages/home/question/commit/commit"
+				})
+			},
+			getKeyWord() { //获取问题关键词
 				this.api.home.search.get_query_list({ //问题关键词
 						type: 2,
-						ctime: Date.now(),
+						ctime,
 						offset: 0,
 						total: 10
 					},
@@ -359,7 +410,7 @@
 					}
 				);
 			},
-			init() {
+			init(type) { //初始化首页列表数据
 				if (!this.tabs[this.tabIndex].data.length) {
 					this.isLoad = false
 					uni.showLoading({
@@ -370,92 +421,50 @@
 				this.tabs[this.tabIndex].loadingType = 0;
 				this.tabs[this.tabIndex].offset = 0;
 				return new Promise((onok, onno) => {
-					if (this.tabIndex === 0) {
-						this.api.home.get_recommend_article({
-								type: 2,
-								ctime: ctime,
-								offset: this.tabs[this.tabIndex].offset,
-								total: total,
-								isLaunch
-							},
-							res => {
-								console.log('刷新推荐数据');
-								console.log(res);
-								this.tabs[this.tabIndex].data = res.data.concat(this.tabs[this.tabIndex].data);
-								isLaunch = false
-								this.isLoad = true
-								uni.hideLoading();
-								onok(res.data);
+					this.api.home.get_article_by_chanelId({
+							channelId: this.tabs[this.tabIndex].channelId,
+							ctime: ctime,
+							offset: this.tabs[this.tabIndex].offset,
+							total: total
+						},
+						res => {
+							console.log(this.tabs[this.tabIndex].channelName + '数据列表');
+							console.log(res);
+							this.tabs[this.tabIndex].data = res.data.concat(this.tabs[this.tabIndex].data);
+							if (type == 'pull-down' && this.tabs[this.tabIndex].channelId == -2) { //关注列表
+								this.tabs[this.tabIndex].data = res.data
 							}
-						);
-					} else {
-						this.api.home.get_foucs_article({
-								type: 1,
-								ctime: ctime,
-								offset: this.tabs[this.tabIndex].offset,
-								total: total,
-								isLaunch
-							},
-							res => {
-								console.log('刷新关注数据');
-								console.log(res);
-								this.tabs[this.tabIndex].data = res.data.concat(this.tabs[this.tabIndex].data);
-								isLaunch = false
-								this.isLoad = true
-								uni.hideLoading();
-								onok(res.data);
-							}
-						);
-					}
+							console.log(this.tabs[this.tabIndex].data)
+							this.isLoad = true
+							this.$forceUpdate()
+							uni.hideLoading();
+							onok();
+						}
+					);
 				});
 			},
 			getMoreArticle() {
 				this.tabs[this.tabIndex].offset += total;
-				if (this.tabIndex === 0) {
-					this.api.home.get_recommend_article({
-							type: 2,
-							ctime: ctime,
-							offset: this.tabs[this.tabIndex].offset,
-							total: total,
-							isLaunch
-						},
-						res => {
-							console.log(res);
-							if (res.data.length) {
-								this.tabs[this.tabIndex].data = this.tabs[this.tabIndex].data.concat(res.data);
-								this.tabs[this.tabIndex].loadingType = 0;
-							} else {
-								this.tabs[this.tabIndex].loadingType = 2;
-							}
-						},
-						err => {
-							this.tabs[this.tabIndex].offset -= total;
+				this.api.home.get_article_by_chanelId({
+						channelId: this.tabs[this.tabIndex].channelId,
+						ctime: ctime,
+						offset: this.tabs[this.tabIndex].offset,
+						total: total
+					},
+					res => {
+						console.log(res);
+						if (res.data.length) {
+							this.tabs[this.tabIndex].data = this.tabs[this.tabIndex].data.concat(res.data);
 							this.tabs[this.tabIndex].loadingType = 0;
+						} else {
+							this.tabs[this.tabIndex].loadingType = 2;
 						}
-					);
-				} else {
-					this.api.home.get_foucs_article({
-							type: 1,
-							ctime: ctime,
-							offset: this.tabs[this.tabIndex].offset,
-							total: total,
-							isLaunch
-						},
-						res => {
-							console.log(res);
-							if (res.data.length) {
-								this.tabs[this.tabIndex].data = this.tabs[this.tabIndex].data.concat(res.data);
-								this.tabs[this.tabIndex].loadingType = 0;
-							} else {
-								this.tabs[this.tabIndex].loadingType = 2;
-							}
-						},
-						err => {
-							this.tabs[this.tabIndex].offset -= total;
-							this.tabs[this.tabIndex].loadingType = 0;
-						}
-					);
-				}
+					},
+					err => {
+						this.tabs[this.tabIndex].offset -= total;
+						this.tabs[this.tabIndex].loadingType = 0;
+					}
+				);
 			},
 			changeTab(index) {
 				this.tabs.forEach(item => {
@@ -491,7 +500,7 @@
 				setTimeout(async () => {
 					await this.init('pull-down');
 					this.$refs.mixPulldownRefresh && this.$refs.mixPulldownRefresh.endPulldownRefresh();
-				}, 1000);
+				}, 500);
 			},
 			setEnableScroll(enable) {
 				if (this.enableScroll !== enable) {
@@ -538,8 +547,22 @@
 			},
 			goDetail(id) {
 				uni.navigateTo({
-					url: '../celebrity/detail/detail?id=' + id
+					url: '/pages/home/celebrity/detail/detail?id=' + id
 				});
+			},
+			goQa() {
+				uni.navigateTo({
+					url: "/pages/center/question/list/list"
+				});
+			},
+			toggleFollowed(el, index) {
+				this.api.home.hotVip.toggle_followed({
+					vid: el.userId,
+					action: el.isFollowed ? 0 : 1
+				}, res => {
+					console.log(res)
+					this.hobbyVipList[index].isFollowed = !this.hobbyVipList[index].isFollowed
+				})
 			}
 		}
 	};
@@ -607,7 +630,7 @@
 							top: 0;
 							z-index: 2;
 							font-size: 34upx;
-							width: 100upx;
+							white-space: nowrap;
 						}
 
 						.active {
