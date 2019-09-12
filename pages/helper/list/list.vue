@@ -25,7 +25,7 @@
 					<view class="gray">
 						共有{{total}}篇相关回答
 					</view>
-					<view class="flex default-color" @click="goAsk">
+					<view class="flex default-color" @click="goAsk" v-if="hasQuestion">
 						<text>没有我要的答案</text>
 						<image src="/static/com_list_arrow_nor@2x.png" mode="widthFix" class="arrow-icon"></image>
 					</view>
@@ -64,7 +64,8 @@
 				scrollHeight: this.screenHeight - this.CustomBar,
 				total: 0,
 				headerTop: 0,
-				showHeader: false
+				showHeader: false,
+				hasQuestion:false
 			};
 		},
 		onLoad(options) {
@@ -87,7 +88,8 @@
 					total
 				}, res => {
 					console.log(res)
-					this.total = res.data.total
+					this.total = res.data.total;
+					this.hasQuestion=res.data.hasQuestion;
 					if (res.data.resultList.length) {
 						this.list = this.list.concat(res.data.resultList)
 						this.loadingType = 0

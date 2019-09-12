@@ -40,7 +40,7 @@
 
 			</view>
 		</scroll-view>
-		<view class="cu-modal flex-r-center align-left" :class="{'show':isShowModel}" @tap="hideModal">
+		<!-- <view class="cu-modal flex-r-center align-left" :class="{'show':isShowModel}" @tap="hideModal">
 			<view class="cu-content bg-white " @tap.stop="">
 				<view class="font-b blod pd-box">
 					{{task.taskName}}
@@ -71,7 +71,7 @@
 					</view>
 				</view>
 			</view>
-		</view>
+		</view> -->
 		<view class="flex-r-center bottom-box">
 			<navigator url="/pages/task/store/index/index" class="white bg-default-color white btn flex-r-center font-b"
 			 hover-class="none">
@@ -106,6 +106,10 @@
 		},
 		onShow() {
 			this.getUserInfo()
+			if (uni.getStorageSync('updateTask')) {
+				uni.removeStorageSync('updateTask')
+				this.init();
+			}
 		},
 		computed: {
 			scrollHeight() {
@@ -140,7 +144,7 @@
 			},
 			goDetail(el) {
 				uni.navigateTo({
-					url: '/pages/task/detail/detail?id=' + el.taskId
+					url: '/pages/task/detail/detail?id=' + el.taskId+'&taskNo='+el.taskNo
 				})
 			},
 			showAward() {
@@ -168,60 +172,60 @@
 		width: 100%;
 	}
 
-	.cu-modal {
-		.cu-content {
-			width: 80%;
-			display: flex;
-			flex-direction: column;
-			border-radius: 10upx;
-			overflow: hidden;
-
-			.btn {
-				width: 100%;
-			}
-		}
-
-		.cu-award {
-			width: 450upx !important;
-			height: 450upx !important;
-			position: relative;
-			left: 0;
-			top: 0;
-			box-sizing: border-box;
-
-			.bg-img {
-				width: 450upx !important;
-				height: 450upx !important;
-				position: absolute;
-				left: 0;
-				top: 0;
-			}
-
-			.text {
-				position: relative;
-				z-index: 2;
-				color: #FFC438;
-			}
-
-			.point {
-				position: relative;
-				z-index: 2;
-				color: #FFC438;
-
-				.icon {
-					width: 50upx;
-				}
-			}
-		}
-
-		.close {
-			width: 60upx;
-			height: 60upx;
-			border-radius: 50%;
-			border: 4upx solid white;
-			margin-top: 50upx;
-		}
-	}
+// 	.cu-modal {
+// 		.cu-content {
+// 			width: 80%;
+// 			display: flex;
+// 			flex-direction: column;
+// 			border-radius: 10upx;
+// 			overflow: hidden;
+// 
+// 			.btn {
+// 				width: 100%;
+// 			}
+// 		}
+// 
+// 		.cu-award {
+// 			width: 450upx !important;
+// 			height: 450upx !important;
+// 			position: relative;
+// 			left: 0;
+// 			top: 0;
+// 			box-sizing: border-box;
+// 
+// 			.bg-img {
+// 				width: 450upx !important;
+// 				height: 450upx !important;
+// 				position: absolute;
+// 				left: 0;
+// 				top: 0;
+// 			}
+// 
+// 			.text {
+// 				position: relative;
+// 				z-index: 2;
+// 				color: #FFC438;
+// 			}
+// 
+// 			.point {
+// 				position: relative;
+// 				z-index: 2;
+// 				color: #FFC438;
+// 
+// 				.icon {
+// 					width: 50upx;
+// 				}
+// 			}
+// 		}
+// 
+// 		.close {
+// 			width: 60upx;
+// 			height: 60upx;
+// 			border-radius: 50%;
+// 			border: 4upx solid white;
+// 			margin-top: 50upx;
+// 		}
+// 	}
 
 	.welfar-bg {
 		width: 100% !important;

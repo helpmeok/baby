@@ -2,7 +2,7 @@
 	<view class="container">
 		<!-- 自定义导航栏 -->
 		<channel-operate :show="showChannelOperate" v-on:hideChannelOperate='hideChannelOperate' :myChanelList="tabs"
-		 :addChanelList="addChanelList" v-on:addChanelOperate="addChanelOperate" v-on:delChanelOperate="delChanelOperate"></channel-operate>
+		 :addChanelList="addChanelList" v-on:addChanelOperate="addChanelOperate" v-on:delChanelOperate="delChanelOperate" v-on:changeChanelOperate="changeChanelOperate"></channel-operate>
 		<view class="header-custom flex-r-between" :style="[{height:CustomBar + 'px','padding-top':StatusBar+'px'}]">
 			<view class="flex search-box" @click="goSearch">
 				<image src="/static/com_nav_ic_search_pre@3x.png" mode="widthFix" class="search-icon app-icon"></image>
@@ -80,7 +80,7 @@
 							<!-- 关注列表 -->
 							<view class="" v-if="el.channelName=='关注'">
 								<view class="" v-if="isLogin">
-									<view class="attention-no" v-if="tabs[i].data.length == 0">
+									<view class="attention-no" v-if="tabs[i].data.length == 0 &&isLoad">
 										<view class="pd-box celebrity-box flex-c-center">
 											<view class="flex-r-center avatar-box">
 												<image :src="el.avatar" mode="aspectFill" v-for="(el,i) in hotList" :key="i" class="celebrity-avatar"
@@ -321,6 +321,19 @@
 				return (this.WindowHeight - this.CustomBar - uni.upx2px(88))
 			}
 		},
+		watch: {
+			tabs: {
+				handler(newVal, oldVal) {
+					let hasActive=newVal.find((el)=>{
+						return el.active
+					})
+					if (!hasActive) {
+						this.tabIndex=0
+					}
+				},
+				deep: true
+			}
+		},
 		methods: {
 			getUserChanelList() { //获取用户已选频道列表
 				this.api.home.get_user_chanel_list(null, res => {
@@ -371,6 +384,9 @@
 			delChanelOperate(el, i) {
 				this.tabs.splice(i, 1)
 				this.addChanelList.unshift(el)
+			},
+			changeChanelOperate(i){
+				this.tabIndex=i
 			},
 			currentTab() {
 				this.tabs[this.tabIndex].active = true;
@@ -434,7 +450,6 @@
 							if (type == 'pull-down' && this.tabs[this.tabIndex].channelId == -2) { //关注列表
 								this.tabs[this.tabIndex].data = res.data
 							}
-							console.log(this.tabs[this.tabIndex].data)
 							this.isLoad = true
 							this.$forceUpdate()
 							uni.hideLoading();

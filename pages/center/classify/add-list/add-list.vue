@@ -27,12 +27,11 @@
 	export default {
 		computed: {
 			contentHeight() {
-				return this.windowHeight - this.CustomBar
+				return this.screenHeight - this.CustomBar
 			}
 		},
 		data() {
 			return {
-				WindowHeight: this.windowHeight,
 				CustomBar: this.CustomBar,
 				list: [],
 				chooseList: [],

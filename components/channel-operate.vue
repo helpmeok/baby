@@ -13,10 +13,10 @@
 			</view>
 			<view class="pd-box present-list">
 				<view class="present-list-item" v-for="(el,i) in myChanelList" :key="i">
-					<view class="item" v-if="i<2" :class="{'disable':isEdit}">
+					<view class="item" v-if="i<2" :class="{'disable':isEdit}" @click="goChanel(el,i)">
 						{{el.channelName}}
 					</view>
-					<view class="item" v-else @click="delChanel(el,i)">
+					<view class="item" v-else @click="goChanel(el,i)">
 						{{el.channelName}}
 						<image src="/static/home_more_ic_clean_nor@3x.png" mode="widthFix" class="del-icon" v-if="isEdit"></image>
 					</view>
@@ -71,6 +71,11 @@
 			contentHeight() {
 				let res = uni.getSystemInfoSync()
 				return res.windowHeight - this.CustomBar - 10
+			},
+			channelId() {
+				return this.myChanelList.map((el) => {
+					return el.channelId
+				})
 			}
 		},
 		created() {
@@ -83,14 +88,29 @@
 				})
 			},
 			hide() {
+				this.saveChanel()
+				this.isEdit=false;
 				this.$emit('hideChannelOperate');
 			},
 			edit() {
 				this.isEdit = !this.isEdit
+				if (!this.isEdit) {
+					this.saveChanel()
+				}
 			},
-			delChanel(el, i) {
+			saveChanel(){
+				this.api.home.save_chanel({
+					"channelId[]": this.channelId
+				}, res => {
+					console.log(res)
+				})
+			},
+			goChanel(el, i) {
 				if (this.isEdit) {
 					this.$emit('delChanelOperate', el, i);
+				}else{
+					this.hide();
+					this.$emit('changeChanelOperate',i)
 				}
 			},
 			addChanel(el, i) {

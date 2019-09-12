@@ -506,7 +506,11 @@ module.exports = {
 				let _url = "/mall/createOrder";
 				_req.m_send(_url, "POST", d, onok, onno);
 			},
-		}
+		},
+		get_detail_byId: function(d, onok, onno) { //任务详情接口
+			let _url = "/mall/taskDetail";
+			_req.m_send(_url, "GET", d, onok, onno);
+		},
 
 	}
 }
