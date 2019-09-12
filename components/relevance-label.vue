@@ -37,21 +37,23 @@
 		},
 		computed: {
 			contentHeight() {
-				return this.windowHeight - this.CustomBar
+				return this.screenHeight - this.CustomBar
 			}
 		},
 		data() {
 			return {
-				WindowHeight: this.windowHeight,
 				CustomBar: this.CustomBar,
 				list: [],
 				chooseList: []
 			};
 		},
-		created() {
-			if (this.show) {
-				this.init()
-			} 
+		
+		watch:{
+			show(val){
+				if (val) {
+					this.init()
+				} 
+			}
 		},
 		methods: {
 			init() {
