@@ -5,6 +5,7 @@
 			<view class="baby-btn flex-r-center" @click="goBaby" v-if="isLogin">宝宝管理</view>
 		</view>
 		<scroll-view scroll-y :style="{height:scrollHeight+'px'}" @scrolltolower="loadMore()">
+			<empty v-if="list.length == 0" msg="暂无任何专题~"></empty>
 			<view class="pd-box">
 				<view class="list-item" v-for="(el,i) in list" :key="i" @click="goDetail(el,i)">
 					<image :src="el.image" mode="aspectFill" class="bg-img"></image>
@@ -33,7 +34,7 @@
 				loadingText: {
 					contentdown: '',
 					contentrefresh: '正在加载...',
-					contentnomore: '没有更多专题了'
+					contentnomore: ''
 				},
 				loadingType: 0,
 				isLogin: false

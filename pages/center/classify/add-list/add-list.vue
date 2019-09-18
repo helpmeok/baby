@@ -5,6 +5,7 @@
 			<block slot="content">添加话题</block>
 		</cu-custom>
 		<view class="content bg-white" @click.stop :style="{height:contentHeight+'px'}">
+			<empty v-if="list.length==0" msg="没有任何数据耶~"></empty>
 			<scroll-view scroll-y class="scroll-view pd-box">
 				<view class="add-list" style="padding-top: 40upx;">
 					<view class="add-list-item" v-for="(el,i) in list" :key="i">
@@ -47,12 +48,12 @@
 					title: "加载中"
 				})
 				this.api.center.classify.get_add_list(null, res => {
+					console.log(res)
 					this.list = res.data
 					this.list.map((el) => {
 						el.active = false;
 						return el
 					})
-					console.log(this.list)
 					uni.hideLoading()
 				})
 			},
