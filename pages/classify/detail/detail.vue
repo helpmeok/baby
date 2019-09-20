@@ -62,13 +62,6 @@
 		</scroll-view>
 		<view class="" style="height: 20upx;background-color: #F5F5F5;"></view>
 		<view id="sticky" :class="{'fixed-top':isFixed}" :style="{'top':isFixed?CustomBar+'px':0}">
-			<!-- <wuc-tab :tab-list="[
-						{ name: '全部' },
-						{ name: '音频' },
-						{ name: '视频' }
-					]"
-			 :tabCur.sync="tabIndex" tab-class="text-center bg-white wuc-tab" :tab-style="CustomBar" select-class="text-blue"
-			 @change="clickitem"></wuc-tab> -->
 			<detail-tabs :tabIndex="tabIndex" :tabList="tabList" :typeList="typeList" v-on:changeTabIndex="changeTabIndex"
 			 v-on:changeTypeListIndex="changeTypeListIndex"></detail-tabs>
 		</view>
@@ -77,7 +70,7 @@
 				<scroll-view @scrolltolower="loadMore(i)" :scroll-y="isFixed" class="scroll-view" :enable-back-to-top="el.active"
 				 :style="{'height':swiperHeight+'px'}">
 					<empty v-if="tabs[i].data.length == 0" msg="暂无资讯~"></empty>
-					<article-item :list="tabs[i].data" :showOperate="false" v-on:showOperate="showOperate"></article-item>
+					<article-item v-on:videoHandle="videoHandle" :list="tabs[i].data" :showOperate="false" v-on:showOperate="showOperate"></article-item>
 					<view class="uni-tab-bar-loading">
 						<uni-load-more :loadingType="el.loadingType" :contentText="loadingText"></uni-load-more>
 					</view>
@@ -91,6 +84,7 @@
 	// import glanceSlideNavTabBar from '@/components/glance-SlideNavTabBar.vue';
 	import WucTab from '@/components/wuc-tab/wuc-tab.vue';
 	import detailTabs from '@/components/detail-tabs.vue';
+	var videoPlay;
 	let id = ""
 	var ctime = parseInt(Date.now());
 	const total = 10;
@@ -146,7 +140,7 @@
 						loadingType: 0
 					}
 				],
-				typeIndex:0,
+				typeIndex: 0,
 				typeList: [{
 					name: "最新发布",
 					active: true,
@@ -338,12 +332,21 @@
 			changeTabIndex(index) {
 				this.tabIndex = index
 				// this.changeTab(index);
+				if (videoPlay) {
+					videoPlay.pause()
+				}
 			},
 			changeSwiper(e) {
+				if (videoPlay) {
+					videoPlay.pause()
+				}
 				this.tabIndex = e.target.current
 				this.changeTab(e.target.current);
 			},
 			changeTypeListIndex(index) {
+				if (videoPlay) {
+					videoPlay.pause()
+				}
 				if (this.typeList[index].active) {
 					return
 				}
@@ -356,7 +359,7 @@
 				console.log(index)
 				this.typeList[index].active = true
 				this.tabs[this.tabIndex].data = [];
-				this.typeIndex= index;
+				this.typeIndex = index;
 				this.tabs[this.tabIndex].offset = 0;
 				this.getArticle();
 			},
@@ -410,26 +413,15 @@
 				});
 			},
 			showOperate(e) {
-				// console.log(e);
-				// uni.getSystemInfo({
-				// 	success: res => {
-				// 		console.log(res.windowHeight);
-				// 		if (e.detail.y + 220 > res.windowHeight) {
-				// 			this.articleOffsetTop = e.detail.y - 210;
-				// 		} else {
-				// 			this.articleOffsetTop = e.detail.y + 20;
-				// 		}
-				// 		this.showArticleOperate = true;
-				// 	}
-				// });
+
 			},
 			hideArticleOperate() {
 				this.showArticleOperate = false;
 			},
+			videoHandle(video) {
+				videoPlay = video;
+			}
 		},
-		// onReachBottom() {
-		// 	this.loadMore()
-		// },
 		onPageScroll(e) {
 			if (this.stickyTop >= (this.CustomBar + e.scrollTop)) {
 				this.isFixed = false

@@ -65,22 +65,9 @@
 				<view class="flex" style="width: 8%;"><text class="iconfont iconiconset0421 gray"></text></view>
 				<view class="" style="width: 92%;margin-top: 5upx;">认证：{{ info.oauthIntro }}</view>
 			</view>
-			<!-- <view class="desc flex">
-				<view class="flex" style="width: 8%;"><text class="iconfont icongongsijianjie gray"></text></view>
-				<view class="" style="width: 92%;margin-top: 5upx;">简介：{{ desc }}</view>
-			</view> -->
 		</view>
 		<view class="" style="height: 20upx;background-color: #F5F5F5;"></view>
 		<view id="sticky" :class="{'fixed-top':isFixed}" :style="{'top':isFixed?CustomBar+'px':0}">
-			<!-- <wuc-tab :tab-list="[
-					{ name: '最新发布' },
-					{ name: '转发最多' },
-					{ name: '评论最多' },
-					{ name: '点赞最高' }
-					
-				]"
-			 :tabCur.sync="tabIndex" tab-class="text-center bg-white wuc-tab" :tab-style="CustomBar" select-class="text-blue"
-			 @change="clickitem"></wuc-tab> -->
 			<detail-tabs :tabIndex="tabIndex" :tabList="tabList" :typeList="typeList" v-on:changeTabIndex="changeTabIndex" v-on:changeTypeListIndex="changeTypeListIndex"></detail-tabs>
 		</view>
 		<swiper class="swiper-box" :current="tabIndex" @change="changeSwiper" :style="{ height: swiperHeight + 'px','margin-top':isFixed?stickyHeight:0+'px' }">
@@ -88,7 +75,7 @@
 				<scroll-view @scrolltolower="loadMore(i)" :scroll-y="isFixed" class="scroll-view" :enable-back-to-top="el.active"
 				 :style="{ height: swiperHeight + 'px' }">
 					<empty v-if="tabs[i].data.length == 0" msg="暂无资讯~"></empty>
-					<article-item :list="tabs[i].data" :showOperate="false" v-on:showOperate="showOperate" id="articleItem"></article-item>
+					<article-item :list="tabs[i].data" v-on:videoHandle="videoHandle" :showOperate="false" v-on:showOperate="showOperate" id="articleItem"></article-item>
 					<view class="uni-tab-bar-loading">
 						<uni-load-more :loadingType="el.loadingType" :contentText="loadingText"></uni-load-more>
 					</view>
@@ -102,6 +89,7 @@
 	// import glanceSlideNavTabBar from '@/components/glance-SlideNavTabBar.vue';
 	import WucTab from '@/components/wuc-tab/wuc-tab.vue';
 	import detailTabs from '@/components/detail-tabs.vue';
+	var videoPlay;
 	let id = '';
 	var ctime = parseInt(Date.now());
 	const total = 10;
@@ -184,44 +172,6 @@
 			recommendBoxWidth() {
 				return uni.upx2px((this.recommendList.length + 1) * 270) + 'px';
 			},
-			desc() {
-				if (this.info.weixinOuthIntro) {
-					return this.info.weixinOuthIntro;
-				} else {
-					if (this.info.toutiaoOuthIntro) {
-						return this.info.toutiaoOuthIntro;
-					} else {
-						if (this.info.douyinOuthIntro) {
-							return this.info.douyinOuthIntro;
-						} else {
-							if (this.info.appOuthIntro) {
-								return this.info.appOuthIntro;
-							} else {
-								return '没有留下任何简介';
-							}
-						}
-					}
-				}
-			},
-			approve() {
-				let val = '';
-				if (this.info.weixinOauthStatus == '2') {
-					val += '母音知名领域微信公众号认证；';
-				} else {
-					if (this.info.toutiaoOauthStatus == '2') {
-						val += '今日头条认证；';
-					} else {
-						if (this.info.douyinOauthStatus == '2') {
-							val += '抖音认证；';
-						} else {
-							if (this.info.appOauthStatus == '2') {
-								val += '宝宝贝认证；';
-							}
-						}
-					}
-				}
-				return val ? val : '暂无认证';
-			}
 		},
 
 		onLoad(options) {
@@ -376,18 +326,28 @@
 					}
 				);
 			},
+			
 			showRecommend() {
 				this.isShowRecommend = !this.isShowRecommend;
 			},
 			changeTabIndex(index) {
 				this.tabIndex = index
 				// this.changeTab(index);
+				if (videoPlay) {
+					videoPlay.pause()
+				}
 			},
 			changeSwiper(e) {
+				if (videoPlay) {
+					videoPlay.pause()
+				}
 				this.tabIndex = e.target.current;
 				this.changeTab(e.target.current);
 			},
 			changeTypeListIndex(index) {
+				if (videoPlay) {
+					videoPlay.pause()
+				}
 				if (this.typeList[index].active) {
 					return
 				}
@@ -448,18 +408,6 @@
 				}
 			},
 			showOperate(e) {
-				// console.log(e);
-				// uni.getSystemInfo({
-				// 	success: res => {
-				// 		console.log(res.windowHeight);
-				// 		if (e.detail.y + 220 > res.windowHeight) {
-				// 			this.articleOffsetTop = e.detail.y - 210;
-				// 		} else {
-				// 			this.articleOffsetTop = e.detail.y + 20;
-				// 		}
-				// 		this.showArticleOperate = true;
-				// 	}
-				// });
 			},
 			hideArticleOperate() {
 				this.showArticleOperate = false;
@@ -472,10 +420,10 @@
 					url: '/pages/home/celebrity/detail/detail?id=' + el.userId
 				});
 			},
+			videoHandle(video){
+				videoPlay=video;
+			}
 		},
-		// onReachBottom() {
-		// 	this.loadMore()
-		// },
 		onPageScroll(e) {
 			console.log(this.stickyTop + '---' + e.scrollTop)
 			if (this.stickyTop >= (this.CustomBar + e.scrollTop)) {

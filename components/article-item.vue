@@ -53,7 +53,10 @@
 				</view>
 				<view class=" content showType5" v-if="item.showType == 5">
 					<view class="desc article-font mb-20">{{ item.title }}</view>
-					<view class="img-box flex-r-center">
+					<video class="video" id="videoItem" v-if="videoIndex==index1" objectFit="fill" :src="item.attachment[0].url"
+					 controls autoplay @click.stop>
+					</video>
+					<view class="img-box flex-r-center" @click.stop="playVideo(index1)" v-else>
 						<image :src="item.attachment[0].thumbnail" mode="aspectFill" lazy-load="true" class="image"></image>
 						<image src="/static/details_list_ic_play_nor@3x.png" mode="widthFix" class="play-icon"></image>
 					</view>
@@ -130,6 +133,7 @@
 
 <script>
 	import imtAudio from '@/components/imt-audio/imt-audio.vue';
+	var videoItem;
 	export default {
 		components: {
 			imtAudio
@@ -156,7 +160,8 @@
 				showArticleOperate: false,
 				articleId: '',
 				articleOffsetTop: 0,
-				newList: []
+				newList: [],
+				videoIndex: -1
 			};
 		},
 		methods: {
@@ -232,10 +237,18 @@
 						this.$emit('removeArticle', index)
 					})
 				}
+			},
+			playVideo(index) {
+				this.videoIndex = index
+				videoItem = uni.createVideoContext('videoItem', this) //在组件下记得第二个参数要传this
+				this.$emit('videoHandle', videoItem)
 			}
 		},
 		watch: {
 			list(val) {
+				if (videoItem) {
+					videoItem.pause()
+				}
 				this.newList = val.map((el) => {
 					if (el.showType == 3) {
 						el.attachment.push("")
@@ -401,10 +414,17 @@
 				text-overflow: ellipsis;
 			}
 
+			.video {
+				width: 100%;
+				height: 500upx !important;
+			}
+
 			.img-box {
 				width: 100%;
 				position: relative;
 				height: 500upx !important;
+
+
 
 				.image {
 					width: 100%;

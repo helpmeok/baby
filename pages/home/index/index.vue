@@ -72,7 +72,7 @@
 									<view class="cut-off"></view>
 								</view>
 								<empty v-if="tabs[i].data.length == 0 && isLoad" msg="暂无资讯，下拉加载试试~"></empty>
-								<article-item :list="tabs[i].data" :showOperate="true" v-on:showOperate="showOperate"></article-item>
+								<article-item :list="tabs[i].data" :showOperate="true"  v-on:videoHandle="videoHandle" v-on:showOperate="showOperate"></article-item>
 								<view class="uni-tab-bar-loading">
 									<uni-load-more :loadingType="el.loadingType" :contentText="loadingText"></uni-load-more>
 								</view>
@@ -140,7 +140,7 @@
 										<view class="cut-off"></view>
 									</view>
 									<empty msg="暂无资讯，下拉加载试试~" v-if="tabs[i].data==0"></empty>
-									<article-item :list="tabs[i].data" :showOperate="true" v-on:showOperate="showOperate"></article-item>
+									<article-item :list="tabs[i].data" v-on:videoHandle="videoHandle" :showOperate="true" v-on:showOperate="showOperate"></article-item>
 									<view class="uni-tab-bar-loading">
 										<uni-load-more :loadingType="el.loadingType" :contentText="loadingText"></uni-load-more>
 									</view>
@@ -184,6 +184,7 @@
 	import articleOperate from '@/components/article-operate'; //文章操作组件
 	import channelOperate from '@/components/channel-operate'; //频道操作组件
 	var ctime = parseInt(Date.now());
+	var videoPlay;
 	const total = 10;
 	export default {
 		components: {
@@ -489,6 +490,10 @@
 				this.tabs[index].active = true;
 			},
 			async changeSwiper(e) {
+				console.log(videoPlay)
+				if (videoPlay) {
+					videoPlay.pause()
+				}
 				this.hasLogin();
 				this.changeTab(e.target.current);
 				if (!this.tabs[this.tabIndex].data.length) {
@@ -578,6 +583,10 @@
 					console.log(res)
 					this.hobbyVipList[index].isFollowed = !this.hobbyVipList[index].isFollowed
 				})
+			},
+			videoHandle(video){
+				console.log(video)
+				videoPlay=video;
 			}
 		}
 	};

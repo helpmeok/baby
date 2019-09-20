@@ -1,5 +1,5 @@
-// const __api = 'http://59.61.216.123:18980/jeezero-boblbee-app/v1';
-const __api = 'https://dev.jeezero.com:18980/jeezero-boblbee-app/v1';
+const __api = 'http://59.61.216.123:18980/jeezero-boblbee-app/v1';
+// const __api = 'https://dev.jeezero.com:18980/jeezero-boblbee-app/v1';
 // const __api = 'https://boblbee.superpapa.com.cn/jeezero-boblbee-app/v1';
 
 function Request() {
