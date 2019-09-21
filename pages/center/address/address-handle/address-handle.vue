@@ -275,6 +275,7 @@ export default {
 	.list-cell {
 		background-color: #ffffff;
 		border-bottom: 2upx solid #f5f5f5;
+		padding-left: 0 !important;
 	}
 }
 // 	.list-box {

@@ -273,7 +273,7 @@
 				publishText:"",
 				wxSessionKey:"",
 				isLoad:false,
-				iscover:true,
+				iscover:false,
 				isCheckbok:true,
 				showPoster:false,
 				isPause:false,
@@ -327,22 +327,22 @@
 			}
 		},
 		methods: {
-			getNetworkType(){
-				if (uni.getStorageSync('networkType')) {
-					this.iscover=false;
-				} else{
-					uni.getNetworkType({
-						success: (res) => {
-							console.log(res)
-							if (res.networkType=="wifi") {
-								this.iscover=false;
-							}else{
-								this.iscover=true;
-								video.pause();
-							}
-						}
-					})
-				}
+			getNetworkType(){//判断是否使用wifi环境
+				// if (uni.getStorageSync('networkType')) {
+				// 	this.iscover=false;
+				// } else{
+				// 	uni.getNetworkType({
+				// 		success: (res) => {
+				// 			console.log(res)
+				// 			if (res.networkType=="wifi") {
+				// 				this.iscover=false;
+				// 			}else{
+				// 				this.iscover=true;
+				// 				video.pause();
+				// 			}
+				// 		}
+				// 	})
+				// }
 			},
 			checkbok(val){
 				this.isCheckbok=val
@@ -355,7 +355,6 @@
 				this.showPoster=true
 			},
 			closeAudio(){
-				console.log('11111')
 				this.isPause=true;
 			},
 			playvideo(){

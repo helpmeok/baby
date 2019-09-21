@@ -338,8 +338,6 @@
 		methods: {
 			getUserChanelList() { //获取用户已选频道列表
 				this.api.home.get_user_chanel_list(null, res => {
-					console.log('获取用户已选频道列表')
-					console.log(res)
 					let myChanelList = res.data.map((el) => {
 						let obj = {
 							channelName: el.channelName,
@@ -356,8 +354,6 @@
 			},
 			getAddChanelList() { //获取用户可选频道列表
 				this.api.home.get_chanel_add_list(null, res => {
-					console.log('获取用户可选频道列表')
-					console.log(res)
 					this.addChanelList = res.data.map((el) => {
 						let obj = {
 							channelName: el.channelName,
@@ -371,10 +367,8 @@
 					})
 				})
 			},
-			getHobbyVipList() {
+			getHobbyVipList() {//获取感兴趣的大V列表
 				this.api.home.hotVip.get_hobby_list_byUser(null, res => {
-					console.log('获取感兴趣的大V列表')
-					console.log(res)
 					this.hobbyVipList = res.data
 				})
 			},
@@ -395,11 +389,9 @@
 			hasLogin() { //判断是否登录
 				this.isLogin = uni.getStorageSync('access_token') ? true : false
 				this.userInfo = this.isLogin ? JSON.parse(uni.getStorageSync('userInfo')) : {};
-				console.log(this.userInfo)
 			},
 			getHot() {
 				this.api.home.get_hotVip_List(null, res => {
-					console.log(res);
 					this.hotList = res.data;
 				});
 			},
@@ -433,7 +425,6 @@
 					uni.showLoading({
 						title: '加载中'
 					});
-					console.log('加载中')
 				}
 				this.tabs[this.tabIndex].loadingType = 0;
 				this.tabs[this.tabIndex].offset = 0;
@@ -548,10 +539,7 @@
 			hideChannelOperate() {
 				this.showChannelOperate = false
 			},
-			async refreshList() {
-				//刷新列表
-				// ctime = parseInt(Date.now());
-				// await this.init();
+			async refreshList() {//刷新列表
 				this.onPulldownReresh();
 				uni.showToast({
 					title: '屏蔽成功'
@@ -580,12 +568,10 @@
 					vid: el.userId,
 					action: el.isFollowed ? 0 : 1
 				}, res => {
-					console.log(res)
 					this.hobbyVipList[index].isFollowed = !this.hobbyVipList[index].isFollowed
 				})
 			},
 			videoHandle(video){
-				console.log(video)
 				videoPlay=video;
 			}
 		}
