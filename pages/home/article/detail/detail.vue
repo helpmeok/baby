@@ -4,6 +4,7 @@
 			<block slot="backText"></block>
 			<block slot="content">宝宝贝</block>
 		</cu-custom>
+		<empty v-if="emptyData" msg="抱歉,该文章失踪了~"></empty>
 		<view class="show-container" v-show="isLoad">
 			<view>
 				<view class="pd-box blod " style="font-size: 42upx;">{{ info.title }}</view>
@@ -28,7 +29,8 @@
 				</view>
 				<!-- http://vfx.mtime.cn/Video/2019/02/04/mp4/190204084208765161.mp4 -->
 				<view class="flex-r-center" style="margin-bottom: 30upx;" v-if="info.showType==4">
-					<imt-audio color="#FC4041" :isPause="isPause" :src="info.attachment[0].url" :title="info.title" :singer="info.userName" :duration="info.attachment[0].duration"></imt-audio>
+					<imt-audio color="#FC4041" :isPause="isPause" :src="info.attachment[0].url" :title="info.title" :singer="info.userName"
+					 :duration="info.attachment[0].duration"></imt-audio>
 				</view>
 				<view class="flex-r-center" style="margin-bottom: 30upx;" v-if="info.showType==5">
 					<video class="video" v-show="!showCommentPublish" id="myVideo" objectFit="fill" :poster="info.attachment[0].thumbnail"
@@ -277,7 +279,8 @@
 				isCheckbok:true,
 				showPoster:false,
 				isPause:false,
-				isCommentPublish:true
+				isCommentPublish:true,
+				emptyData:false
 			};
 		},
 		onReady (res) {
@@ -398,6 +401,10 @@
 						
 						this.getNetworkType()
 						uni.hideLoading();
+					},err=>{
+						if (err.code==-2) {
+							this.emptyData=true
+						} 
 					}
 				);
 			},
