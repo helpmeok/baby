@@ -172,7 +172,7 @@
 	}
 
 	.content {
-		width: 200upx !important;
+		// width: 200upx !important;
 	}
 
 	.search-icon {

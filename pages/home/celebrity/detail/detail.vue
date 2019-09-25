@@ -2,7 +2,7 @@
 	<view class="container">
 		<cu-custom bgColor="bg-gradual-red" :isCustom="true" :helper="true" :searchCelebrity="true" :hotId="hotId">
 			<block slot="backText"></block>
-			<block slot="content" class="sigle-line-text" style="text-align: center;">{{title}}</block>
+			<block slot="content" class="sigle-line-text content">{{title}}</block>
 		</cu-custom>
 		<view class="header-detail flex">
 			<view class="flex-r-center" style="width: 30%;">
@@ -436,6 +436,10 @@
 </script>
 
 <style lang="scss">
+	.content{
+		width: 200upx !important;
+		text-align: center;
+	}
 	.header-detail {
 		width: 100%;
 		height: 200upx;

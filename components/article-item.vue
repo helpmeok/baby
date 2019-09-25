@@ -251,7 +251,9 @@
 				}
 				this.newList = val.map((el) => {
 					if (el.showType == 3) {
-						el.attachment.push("")
+						el.attachment.push({
+							thumbnail: "https://boblbee.superpapa.com.cn/boblbee/detail/images/logo.png"
+						})
 						el.attachment = el.attachment.slice(0, 3)
 					}
 					return el;
