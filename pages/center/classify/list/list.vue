@@ -47,11 +47,10 @@
 				ids: []
 			};
 		},
-		onLoad() {
-		},
+		onLoad() {},
 		onShow() {
 			uni.showLoading({
-				title:"加载中"
+				title: "加载中"
 			})
 			this.init()
 		},
@@ -106,18 +105,18 @@
 				offset += total
 				this.init()
 			},
-			goDetail(el,index) {
+			goDetail(el, index) {
 				if (this.isEdit) {
 					uni.navigateTo({
 						url: "/pages/classify/detail/detail?id=" + el.tagId
 					})
 				} else {
-					this.list[index].active=!this.list[index].active;
+					this.list[index].active = !this.list[index].active;
 					this.$forceUpdate();
 					if (this.list[index].active) {
 						this.ids.push(this.list[index].tagId)
-					} else{
-						this.ids.splice(this.ids.indexOf(this.list[index].tagId),1)
+					} else {
+						this.ids.splice(this.ids.indexOf(this.list[index].tagId), 1)
 					}
 					console.log(this.ids)
 				}
@@ -132,32 +131,39 @@
 				}
 			},
 			removeList() {
-				if (this.ids.length) {
-					uni.showModal({
-						title: '提示',
-						content: '确定取消关注所有话题？',
-						success: (res) => {
-							if (res.confirm) {
-								this.api.center.classify.delete_attention({
-									"tagId[]": this.ids
-								}, res => {
-									uni.showLoading({
-										title: "取消关注中"
+				if (this.ids.length == this.list.length) {
+					uni.showToast({
+						title: "请至少保留一个话题关注",
+						icon:"none"
+					})
+				} else {
+					if (this.ids.length) {
+						uni.showModal({
+							title: '提示',
+							content: '确定取消关注所有话题？',
+							success: (res) => {
+								if (res.confirm) {
+									this.api.center.classify.delete_attention({
+										"tagId[]": this.ids
+									}, res => {
+										uni.showLoading({
+											title: "取消关注中"
+										})
+										offset = 0;
+										this.list = [];
+										this.init('remove')
 									})
-									offset = 0;
-									this.list = [];
-									this.init('remove')
-								})
-							} else if (res.cancel) {
-								console.log('用户点击取消');
+								} else if (res.cancel) {
+									console.log('用户点击取消');
+								}
 							}
-						}
-					});
+						});
+					}
 				}
 			},
-			addList(){
+			addList() {
 				uni.navigateTo({
-					url:"/pages/center/classify/add-list/add-list"
+					url: "/pages/center/classify/add-list/add-list"
 				})
 			}
 		},
@@ -178,7 +184,8 @@
 			display: flex;
 			justify-content: center;
 			margin-bottom: 20upx;
-			height:84upx;
+			height: 84upx;
+
 			.item {
 				width: 210upx;
 				height: 80upx;
@@ -214,7 +221,8 @@
 		// padding-bottom: constant(safe-area-inset-bottom);
 		// padding-bottom: env(safe-area-inset-bottom);
 		padding: 20upx 50upx;
-		.icon{
+
+		.icon {
 			width: 60upx;
 		}
 	}

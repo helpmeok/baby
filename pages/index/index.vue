@@ -37,6 +37,8 @@
 			relevanceLabel
 		},
 		onLoad(options) {
+			uni.removeStorageSync('access_token')
+			uni.removeStorageSync('wxSessionKey')
 			if (options.redirect) {
 				redirect = options.redirect
 			}

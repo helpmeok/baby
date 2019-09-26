@@ -33,7 +33,7 @@
 					 :duration="info.attachment[0].duration"></imt-audio>
 				</view>
 				<view class="flex-r-center" style="margin-bottom: 30upx;" v-if="info.showType==5">
-					<video class="video" v-show="!showCommentPublish" id="myVideo" objectFit="fill" :poster="info.attachment[0].thumbnail"
+					<video class="video"  id="myVideo" objectFit="fill" :poster="info.attachment[0].thumbnail"
 					 :src="info.attachment[0].url" controls :autoplay="!iscover">
 						<cover-view style="width: 100%;height: 100%;position: relative;" v-show="showPoster">
 							<cover-image style="width: 100%;height: 100%;" :src="info.attachment[0].thumbnail"></cover-image>
@@ -245,16 +245,16 @@
 			};
 		},
 		watch: {
-			showCommentPublish(newValue, oldValue) {
-				console.log(newValue)
-				if (newValue) {
-					video.pause()
-				} else{
-					setTimeout(()=>{
-						video.play()
-					},500)
-				}
-			}
+			// showCommentPublish(newValue, oldValue) {
+			// 	console.log(newValue)
+			// 	if (newValue) {
+			// 		video.pause()
+			// 	} else{
+			// 		setTimeout(()=>{
+			// 			video.play()
+			// 		},500)
+			// 	}
+			// }
 		},
 		data() {
 			return {
@@ -396,11 +396,15 @@
 					},
 					res => {
 						console.log(res.data);
-						this.info = res.data;
-						this.isLoad=true;
-						
-						this.getNetworkType()
-						uni.hideLoading();
+						if (res.data) {
+							this.info = res.data;
+							this.isLoad=true;
+							this.getNetworkType()
+							uni.hideLoading();
+						} else{
+							uni.hideLoading();
+							this.emptyData=true
+						}
 					},err=>{
 						if (err.code==-2) {
 							this.emptyData=true

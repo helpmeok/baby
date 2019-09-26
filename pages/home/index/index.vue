@@ -415,7 +415,7 @@
 					res => {
 						console.log(res);
 						var index = Math.floor((Math.random() * res.data.length));
-						this.issueKeyword = res.data[index].keywordName
+						this.issueKeyword = res.data[index].keywordName?res.data[index].keywordName:"搜索感兴趣的内容"
 					}
 				);
 			},

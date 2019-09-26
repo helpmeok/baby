@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<cu-custom bgColor="bg-gradual-red" :isCustom="true" :helper="true" :searchCelebrity="true" :hotId="hotId">
+		<cu-custom bgColor="bg-gradual-red" class="cu-custom" :isCustom="true" :helper="true" :searchCelebrity="true" :hotId="hotId">
 			<block slot="backText"></block>
 			<block slot="content" class="sigle-line-text content">{{title}}</block>
 		</cu-custom>
@@ -436,9 +436,11 @@
 </script>
 
 <style lang="scss">
-	.content{
-		width: 200upx !important;
-		text-align: center;
+	.cu-custom{
+		.content{
+			width: 200upx !important;
+			text-align: center;
+		}
 	}
 	.header-detail {
 		width: 100%;
