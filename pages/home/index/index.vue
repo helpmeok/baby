@@ -438,8 +438,9 @@
 						res => {
 							console.log(this.tabs[this.tabIndex].channelName + '数据列表');
 							console.log(res);
+							
 							this.tabs[this.tabIndex].data = res.data.concat(this.tabs[this.tabIndex].data);
-							if (type == 'pull-down' && this.tabs[this.tabIndex].channelId == -2) { //关注列表
+							if (type == 'pull-down' && (this.tabs[this.tabIndex].channelId == -2 || this.tabs[this.tabIndex].channelId == -4|| this.tabs[this.tabIndex].channelId == -5)) { //关注,视频，音频列表
 								this.tabs[this.tabIndex].data = res.data
 							}
 							this.isLoad = true
