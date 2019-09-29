@@ -77,38 +77,46 @@
 		},
 		onShow() {
 			if (uni.getStorageSync('articleIndex').toString()) { //监听文章数据改变
-				let index = parseInt(uni.getStorageSync('articleIndex'))
-				uni.removeStorageSync('articleIndex')
-				let articleId = this.list[index].articleId
-				if (articleId.toString()) {
-					this.api.home.article.get_detail({
-						article_id: articleId,
-						request_type: "h5"
-					}, res => {
-						console.log(res.data)
-						this.list[index].clickNum = res.data.clickNum
-						this.list[index].commentNum = res.data.commentNum
-						this.list[index].praiseNum = res.data.praiseNum
-						this.list[index].forwardNum = res.data.forwardNum
-						this.$forceUpdate()
-					})
+				try{
+					let index = parseInt(uni.getStorageSync('articleIndex'))
+					uni.removeStorageSync('articleIndex')
+					let articleId = this.list[index].articleId
+					if (articleId.toString()) {
+						this.api.home.article.get_detail({
+							article_id: articleId,
+							request_type: "h5"
+						}, res => {
+							console.log(res.data)
+							this.list[index].clickNum = res.data.clickNum
+							this.list[index].commentNum = res.data.commentNum
+							this.list[index].praiseNum = res.data.praiseNum
+							this.list[index].forwardNum = res.data.forwardNum
+							this.$forceUpdate()
+						})
+					}
+				}catch(e){
+					//TODO handle the exception
 				}
 			}
 			if (uni.getStorageSync('questionIndex').toString()) { //监听文章数据改变
-				let index = parseInt(uni.getStorageSync('questionIndex'))
-				uni.removeStorageSync('questionIndex')
-				let questionId = this.list[index].articleId
-				if (questionId.toString()) {
-					this.api.home.qa.question.get_detail({
-						questionId
-					}, res => {
-						console.log(res.data)
-						this.list[index].clickNum = res.data.clickNum;
-						this.list[index].forwardNum = res.data.forwardNum
-						this.list[index].answerNum = res.data.answerNum
-						this.list[index].answerReplyList = res.data.answerReplyList
-						this.$forceUpdate()
-					})
+				try{
+					let index = parseInt(uni.getStorageSync('questionIndex'))
+					uni.removeStorageSync('questionIndex')
+					let questionId = this.list[index].articleId
+					if (questionId.toString()) {
+						this.api.home.qa.question.get_detail({
+							questionId
+						}, res => {
+							console.log(res.data)
+							this.list[index].clickNum = res.data.clickNum;
+							this.list[index].forwardNum = res.data.forwardNum
+							this.list[index].answerNum = res.data.answerNum
+							this.list[index].answerReplyList = res.data.answerReplyList
+							this.$forceUpdate()
+						})
+					}
+				}catch(e){
+					//TODO handle the exception
 				}
 			}
 		},

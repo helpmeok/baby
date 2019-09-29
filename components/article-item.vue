@@ -48,7 +48,7 @@
 				<view class=" content showType4" v-if="item.showType == 4">
 					<view class="desc article-font mb-20">{{ item.title }}</view>
 					<view class="">
-						<imt-audio color="#FC4041" :isPlay="false" src="" :duration="item.attachment[0].duration"></imt-audio>
+						<imt-audio color="#FC4041" :isPlay="false" :duration="item.attachment[0].duration"></imt-audio>
 					</view>
 				</view>
 				<view class=" content showType5" v-if="item.showType == 5">

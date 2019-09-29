@@ -181,38 +181,46 @@
 		},
 		onShow() {
 			if (uni.getStorageSync('articleIndex').toString()) { //监听文章数据改变
-				let index = parseInt(uni.getStorageSync('articleIndex'))
-				uni.removeStorageSync('articleIndex')
-				let articleId = this.tabs[this.tabIndex].data[index].articleId
-				if (articleId.toString()) {
-					this.api.home.article.get_detail({
-						article_id: articleId,
-						request_type: "h5"
-					}, res => {
-						console.log(res.data)
-						this.tabs[this.tabIndex].data[index].clickNum = res.data.clickNum
-						this.tabs[this.tabIndex].data[index].commentNum = res.data.commentNum
-						this.tabs[this.tabIndex].data[index].praiseNum = res.data.praiseNum
-						this.tabs[this.tabIndex].data[index].forwardNum = res.data.forwardNum
-						this.$forceUpdate()
-					})
+				try{
+					let index = parseInt(uni.getStorageSync('articleIndex'))
+					uni.removeStorageSync('articleIndex')
+					let articleId = this.tabs[this.tabIndex].data[index].articleId
+					if (articleId.toString()) {
+						this.api.home.article.get_detail({
+							article_id: articleId,
+							request_type: "h5"
+						}, res => {
+							console.log(res.data)
+							this.tabs[this.tabIndex].data[index].clickNum = res.data.clickNum
+							this.tabs[this.tabIndex].data[index].commentNum = res.data.commentNum
+							this.tabs[this.tabIndex].data[index].praiseNum = res.data.praiseNum
+							this.tabs[this.tabIndex].data[index].forwardNum = res.data.forwardNum
+							this.$forceUpdate()
+						})
+					}
+				}catch(e){
+					//TODO handle the exception
 				}
 			}
 			if (uni.getStorageSync('questionIndex').toString()) { //监听文章数据改变
-				let index = parseInt(uni.getStorageSync('questionIndex'))
-				uni.removeStorageSync('questionIndex')
-				let questionId = this.tabs[this.tabIndex].data[index].articleId
-				if (questionId.toString()) {
-					this.api.home.qa.question.get_detail({
-						questionId
-					}, res => {
-						console.log(res.data)
-						this.tabs[this.tabIndex].data[index].clickNum = res.data.clickNum;
-						this.tabs[this.tabIndex].data[index].forwardNum = res.data.forwardNum
-						this.tabs[this.tabIndex].data[index].answerNum = res.data.answerNum
-						this.tabs[this.tabIndex].data[index].answerReplyList = res.data.answerReplyList
-						this.$forceUpdate()
-					})
+				try{
+					let index = parseInt(uni.getStorageSync('questionIndex'))
+					uni.removeStorageSync('questionIndex')
+					let questionId = this.tabs[this.tabIndex].data[index].articleId
+					if (questionId.toString()) {
+						this.api.home.qa.question.get_detail({
+							questionId
+						}, res => {
+							console.log(res.data)
+							this.tabs[this.tabIndex].data[index].clickNum = res.data.clickNum;
+							this.tabs[this.tabIndex].data[index].forwardNum = res.data.forwardNum
+							this.tabs[this.tabIndex].data[index].answerNum = res.data.answerNum
+							this.tabs[this.tabIndex].data[index].answerReplyList = res.data.answerReplyList
+							this.$forceUpdate()
+						})
+					}
+				}catch(e){
+					//TODO handle the exception
 				}
 			}
 		},
@@ -365,7 +373,6 @@
 				this.getArticle();
 			},
 			getMoreArticle() {
-				console.log('111');
 				this.tabs[this.tabIndex].offset += total;
 				this.api.home.hotVip.get_article({
 						vid: id,
@@ -425,7 +432,6 @@
 			}
 		},
 		onPageScroll(e) {
-			console.log(this.stickyTop + '---' + e.scrollTop)
 			if (this.stickyTop >= (this.CustomBar + e.scrollTop)) {
 				this.isFixed = false
 			} else {

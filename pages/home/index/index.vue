@@ -2,7 +2,8 @@
 	<view class="container">
 		<!-- 自定义导航栏 -->
 		<channel-operate :show="showChannelOperate" v-on:hideChannelOperate='hideChannelOperate' :myChanelList="tabs"
-		 :addChanelList="addChanelList" v-on:addChanelOperate="addChanelOperate" v-on:delChanelOperate="delChanelOperate" v-on:changeChanelOperate="changeChanelOperate"></channel-operate>
+		 :addChanelList="addChanelList" v-on:addChanelOperate="addChanelOperate" v-on:delChanelOperate="delChanelOperate"
+		 v-on:changeChanelOperate="changeChanelOperate"></channel-operate>
 		<view class="header-custom flex-r-between" :style="[{height:CustomBar + 'px','padding-top':StatusBar+'px'}]">
 			<view class="flex search-box" @click="goSearch">
 				<image src="/static/com_nav_ic_search_pre@3x.png" mode="widthFix" class="search-icon app-icon"></image>
@@ -72,7 +73,7 @@
 									<view class="cut-off"></view>
 								</view>
 								<empty v-if="tabs[i].data.length == 0 && isLoad" msg="暂无资讯，下拉加载试试~"></empty>
-								<article-item :list="tabs[i].data" :showOperate="true"  v-on:videoHandle="videoHandle" v-on:showOperate="showOperate"></article-item>
+								<article-item :list="tabs[i].data" :showOperate="true" v-on:videoHandle="videoHandle" v-on:showOperate="showOperate"></article-item>
 								<view class="uni-tab-bar-loading">
 									<uni-load-more :loadingType="el.loadingType" :contentText="loadingText"></uni-load-more>
 								</view>
@@ -276,38 +277,46 @@
 				this.getHobbyVipList()
 			}
 			if (uni.getStorageSync('articleIndex').toString()) { //监听文章数据改变
-				let index = parseInt(uni.getStorageSync('articleIndex'))
-				uni.removeStorageSync('articleIndex')
-				let articleId = this.tabs[this.tabIndex].data[index].articleId
-				if (articleId.toString()) {
-					this.api.home.article.get_detail({
-						article_id: articleId,
-						request_type: "h5"
-					}, res => {
-						console.log(res.data)
-						this.tabs[this.tabIndex].data[index].clickNum = res.data.clickNum
-						this.tabs[this.tabIndex].data[index].commentNum = res.data.commentNum
-						this.tabs[this.tabIndex].data[index].praiseNum = res.data.praiseNum
-						this.tabs[this.tabIndex].data[index].forwardNum = res.data.forwardNum
-						this.$forceUpdate()
-					})
+				try {
+					let index = parseInt(uni.getStorageSync('articleIndex'))
+					uni.removeStorageSync('articleIndex')
+					let articleId = this.tabs[this.tabIndex].data[index].articleId
+					if (articleId.toString()) {
+						this.api.home.article.get_detail({
+							article_id: articleId,
+							request_type: "h5"
+						}, res => {
+							console.log(res.data)
+							this.tabs[this.tabIndex].data[index].clickNum = res.data.clickNum
+							this.tabs[this.tabIndex].data[index].commentNum = res.data.commentNum
+							this.tabs[this.tabIndex].data[index].praiseNum = res.data.praiseNum
+							this.tabs[this.tabIndex].data[index].forwardNum = res.data.forwardNum
+							this.$forceUpdate()
+						})
+					}
+				} catch (e) {
+					//TODO handle the exception
 				}
 			}
 			if (uni.getStorageSync('questionIndex').toString()) { //监听文章数据改变
-				let index = parseInt(uni.getStorageSync('questionIndex'))
-				uni.removeStorageSync('questionIndex')
-				let questionId = this.tabs[this.tabIndex].data[index].articleId
-				if (questionId.toString()) {
-					this.api.home.qa.question.get_detail({
-						questionId
-					}, res => {
-						console.log(res.data)
-						this.tabs[this.tabIndex].data[index].clickNum = res.data.clickNum;
-						this.tabs[this.tabIndex].data[index].forwardNum = res.data.forwardNum
-						this.tabs[this.tabIndex].data[index].answerNum = res.data.answerNum
-						this.tabs[this.tabIndex].data[index].answerReplyList = res.data.answerReplyList
-						this.$forceUpdate()
-					})
+				try {
+					let index = parseInt(uni.getStorageSync('questionIndex'))
+					uni.removeStorageSync('questionIndex')
+					let questionId = this.tabs[this.tabIndex].data[index].articleId
+					if (questionId.toString()) {
+						this.api.home.qa.question.get_detail({
+							questionId
+						}, res => {
+							console.log(res.data)
+							this.tabs[this.tabIndex].data[index].clickNum = res.data.clickNum;
+							this.tabs[this.tabIndex].data[index].forwardNum = res.data.forwardNum
+							this.tabs[this.tabIndex].data[index].answerNum = res.data.answerNum
+							this.tabs[this.tabIndex].data[index].answerReplyList = res.data.answerReplyList
+							this.$forceUpdate()
+						})
+					}
+				} catch (e) {
+					//TODO handle the exception
 				}
 			}
 		},
@@ -325,11 +334,11 @@
 		watch: {
 			tabs: {
 				handler(newVal, oldVal) {
-					let hasActive=newVal.find((el)=>{
+					let hasActive = newVal.find((el) => {
 						return el.active
 					})
 					if (!hasActive) {
-						this.tabIndex=0
+						this.tabIndex = 0
 					}
 				},
 				deep: true
@@ -367,7 +376,7 @@
 					})
 				})
 			},
-			getHobbyVipList() {//获取感兴趣的大V列表
+			getHobbyVipList() { //获取感兴趣的大V列表
 				this.api.home.hotVip.get_hobby_list_byUser(null, res => {
 					this.hobbyVipList = res.data
 				})
@@ -380,8 +389,8 @@
 				this.tabs.splice(i, 1)
 				this.addChanelList.unshift(el)
 			},
-			changeChanelOperate(i){
-				this.tabIndex=i
+			changeChanelOperate(i) {
+				this.tabIndex = i
 			},
 			currentTab() {
 				this.tabs[this.tabIndex].active = true;
@@ -414,8 +423,12 @@
 					},
 					res => {
 						console.log(res);
-						var index = Math.floor((Math.random() * res.data.length));
-						this.issueKeyword = res.data[index].keywordName?res.data[index].keywordName:"搜索感兴趣的内容"
+						if (res.data.length) {
+							var index = Math.floor((Math.random() * res.data.length));
+							this.issueKeyword = res.data[index].keywordName
+						} else {
+							this.issueKeyword = "搜索感兴趣的内容"
+						}
 					}
 				);
 			},
@@ -438,9 +451,10 @@
 						res => {
 							console.log(this.tabs[this.tabIndex].channelName + '数据列表');
 							console.log(res);
-							
+
 							this.tabs[this.tabIndex].data = res.data.concat(this.tabs[this.tabIndex].data);
-							if (type == 'pull-down' && (this.tabs[this.tabIndex].channelId == -2 || this.tabs[this.tabIndex].channelId == -4|| this.tabs[this.tabIndex].channelId == -5)) { //关注,视频，音频列表
+							if (type == 'pull-down' && (this.tabs[this.tabIndex].channelId == -2 || this.tabs[this.tabIndex].channelId ==
+									-4 || this.tabs[this.tabIndex].channelId == -5)) { //关注,视频，音频列表
 								this.tabs[this.tabIndex].data = res.data
 							}
 							this.isLoad = true
@@ -482,8 +496,7 @@
 				this.tabs[index].active = true;
 			},
 			async changeSwiper(e) {
-				console.log(videoPlay)
-				if (videoPlay) {
+				if (!!videoPlay) {
 					videoPlay.pause()
 				}
 				this.hasLogin();
@@ -540,7 +553,7 @@
 			hideChannelOperate() {
 				this.showChannelOperate = false
 			},
-			async refreshList() {//刷新列表
+			async refreshList() { //刷新列表
 				this.onPulldownReresh();
 				uni.showToast({
 					title: '屏蔽成功'
@@ -572,8 +585,8 @@
 					this.hobbyVipList[index].isFollowed = !this.hobbyVipList[index].isFollowed
 				})
 			},
-			videoHandle(video){
-				videoPlay=video;
+			videoHandle(video) {
+				videoPlay = video;
 			}
 		}
 	};

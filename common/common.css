@@ -33,12 +33,15 @@ page {
 	z-index: 9999;
 	width: 100%;
 }
-.baby-black{
+
+.baby-black {
 	color: #090909;
 }
-.baby-font-size{
+
+.baby-font-size {
 	font-size: 30upx;
 }
+
 .gray {
 	color: #9e9e9e;
 }
@@ -148,9 +151,11 @@ page {
 .app-icon-praise-s {
 	width: 40upx !important;
 }
-.app-icon{
-		width: 54upx !important;
-	}
+
+.app-icon {
+	width: 54upx !important;
+}
+
 /* #ifdef H5 */
 .h5-pb {
 	padding-bottom: 150upx;
@@ -256,4 +261,8 @@ page {
 
 .mgr-60 {
 	margin-right: 60upx;
+}
+
+scroll-view {
+	-webkit-overflow-scrolling: touch;
 }

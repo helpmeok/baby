@@ -32,7 +32,10 @@
 			}
 		},
 		props: {
-			src: String, //音频链接
+			src:  {
+				type: String,
+				default: ""
+			}, 
 			title: {
 				type: String,
 				default: "宝宝贝"
@@ -88,10 +91,16 @@
 			},
 			//完成拖动事件
 			change(e) {
+				if (!this.isPlay) {
+					return;
+				}
 				backgroundAudioManager.seek(e.detail.value)
 			}
 		},
 		created() {
+			if (!this.src) {
+				return;
+			}
 			this.durationTime = this.format(this.duration)
 			backgroundAudioManager.title = this.title;
 			backgroundAudioManager.singer = this.singer;
@@ -124,6 +133,9 @@
 		watch: {
 			//监听音频地址更改
 			src(e) {
+				if (!e) {
+					return;
+				}
 				backgroundAudioManager.src = e;
 				this.current = 0
 				backgroundAudioManager.play()
@@ -137,7 +149,6 @@
 				this.currentTime = this.format(e)
 			},
 			isPause(val) {
-				console.log(val)
 				if (val) {
 					backgroundAudioManager.pause()
 				} else {

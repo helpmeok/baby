@@ -500,7 +500,6 @@
 			},
 			preview() {},
 			toggleCollect() {
-				console.log('id============' + id);
 				this.api.home.article.toggle_collect({
 						articleId: id,
 						action: this.info.faFlag ? 0 : 1
@@ -520,7 +519,6 @@
 				);
 			},
 			togglePraise() {
-				console.log('id============' + id);
 				this.api.home.article.toggle_praise({
 						articleId: id,
 						action: this.info.praiseFlag ? 0 : 1
