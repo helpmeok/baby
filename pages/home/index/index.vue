@@ -54,7 +54,7 @@
 														{{userInfo.nickname}}
 													</view>
 													<view class="ans-count gray">
-														回答获得60个赞
+														回答获得{{praiseNum}}个赞
 													</view>
 												</view>
 											</view>
@@ -239,7 +239,8 @@
 				userInfo: {},
 				issueKeyword: "",
 				addChanelList: [],
-				hobbyVipList: []
+				hobbyVipList: [],
+				praiseNum:0
 			};
 		},
 		onShareAppMessage(res) {
@@ -274,7 +275,8 @@
 			this.getHot();
 			this.hasLogin()
 			if (this.isLogin) {
-				this.getHobbyVipList()
+				this.getHobbyVipList();
+				this.getPraiseNum();
 			}
 			if (uni.getStorageSync('articleIndex').toString()) { //监听文章数据改变
 				try {
@@ -379,6 +381,12 @@
 			getHobbyVipList() { //获取感兴趣的大V列表
 				this.api.home.hotVip.get_hobby_list_byUser(null, res => {
 					this.hobbyVipList = res.data
+				})
+			},
+			getPraiseNum() {
+				this.api.center.qa.get_header(null, res => {
+					console.log(res)
+					this.praiseNum = res.data.praiseNum
 				})
 			},
 			addChanelOperate(el, i) {
