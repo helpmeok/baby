@@ -107,6 +107,9 @@
 			},
 			goChanel(el, i) {
 				if (this.isEdit) {
+					if (i<2) {
+						return
+					}
 					this.$emit('delChanelOperate', el, i);
 				}else{
 					this.hide();
