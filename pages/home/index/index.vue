@@ -6,7 +6,7 @@
 		 v-on:changeChanelOperate="changeChanelOperate"></channel-operate>
 		<view class="header-custom flex-r-between" :style="[{height:CustomBar + 'px','padding-top':StatusBar+'px'}]">
 			<view class="flex search-box" @click="goSearch">
-				<image src="/static/com_nav_ic_search_pre@3x.png" mode="widthFix" class="search-icon app-icon"></image>
+				<image src="/static/com_search_ic_search@3x.png" mode="widthFix" style="width: 30upx;margin-right: 10upx;"></image>
 				<view class="gray">
 					{{issueKeyword}}
 				</view>

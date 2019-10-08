@@ -1,9 +1,9 @@
 <template>
 	<view class="container">
-		<cu-custom>
+		<cu-custom class="cu-custom">
 			<block slot="task">
 				<view class="flex-r-between pd-box" style="position: relative;z-index: 999;">
-					<view class="font-b blod">今日任务</view>
+					<view class="title blod">今日任务</view>
 					<view class="flex">
 						<view class="">当前拥有：</view>
 						<image src="/static/center/me_list_ic_integral@3x.png" mode="widthFix" style="width: 40upx;"></image>
@@ -172,6 +172,12 @@
 	.container {
 		height: 100%;
 		width: 100%;
+		.cu-custom{
+			.title{
+				font-size: 40upx;
+				color: #090909;
+			}
+		}
 	}
 
 // 	.cu-modal {

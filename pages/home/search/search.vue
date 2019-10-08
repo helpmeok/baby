@@ -9,7 +9,7 @@
 				<view class="flex-r-between search">
 					<view class="flex">
 						<!-- <view class="iconfont iconsousuo" style="margin-right: 20upx;"></view> -->
-						<image src="/static/com_nav_ic_search_pre@3x.png" mode="widthFix" style="width: 60upx;"></image>
+						<image src="/static/com_search_ic_search@3x.png" mode="widthFix" style="width: 30upx;margin-right: 10upx;"></image>
 						<input type="text" focus="true" confirm-type="search" v-model="value" placeholder="输入要搜索的内容" @confirm="inputConfirm" />
 					</view>
 					<view class="iconfont iconshanchu gray" style="margin-left: 30upx;" @click="value = ''" v-show="show"></view>
@@ -24,7 +24,7 @@
 				</view>
 				<view class="flex-r-between" style="margin-top: 20upx;" v-if="historyList.length>0">
 					<text class="blod">历史搜索</text>
-					<image src="/static/search_list_ic_delete_nor@3x.png" style="width: 88upx;" mode="widthFix" @click="clearHistoryList"></image>
+					<image src="/static/search_list_ic_delete_nor@3x.png" style="width: 32upx;" mode="widthFix" @click="clearHistoryList"></image>
 					<!-- <view class="iconfont icon- gray blod"></view> -->
 				</view>
 				<view class="flex">
