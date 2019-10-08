@@ -161,7 +161,6 @@
 			margin-top: 30upx;
 
 			.question {
-				margin-bottom: 20upx;
 				width: 100%;
 
 				.question-icon {

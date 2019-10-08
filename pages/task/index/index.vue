@@ -17,7 +17,7 @@
 		</cu-custom>
 		<!-- <image src="/static/task/dailytasks_bg_picture@2x.png" mode="widthFix" class="welfar-bg"></image> -->
 		<scroll-view scroll-y class="scroll-view" :style="[{height:scrollHeight+ 'px'}]" @scrolltoupper="scrolltoupper">
-			<view class="list-item bg-white flex-r-between pd-box" v-for="(el,i) in list" :key="i" @click="goDetail(el,i)">
+			<view class="list-item bg-white flex-r-between pd-box" style="padding-right: 0;" v-for="(el,i) in list" :key="i" @click="goDetail(el,i)">
 				<view class="item-l">
 					<image src="/static/center/me_list_ic_integral@3x.png" mode="widthFix" class="icon"></image>
 					<view class="point">
@@ -30,10 +30,12 @@
 						{{el.taskName}}
 					</view>
 				</view>
-				<view class="item-r flex">
-					<text class="gray" v-if="el.completeStatus">已完成</text>
-					<text class="default-color" v-else>去完成</text>
-					<text class="iconfont gray iconarrow-right-copy blod" v-if="!el.completeStatus"></text>
+				<view class="item-r flex-r-center" v-if="!el.completeStatus">
+					<text class="default-color">去完成</text>
+					<image src="/static/com_list_ic_arrow@3x.png" class="iconarrow-right" mode="widthFix"></image>
+				</view>
+				<view class="item-r flex-r-center" v-if="el.completeStatus">
+					<text class="gray" >已完成</text>
 				</view>
 			</view>
 			<view class="" style="height: 50upx;width: 100%;">
@@ -243,7 +245,7 @@
 
 		.btn {
 			height: 40px;
-			width: 60%;
+			width: 90%;
 			border-radius: 20px;
 		}
 	}
@@ -256,13 +258,13 @@
 		box-shadow: 0px 10upx 60upx 0px rgba(0, 0, 0, 0.08);
 		width: 90%;
 		margin-left: 5%;
-		margin-top: 50upx;
+		margin-top: 30upx;
 		border-radius: 20upx;
 		height: 150upx;
 
 		.item-l {
 			position: relative;
-
+			margin-right: 20upx;
 			.icon {
 				width: 80upx;
 			}
@@ -276,7 +278,7 @@
 		}
 
 		.item-c {
-			width: 60%;
+			width: 55%;
 
 			.task-name {
 				font-size: 32upx;
@@ -284,12 +286,9 @@
 		}
 
 		.item-r {
-			width: 20%;
-
-			.btn {
-				background-color: #FFA904;
-				padding: 10upx 30upx;
-				border-radius: 40upx;
+			width: 25%;
+			.iconarrow-right{
+				width: 50upx;
 			}
 		}
 	}

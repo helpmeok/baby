@@ -25,7 +25,7 @@
 			<view class="header-custom flex-r-between" :style="{width:ScreenWidth+'px'}" v-else>
 				<image src="/static/task/task_details_default@2x.png" mode="aspectFill" class="header-bg-img"></image>
 			</view>
-			<view class="pd-box desc border-bottom">
+			<view class="pd-box desc border-bottom" style="padding-bottom: 60upx;">
 				<view class="title baby-black blod">
 					{{info.taskName}}
 				</view>

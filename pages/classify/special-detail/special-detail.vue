@@ -144,6 +144,7 @@
 				
 				.title {
 					font-size: 44upx;
+					margin-bottom: 20upx;
 				}
 
 				.content {
@@ -151,8 +152,9 @@
 					font-weight: 500;
 					display: -webkit-box;
 					-webkit-box-orient: vertical;
-					-webkit-line-clamp: 3;
+					-webkit-line-clamp: 4;
 					overflow: hidden;
+					line-height: 40upx;
 				}
 			}
 

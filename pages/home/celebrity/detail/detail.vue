@@ -62,20 +62,24 @@
 		</scroll-view>
 		<view class="introduce-box">
 			<view class="approve flex">
-				<view class="flex" style="width: 8%;"><text class="iconfont iconiconset0421 gray"></text></view>
-				<view class="" style="width: 92%;margin-top: 5upx;">认证：{{ info.oauthIntro }}</view>
+				<view class="" style="width: 7%;">
+					<image src="/static/com_list_ic_authentication@3x.png" mode="widthFix" style="width: 42upx;position: relative;top: 2upx;"></image>
+				</view>
+				<view class="" style="width: 93%;">认证：{{ info.oauthIntro }}</view>
 			</view>
 		</view>
 		<view class="" style="height: 20upx;background-color: #F5F5F5;"></view>
 		<view id="sticky" :class="{'fixed-top':isFixed}" :style="{'top':isFixed?CustomBar+'px':0}">
-			<detail-tabs :tabIndex="tabIndex" :tabList="tabList" :typeList="typeList" v-on:changeTabIndex="changeTabIndex" v-on:changeTypeListIndex="changeTypeListIndex"></detail-tabs>
+			<detail-tabs :tabIndex="tabIndex" :tabList="tabList" :typeList="typeList" v-on:changeTabIndex="changeTabIndex"
+			 v-on:changeTypeListIndex="changeTypeListIndex"></detail-tabs>
 		</view>
 		<swiper class="swiper-box" :current="tabIndex" @change="changeSwiper" :style="{ height: swiperHeight + 'px','margin-top':isFixed?stickyHeight:0+'px' }">
 			<swiper-item v-for="(el, i) in tabs" :key="i">
 				<scroll-view @scrolltolower="loadMore(i)" :scroll-y="isFixed" class="scroll-view" :enable-back-to-top="el.active"
 				 :style="{ height: swiperHeight + 'px' }">
 					<empty v-if="tabs[i].data.length == 0" msg="暂无资讯~"></empty>
-					<article-item :list="tabs[i].data" v-on:videoHandle="videoHandle" :showOperate="false" v-on:showOperate="showOperate" id="articleItem"></article-item>
+					<article-item :list="tabs[i].data" v-on:videoHandle="videoHandle" :showOperate="false" v-on:showOperate="showOperate"
+					 id="articleItem"></article-item>
 					<view class="uni-tab-bar-loading">
 						<uni-load-more :loadingType="el.loadingType" :contentText="loadingText"></uni-load-more>
 					</view>
@@ -101,7 +105,7 @@
 		},
 		data() {
 			return {
-				hotId:"",
+				hotId: "",
 				swiperHeight: 0,
 				stickyHeight: 0,
 				isShowRecommend: false,
@@ -140,7 +144,7 @@
 						loadingType: 0
 					}
 				],
-				typeIndex:0,
+				typeIndex: 0,
 				typeList: [{
 					name: "最新发布",
 					active: true,
@@ -175,13 +179,13 @@
 		},
 
 		onLoad(options) {
-			this.hotId=options.id
+			this.hotId = options.id
 			id = options.id;
 			this.init();
 		},
 		onShow() {
 			if (uni.getStorageSync('articleIndex').toString()) { //监听文章数据改变
-				try{
+				try {
 					let index = parseInt(uni.getStorageSync('articleIndex'))
 					uni.removeStorageSync('articleIndex')
 					let articleId = this.tabs[this.tabIndex].data[index].articleId
@@ -198,12 +202,12 @@
 							this.$forceUpdate()
 						})
 					}
-				}catch(e){
+				} catch (e) {
 					//TODO handle the exception
 				}
 			}
 			if (uni.getStorageSync('questionIndex').toString()) { //监听文章数据改变
-				try{
+				try {
 					let index = parseInt(uni.getStorageSync('questionIndex'))
 					uni.removeStorageSync('questionIndex')
 					let questionId = this.tabs[this.tabIndex].data[index].articleId
@@ -219,7 +223,7 @@
 							this.$forceUpdate()
 						})
 					}
-				}catch(e){
+				} catch (e) {
 					//TODO handle the exception
 				}
 			}
@@ -233,7 +237,7 @@
 					this.getStickyTop()
 				}, 600)
 			},
-			
+
 		},
 		methods: {
 			init() {
@@ -334,7 +338,7 @@
 					}
 				);
 			},
-			
+
 			showRecommend() {
 				this.isShowRecommend = !this.isShowRecommend;
 			},
@@ -368,7 +372,7 @@
 				console.log(index)
 				this.typeList[index].active = true
 				this.tabs[this.tabIndex].data = [];
-				this.typeIndex= index;
+				this.typeIndex = index;
 				this.tabs[this.tabIndex].offset = 0;
 				this.getArticle();
 			},
@@ -414,8 +418,7 @@
 					this.getMoreArticle();
 				}
 			},
-			showOperate(e) {
-			},
+			showOperate(e) {},
 			hideArticleOperate() {
 				this.showArticleOperate = false;
 			},
@@ -427,8 +430,8 @@
 					url: '/pages/home/celebrity/detail/detail?id=' + el.userId
 				});
 			},
-			videoHandle(video){
-				videoPlay=video;
+			videoHandle(video) {
+				videoPlay = video;
 			}
 		},
 		onPageScroll(e) {
@@ -442,12 +445,13 @@
 </script>
 
 <style lang="scss">
-	.cu-custom{
-		.content{
+	.cu-custom {
+		.content {
 			width: 200upx !important;
 			text-align: center;
 		}
 	}
+
 	.header-detail {
 		width: 100%;
 		height: 200upx;

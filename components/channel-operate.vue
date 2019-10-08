@@ -5,8 +5,11 @@
 		<view class="content bg-white" :class="{'animation':show}" @click.stop :style="{height:contentHeight+'px'}">
 			<image src="/static/home_more_ic_close_nor@3x.png" mode="widthFix" @click="hide" class="close-icon"></image>
 			<!-- <text class="iconfont iconguanbi close-icon" @click="hide"></text> -->
-			<view class="flex-r-between pd-box">
-				<view class="font-b blod title">当前频道</view>
+			<view class="flex-r-between pd-box" style="padding-bottom: 0;">
+				<view class="">
+					<view class="font-b blod title">当前频道</view>
+					<view class="gray">点击可直接进入频道</view>
+				</view>
 				<view class=" white edit-btn" @click="edit">
 					{{isEdit?"完成":"编辑"}}
 				</view>
@@ -24,7 +27,7 @@
 			</view>
 
 			<view class="line-gray"></view>
-			<view class="flex-r-between pd-box">
+			<view class="flex-r-between pd-box" style="padding-bottom: 0;">
 				<view class="font-b blod title">添加频道</view>
 			</view>
 			<view class="pd-box add-list">

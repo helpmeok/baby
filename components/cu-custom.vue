@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view class="cu-custom" :style="[{height:CustomBar + 'px'}]">
-			<image src="/static/details_pic_masking@3x.png" v-if="isMaskBg" mode="aspectFill" class="cu-custom-bg" :style="[{height:CustomBar + 'px',top:StatusBar + 'px'}]"></image>
+			<image src="/static/details_pic_masking@3x.png" v-if="isMaskBg" mode="aspectFill" class="cu-custom-bg" :style="[{height:(CustomBar+20) + 'px'}]"></image>
 			<view class="cu-bar fixed" :style="style" :class="[bgImage!=''?'none-bg text-white bg-img':'',bgColor]">
 				<view class="action" @tap="BackPage" v-if="isBack">
 					<text class="cuIcon-back"></text>

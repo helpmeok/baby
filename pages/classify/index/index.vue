@@ -142,7 +142,7 @@
 		position: relative;
 		left: 0;
 		top: 0;
-		margin-bottom: 20upx;
+		margin-bottom: 30upx;
 		overflow: hidden;
 
 		.bg-img {

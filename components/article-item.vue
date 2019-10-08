@@ -16,8 +16,8 @@
 					<view class="flex">
 						<image :src="item.userAvatar" mode="aspectFill" class="portrait" lazy-load="true" @click.stop="goCelebrity(item,index1)"></image>
 						<view class="">
-							<text class="blod article-font baby-black">{{ item.userName }}</text>
-							<view class="small gray">{{item.oauthIntro}}</view>
+							<text class="blod article-font baby-black" style="position: relative;top: 5upx;left: 0;">{{ item.userName }}</text>
+							<view class="small gray" >{{item.oauthIntro}}</view>
 						</view>
 					</view>
 					<view class="flex">
