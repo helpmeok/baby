@@ -20,9 +20,7 @@
 			</view>
 			<scroll-view scroll-y class="scroll-view" :style="[{height:scrollHeight+ 'px'}]" @scrolltoupper="scrolltoupper">
 				<view class="list-item bg-white flex-r-between" style="padding-right: 0;" v-for="(el,i) in list" :key="i" @click="goDetail(el,i)">
-					<view class="item-l">
-						<image src="/static/task/dailytasks_card_ic_integral2@3x.png" mode="widthFix" class="icon"></image>
-					</view>
+					<image src="/static/task/dailytasks_card_ic_integral2@3x.png" mode="widthFix" class="icon"></image>
 					<view class="item-c">
 						<view class="task-name align-left">
 							{{el.taskName}}
@@ -32,7 +30,7 @@
 						</view>
 					</view>
 					<view class="item-r flex-r-between" v-if="!el.completeStatus">
-						<text class="default-color">去完成</text>
+						<text class="task-color">去完成</text>
 						<image src="/static/com_list_ic_arrow@3x.png" class="iconarrow-right" mode="widthFix"></image>
 					</view>
 					<view class="item-r flex-r-between" v-if="el.completeStatus">
@@ -174,11 +172,10 @@
 				.list-item {
 					margin-top: 30upx;
 
-					.item-l {
-						.icon {
-							width: 70upx;
-						}
+					.icon {
+						width: 70upx;
 					}
+
 
 					.item-c {
 						width: 55%;

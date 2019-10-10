@@ -21,7 +21,9 @@ page {
 .color-FFA904 {
 	color: #FFA904;
 }
-
+.task-color{
+	color: #FF893D;
+}
 .article-font {
 	font-size: 30upx;
 }
