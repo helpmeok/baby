@@ -1,85 +1,52 @@
 <template>
 	<view class="container">
-		<cu-custom class="cu-custom">
-			<block slot="task">
-				<view class="flex-r-between pd-box" style="position: relative;z-index: 999;">
-					<view class="title blod">今日任务</view>
-					<view class="flex">
-						<view class="">当前拥有：</view>
-						<image src="/static/center/me_list_ic_integral@3x.png" mode="widthFix" style="width: 40upx;"></image>
-						<view class="font-b mgl-10" style="color: #FFA904;">
+		<image src="/static/task/dailytasks_top_bg@2x.png" id="welfarBg" mode="widthFix" class="welfar-bg"></image>
+		<view class="main" :style="[{height:mainHeight+ 'px',top:mainTop+'px'}]">
+			<view class="flex-r-between title-box">
+				<view class="title blod">
+					每日任务
+				</view>
+				<view class="flex">
+					<view class="flex mgr-30">
+						<image src="/static/task/dailytasks_card_ic_integral2@3x.png" mode="widthFix" class="point-icon mgr-10"></image>
+						<view class="point blod font-b">
 							{{userInfo.userPoint}}
 						</view>
 					</view>
-					<view class="" style="opacity: 0;">今日任务吗</view>
-				</view>
-			</block>
-		</cu-custom>
-		<!-- <image src="/static/task/dailytasks_bg_picture@2x.png" mode="widthFix" class="welfar-bg"></image> -->
-		<scroll-view scroll-y class="scroll-view" :style="[{height:scrollHeight+ 'px'}]" @scrolltoupper="scrolltoupper">
-			<view class="list-item bg-white flex-r-between pd-box" style="padding-right: 0;" v-for="(el,i) in list" :key="i" @click="goDetail(el,i)">
-				<view class="item-l">
-					<image src="/static/center/me_list_ic_integral@3x.png" mode="widthFix" class="icon"></image>
-					<view class="point">
-						<text>X</text>
-						<text class="font-b">{{el.taskPoint}}</text>
-					</view>
-				</view>
-				<view class="item-c">
-					<view class="task-name align-left">
-						{{el.taskName}}
-					</view>
-				</view>
-				<view class="item-r flex-r-center" v-if="!el.completeStatus">
-					<text class="default-color">去完成</text>
-					<image src="/static/com_list_ic_arrow@3x.png" class="iconarrow-right" mode="widthFix"></image>
-				</view>
-				<view class="item-r flex-r-center" v-if="el.completeStatus">
-					<text class="gray" >已完成</text>
+					<navigator url="/pages/task/store/index/index" class="btn white bg-default-color" hover-class="none">
+						兑换
+					</navigator>
 				</view>
 			</view>
-			<view class="" style="height: 50upx;width: 100%;">
+			<scroll-view scroll-y class="scroll-view" :style="[{height:scrollHeight+ 'px'}]" @scrolltoupper="scrolltoupper">
+				<view class="list-item bg-white flex-r-between" style="padding-right: 0;" v-for="(el,i) in list" :key="i" @click="goDetail(el,i)">
+					<view class="item-l">
+						<image src="/static/task/dailytasks_card_ic_integral2@3x.png" mode="widthFix" class="icon"></image>
+					</view>
+					<view class="item-c">
+						<view class="task-name align-left">
+							{{el.taskName}}
+						</view>
+						<view class="point">
+							任务积分<text class="small mgl-10">x</text>{{el.taskPoint}}
+						</view>
+					</view>
+					<view class="item-r flex-r-between" v-if="!el.completeStatus">
+						<text class="default-color">去完成</text>
+						<image src="/static/com_list_ic_arrow@3x.png" class="iconarrow-right" mode="widthFix"></image>
+					</view>
+					<view class="item-r flex-r-between" v-if="el.completeStatus">
+						<view class="">
+						</view>
+						<text class="gray">已完成</text>
+					</view>
+				</view>
+				<view class="" style="height: 50upx;width: 100%;">
 
-			</view>
-		</scroll-view>
-		<!-- <view class="cu-modal flex-r-center align-left" :class="{'show':isShowModel}" @tap="hideModal">
-			<view class="cu-content bg-white " @tap.stop="">
-				<view class="font-b blod pd-box">
-					{{task.taskName}}
 				</view>
-				<view class="gray pd-box">
-					{{task.taskRemark}}
-				</view>
-				<view class="btn font-b bg-default-color white flex-c-center pd-box" @click="showAward()">
-					我已完成
-				</view>
-			</view>
+			</scroll-view>
 		</view>
-		<view class="cu-modal flex-r-center" :class="{'show':isShowAward}">
-			<view class="flex-c-around">
-				<view class="cu-award flex-c-around">
-					<image src="/static/task/dailytasks_popup_bg@2x.png" mode="widthFix" class="bg-img"></image>
-					<view class="text font-b blod" style="position: relative;top: -40upx;">
-						成功领取任务积分
-					</view>
-					<view class="flex-r-center point">
-						<image src="/static/center/me_list_ic_integral@3x.png" mode="widthFix" class="icon"></image>
-						<text class="mgl-10">X</text>
-						<text class="font-b mgl-10">{{task.taskPoint}}</text>
-					</view>
-				</view>
-				<view class="white close flex-r-center" @tap="hideModal">
-					<view class="iconfont iconcuowutishilimiandecha ">
-					</view>
-				</view>
-			</view>
-		</view> -->
-		<view class="flex-r-center bottom-box">
-			<navigator url="/pages/task/store/index/index" class="white bg-default-color white btn flex-r-center font-b"
-			 hover-class="none">
-				去兑换
-			</navigator>
-		</view>
+
 	</view>
 </template>
 
@@ -88,8 +55,6 @@
 		data() {
 			return {
 				list: [],
-				isShowModel: false,
-				isShowAward: false,
 				task: {
 					taskId: "",
 					taskRemark: "",
@@ -100,7 +65,11 @@
 				taskIndex: 0,
 				userInfo: {
 					userPoint: 0
-				}
+				},
+				welfarBgHeight: 0,
+				mainTop: -55,
+				mainHeight: 0,
+				scrollHeight: 0
 			}
 		},
 		onLoad() {
@@ -109,15 +78,17 @@
 		onShow() {
 			this.getUserInfo()
 			if (uni.getStorageSync('updateTask')) {
-				uni.removeStorageSync('updateTask')
-				this.init();
+				this.list.forEach((el) => {
+					if (el.taskNo == uni.getStorageSync('updateTask')) {
+						el.completeStatus = true
+						uni.removeStorageSync('updateTask')
+					}
+				})
 			}
 		},
+		mounted() {},
 		computed: {
-			scrollHeight() {
-				let res = uni.getSystemInfoSync()
-				return res.windowHeight - 80 - this.CustomBar
-			}
+
 		},
 		methods: {
 			init() {
@@ -126,9 +97,9 @@
 					console.log(res)
 					this.list = res.data
 				})
-			},
-			scrolltoupper() {
-				// this.init()
+				let res = uni.getSystemInfoSync()
+				this.mainHeight = res.windowHeight - this.mainTop - Math.ceil(res.windowWidth * 37 / 75)
+				this.scrollHeight = res.windowHeight - this.mainTop - Math.ceil(res.windowWidth * 37 / 75) - uni.upx2px(110)
 			},
 			getUserInfo() {
 				this.api.center.user.get_detail(null, res => {
@@ -137,32 +108,13 @@
 					uni.setStorageSync('userInfo', JSON.stringify(res.data))
 				});
 			},
-			showModel(el, i) {
-				if (!el.completeStatus) {
-					this.task = el
-					this.isShowModel = true
-					this.taskIndex = i
-				}
-			},
 			goDetail(el) {
 				uni.navigateTo({
-					url: '/pages/task/detail/detail?id=' + el.taskId+'&taskNo='+el.taskNo
+					url: '/pages/task/detail/detail?id=' + el.taskId + '&taskNo=' + el.taskNo
 				})
 			},
-			showAward() {
-				this.isShowModel = false
-				this.api.task.get_award({
-					taskNo: this.task.taskNo
-				}, res => {
-					console.log(res)
-					this.isShowAward = true
-					this.list[this.taskIndex].completeStatus = true;
-					this.getUserInfo()
-				})
-			},
-			hideModal() {
-				this.isShowModel = false
-				this.isShowAward = false
+			scrolltoupper() {
+
 			}
 		}
 	}
@@ -172,130 +124,87 @@
 	.container {
 		height: 100%;
 		width: 100%;
-		.cu-custom{
-			.title{
-				font-size: 40upx;
-				color: #090909;
-			}
+
+		.welfar-bg {
+			width: 100%;
 		}
-	}
 
-// 	.cu-modal {
-// 		.cu-content {
-// 			width: 80%;
-// 			display: flex;
-// 			flex-direction: column;
-// 			border-radius: 10upx;
-// 			overflow: hidden;
-// 
-// 			.btn {
-// 				width: 100%;
-// 			}
-// 		}
-// 
-// 		.cu-award {
-// 			width: 450upx !important;
-// 			height: 450upx !important;
-// 			position: relative;
-// 			left: 0;
-// 			top: 0;
-// 			box-sizing: border-box;
-// 
-// 			.bg-img {
-// 				width: 450upx !important;
-// 				height: 450upx !important;
-// 				position: absolute;
-// 				left: 0;
-// 				top: 0;
-// 			}
-// 
-// 			.text {
-// 				position: relative;
-// 				z-index: 2;
-// 				color: #FFC438;
-// 			}
-// 
-// 			.point {
-// 				position: relative;
-// 				z-index: 2;
-// 				color: #FFC438;
-// 
-// 				.icon {
-// 					width: 50upx;
-// 				}
-// 			}
-// 		}
-// 
-// 		.close {
-// 			width: 60upx;
-// 			height: 60upx;
-// 			border-radius: 50%;
-// 			border: 4upx solid white;
-// 			margin-top: 50upx;
-// 		}
-// 	}
-
-	.welfar-bg {
-		width: 100% !important;
-		position: fixed;
-		left: 0;
-		top: 0;
-	}
-
-	.bottom-box {
-		position: fixed;
-		bottom: 0;
-		left: 0;
-		width: 100%;
-		height: 80px;
-
-		.btn {
-			height: 40px;
+		.main {
 			width: 90%;
-			border-radius: 20px;
-		}
-	}
-
-	.scroll-view {
-		overflow: hidden;
-	}
-
-	.list-item {
-		box-shadow: 0px 10upx 60upx 0px rgba(0, 0, 0, 0.08);
-		width: 90%;
-		margin-left: 5%;
-		margin-top: 30upx;
-		border-radius: 20upx;
-		height: 150upx;
-
-		.item-l {
+			margin-left: 5%;
 			position: relative;
-			margin-right: 20upx;
-			.icon {
-				width: 80upx;
+			left: 0;
+			background: rgba(255, 255, 255, 1);
+			box-shadow: 0px 2upx 20upx 0px rgba(0, 0, 0, 0.3);
+			border-radius: 20upx 20upx 0px 0px;
+			padding: 0 30upx;
+
+			.title-box {
+				height: 108upx;
+				border-bottom: 2upx solid #EEEEEE;
+
+				.title {
+					color: #090909;
+					font-size: 40upx;
+				}
+
+				.point-icon {
+					width: 40upx;
+
+				}
+
+				.point {
+					color: #FFA904;
+
+				}
+
+				.btn {
+					width: 100upx;
+					height: 48upx;
+					text-align: center;
+					line-height: 48upx;
+					border-radius: 25upx;
+					font-size: 26upx;
+				}
 			}
 
-			.point {
-				color: #FF893D;
-				position: absolute;
-				bottom: -10upx;
-				right: -10upx;
+			.scroll-view {
+				overflow: hidden;
+
+				.list-item {
+					margin-top: 30upx;
+
+					.item-l {
+						.icon {
+							width: 70upx;
+						}
+					}
+
+					.item-c {
+						width: 55%;
+
+						.task-name {
+							font-size: 30upx;
+							color: #090909;
+							font-weight: 500;
+						}
+
+						.point {
+							color: #FF893D;
+							font-size: 24upx;
+						}
+					}
+
+					.item-r {
+						width: 20%;
+
+						.iconarrow-right {
+							width: 15upx;
+						}
+					}
+				}
 			}
 		}
 
-		.item-c {
-			width: 55%;
-
-			.task-name {
-				font-size: 32upx;
-			}
-		}
-
-		.item-r {
-			width: 25%;
-			.iconarrow-right{
-				width: 50upx;
-			}
-		}
 	}
 </style>

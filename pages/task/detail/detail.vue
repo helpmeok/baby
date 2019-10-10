@@ -51,21 +51,19 @@
 			</view>
 		</view>
 		<view class="cu-modal flex-r-center" :class="{'show':isShowAward}">
-			<view class="flex-c-around">
-				<view class="cu-award flex-c-around">
-					<image src="/static/task/dailytasks_popup_bg@2x.png" mode="widthFix" class="bg-img"></image>
-					<view class="text font-b blod" style="position: relative;top: -40upx;">
+			<view class="cu-content flex-c-around">
+				<image src="/static/task/dailytasks_card_ic_integral2@3x.png" mode="widthFix" class="point-icon"></image>
+				<view class="desc">
+					<view class="title font-b blod">
 						成功领取任务积分
 					</view>
-					<view class="flex-r-center point">
-						<image src="/static/center/me_list_ic_integral@3x.png" mode="widthFix" class="icon"></image>
-						<text class="mgl-10">X</text>
-						<text class="font-b mgl-10">{{info.taskPoint}}</text>
+					<view class="point font-b">
+						<text class="small mgr-10">X</text>
+						<text class="blod">{{info.taskPoint}}</text>
 					</view>
 				</view>
-				<view class="white close flex-r-center" @tap="hideModal">
-					<view class="iconfont iconcuowutishilimiandecha ">
-					</view>
+				<view class="btn white bg-default-color" @tap="hideModal">
+					好的
 				</view>
 			</view>
 		</view>
@@ -127,7 +125,7 @@
 					}, res => {
 						console.log(res)
 						this.isShowAward = true
-						uni.setStorageSync('updateTask', true)
+						uni.setStorageSync('updateTask', taskNo)
 						this.init();
 					})
 				}
@@ -225,56 +223,41 @@
 
 	.cu-modal {
 		.cu-content {
-			width: 80%;
-			display: flex;
-			flex-direction: column;
-			border-radius: 10upx;
-			overflow: hidden;
+			width: 440upx;
+			border-radius: 20upx;
+			background-color: #FFFFFF;
 
-			.btn {
-				width: 100%;
-			}
-		}
-
-		.cu-award {
-			width: 450upx !important;
-			height: 450upx !important;
-			position: relative;
-			left: 0;
-			top: 0;
-			box-sizing: border-box;
-
-			.bg-img {
-				width: 450upx !important;
-				height: 450upx !important;
-				position: absolute;
-				left: 0;
-				top: 0;
-			}
-
-			.text {
+			.point-icon {
+				width: 180upx;
 				position: relative;
-				z-index: 2;
-				color: #FFC438;
+				left: 0;
+				top: -90upx;
 			}
 
 			.point {
-				position: relative;
-				z-index: 2;
-				color: #FFC438;
-
-				.icon {
-					width: 50upx;
-				}
+				color: #FF893D;
 			}
-		}
 
-		.close {
-			width: 60upx;
-			height: 60upx;
-			border-radius: 50%;
-			border: 4upx solid white;
-			margin-top: 50upx;
+			.desc {
+				position: relative;
+				left: 0;
+				top: -20upx;
+			}
+
+			.title {
+				color: #090909;
+
+			}
+
+			.btn {
+				width: 344upx;
+				height: 72upx;
+				line-height: 72upx;
+				border-radius: 40upx;
+				font-size: 30upx;
+				text-align: center;
+				margin: 40upx 0;
+			}
 		}
 	}
 </style>

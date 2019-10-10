@@ -410,7 +410,7 @@
 			{
 				"name": "任务详情",
 				"pathName": "pages/task/detail/detail",
-				"query": "id=22&taskNo=3333"
+				"query": "id=15&taskNo=5"
 			},
 			{
 				"name": "专题详情",
