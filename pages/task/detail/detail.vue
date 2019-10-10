@@ -97,7 +97,11 @@
 				CustomBar: this.CustomBar,
 				isMaskBg: true,
 				isShowAward: false,
-				info: {}
+				info: {
+					taskName:"",
+					taskRemark:"",
+					completeNum:""
+				}
 			}
 		},
 		onLoad(options) {

@@ -349,9 +349,9 @@
 				"pathName": "pages/center/classify/list/list"
 			},
 			{
-				"name": "大V解答",
+				"name": "母婴百科助手",
 				"pathName": "pages/helper/list/list",
-				"query": "id=327&name=孩子的情商问题"
+				"query": "id=518&name=怎么去除妊娠纹？"
 			},
 			{
 				"name": "宝宝管理",

@@ -2,7 +2,7 @@
 	<view>
 		<cu-custom bgColor="bg-gradual-red" :isBack="true">
 			<block slot="backText"></block>
-			<block slot="content">大V解答</block>
+			<block slot="content">母婴百科助手</block>
 		</cu-custom>
 		<scroll-view class="scroll-view" scroll-y :style="{'height':scrollHeight+'px'}" enable-back-to-top @scrolltolower="loadMore"
 		 @scroll="scroll">
@@ -31,7 +31,29 @@
 					</view>
 				</view>
 			</view>
+			<view class="question-wiki baby-font-size">
+				{{questionWiki}}
+			</view>
+			<view class="flex-r-between show-all-box" v-if="showAllIcon">
+				<view class="flex" v-if="showAll" @click="toggleShowAll">
+					<view class="gray mgr-10">
+						展开全部回答
+					</view>
+					<image src="/static/question_card_ic_unfold@3x.png" mode="widthFix" style="width: 20upx;"></image>
+				</view>
+				<view class="flex" v-else @click="toggleShowAll">
+					<view class="gray mgr-10">
+						收起全部回答
+					</view>
+					<image src="/static/question_card_ic_fold@3x.png" mode="widthFix" style="width: 20upx;"></image>
+				</view>
+				<image src="/static/question_card_pic_mark@3x.png" mode="widthFix" style="width: 88upx;"></image>
+			</view>
+			<view class="cut-off" v-if="questionWiki"></view>
 			<empty v-if="list.length==0" msg="没有任何数据耶~"></empty>
+			<view class="pd-box title font-b blod border-bottom" v-else>
+				大V们这么说
+			</view>
 			<view class="list">
 				<article-item :list="list" v-on:showOperate="showOperate"></article-item>
 				<view class="uni-tab-bar-loading" v-if="list.length>0">
@@ -65,7 +87,11 @@
 				total: 0,
 				headerTop: 0,
 				showHeader: false,
-				hasQuestion:false
+				hasQuestion: false,
+				questionWiki: "",
+				allQuestionWiki: "",
+				showAll: true,
+				showAllIcon: false
 			};
 		},
 		onLoad(options) {
@@ -89,7 +115,15 @@
 				}, res => {
 					console.log(res)
 					this.total = res.data.total;
-					this.hasQuestion=res.data.hasQuestion;
+					this.hasQuestion = res.data.hasQuestion;
+					this.allQuestionWiki = res.data.questionWiki
+					if (this.allQuestionWiki.length > 120) {
+						this.showAllIcon = true
+						this.questionWiki = this.allQuestionWiki.substr(0, 117) + '...'
+					} else {
+						this.showAllIcon = false
+						this.questionWiki = this.allQuestionWiki
+					}
 					if (res.data.resultList.length) {
 						this.list = this.list.concat(res.data.resultList)
 						this.loadingType = 0
@@ -134,10 +168,18 @@
 					this.showHeader = false
 				}
 			},
-			goAsk(){
+			goAsk() {
 				uni.navigateTo({
-					url:"/pages/home/question/commit/commit"
+					url: "/pages/home/question/commit/commit"
 				})
+			},
+			toggleShowAll() {
+				this.showAll = !this.showAll;
+				if (this.showAll) {
+					this.questionWiki = this.allQuestionWiki.substr(0, 117) + '...'
+				} else {
+					this.questionWiki = this.allQuestionWiki
+				}
 			}
 		}
 	}
@@ -148,6 +190,19 @@
 		position: relative;
 		left: 0;
 		top: 0;
+
+		.question-wiki {
+			padding: 0 30upx 20upx 30upx;
+			color: #404040;
+		}
+
+		.show-all-box {
+			padding: 0 30upx 20upx 30upx;
+
+			.gray {
+				font-size: 26upx;
+			}
+		}
 
 		.question-box {
 			box-sizing: border-box;
