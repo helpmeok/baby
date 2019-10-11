@@ -89,6 +89,10 @@ module.exports = {
 			let _url = "/miniApp/wxlogin";
 			_req.m_send(_url, "POST", d, onok, onno);
 		},
+		get_adv: function(d, onok, onno) {
+			let _url = "/adv/getAdv";
+			_req.m_send(_url, "GET", d, onok, onno);
+		},
 		get_wx_mobile: function(d, onok, onno) { //微信小程序获取手机号码，调用的接口
 			let _url = "/miniApp/getPhone";
 			_req.m_send(_url, "POST", d, onok, onno);

@@ -69,7 +69,7 @@
 	var ctime = parseInt(Date.now());
 	const total = 10;
 	let offset = 0;
-	let qaId = ""
+	let qaId = "",allQuestionWiki=""
 	export default {
 		data() {
 			return {
@@ -89,7 +89,6 @@
 				showHeader: false,
 				hasQuestion: false,
 				questionWiki: "",
-				allQuestionWiki: "",
 				showAll: true,
 				showAllIcon: false
 			};
@@ -116,13 +115,13 @@
 					console.log(res)
 					this.total = res.data.total;
 					this.hasQuestion = res.data.hasQuestion;
-					this.allQuestionWiki = res.data.questionWiki
-					if (this.allQuestionWiki.length > 120) {
+					allQuestionWiki = res.data.questionWiki
+					if (allQuestionWiki.length > 120) {
 						this.showAllIcon = true
-						this.questionWiki = this.allQuestionWiki.substr(0, 117) + '...'
+						this.questionWiki = allQuestionWiki.substr(0, 117) + '...'
 					} else {
 						this.showAllIcon = false
-						this.questionWiki = this.allQuestionWiki
+						this.questionWiki = allQuestionWiki
 					}
 					if (res.data.resultList.length) {
 						this.list = this.list.concat(res.data.resultList)
@@ -176,9 +175,9 @@
 			toggleShowAll() {
 				this.showAll = !this.showAll;
 				if (this.showAll) {
-					this.questionWiki = this.allQuestionWiki.substr(0, 117) + '...'
+					this.questionWiki = allQuestionWiki.substr(0, 117) + '...'
 				} else {
-					this.questionWiki = this.allQuestionWiki
+					this.questionWiki = allQuestionWiki
 				}
 			}
 		}

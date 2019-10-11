@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<image src="/static/task/dailytasks_top_bg@2x.png" id="welfarBg" mode="widthFix" class="welfar-bg"></image>
+		<image :src="taskAdvImg" @error="imgErr" id="welfarBg" mode="widthFix" class="welfar-bg"></image>
 		<view class="main" :style="[{height:mainHeight+ 'px',top:mainTop+'px'}]">
 			<view class="flex-r-between title-box">
 				<view class="title blod">
@@ -67,11 +67,13 @@
 				welfarBgHeight: 0,
 				mainTop: -55,
 				mainHeight: 0,
-				scrollHeight: 0
+				scrollHeight: 0,
+				taskAdvImg:""
 			}
 		},
 		onLoad() {
 			this.init()
+			this.getAdv()
 		},
 		onShow() {
 			this.getUserInfo()
@@ -90,7 +92,6 @@
 		},
 		methods: {
 			init() {
-				this.list = []
 				this.api.task.get_list(null, res => {
 					console.log(res)
 					this.list = res.data
@@ -98,6 +99,18 @@
 				let res = uni.getSystemInfoSync()
 				this.mainHeight = res.windowHeight - this.mainTop - Math.ceil(res.windowWidth * 37 / 75)
 				this.scrollHeight = res.windowHeight - this.mainTop - Math.ceil(res.windowWidth * 37 / 75) - uni.upx2px(110)
+			},
+			getAdv(){
+				this.api.home.get_adv({
+					position:1,
+					resolution:0
+				},res=>{
+					console.log(res)
+					this.taskAdvImg=res.data.attachment[0]
+				})
+			},
+			imgErr(){
+				this.taskAdvImg='/static/task/task_details_default@2x.png'
 			},
 			getUserInfo() {
 				this.api.center.user.get_detail(null, res => {
