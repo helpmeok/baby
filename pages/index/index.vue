@@ -1,23 +1,23 @@
 <template>
-	<view class="">
-		<cu-custom bgColor="bg-gradual-red">
-			<block slot="content">登录</block>
-		</cu-custom>
-		<view class="container">
-			<view class="content" v-if="isShow">
-				<image src="/static/1024.png" class="logo"></image>
-				<view class="font-b blod default-color">宝宝贝</view>
-				<view class="default-color">了解更多育儿专业知识</view>
-				<button type="primary" open-type="getUserInfo" @getuserinfo="getUserInfo" style="margin-top: 150upx;">
-					微信快捷授权登录
-				</button>
-				<navigator url="/pages/home/index/index" open-type="switchTab" class="gray" style="margin-top: 100upx;" hover-class="none">
-					暂不登录，前往首页
-				</navigator>
+		<view class="" style="height: 100%;width: 100%;">
+			<cu-custom bgColor="bg-gradual-red">
+				<block slot="content">登录</block>
+			</cu-custom>
+			<view class="container" :style="{'height':'calc(100% - '+CustomBar+'px)'}">
+				<view class="content" v-if="isShow">
+					<image src="/static/1024.png" class="logo"></image>
+					<view class="font-b blod default-color">宝宝贝</view>
+					<view class="default-color">了解更多育儿专业知识</view>
+					<button type="primary" open-type="getUserInfo" @getuserinfo="getUserInfo" style="margin-top: 150upx;">
+						微信快捷授权登录
+					</button>
+					<navigator url="/pages/home/index/index" open-type="switchTab" class="gray" style="margin-top: 100upx;" hover-class="none">
+						暂不登录，前往首页
+					</navigator>
+				</view>
 			</view>
+			<relevance-label :show="showRelevanceLabel" v-on:routePush="routePush"></relevance-label>
 		</view>
-		<relevance-label :show="showRelevanceLabel" v-on:routePush="routePush"></relevance-label>
-	</view>
 </template>
 
 <script>
@@ -27,6 +27,7 @@
 		data() {
 			return {
 				title: 'Hello',
+				CustomBar: this.CustomBar,
 				code: '',
 				isShow: false,
 				wxSessionKey: "",

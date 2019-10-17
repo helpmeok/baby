@@ -39,9 +39,18 @@
 					Vue.prototype.windowHeight = e.windowHeight;
 					// #ifdef MP-WEIXIN
 					let custom = wx.getMenuButtonBoundingClientRect();
-					console.log(custom)
 					Vue.prototype.Custom = custom;
-					Vue.prototype.CustomBar = custom.bottom + custom.top - e.statusBarHeight;
+					if (custom.bottom == 0) {
+						if (e.screenHeight <= 750) { //解决手机获取custom的值获取不到的情况
+							Vue.prototype.StatusBar = 20;
+							Vue.prototype.CustomBar = 64;
+						} else {
+							Vue.prototype.CustomBar = 88;
+							Vue.prototype.StatusBar = 44;
+						}
+					} else {
+						Vue.prototype.CustomBar = custom.bottom + custom.top - e.statusBarHeight;
+					}
 					// #endif
 					// #ifdef H5
 					Vue.prototype.CustomBar = 50

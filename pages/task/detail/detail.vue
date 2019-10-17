@@ -169,7 +169,9 @@
 		position: absolute;
 		left: 0;
 		top: 0;
-
+		swiper{
+			height: 415upx !important;
+		}
 		.header-custom {
 			height: 415upx !important;
 
