@@ -240,7 +240,7 @@
 				issueKeyword: "",
 				addChanelList: [],
 				hobbyVipList: [],
-				praiseNum:0
+				praiseNum: 0
 			};
 		},
 		onShareAppMessage(res) {
@@ -317,8 +317,7 @@
 							this.$forceUpdate()
 						})
 					}
-				} catch (e) {
-				}
+				} catch (e) {}
 			}
 		},
 		onHide() {
@@ -529,10 +528,8 @@
 			async onPulldownReresh() {
 				ctime = parseInt(Date.now()); //刷新时间
 				this.tabs[this.tabIndex].offset = 0;
-				setTimeout(async () => {
-					await this.init('pull-down');
-					this.$refs.mixPulldownRefresh && this.$refs.mixPulldownRefresh.endPulldownRefresh();
-				}, 500);
+				await this.init('pull-down');
+				this.$refs.mixPulldownRefresh && this.$refs.mixPulldownRefresh.endPulldownRefresh();
 			},
 			setEnableScroll(enable) {
 				if (this.enableScroll !== enable) {

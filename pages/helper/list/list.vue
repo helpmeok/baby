@@ -50,8 +50,8 @@
 				<image src="/static/question_card_pic_mark@3x.png" mode="widthFix" style="width: 88upx;"></image>
 			</view>
 			<view class="cut-off" v-if="questionWiki"></view>
-			<empty v-if="list.length==0" msg="没有任何数据耶~"></empty>
-			<view class="pd-box title font-b blod border-bottom" v-else>
+			<empty v-if="list.length==0 && !questionWiki" msg="没有任何数据耶~"></empty>
+			<view class="pd-box title font-b blod border-bottom" v-if="list.length>0">
 				大V们这么说
 			</view>
 			<view class="list">
