@@ -31,7 +31,7 @@
 					</view>
 					<view class="item-r flex-r-between" v-if="!el.completeStatus">
 						<text class="task-color">去完成</text>
-						<image src="/static/com_list_ic_arrow@3x.png" class="iconarrow-right" mode="widthFix"></image>
+						<image src="/static/task_list_ic_arrow@3x.png" class="iconarrow-right" mode="widthFix"></image>
 					</view>
 					<view class="item-r flex-r-between" v-if="el.completeStatus">
 						<view class="">
