@@ -29,7 +29,6 @@
 				// 新的版本下载失败
 				console.log(res)
 			});
-			// #endif
 			uni.getSystemInfo({
 				success: function(e) {
 					console.log(e);
@@ -37,11 +36,10 @@
 					Vue.prototype.screenHeight = e.screenHeight;
 					Vue.prototype.screenWidth = e.screenWidth;
 					Vue.prototype.windowHeight = e.windowHeight;
-					// #ifdef MP-WEIXIN
 					let custom = wx.getMenuButtonBoundingClientRect();
 					Vue.prototype.Custom = custom;
 					if (custom.bottom == 0) {
-						if (e.screenHeight <= 750) { //解决手机获取custom的值获取不到的情况
+						if (e.screenHeight <= 750) { //解决手机获取getMenuButtonBoundingClientRect的值获取不到的情况
 							Vue.prototype.StatusBar = 20;
 							Vue.prototype.CustomBar = 64;
 						} else {
@@ -51,14 +49,11 @@
 					} else {
 						Vue.prototype.CustomBar = custom.bottom + custom.top - e.statusBarHeight;
 					}
-					// #endif
-					// #ifdef H5
-					Vue.prototype.CustomBar = 50
-					// #endif
-
 				}
 			});
-
+			// #endif
+			
+			
 			Vue.prototype.ColorList = [{
 					title: '嫣红',
 					name: 'red',
@@ -139,6 +134,7 @@
 		onShow: function() {
 			console.log('App Show');
 		},
+	
 		onHide: function() {
 			console.log('App Hide');
 		}
