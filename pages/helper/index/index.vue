@@ -77,7 +77,7 @@
 			},
 			goList(id, name) {
 				uni.navigateTo({
-					url: "../list/list?id=" + id + "&name=" + name
+					url: "../list/list?id=" + id
 				})
 			},
 			search() {

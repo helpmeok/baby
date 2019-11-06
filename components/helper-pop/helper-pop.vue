@@ -82,7 +82,7 @@
 			},
 			goList(id, name) {
 				uni.navigateTo({
-					url: "/pages/helper/list/list?id=" + id + "&name=" + name
+					url: "/pages/helper/list/list?id=" + id 
 				})
 			},
 			search() {

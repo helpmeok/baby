@@ -95,7 +95,6 @@
 		},
 		onLoad(options) {
 			qaId = options.id
-			this.name = options.name
 			uni.showLoading({
 				title: "加载中"
 			})
@@ -115,6 +114,7 @@
 					console.log(res)
 					this.total = res.data.total;
 					this.hasQuestion = res.data.hasQuestion;
+					this.name=res.data.questionName;
 					allQuestionWiki = res.data.questionWiki
 					if (allQuestionWiki.length > 120) {
 						this.showAllIcon = true

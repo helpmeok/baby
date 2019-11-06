@@ -270,6 +270,11 @@
 					url: '../question/detail/detail?id=' + options.qaId
 				});
 			}
+			if (options.helperId) {
+				uni.navigateTo({
+					url: '/pages/helper/list/list?id=' + options.helperId
+				});
+			}
 		},
 		onShow() {
 			this.getHot();
@@ -460,7 +465,7 @@
 
 							this.tabs[this.tabIndex].data = res.data.concat(this.tabs[this.tabIndex].data);
 							if (type == 'pull-down' && (this.tabs[this.tabIndex].channelId == -2 || this.tabs[this.tabIndex].channelId ==
-									-4 || this.tabs[this.tabIndex].channelId == -5)) { //关注,视频，音频列表
+									-4 || this.tabs[this.tabIndex].channelId == -5 || this.tabs[this.tabIndex].channelId == -3)) { //关注,问答,视频，音频列表
 								this.tabs[this.tabIndex].data = res.data
 							}
 							this.isLoad = true
