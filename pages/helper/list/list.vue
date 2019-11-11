@@ -115,7 +115,10 @@
 					this.total = res.data.total;
 					this.hasQuestion = res.data.hasQuestion;
 					this.name=res.data.questionName;
-					allQuestionWiki = res.data.questionWiki
+					allQuestionWiki = res.data.questionWiki;
+					if (res.data.sharePic) {
+						uni.setStorageSync('share_pic',res.data.sharePic)
+					}
 					if (allQuestionWiki.length > 120) {
 						this.showAllIcon = true
 						this.questionWiki = allQuestionWiki.substr(0, 117) + '...'

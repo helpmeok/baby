@@ -216,7 +216,13 @@
 				"navigationStyle": "custom"
 			}
 		}
-	],
+	    ,{
+            "path" : "pages/helper/sharePic/sharePic",
+            "style" : {
+				"navigationStyle": "custom"
+			}
+        }
+    ],
 	"requiredBackgroundModes": ["audio"],
 	"tabBar": {
 		"color": "#666666",
@@ -352,7 +358,11 @@
 			{
 				"name": "母婴百科助手",
 				"pathName": "pages/helper/list/list",
-				"query": "id=518&name=怎么去除妊娠纹？"
+				"query": "id=8645"
+			},
+			{
+				"name": "生成海报",
+				"pathName": "pages/helper/sharePic/sharePic"
 			},
 			{
 				"name": "宝宝管理",
