@@ -29,41 +29,58 @@
 		},
 		methods: {
 			savePic() {
-				uni.showLoading({
-					title: "下载图片中"
-				})
-				uni.downloadFile({
-					url: this.src, 
-					success: (res) => {
-						console.log(res)
-						if (res.statusCode === 200) {
-							uni.saveImageToPhotosAlbum({
-								filePath: res.tempFilePath,
-								success() {
-									uni.hideLoading()
-									uni.showToast({
-										title:"保存图片成功"
-									})
-								},
-								fail(err) {
-									uni.hideLoading()
-									uni.showToast({
-										title:"保存图片失败",
-										icon:"none"
-									})
-								}
-							});
-						}
-					},
-					fail: (err) => {
+				uni.saveImageToPhotosAlbum({
+					filePath: this.src,
+					success() {
 						uni.hideLoading()
 						uni.showToast({
-							title: "下载图片失败",
+							title: "保存成功",
+							icon: "success"
+						})
+					},
+					fail(err) {
+						uni.hideLoading()
+						uni.showToast({
+							title: "保存失败",
 							icon: "none"
 						})
 					}
 				});
-				
+				// uni.showLoading({
+				// 	title: "下载图片中"
+				// })
+				// uni.downloadFile({
+				// 	url: this.src, 
+				// 	success: (res) => {
+				// 		console.log(res)
+				// 		if (res.statusCode === 200) {
+				// 			uni.saveImageToPhotosAlbum({
+				// 				filePath: res.tempFilePath,
+				// 				success() {
+				// 					uni.hideLoading()
+				// 					uni.showToast({
+				// 						title:"保存图片成功"
+				// 					})
+				// 				},
+				// 				fail(err) {
+				// 					uni.hideLoading()
+				// 					uni.showToast({
+				// 						title:"保存图片失败",
+				// 						icon:"none"
+				// 					})
+				// 				}
+				// 			});
+				// 		}
+				// 	},
+				// 	fail: (err) => {
+				// 		uni.hideLoading()
+				// 		uni.showToast({
+				// 			title: "下载图片失败",
+				// 			icon: "none"
+				// 		})
+				// 	}
+				// });
+
 			}
 		}
 	}

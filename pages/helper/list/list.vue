@@ -61,7 +61,7 @@
 				</view>
 			</view>
 		</scroll-view>
-
+		<image src="/static/question_pic_poster_nor@3x.png" mode="widthFix" class="pic-poster" v-if="showSharePic" @click="sharePic"></image>
 	</view>
 </template>
 
@@ -69,8 +69,21 @@
 	var ctime = parseInt(Date.now());
 	const total = 10;
 	let offset = 0;
-	let qaId = "",allQuestionWiki=""
+	let qaId = "",
+		allQuestionWiki = "",
+		sharePicUrl = "";
 	export default {
+		onShareAppMessage(res) {
+			if (res.from === 'button') {
+				// 来自页面内分享按钮
+				console.log(res.target);
+			}
+			return {
+				title: this.name,
+				path: '/pages/home/index/index?helperId=' + qaId,
+				imageUrl: '/static/logo.png'
+			};
+		},
 		data() {
 			return {
 				loadingType: 0,
@@ -90,7 +103,8 @@
 				hasQuestion: false,
 				questionWiki: "",
 				showAll: true,
-				showAllIcon: false
+				showAllIcon: false,
+				showSharePic: false
 			};
 		},
 		onLoad(options) {
@@ -114,10 +128,11 @@
 					console.log(res)
 					this.total = res.data.total;
 					this.hasQuestion = res.data.hasQuestion;
-					this.name=res.data.questionName;
+					this.name = res.data.questionName;
 					allQuestionWiki = res.data.questionWiki;
 					if (res.data.sharePic) {
-						uni.setStorageSync('share_pic',res.data.sharePic)
+						sharePicUrl = res.data.sharePic;
+						this.showSharePic = true;
 					}
 					if (allQuestionWiki.length > 120) {
 						this.showAllIcon = true
@@ -182,12 +197,44 @@
 				} else {
 					this.questionWiki = allQuestionWiki
 				}
+			},
+			sharePic() {
+				uni.showLoading({
+					title: "生成海报中"
+				})
+				uni.downloadFile({
+					url: sharePicUrl,
+					success: (res) => {
+						console.log(res)
+						if (res.statusCode === 200) {
+							uni.setStorageSync('share_pic',res.tempFilePath);
+							uni.hideLoading();
+							uni.navigateTo({
+								url: '/pages/helper/sharePic/sharePic'
+							})
+						}
+					},
+					fail: (err) => {
+						uni.hideLoading()
+						uni.showToast({
+							title: "生成海报失败",
+							icon: "none"
+						})
+					}
+				});
 			}
 		}
 	}
 </script>
 
 <style lang="scss">
+	.pic-poster {
+		width: 120upx;
+		position: fixed;
+		right: 20upx;
+		bottom: 30upx;
+	}
+
 	.scroll-view {
 		position: relative;
 		left: 0;
