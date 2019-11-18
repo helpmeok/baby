@@ -182,6 +182,7 @@
 			this.hotId = options.id
 			id = options.id;
 			this.init();
+			
 		},
 		onShow() {
 			if (uni.getStorageSync('articleIndex').toString()) { //监听文章数据改变
@@ -235,9 +236,8 @@
 			isShowRecommend(val) {
 				setTimeout(() => {
 					this.getStickyTop()
-				}, 600)
+				}, 500)
 			},
-
 		},
 		methods: {
 			init() {
@@ -259,7 +259,9 @@
 				);
 				this.getArticle();
 				this.getRecommend();
-				this.getStickyTop()
+				setTimeout(() => {
+					this.getStickyTop()
+				}, 500)
 			},
 			previewImage(url) {
 				let arr = []
@@ -273,7 +275,6 @@
 				this.swiperHeight = this.screenHeight - size.height;
 				this.stickyHeight = size.height;
 				this.stickyTop = size.top
-				console.log(this.stickyTop)
 			},
 			getElSize(id) { //得到元素的size
 				return new Promise((res, rej) => {

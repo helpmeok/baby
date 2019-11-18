@@ -311,12 +311,12 @@
 			{
 				"name": "话题详情", //模式名称
 				"pathName": "pages/classify/detail/detail", //启动页面，必选
-				"query": "id=26"
+				"query": "id=37"
 			},
 			{
 				"name": "大V详情", //模式名称 
 				"pathName": "pages/home/celebrity/detail/detail", //启动页面，必选
-				"query": "id=2792"
+				"query": "id=3020"
 			},
 			{
 				"name": "搜索大V内容", //模式名称 

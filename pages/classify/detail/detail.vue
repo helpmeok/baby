@@ -177,7 +177,7 @@
 			isShowRecommend(val) {
 				setTimeout(() => {
 					this.getStickyTop()
-				}, 600)
+				}, 500)
 			}
 		},
 		onLoad(options) {
@@ -246,14 +246,15 @@
 				})
 				this.getArticle()
 				this.getRecommend()
-				this.getStickyTop()
+				setTimeout(() => {
+					this.getStickyTop()
+				}, 500)
 			},
 			async getStickyTop() {
 				let size = await this.getElSize('sticky')
 				this.swiperHeight = this.screenHeight - size.height;
 				this.stickyHeight = size.height;
 				this.stickyTop = size.top;
-				console.log(this.stickyTop)
 			},
 			getElSize(id) { //得到元素的size
 				return new Promise((res, rej) => {
@@ -372,7 +373,6 @@
 				this.getArticle();
 			},
 			getMoreArticle() {
-				console.log('111')
 				this.tabs[this.tabIndex].offset += total;
 				this.api.center.classify.get_article_by_tagId({
 						tagId: id,
