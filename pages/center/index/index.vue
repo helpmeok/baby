@@ -112,7 +112,11 @@
 	export default {
 		data() {
 			return {
-				userInfo: {}
+				userInfo: {
+					nickname:"",
+					userPoint:"",
+					avatar:""
+				}
 			};
 		},
 		onLoad() {},

@@ -91,7 +91,7 @@
 			},
 		},
 		onPageScroll(e) {
-			this.opacity = Number(e.scrollTop / uni.upx2px(415)) >= 1 ? 1 : Number(e.scrollTop / uni.upx2px(415));
+			this.opacity = Number(e.scrollTop / uni.upx2px(435)) >= 1 ? 1 : Number(e.scrollTop / uni.upx2px(435));
 		},
 		onReachBottom() {
 			this.loadMore()
@@ -118,18 +118,18 @@
 		top: 0;
 
 		.header-custom {
-			height: 415upx !important;
+			height: 435upx !important;
 
 			.header-bg-img {
 				position: absolute;
 				z-index: 1;
-				height: 415upx !important;
+				height: 435upx !important;
 			}
 
 			.mask {
 				position: absolute;
 				width: 100%;
-				height: 415upx !important;
+				height: 435upx !important;
 				background: linear-gradient(159deg, rgba(252, 102, 63, 1) 0%, rgba(231, 50, 45, 1) 100%);
 				opacity: 0.8;
 				z-index: 2;
@@ -137,7 +137,7 @@
 
 			.desc {
 				position: absolute;
-				height: 415upx !important;
+				height: 435upx !important;
 				z-index: 3;
 				padding:20upx 30upx;
 				width: 100%;

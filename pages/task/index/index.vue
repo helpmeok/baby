@@ -106,11 +106,11 @@
 					resolution:0
 				},res=>{
 					console.log(res)
-					this.taskAdvImg=res.data.attachment[0]
+					this.taskAdvImg=res.data.attachment[0]?res.data.attachment[0]:'/static/task/dailytasks_top_bg@2x.png';
 				})
 			},
 			imgErr(){
-				this.taskAdvImg='/static/task/task_details_default@2x.png'
+				this.taskAdvImg='/static/task/dailytasks_top_bg@2x.png'
 			},
 			getUserInfo() {
 				this.api.center.user.get_detail(null, res => {
