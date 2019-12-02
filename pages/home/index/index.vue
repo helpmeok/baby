@@ -285,7 +285,9 @@
 				hobbyVipList: [],
 				praiseNum: 0,
 				filterTop: 0,
-				filterBoxSHow: false
+				filterBoxSHow: false,
+				uploadToken: "",
+				serverUrl: ""
 			};
 		},
 		onShareAppMessage(res) {
@@ -686,12 +688,56 @@
 					type: 'file',
 					extension: ['pdf'],
 					success: (res) => {
-						console.log(res)
+						let file = res.tempFiles[0]
+						uni.showLoading({
+							title:"上传中"
+						})
+						this.api.home.qa.get_qiuniu_info(null, async res => {
+							this.uploadToken = res.data.uploadToken;
+							this.serverUrl = res.data.serverUrl;
+							let fileUrl = await this.uploadFile(file.path)
+							this.api.home.file.upload({
+								fileName: file.name,
+								fileUrl: fileUrl,
+								tagPoolId: 4
+							}, res => {
+								console.log(res)
+								uni.showToast({
+									'title':"上传成功"
+								})
+								uni.hideLoading()
+							})
+						});
 					},
 					fail: (err) => {
 						console.log(err)
 					}
 				})
+			},
+			uploadFile(file) {
+				return new Promise((onok, onno) => {
+					let formData = {
+						token: this.uploadToken,
+						key: file.substr(file.lastIndexOf('/') + 1),
+						file: file
+					};
+					console.log(formData);
+					uni.uploadFile({
+						url: 'http://upload.qiniu.com',
+						filePath: file,
+						name: 'file',
+						formData: formData,
+						success: uploadFileRes => {
+							console.log(uploadFileRes)
+							let _url = this.serverUrl + '/' + JSON.parse(uploadFileRes.data).key;
+							onok(_url);
+						},
+						fail: err => {
+							console.log(err)
+							onno(err);
+						}
+					});
+				});
 			}
 		}
 	};
