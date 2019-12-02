@@ -86,7 +86,7 @@
 		}, {
 			"path": "pages/center/record/list/list",
 			"style": {
-				"navigationBarTitleText": "浏览记录",
+				"navigationBarTitleText": "浏览历史",
 				"navigationStyle": "custom"
 			}
 		}, {
@@ -344,7 +344,7 @@
 				"pathName": "pages/center/collect/list/list"
 			},
 			{
-				"name": "浏览记录",
+				"name": "浏览历史",
 				"pathName": "pages/center/record/list/list"
 			},
 			{

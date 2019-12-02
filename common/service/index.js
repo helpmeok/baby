@@ -1,7 +1,7 @@
 // const __api = 'http://59.61.216.123:18980/jeezero-boblbee-app/v1';
-// const __api = 'https://dev.jeezero.com:18980/jeezero-boblbee-app/v1';//开发服务器
+const __api = 'https://dev.jeezero.com:18980/jeezero-boblbee-app/v1'; //开发服务器
 // const __api = 'https://beta.jeezero.com:18980/jeezero-boblbee-app/v1';//仿正式服务器地址
-const __api = 'https://boblbee.superpapa.com.cn/jeezero-boblbee-app/v1';//正式服务器
+// const __api = 'https://boblbee.superpapa.com.cn/jeezero-boblbee-app/v1';//正式服务器
 
 function Request() {
 	this.m_send = function(url, method, data, onok, onno, complete) {
@@ -145,7 +145,7 @@ module.exports = {
 			let _url = "/home/saveUserChanelList";
 			_req.m_send(_url, "POST", d, onok, onno);
 		},
-		get_article_by_chanelId:function(d, onok, onno) { //【首页】 根据频道id获取内容数据
+		get_article_by_chanelId: function(d, onok, onno) { //【首页】 根据频道id获取内容数据
 			let _url = "/home/getArticleByChannelId";
 			_req.m_send(_url, "GET", d, onok, onno);
 		},
@@ -258,6 +258,12 @@ module.exports = {
 					_req.m_send(_url, "POST", d, onok, onno);
 				},
 			}
+		},
+		file: {
+			upload: function(d, onok, onno) { //上传文件接口
+				let _url = "/home/uploadFile";
+				_req.m_send(_url, "POST", d, onok, onno);
+			},
 		}
 	},
 	helper: {

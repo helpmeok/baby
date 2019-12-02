@@ -34,6 +34,17 @@
 					<image src="/static/home_nav_ic_more_nor@3x.png" mode="widthFix" @click="showChannelOperate=true" class="nav-more-icon"></image>
 				</view>
 			</view>
+			<view class="file-filter-box-sticky pd-box flex bg-white border-bottom default-color" v-show="filterBoxSHow" :style="{'top':filterFixedHeight+'px'}">
+				<view class="">
+					按发布时间
+				</view>
+				<view class=" mgl-20">
+					按查阅数
+				</view>
+				<view class="mgl-20">
+					按转发数
+				</view>
+			</view>
 			<!-- 头部tabs -->
 			<!-- 滚动列表区域 -->
 			<mix-pulldown-refresh ref="mixPulldownRefresh" class="panel-content" :top="90" @refresh="onPulldownReresh"
@@ -41,8 +52,31 @@
 				<swiper class="swiper-box" :current="tabIndex" :duration="300" @change="changeSwiper">
 					<swiper-item v-for="(el, i) in tabs" :key="i">
 						<scroll-view @scrolltolower="loadMore(i)" :scroll-y="!showArticleOperate" class="scroll-view" :style="{height:articleScrollHeight+'px'}"
-						 :enable-back-to-top="el.active">
+						 :enable-back-to-top="el.active" @scroll="listItemScroll">
 							<view class="" v-if="el.channelName!='关注'">
+								<!-- 文件列表 -->
+								<view class="file-box" v-if="el.channelName=='文件'">
+
+									<view class="flex-r-center">
+										<view class="flex-r-center btn bg-default-color" @click="pushFile()">
+											<image src="/static/bigv_list_ic_follow@3x.png" mode="widthFix" class="icon"></image>
+											<text class="white">发布文件</text>
+										</view>
+									</view>
+									<view class="warn-text pd-box">该内容由用户上传，如有侵权请联系我们投诉及删除</view>
+									<view class="file-filter-box pd-box flex bg-white border-bottom gray" id="filterSticky">
+										<view class="">
+											按发布时间
+										</view>
+										<view class=" mgl-20">
+											按查阅数
+										</view>
+										<view class="mgl-20">
+											按转发数
+										</view>
+									</view>
+								</view>
+								<!-- 文件列表 -->
 								<!-- 问答头部 -->
 								<view class="qa-box" v-if="el.channelName=='问答'&&isLogin">
 									<view class="qa-user">
@@ -151,6 +185,7 @@
 								</view>
 							</view>
 							<!-- 关注列表 -->
+
 						</scroll-view>
 					</swiper-item>
 				</swiper>
@@ -199,7 +234,7 @@
 				isLoad: false,
 				hotList: [],
 				showHotMask: false,
-				tabIndex: 0,
+				tabIndex: 2,
 				enableScroll: true,
 				showArticleOperate: false,
 				articleId: '',
@@ -223,6 +258,14 @@
 						offset: 0,
 						loadingType: 0,
 						channelId: -2
+					},
+					{
+						channelName: '文件',
+						active: false,
+						data: [],
+						offset: 0,
+						loadingType: 0,
+						channelId: -6
 					}
 				],
 				loadingText: {
@@ -240,7 +283,9 @@
 				issueKeyword: "",
 				addChanelList: [],
 				hobbyVipList: [],
-				praiseNum: 0
+				praiseNum: 0,
+				filterTop: 0,
+				filterBoxSHow: false
 			};
 		},
 		onShareAppMessage(res) {
@@ -334,6 +379,9 @@
 			},
 			articleScrollHeight() {
 				return (this.WindowHeight - this.CustomBar - uni.upx2px(88))
+			},
+			filterFixedHeight() {
+				return (this.CustomBar + uni.upx2px(88))
 			}
 		},
 		watch: {
@@ -350,6 +398,28 @@
 			}
 		},
 		methods: {
+			getElSize(id) {
+				//得到元素的size
+				return new Promise((res, rej) => {
+					uni.createSelectorQuery()
+						.select('#' + id)
+						.fields({
+								size: true,
+								scrollOffset: true,
+								rect: true
+							},
+							data => {
+								res(data);
+							}
+						)
+						.exec();
+				});
+			},
+			async getFilterTop() {
+				let size = await this.getElSize('filterSticky')
+				this.filterTop = size.top - this.CustomBar - uni.upx2px(88);
+				console.log(this.filterTop)
+			},
 			getUserChanelList() { //获取用户已选频道列表
 				this.api.home.get_user_chanel_list(null, res => {
 					let myChanelList = res.data.map((el) => {
@@ -512,6 +582,10 @@
 				}
 				this.hasLogin();
 				this.changeTab(e.target.current);
+				console.log(this.tabs[this.tabIndex].channelId)
+				if (this.tabs[this.tabIndex].channelId == -6) {
+					await this.getFilterTop()
+				}
 				if (!this.tabs[this.tabIndex].data.length) {
 					await this.init();
 				}
@@ -596,6 +670,28 @@
 			},
 			videoHandle(video) {
 				videoPlay = video;
+			},
+			listItemScroll(e) {
+				if (this.tabs[this.tabIndex].channelId == -6) {
+					if (e.detail.scrollTop >= this.filterTop) {
+						this.filterBoxSHow = true
+					} else {
+						this.filterBoxSHow = false
+					}
+				}
+			},
+			pushFile() {
+				wx.chooseMessageFile({
+					count: 1,
+					type: 'file',
+					extension: ['pdf'],
+					success: (res) => {
+						console.log(res)
+					},
+					fail: (err) => {
+						console.log(err)
+					}
+				})
 			}
 		}
 	};
@@ -703,7 +799,12 @@
 		}
 	}
 
-
+	.file-filter-box-sticky {
+		width: 100%;
+		position: fixed;
+		left: 0;
+		z-index: 999;
+	}
 
 	.scroll-view {
 		.qa-box {
@@ -745,6 +846,31 @@
 				.white {
 					font-size: 30upx;
 				}
+			}
+		}
+
+		.file-box {
+
+
+			.btn {
+				width: 260upx;
+				height: 72upx;
+				border-radius: 40upx;
+				margin: 20upx;
+
+				.icon {
+					width: 50upx;
+				}
+
+				.white {
+					font-size: 30upx;
+				}
+			}
+
+			.warn-text {
+				background-color: #F8F8F8;
+				color: #A3A3A3;
+				font-size: 24upx;
 			}
 		}
 

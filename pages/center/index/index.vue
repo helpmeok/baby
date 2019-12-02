@@ -132,6 +132,8 @@
 				this.userInfo = res.data;
 				uni.setStorageSync('userInfo',JSON.stringify(res.data))
 			});
+		},
+		methods:{
 		}
 	};
 </script>
