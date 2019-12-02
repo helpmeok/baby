@@ -703,7 +703,7 @@
 							}, res => {
 								console.log(res)
 								uni.showToast({
-									'title':"上传成功"
+									'title':res.message
 								})
 								uni.hideLoading()
 							})
