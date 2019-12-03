@@ -262,7 +262,7 @@ module.exports = {
 		file: {
 			upload: function(d, onok, onno) { //上传文件接口
 				let _url = "/home/uploadFile";
-				_req.m_send(_url, "GET", d, onok, onno);
+				_req.m_send(_url, "POST", d, onok, onno);
 			},
 		}
 	},

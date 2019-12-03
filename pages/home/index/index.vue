@@ -34,17 +34,21 @@
 					<image src="/static/home_nav_ic_more_nor@3x.png" mode="widthFix" @click="showChannelOperate=true" class="nav-more-icon"></image>
 				</view>
 			</view>
-			<view class="file-filter-box-sticky pd-box flex bg-white border-bottom default-color" v-show="filterBoxSHow" :style="{'top':filterFixedHeight+'px'}">
-				<view class="">
-					按发布时间
-				</view>
-				<view class=" mgl-20">
-					按查阅数
-				</view>
-				<view class="mgl-20">
-					按转发数
+			<!-- 文件列表筛选固定框 -->
+			<view class="file-filter-box-sticky file-filter-box pd-box flex bg-white border-bottom" v-if="filterBoxSHow"
+			 :style="{'top':filterFixedHeight+'px'}">
+				<view class="item flex-r-center" :class="{'blod on':ftab.active}" @click="refreshFileList(fi)" v-for="(ftab,fi) in fileTabs"
+				 :key="fi">
+					<view class="">
+						{{ftab.name}}
+					</view>
+					<view class="mgl-10 flex-r-center" v-if="ftab.active">
+						<image src="/static/home/home_file_ic_sort_down@3x.png" v-if="ftab.orderSort==0" mode="widthFix" class="icon"></image>
+						<image src="/static/home/home_file_ic_sort_down@3x.png" v-else mode="widthFix" class="icon"></image>
+					</view>
 				</view>
 			</view>
+			<!-- 文件列表筛选固定框 -->
 			<!-- 头部tabs -->
 			<!-- 滚动列表区域 -->
 			<mix-pulldown-refresh ref="mixPulldownRefresh" class="panel-content" :top="90" @refresh="onPulldownReresh"
@@ -52,7 +56,7 @@
 				<swiper class="swiper-box" :current="tabIndex" :duration="300" @change="changeSwiper">
 					<swiper-item v-for="(el, i) in tabs" :key="i">
 						<scroll-view @scrolltolower="loadMore(i)" :scroll-y="!showArticleOperate" class="scroll-view" :style="{height:articleScrollHeight+'px'}"
-						 :enable-back-to-top="el.active" @scroll="listItemScroll">
+						 :enable-back-to-top="el.active" @scroll="listItemScroll" :scroll-top="listScrollTop">
 							<view class="" v-if="el.channelName!='关注'">
 								<!-- 文件列表 -->
 								<view class="file-box" v-if="el.channelName=='文件'">
@@ -65,14 +69,15 @@
 									</view>
 									<view class="warn-text pd-box">该内容由用户上传，如有侵权请联系我们投诉及删除</view>
 									<view class="file-filter-box pd-box flex bg-white border-bottom gray" id="filterSticky">
-										<view class="">
-											按发布时间
-										</view>
-										<view class=" mgl-20">
-											按查阅数
-										</view>
-										<view class="mgl-20">
-											按转发数
+										<view class="item flex-r-center" :class="{'blod on':ftab.active}" @click="refreshFileList(fi)" v-for="(ftab,fi) in fileTabs"
+										 :key="fi">
+											<view class="">
+												{{ftab.name}}
+											</view>
+											<view class="mgl-10 flex-r-center" v-if="ftab.active">
+												<image src="/static/home/home_file_ic_sort_down@3x.png" v-if="ftab.orderSort==0" mode="widthFix" class="icon"></image>
+												<image src="/static/home/home_file_ic_sort_up@3x.png" v-if="ftab.orderSort==1" mode="widthFix" class="icon"></image>
+											</view>
 										</view>
 									</view>
 								</view>
@@ -214,9 +219,7 @@
 </template>
 
 <script>
-	import uniTag from '@/components/uni-tag.vue';
 	import mixPulldownRefresh from '@/components/mix-pulldown-refresh';
-	// import { chGMT } from '@/common/util/date.js';
 	import articleOperate from '@/components/article-operate'; //文章操作组件
 	import channelOperate from '@/components/channel-operate'; //频道操作组件
 	var ctime = parseInt(Date.now());
@@ -224,7 +227,6 @@
 	const total = 10;
 	export default {
 		components: {
-			uniTag,
 			mixPulldownRefresh,
 			articleOperate,
 			channelOperate
@@ -268,6 +270,26 @@
 						channelId: -6
 					}
 				],
+				fileTabs: [{
+						name: "按发布时间",
+						orderField: 0,
+						orderSort: 0,
+						active: true,
+					},
+					{
+						name: "按查阅数",
+						orderField: 1,
+						orderSort: 0,
+						active: false,
+					},
+					{
+						name: "按转发数",
+						orderField: 2,
+						orderSort: 0,
+						active: false,
+					}
+				],
+				fileTabIndex: 0,
 				loadingText: {
 					contentdown: '',
 					contentrefresh: '正在加载...',
@@ -287,7 +309,11 @@
 				filterTop: 0,
 				filterBoxSHow: false,
 				uploadToken: "",
-				serverUrl: ""
+				serverUrl: "",
+				listScrollTop: 0,
+				old: {
+					scrollTop: 0
+				}
 			};
 		},
 		onShareAppMessage(res) {
@@ -529,7 +555,9 @@
 							channelId: this.tabs[this.tabIndex].channelId,
 							ctime: ctime,
 							offset: this.tabs[this.tabIndex].offset,
-							total: total
+							total: total,
+							orderSort: this.fileTabs[this.fileTabIndex].orderSort,
+							orderField: this.fileTabs[this.fileTabIndex].orderField
 						},
 						res => {
 							console.log(this.tabs[this.tabIndex].channelName + '数据列表');
@@ -537,7 +565,8 @@
 
 							this.tabs[this.tabIndex].data = res.data.concat(this.tabs[this.tabIndex].data);
 							if (type == 'pull-down' && (this.tabs[this.tabIndex].channelId == -2 || this.tabs[this.tabIndex].channelId ==
-									-4 || this.tabs[this.tabIndex].channelId == -5 || this.tabs[this.tabIndex].channelId == -3)) { //关注,问答,视频，音频列表
+									-4 || this.tabs[this.tabIndex].channelId == -5 || this.tabs[this.tabIndex].channelId == -3 || this.tabs[
+										this.tabIndex].channelId == -6)) { //关注,问答,视频，音频,文件列表
 								this.tabs[this.tabIndex].data = res.data
 							}
 							this.isLoad = true
@@ -649,7 +678,7 @@
 			},
 			goMore() {
 				uni.navigateTo({
-					url: '../celebrity/more/more'
+					url: '/pages/home/celebrity/more/more'
 				});
 			},
 			goDetail(id) {
@@ -675,6 +704,7 @@
 			},
 			listItemScroll(e) {
 				if (this.tabs[this.tabIndex].channelId == -6) {
+					this.old.scrollTop = e.detail.scrollTop
 					if (e.detail.scrollTop >= this.filterTop) {
 						this.filterBoxSHow = true
 					} else {
@@ -690,7 +720,7 @@
 					success: (res) => {
 						let file = res.tempFiles[0]
 						uni.showLoading({
-							title:"上传中"
+							title: "上传中"
 						})
 						this.api.home.qa.get_qiuniu_info(null, async res => {
 							this.uploadToken = res.data.uploadToken;
@@ -703,7 +733,7 @@
 							}, res => {
 								console.log(res)
 								uni.showToast({
-									'title':res.message
+									'title': res.message
 								})
 								uni.hideLoading()
 							})
@@ -737,6 +767,26 @@
 							onno(err);
 						}
 					});
+				});
+			},
+			refreshFileList(index) {
+				this.listScrollTop = this.old.scrollTop
+				uni.showLoading({
+					title: "加载中"
+				})
+				this.fileTabIndex = index;
+				if (this.fileTabs[index].active) {
+					this.fileTabs[index].orderSort = this.fileTabs[index].orderSort == 0 ? 1 : 0;
+				} else {
+					this.fileTabs.forEach((el) => {
+						el.active = false
+					})
+					this.fileTabs[index].active = true;
+				}
+				this.onPulldownReresh()
+				this.$nextTick(() => {
+					this.listScrollTop = 0;
+					this.filterBoxSHow=false;
 				});
 			}
 		}
@@ -850,6 +900,21 @@
 		position: fixed;
 		left: 0;
 		z-index: 999;
+	}
+
+	.file-filter-box {
+		.item {
+			margin-right: 50upx;
+		}
+
+		.item.on {
+			color: #FC4041;
+			font-size: 30upx;
+		}
+
+		.icon {
+			width: 20upx;
+		}
 	}
 
 	.scroll-view {
@@ -1041,8 +1106,6 @@
 	.triangle_border_up {
 		width: 0;
 		height: 0;
-		// border-top: 30upx solid transparent;
-		// border-right: 50upx solid white;
 		border-left: 30upx solid transparent;
 		border-right: 30upx solid transparent;
 		border-bottom: 30upx solid white;

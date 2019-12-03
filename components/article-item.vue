@@ -17,11 +17,14 @@
 						<image :src="item.userAvatar" mode="aspectFill" class="portrait" lazy-load="true" @click.stop="goCelebrity(item,index1)"></image>
 						<view class="">
 							<text class="blod article-font baby-black" style="position: relative;top: 5upx;left: 0;">{{ item.userName }}</text>
-							<view class="small gray" >{{item.oauthIntro}}</view>
+							<view class="small gray">{{item.oauthIntro}}</view>
 						</view>
 					</view>
 					<view class="flex">
-						<view class="tag" v-for="(el,i) in item.tagList" :key="i" @click.stop="geTagDetail(el.tagId)">
+						<view class="tag" v-if="item.showType==7" @click.stop="goAgeTagPoolDetail(item.ageTagPoolId)">
+							{{item.ageTagPoolName}}
+						</view>
+						<view class="tag" v-for="(el,i) in item.tagList" :key="i" v-else @click.stop="goTagDetail(el.tagId)">
 							{{el.name}}
 						</view>
 					</view>
@@ -86,8 +89,19 @@
 						</view>
 					</view>
 				</view>
+				<view class="content showType7" v-if="item.showType == 7">
+					<view class="img-box flex-r-center">
+						<image src="/static/home/home_file_pic_pdf@3x.png" mode="widthFix" class="icon1"></image>
+					</view>
+					<view class="desc pd-box">
+						<image src="/static/home/home_file_pic_triangle@3x.png" mode="widthFix" class="icon2"></image>
+						<view class="baby-black blod sigle-line-text-2">
+							{{item.title}}
+						</view>
+					</view>
+				</view>
 				<view class="flex-r-between">
-					<view class="flex" v-if="item.showType==6">
+					<view class="flex" v-if="item.showType==6 || item.showType==7">
 						<view class="list-item-icon flex">
 							<!-- <text class="iconfont iconliulan gray"></text> -->
 							<image src="../static/home/com_list_ic_look@2x.png" mode="widthFix" class="icon"></image>
@@ -99,7 +113,7 @@
 							<text class="small gray">{{ item.forwardNum | articleDataNum}}</text>
 						</view>
 					</view>
-					<view class="flex" v-if="item.showType!=6">
+					<view class="flex" v-else>
 						<view class="list-item-icon flex">
 							<!-- <text class="iconfont iconliulan gray"></text> -->
 							<image src="../static/home/com_list_ic_look@2x.png" mode="widthFix" class="icon"></image>
@@ -121,8 +135,8 @@
 							<text class="small gray">{{ item.forwardNum | articleDataNum}}</text>
 						</view>
 					</view>
-					<image v-if="showOperate&&item.showType!=6" src="../../../static/com_list_ic_more_nor@2x.png" mode="widthFix"
-					 class="icon-more-nor" @click.stop="showMoreMask($event, item.articleId, item.userId, index1)"></image>
+					<image v-if="showOperate&&item.showType!=6&&item.showType!=7" src="../../../static/com_list_ic_more_nor@2x.png"
+					 mode="widthFix" class="icon-more-nor" @click.stop="showMoreMask($event, item.articleId, item.userId, index1)"></image>
 				</view>
 			</view>
 			<view class="cut-off"></view>
@@ -172,7 +186,31 @@
 				this.showArticleOperate = false;
 			},
 			goDetail(el, index) {
-				if (el.showType == 6) {
+				if (el.showType == 7) {
+					uni.downloadFile({
+						url: el.attachment[0].url,
+						success: (res) => {
+							let filePath = res.tempFilePath;
+							uni.openDocument({
+								filePath: filePath,
+								success: (res) => {
+									console.log(res)
+								},
+								fail: (err) => {
+									console.log(err)
+								}
+							});
+						},
+						fail: (err) => {
+							console.log(err)
+							uni.showToast({
+								title:"文档弄丢了",
+								icon:"none"
+							})
+						}
+					});
+
+				} else if (el.showType == 6) {
 					uni.setStorageSync('questionIndex', index)
 					uni.navigateTo({
 						url: '/pages/home/question/detail/detail?id=' + el.articleId
@@ -203,7 +241,7 @@
 				}
 
 			},
-			geTagDetail(id) {
+			goTagDetail(id) {
 				uni.navigateTo({
 					url: "/pages/classify/detail/detail?id=" + id
 				})
@@ -476,6 +514,47 @@
 				}
 			}
 
+		}
+
+		.content.showType7 {
+			box-sizing: border-box;
+			background-color: #f5f5f5;
+			width: 100%;
+			margin: 20upx 0;
+			height: 140upx;
+			display: flex;
+			flex-direction: row;
+			padding: 0;
+
+			.img-box {
+				width: 140upx;
+				height: 140upx;
+				background: linear-gradient(-30deg, rgba(255, 74, 69, 1) 0%, rgba(255, 111, 74, 1) 100%);
+
+				.icon1 {
+					width: 80upx;
+					height: 80upx;
+				}
+			}
+
+			.desc {
+				box-sizing: border-box;
+				position: relative;
+				left: 0;
+				top: 0;
+				width: calc(100% - 140upx);
+				height: 140upx;
+				display: flex;
+				align-items: center;
+				color: #404040;
+
+				.icon2 {
+					position: absolute;
+					right: 0;
+					top: 0;
+					width: 30upx;
+				}
+			}
 		}
 	}
 </style>
