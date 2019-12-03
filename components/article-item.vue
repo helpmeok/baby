@@ -17,11 +17,12 @@
 						<image :src="item.userAvatar" mode="aspectFill" class="portrait" lazy-load="true" @click.stop="goCelebrity(item,index1)"></image>
 						<view class="">
 							<text class="blod article-font baby-black" style="position: relative;top: 5upx;left: 0;">{{ item.userName }}</text>
-							<view class="small gray">{{item.oauthIntro}}</view>
+							<view class="gray small" v-if="item.showType==7">{{item.ctime | transformDate}}</view>
+							<view class="small gray" v-else>{{item.oauthIntro}}</view>
 						</view>
 					</view>
 					<view class="flex">
-						<view class="tag" v-if="item.showType==7" @click.stop="goAgeTagPoolDetail(item.ageTagPoolId)">
+						<view class="tag" v-if="item.showType==7" @click.stop="goAgeTagPoolDetail(item.ageTagPoolId,item.ageTagPoolName)">
 							{{item.ageTagPoolName}}
 						</view>
 						<view class="tag" v-for="(el,i) in item.tagList" :key="i" v-else @click.stop="goTagDetail(el.tagId)">
@@ -187,6 +188,15 @@
 			},
 			goDetail(el, index) {
 				if (el.showType == 7) {
+					this.api.home.file.add_count_num({
+						fileId: el.articleId,
+						type: "clickNum"
+					}, res => {
+						console.log(res)
+					})
+					uni.showLoading({
+						title: "加载中"
+					})
 					uni.downloadFile({
 						url: el.attachment[0].url,
 						success: (res) => {
@@ -195,6 +205,7 @@
 								filePath: filePath,
 								success: (res) => {
 									console.log(res)
+									uni.hideLoading();
 								},
 								fail: (err) => {
 									console.log(err)
@@ -204,12 +215,11 @@
 						fail: (err) => {
 							console.log(err)
 							uni.showToast({
-								title:"文档弄丢了",
-								icon:"none"
+								title: "文档弄丢了",
+								icon: "none"
 							})
 						}
 					});
-
 				} else if (el.showType == 6) {
 					uni.setStorageSync('questionIndex', index)
 					uni.navigateTo({
@@ -222,6 +232,11 @@
 					});
 				}
 
+			},
+			goAgeTagPoolDetail(id, title) {
+				uni.navigateTo({
+					url: "/pages/home/fileTag-list/fileTag-list?id=" + id + '&title=' + title
+				})
 			},
 			goCategory(id) {
 				uni.navigateTo({

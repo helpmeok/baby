@@ -14,6 +14,7 @@
 			<image src="/static/com_nav_ic_hot_nor@3x.png" mode="widthFix" class="hot-icon" @click="showHotMask = true"></image>
 		</view>
 		<!-- 自定义导航栏 -->
+		<upload-file-prop :isShowUpFile="isShowUpFile" :fileData="fileData" v-on:hideuploadFileProp="hideuploadFileProp"></upload-file-prop>
 		<view class="uni-tab-bar">
 			<!-- 头部tabs -->
 			<view class="tab-bar flex-r-between">
@@ -35,8 +36,7 @@
 				</view>
 			</view>
 			<!-- 文件列表筛选固定框 -->
-			<view class="file-filter-box-sticky file-filter-box pd-box flex bg-white border-bottom" v-if="filterBoxSHow"
-			 :style="{'top':filterFixedHeight+'px'}">
+			<view class="file-filter-box-sticky file-filter-box pd-box flex bg-white border-bottom" v-if="filterBoxSHow" :style="{'top':filterFixedHeight+'px'}">
 				<view class="item flex-r-center" :class="{'blod on':ftab.active}" @click="refreshFileList(fi)" v-for="(ftab,fi) in fileTabs"
 				 :key="fi">
 					<view class="">
@@ -222,6 +222,7 @@
 	import mixPulldownRefresh from '@/components/mix-pulldown-refresh';
 	import articleOperate from '@/components/article-operate'; //文章操作组件
 	import channelOperate from '@/components/channel-operate'; //频道操作组件
+	import uploadFileProp from '@/components/upload-file'; //上传文件弹窗
 	var ctime = parseInt(Date.now());
 	var videoPlay;
 	const total = 10;
@@ -229,14 +230,15 @@
 		components: {
 			mixPulldownRefresh,
 			articleOperate,
-			channelOperate
+			channelOperate,
+			uploadFileProp
 		},
 		data() {
 			return {
 				isLoad: false,
 				hotList: [],
 				showHotMask: false,
-				tabIndex: 2,
+				tabIndex: 0,
 				enableScroll: true,
 				showArticleOperate: false,
 				articleId: '',
@@ -260,14 +262,6 @@
 						offset: 0,
 						loadingType: 0,
 						channelId: -2
-					},
-					{
-						channelName: '文件',
-						active: false,
-						data: [],
-						offset: 0,
-						loadingType: 0,
-						channelId: -6
 					}
 				],
 				fileTabs: [{
@@ -307,7 +301,9 @@
 				hobbyVipList: [],
 				praiseNum: 0,
 				filterTop: 0,
+				fileData: {},
 				filterBoxSHow: false,
+				isShowUpFile: false,
 				uploadToken: "",
 				serverUrl: "",
 				listScrollTop: 0,
@@ -545,7 +541,8 @@
 				if (!this.tabs[this.tabIndex].data.length) {
 					this.isLoad = false
 					uni.showLoading({
-						title: '加载中'
+						title: '加载中',
+						mask: true
 					});
 				}
 				this.tabs[this.tabIndex].loadingType = 0;
@@ -718,56 +715,15 @@
 					type: 'file',
 					extension: ['pdf'],
 					success: (res) => {
-						let file = res.tempFiles[0]
-						uni.showLoading({
-							title: "上传中"
-						})
-						this.api.home.qa.get_qiuniu_info(null, async res => {
-							this.uploadToken = res.data.uploadToken;
-							this.serverUrl = res.data.serverUrl;
-							let fileUrl = await this.uploadFile(file.path)
-							this.api.home.file.upload({
-								fileName: file.name,
-								fileUrl: fileUrl,
-								tagPoolId: 4
-							}, res => {
-								console.log(res)
-								uni.showToast({
-									'title': res.message
-								})
-								uni.hideLoading()
-							})
-						});
+						let file = res.tempFiles[0];
+						file.name = file.name.indexOf('.pdf') == -1 ? file.name : file.name.split('.pdf')[0];
+						this.fileData = file;
+						this.isShowUpFile = true;
 					},
 					fail: (err) => {
 						console.log(err)
 					}
 				})
-			},
-			uploadFile(file) {
-				return new Promise((onok, onno) => {
-					let formData = {
-						token: this.uploadToken,
-						key: file.substr(file.lastIndexOf('/') + 1),
-						file: file
-					};
-					console.log(formData);
-					uni.uploadFile({
-						url: 'http://upload.qiniu.com',
-						filePath: file,
-						name: 'file',
-						formData: formData,
-						success: uploadFileRes => {
-							console.log(uploadFileRes)
-							let _url = this.serverUrl + '/' + JSON.parse(uploadFileRes.data).key;
-							onok(_url);
-						},
-						fail: err => {
-							console.log(err)
-							onno(err);
-						}
-					});
-				});
 			},
 			refreshFileList(index) {
 				this.listScrollTop = this.old.scrollTop
@@ -786,8 +742,12 @@
 				this.onPulldownReresh()
 				this.$nextTick(() => {
 					this.listScrollTop = 0;
-					this.filterBoxSHow=false;
+					this.filterBoxSHow = false;
 				});
+			},
+			hideuploadFileProp() {
+				this.isShowUpFile = false;
+
 			}
 		}
 	};

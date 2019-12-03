@@ -222,6 +222,12 @@
 				"navigationStyle": "custom"
 			}
         }
+        ,{
+            "path" : "pages/home/fileTag-list/fileTag-list",
+            "style" : {
+				"navigationStyle": "custom"
+			}
+        }
     ],
 	"requiredBackgroundModes": ["audio"],
 	"tabBar": {
@@ -431,6 +437,11 @@
 			{
 				"name": "添加话题",
 				"pathName": "pages/center/classify/add-list/add-list"
+			},
+			{
+				"name": "文件标签列表",
+				"pathName": "pages/home/fileTag-list/fileTag-list",
+				"query": "id=4&title=备孕"
 			}
 		]
 	}

@@ -84,6 +84,31 @@ function Request() {
 const _req = new Request()
 module.exports = {
 	host: __api,
+	qiniu: {
+		upload: function(file, token, serverUrl) {
+			return new Promise((onok, onno) => {
+				let formData = {
+					token: token,
+					key: file.substr(file.lastIndexOf('/') + 1),
+					file: file
+				};
+				uni.uploadFile({
+					url: 'http://upload.qiniu.com',
+					filePath: file,
+					name: 'file',
+					formData: formData,
+					success: uploadFileRes => {
+						console.log(uploadFileRes)
+						let _url = serverUrl + '/' + JSON.parse(uploadFileRes.data).key;
+					},
+					fail: err => {
+						console.log(err)
+						onno(err);
+					}
+				});
+			});
+		}
+	},
 	home: {
 		wx_login: function(d, onok, onno) { //微信登陆获取参数
 			let _url = "/miniApp/wxlogin";
@@ -262,6 +287,14 @@ module.exports = {
 		file: {
 			upload: function(d, onok, onno) { //上传文件接口
 				let _url = "/home/uploadFile";
+				_req.m_send(_url, "POST", d, onok, onno);
+			},
+			get_tag_list: function(d, onok, onno) { //获取月龄列表
+				let _url = "/home/getTagPoolList";
+				_req.m_send(_url, "GET", d, onok, onno);
+			},
+			add_count_num: function(d, onok, onno) { //增加统计数
+				let _url = "/file/addFileCountNum";
 				_req.m_send(_url, "POST", d, onok, onno);
 			},
 		}
