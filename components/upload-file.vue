@@ -106,7 +106,8 @@
 					})
 					this.api.home.qa.get_qiuniu_info(null, async res => {
 						let fileUrl = await this.api.qiniu.upload(this.fileData.path,res.data.uploadToken,res.data.serverUrl)
-						let fileName = this.fileName?this.fileName:this.fileData.name
+						let fileName = this.fileName?this.fileName:this.fileData.name;
+						console.log(this.fileUrl)
 						this.api.home.file.upload({
 							fileName: fileName,
 							fileUrl: fileUrl,
@@ -120,11 +121,6 @@
 							this.tagPoolName="请选择";
 							uni.showToast({
 								'title': res.message
-							})
-						},err=>{
-							uni.showToast({
-								'title':"上传失败",
-								'icon':"none"
 							})
 						})
 					});

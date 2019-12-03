@@ -98,8 +98,8 @@ module.exports = {
 					name: 'file',
 					formData: formData,
 					success: uploadFileRes => {
-						console.log(uploadFileRes)
 						let _url = serverUrl + '/' + JSON.parse(uploadFileRes.data).key;
+						onok(_url)
 					},
 					fail: err => {
 						console.log(err)
