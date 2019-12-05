@@ -7,6 +7,9 @@
 					<text class="cuIcon-back"></text>
 					<slot name="backText"></slot>
 				</view>
+				<view class="flex-c-center home-border" @tap="goHome" v-if="isHome">
+					<text class="cuIcon-homefill"></text>
+				</view>
 				<view class="action border-custom" v-if="isCustom" :style="[{width:Custom.width+'px'}]">
 					<text class="cuIcon-back" @tap="BackPage"></text>
 					<view class="helper-box flex-r-center" @tap="goHelper">
@@ -84,6 +87,10 @@
 				type: [Boolean, String],
 				default: false
 			},
+			isHome: {
+				type: [Boolean, String],
+				default: false
+			},
 			bgImage: {
 				type: String,
 				default: ''
@@ -156,6 +163,11 @@
 				uni.navigateTo({
 					url: '/pages/home/celebrity/detail/search/search?id=' + this.hotId
 				})
+			},
+			goHome() {
+				uni.switchTab({
+					url: '/pages/home/index/index'
+				})
 			}
 		}
 	}
@@ -186,5 +198,13 @@
 		left: 0;
 		width: 100%;
 		z-index: 9998;
+	}
+	.home-border{
+		position: relative;
+		background: rgba(0, 0, 0, 0.15);
+		border-radius: 50%;
+		margin-left: 30upx;	
+		width: 60upx;
+		height: 60upx;
 	}
 </style>
