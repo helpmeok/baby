@@ -120,7 +120,8 @@
 							this.index=0;
 							this.tagPoolName="请选择";
 							uni.showToast({
-								'title': res.message
+								'title': res.message,
+								icon:"none"
 							})
 						})
 					});

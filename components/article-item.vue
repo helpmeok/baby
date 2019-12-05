@@ -22,7 +22,7 @@
 						</view>
 					</view>
 					<view class="flex">
-						<view class="tag" v-if="item.showType==7" @click.stop="goAgeTagPoolDetail(item.ageTagPoolId,item.ageTagPoolName)">
+						<view class="tag" v-if="item.showType==7 && showAagTag" @click.stop="goAgeTagPoolDetail(item.ageTagPoolId,item.ageTagPoolName)">
 							{{item.ageTagPoolName}}
 						</view>
 						<view class="tag" v-for="(el,i) in item.tagList" :key="i" v-else @click.stop="goTagDetail(el.tagId)">
@@ -96,7 +96,7 @@
 					</view>
 					<view class="desc pd-box">
 						<image src="/static/home/home_file_pic_triangle@3x.png" mode="widthFix" class="icon2"></image>
-						<view class="baby-black blod sigle-line-text-2">
+						<view class="baby-black  sigle-line-text-2 baby-font-size">
 							{{item.title}}
 						</view>
 					</view>
@@ -168,6 +168,10 @@
 			removeType: {
 				type: String,
 				default: ""
+			},
+			showAagTag:{
+				type: Boolean,
+				default: true
 			}
 		},
 		data() {

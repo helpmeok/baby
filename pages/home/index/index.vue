@@ -710,20 +710,26 @@
 				}
 			},
 			pushFile() {
-				wx.chooseMessageFile({
-					count: 1,
-					type: 'file',
-					extension: ['pdf'],
-					success: (res) => {
-						let file = res.tempFiles[0];
-						file.name = file.name.indexOf('.pdf') == -1 ? file.name : file.name.split('.pdf')[0];
-						this.fileData = file;
-						this.isShowUpFile = true;
-					},
-					fail: (err) => {
-						console.log(err)
-					}
-				})
+				if (this.isLogin) {
+					wx.chooseMessageFile({
+						count: 1,
+						type: 'file',
+						extension: ['pdf'],
+						success: (res) => {
+							let file = res.tempFiles[0];
+							file.name = file.name.indexOf('.pdf') == -1 ? file.name : file.name.split('.pdf')[0];
+							this.fileData = file;
+							this.isShowUpFile = true;
+						},
+						fail: (err) => {
+							console.log(err)
+						}
+					})
+				}else{
+					uni.navigateTo({
+						url:'/pages/index/index'
+					})
+				}
 			},
 			refreshFileList(index) {
 				this.listScrollTop = this.old.scrollTop
@@ -927,7 +933,7 @@
 				width: 260upx;
 				height: 72upx;
 				border-radius: 40upx;
-				margin: 20upx;
+				margin: 30upx;
 
 				.icon {
 					width: 50upx;

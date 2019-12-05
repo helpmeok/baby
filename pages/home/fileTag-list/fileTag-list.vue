@@ -19,7 +19,7 @@
 		<view class="" style="height: 100upx;"></view>
 		<empty v-if="list.length==0" msg="暂无文件数据~"></empty>
 		<view class="">
-			<article-item :list="list" :showOperate="false" v-on:showOperate="showOperate"></article-item>
+			<article-item :list="list" :showAagTag="false" :showOperate="false" v-on:showOperate="showOperate"></article-item>
 			<view class="uni-tab-bar-loading" v-if="list.length>0">
 				<uni-load-more :loadingType="loadingType" :contentText="loadingText"></uni-load-more>
 			</view>
