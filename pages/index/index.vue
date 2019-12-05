@@ -106,7 +106,8 @@
 			async getUserInfo(e) {
 				if (e.detail.errMsg == 'getUserInfo:ok') {
 					uni.showLoading({
-						title: '登录中'
+						title: '登录中',
+						mask:true
 					});
 					let data = {};
 					if (!this.wxSessionKey) {

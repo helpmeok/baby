@@ -2,7 +2,7 @@
 	<view>
 		<cu-custom bgColor="bg-gradual-red" :isBack="true" class="cu-custom" :style="{'opacity':opacity}">
 			<block slot="backText"></block>
-			<block slot="content">{{info.name}}</block>
+			<block slot="content"  class="sigle-line-text content">{{info.name}}</block>
 		</cu-custom>
 		<cu-custom   :isBack="true" class="cu-custom1">
 			<block slot="backText"></block>
@@ -104,7 +104,10 @@
 		position: fixed;
 		left: 0;
 		z-index: 999;
-
+		.content {
+			width: 300upx !important;
+			text-align: center;
+		}
 	}
 	.cu-custom1{
 		position: fixed;
