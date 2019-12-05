@@ -36,15 +36,15 @@
 				</view>
 			</view>
 			<!-- 文件列表筛选固定框 -->
-			<view class="file-filter-box-sticky file-filter-box pd-box flex bg-white border-bottom" v-if="filterBoxSHow" :style="{'top':filterFixedHeight+'px'}">
+			<view class="file-filter-box-sticky file-filter-box pd-box flex bg-white border-bottom" v-if="filterBoxSHow&&(tabs[tabIndex].channelId==-6)" :style="{'top':filterFixedHeight+'px'}">
 				<view class="item flex-r-center" :class="{'blod on':ftab.active}" @click="refreshFileList(fi)" v-for="(ftab,fi) in fileTabs"
 				 :key="fi">
 					<view class="">
 						{{ftab.name}}
 					</view>
 					<view class="mgl-10 flex-r-center" v-if="ftab.active">
-						<image src="/static/home/home_file_ic_sort_down@3x.png" v-if="ftab.orderSort==0" mode="widthFix" class="icon"></image>
-						<image src="/static/home/home_file_ic_sort_down@3x.png" v-else mode="widthFix" class="icon"></image>
+						<image src="/static/home/home_file_ic_sort_up@3x.png" v-if="ftab.orderSort==0" mode="widthFix" class="icon"></image>
+						<image src="/static/home/home_file_ic_sort_down@3x.png" v-if="ftab.orderSort==1" mode="widthFix" class="icon"></image>
 					</view>
 				</view>
 			</view>
@@ -60,7 +60,6 @@
 							<view class="" v-if="el.channelName!='关注'">
 								<!-- 文件列表 -->
 								<view class="file-box" v-if="el.channelName=='文件'">
-
 									<view class="flex-r-center">
 										<view class="flex-r-center btn bg-default-color" @click="pushFile()">
 											<image src="/static/bigv_list_ic_follow@3x.png" mode="widthFix" class="icon"></image>
@@ -75,8 +74,8 @@
 												{{ftab.name}}
 											</view>
 											<view class="mgl-10 flex-r-center" v-if="ftab.active">
-												<image src="/static/home/home_file_ic_sort_down@3x.png" v-if="ftab.orderSort==0" mode="widthFix" class="icon"></image>
-												<image src="/static/home/home_file_ic_sort_up@3x.png" v-if="ftab.orderSort==1" mode="widthFix" class="icon"></image>
+												<image src="/static/home/home_file_ic_sort_up@3x.png" v-if="ftab.orderSort==0" mode="widthFix" class="icon"></image>
+												<image src="/static/home/home_file_ic_sort_down@3x.png" v-if="ftab.orderSort==1" mode="widthFix" class="icon"></image>
 											</view>
 										</view>
 									</view>
@@ -267,19 +266,19 @@
 				fileTabs: [{
 						name: "按发布时间",
 						orderField: 0,
-						orderSort: 0,
+						orderSort: 1,
 						active: true,
 					},
 					{
 						name: "按查阅数",
 						orderField: 1,
-						orderSort: 0,
+						orderSort: 1,
 						active: false,
 					},
 					{
 						name: "按转发数",
 						orderField: 2,
-						orderSort: 0,
+						orderSort: 1,
 						active: false,
 					}
 				],
@@ -422,6 +421,43 @@
 			}
 		},
 		methods: {
+			init(type) { //初始化首页列表数据
+				if (!this.tabs[this.tabIndex].data.length) {
+					this.isLoad = false
+					uni.showLoading({
+						title: '加载中',
+						mask: true
+					});
+				}
+				this.tabs[this.tabIndex].loadingType = 0;
+				this.tabs[this.tabIndex].offset = 0;
+				return new Promise((onok, onno) => {
+					this.api.home.get_article_by_chanelId({
+							channelId: this.tabs[this.tabIndex].channelId,
+							ctime: ctime,
+							offset: this.tabs[this.tabIndex].offset,
+							total: total,
+							orderSort: this.fileTabs[this.fileTabIndex].orderSort,
+							orderField: this.fileTabs[this.fileTabIndex].orderField
+						},
+						res => {
+							console.log(this.tabs[this.tabIndex].channelName + '数据列表');
+							console.log(res);
+			
+							this.tabs[this.tabIndex].data = res.data.concat(this.tabs[this.tabIndex].data);
+							if (type == 'pull-down' && (this.tabs[this.tabIndex].channelId == -2 || this.tabs[this.tabIndex].channelId ==
+									-4 || this.tabs[this.tabIndex].channelId == -5 || this.tabs[this.tabIndex].channelId == -3 || this.tabs[
+										this.tabIndex].channelId == -6)) { //关注,问答,视频，音频,文件列表
+								this.tabs[this.tabIndex].data = res.data
+							}
+							this.isLoad = true
+							this.$forceUpdate()
+							uni.hideLoading();
+							onok();
+						}
+					);
+				});
+			},
 			getElSize(id) {
 				//得到元素的size
 				return new Promise((res, rej) => {
@@ -440,9 +476,10 @@
 				});
 			},
 			async getFilterTop() {
-				let size = await this.getElSize('filterSticky')
-				this.filterTop = size.top - this.CustomBar - uni.upx2px(88);
-				console.log(this.filterTop)
+				if (!this.filterTop) {
+					let size = await this.getElSize('filterSticky')
+					this.filterTop = size.top - this.CustomBar - uni.upx2px(88);
+				}
 			},
 			getUserChanelList() { //获取用户已选频道列表
 				this.api.home.get_user_chanel_list(null, res => {
@@ -537,43 +574,6 @@
 					}
 				);
 			},
-			init(type) { //初始化首页列表数据
-				if (!this.tabs[this.tabIndex].data.length) {
-					this.isLoad = false
-					uni.showLoading({
-						title: '加载中',
-						mask: true
-					});
-				}
-				this.tabs[this.tabIndex].loadingType = 0;
-				this.tabs[this.tabIndex].offset = 0;
-				return new Promise((onok, onno) => {
-					this.api.home.get_article_by_chanelId({
-							channelId: this.tabs[this.tabIndex].channelId,
-							ctime: ctime,
-							offset: this.tabs[this.tabIndex].offset,
-							total: total,
-							orderSort: this.fileTabs[this.fileTabIndex].orderSort,
-							orderField: this.fileTabs[this.fileTabIndex].orderField
-						},
-						res => {
-							console.log(this.tabs[this.tabIndex].channelName + '数据列表');
-							console.log(res);
-
-							this.tabs[this.tabIndex].data = res.data.concat(this.tabs[this.tabIndex].data);
-							if (type == 'pull-down' && (this.tabs[this.tabIndex].channelId == -2 || this.tabs[this.tabIndex].channelId ==
-									-4 || this.tabs[this.tabIndex].channelId == -5 || this.tabs[this.tabIndex].channelId == -3 || this.tabs[
-										this.tabIndex].channelId == -6)) { //关注,问答,视频，音频,文件列表
-								this.tabs[this.tabIndex].data = res.data
-							}
-							this.isLoad = true
-							this.$forceUpdate()
-							uni.hideLoading();
-							onok();
-						}
-					);
-				});
-			},
 			getMoreArticle() {
 				this.tabs[this.tabIndex].offset += total;
 				this.api.home.get_article_by_chanelId({
@@ -612,8 +612,8 @@
 				this.changeTab(e.target.current);
 				console.log(this.tabs[this.tabIndex].channelId)
 				if (this.tabs[this.tabIndex].channelId == -6) {
-					await this.getFilterTop()
-				}
+					await this.getFilterTop();
+				} 
 				if (!this.tabs[this.tabIndex].data.length) {
 					await this.init();
 				}

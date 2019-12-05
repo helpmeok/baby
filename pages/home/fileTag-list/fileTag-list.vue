@@ -4,21 +4,22 @@
 			<block slot="backText"></block>
 			<block slot="content">{{title}}</block>
 		</cu-custom>
-		<view class="file-filter-box pd-box flex bg-white border-bottom gray">
+		<view class="file-filter-box pd-box flex bg-white border-bottom gray" id="sticky" :style="{'top':CustomBar+'px'}">
 			<view class="item flex-r-center" :class="{'blod on':ftab.active}" @click="refreshFileList(fi)" v-for="(ftab,fi) in fileTabs"
 			 :key="fi">
 				<view class="">
 					{{ftab.name}}
 				</view>
 				<view class="mgl-10 flex-r-center" v-if="ftab.active">
-					<image src="/static/home/home_file_ic_sort_down@3x.png" v-if="ftab.orderSort==0" mode="widthFix" class="icon"></image>
-					<image src="/static/home/home_file_ic_sort_up@3x.png" v-if="ftab.orderSort==1" mode="widthFix" class="icon"></image>
+					<image src="/static/home/home_file_ic_sort_up@3x.png" v-if="ftab.orderSort==0" mode="widthFix" class="icon"></image>
+					<image src="/static/home/home_file_ic_sort_down@3x.png" v-if="ftab.orderSort==1" mode="widthFix" class="icon"></image>
 				</view>
 			</view>
 		</view>
+		<view class="" style="height: 100upx;"></view>
 		<empty v-if="list.length==0" msg="暂无文件数据~"></empty>
 		<view class="">
-			<article-item :list="list" v-on:removeArticle="removeArticle" :showOperate="false" v-on:showOperate="showOperate"></article-item>
+			<article-item :list="list" :showOperate="false" v-on:showOperate="showOperate"></article-item>
 			<view class="uni-tab-bar-loading" v-if="list.length>0">
 				<uni-load-more :loadingType="loadingType" :contentText="loadingText"></uni-load-more>
 			</view>
@@ -45,68 +46,94 @@
 				fileTabs: [{
 						name: "按发布时间",
 						orderField: 0,
-						orderSort: 0,
+						orderSort: 1,
 						active: true,
 					},
 					{
 						name: "按查阅数",
 						orderField: 1,
-						orderSort: 0,
+						orderSort: 1,
 						active: false,
 					},
 					{
 						name: "按转发数",
 						orderField: 2,
-						orderSort: 0,
+						orderSort: 1,
 						active: false,
 					}
 				],
 				fileTabIndex: 0,
+				tagPoolId: "",
+				offset: 0,
+				CustomBar: this.CustomBar,
 			};
 		},
 		onLoad(options) {
 			uni.showLoading({
 				title: "加载中"
 			})
-			this.title = options.title
+			this.title = options.title;
+			this.tagPoolId = options.id;
 			this.init()
-		},
-		onUnload() {
-			offset = 0;
+			setTimeout(()=>{
+				uni.createSelectorQuery()
+					.select('#sticky')
+					.fields({
+							size: true,
+							scrollOffset: true,
+							rect: true
+						},
+						data => {
+							console.log(data)
+							this.placeHeight=data.height;
+						}
+					).exec()
+			},500)
 		},
 		methods: {
-			init() {
-				this.api.center.record.get_list({
-					ctime,
-					offset,
-					total
-				}, res => {
-					console.log(res.data)
-					if (res.data.length) {
-						this.list = this.list.concat(res.data)
-						if (res.data.length < total) {
-							this.loadingType = 2
+			init(type) {
+				this.api.home.get_article_by_chanelId({
+						channelId: -6,
+						ctime: ctime,
+						offset: this.offset,
+						total: total,
+						orderSort: this.fileTabs[this.fileTabIndex].orderSort,
+						orderField: this.fileTabs[this.fileTabIndex].orderField,
+						tagPoolId: this.tagPoolId
+					},
+					res => {
+						if (res.data.length) {
+							if (type == "refresh") {
+								console.log(this.list)
+								this.list = res.data
+								uni.pageScrollTo({
+								scrollTop: 0,
+								duration: 300
+								});
+							} else {
+								this.list = this.list.concat(res.data)
+							}
+							if (res.data.length < total) {
+								this.loadingType = 2
+							} else {
+								this.loadingType = 0
+							}
 						} else {
-							this.loadingType = 0
+							this.loadingType = 2
 						}
-					} else {
-						this.loadingType = 2
+						uni.hideLoading()
 					}
-					uni.hideLoading()
-				})
+				);
 			},
 			loadMore() {
 				if (this.loadingType != 0) {
 					return
 				}
 				this.loadingType = 1
-				offset += total
+				this.offset += total
 				this.init()
 			},
 			showOperate() {},
-			removeArticle(i) {
-				this.list.splice(i, 1)
-			},
 			refreshFileList(index) {
 				uni.showLoading({
 					title: "加载中"
@@ -120,7 +147,8 @@
 					})
 					this.fileTabs[index].active = true;
 				}
-				this.init()
+				this.init('refresh')
+				
 			},
 		},
 		onShow() {
@@ -176,6 +204,11 @@
 
 <style lang="scss">
 	.file-filter-box {
+		width: 100%;
+		position: fixed;
+		z-index: 999;
+		left: 0;
+		height: 100upx;
 		.item {
 			margin-right: 50upx;
 		}
