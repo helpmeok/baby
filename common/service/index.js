@@ -99,6 +99,7 @@ module.exports = {
 					formData: formData,
 					success: uploadFileRes => {
 						let _url = serverUrl + '/' + JSON.parse(uploadFileRes.data).key;
+						console.log(_url)
 						onok(_url)
 					},
 					fail: err => {
@@ -290,7 +291,7 @@ module.exports = {
 				_req.m_send(_url, "POST", d, onok, onno);
 			},
 			get_tag_list: function(d, onok, onno) { //获取月龄列表
-				let _url = "/home/getTagPoolList";
+				let _url = "/dict/getDict";
 				_req.m_send(_url, "GET", d, onok, onno);
 			},
 			add_count_num: function(d, onok, onno) { //增加统计数

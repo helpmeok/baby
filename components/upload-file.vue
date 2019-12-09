@@ -21,7 +21,7 @@
 				<view class="font-b blod baby-black">
 					适用年龄
 				</view>
-				<picker @change="bindPickerChange" :value="index" :range="tagList" range-key="tagPoolName">
+				<picker @change="bindPickerChange" :value="index" :range="tagList" range-key="value">
 					<view class="flex">
 						<view class="gray mgr-20">
 							{{tagPoolName}}
@@ -64,7 +64,7 @@
 			return {
 				fileName: "",
 				tagPoolName: "请选择",
-				tagPoolId: "",
+				ageType: "",
 				tagList: [],
 				index: 0,
 			};
@@ -74,8 +74,10 @@
 		},
 		methods: {
 			init() {
-				this.api.home.file.get_tag_list(null,res=>{
-					console.log(res)
+				this.api.home.file.get_tag_list({
+					dictType:"上传文件年龄段"
+				},res=>{
+					console.log(res.data)
 					this.tagList=res.data
 				})
 			},
@@ -95,11 +97,11 @@
 			bindPickerChange(e) {
 				console.log('picker发送选择改变，携带值为', e.target.value)
 				this.index = e.target.value
-				this.tagPoolName=this.tagList[this.index].tagPoolName;
-				this.tagPoolId=this.tagList[this.index].tagPoolId;
+				this.tagPoolName=this.tagList[this.index].value;
+				this.ageType=this.tagList[this.index].key;
 			},
 			confirm(){
-				if (this.tagPoolId) {
+				if (this.ageType) {
 					uni.showLoading({
 						title: "上传中",
 						mask:true
@@ -107,16 +109,16 @@
 					this.api.home.qa.get_qiuniu_info(null, async res => {
 						let fileUrl = await this.api.qiniu.upload(this.fileData.path,res.data.uploadToken,res.data.serverUrl)
 						let fileName = this.fileName?this.fileName:this.fileData.name;
-						console.log(this.fileUrl)
+						console.log(fileUrl)
 						this.api.home.file.upload({
 							fileName: fileName,
 							fileUrl: fileUrl,
-							tagPoolId: this.tagPoolId
+							ageType: this.ageType
 						}, res => {
 							console.log(res)
 							this.$emit('hideuploadFileProp');
 							this.fileName="";
-							this.tagPoolId="";
+							this.ageType="";
 							this.index=0;
 							this.tagPoolName="请选择";
 							uni.showToast({

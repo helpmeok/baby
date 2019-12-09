@@ -22,8 +22,8 @@
 						</view>
 					</view>
 					<view class="flex">
-						<view class="tag" v-if="item.showType==7 && showAagTag" @click.stop="goAgeTagPoolDetail(item.ageTagPoolId,item.ageTagPoolName)">
-							{{item.ageTagPoolName}}
+						<view class="tag" v-if="item.showType==7 && showAagTag" @click.stop="goAgeTagPoolDetail(item.ageType,item.ageTypeName)">
+							{{item.ageTypeName}}
 						</view>
 						<view class="tag" v-for="(el,i) in item.tagList" :key="i" v-else @click.stop="goTagDetail(el.tagId)">
 							{{el.name}}
