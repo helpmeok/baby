@@ -199,7 +199,8 @@
 						console.log(res)
 					})
 					uni.showLoading({
-						title: "加载中"
+						title: "加载中",
+						mask:true
 					})
 					uni.downloadFile({
 						url: el.attachment[0].url,
@@ -219,7 +220,7 @@
 						fail: (err) => {
 							console.log(err)
 							uni.showToast({
-								title: "文档弄丢了",
+								title: "文件加载失败",
 								icon: "none"
 							})
 						}

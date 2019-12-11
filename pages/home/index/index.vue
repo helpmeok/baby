@@ -36,7 +36,8 @@
 				</view>
 			</view>
 			<!-- 文件列表筛选固定框 -->
-			<view class="file-filter-box-sticky file-filter-box pd-box flex bg-white border-bottom" v-if="filterBoxSHow&&(tabs[tabIndex].channelId==-6)" :style="{'top':filterFixedHeight+'px'}">
+			<view class="file-filter-box-sticky file-filter-box pd-box flex bg-white border-bottom" v-if="filterBoxSHow&&(tabs[tabIndex].channelId==-6)"
+			 :style="{'top':filterFixedHeight+'px'}">
 				<view class="item flex-r-center" :class="{'blod on':ftab.active}" @click="refreshFileList(fi)" v-for="(ftab,fi) in fileTabs"
 				 :key="fi">
 					<view class="">
@@ -57,9 +58,9 @@
 					<swiper-item v-for="(el, i) in tabs" :key="i">
 						<scroll-view @scrolltolower="loadMore(i)" :scroll-y="!showArticleOperate" class="scroll-view" :style="{height:articleScrollHeight+'px'}"
 						 :enable-back-to-top="el.active" @scroll="listItemScroll" :scroll-top="listScrollTop">
-							<view class="" v-if="el.channelName!='关注'">
+							<view class="" v-if="el.channelId!=-2">
 								<!-- 文件列表 -->
-								<view class="file-box" v-if="el.channelName=='文件'">
+								<view class="file-box" v-if="el.channelId==-6">
 									<view class="flex-r-center">
 										<view class="flex-r-center btn bg-default-color" @click="pushFile()">
 											<image src="/static/bigv_list_ic_follow@3x.png" mode="widthFix" class="icon"></image>
@@ -82,7 +83,7 @@
 								</view>
 								<!-- 文件列表 -->
 								<!-- 问答头部 -->
-								<view class="qa-box" v-if="el.channelName=='问答'&&isLogin">
+								<view class="qa-box" v-if="el.channelId==-3&&isLogin">
 									<view class="qa-user">
 										<view class="flex-r-between">
 											<view class="flex">
@@ -117,7 +118,7 @@
 								</view>
 							</view>
 							<!-- 关注列表 -->
-							<view class="" v-if="el.channelName=='关注'">
+							<view class="" v-if="el.channelId==-2">
 								<view class="" v-if="isLogin">
 									<view class="attention-no" v-if="tabs[i].data.length == 0 &&isLoad">
 										<view class="pd-box celebrity-box flex-c-center">
@@ -443,7 +444,7 @@
 						res => {
 							console.log(this.tabs[this.tabIndex].channelName + '数据列表');
 							console.log(res);
-			
+
 							this.tabs[this.tabIndex].data = res.data.concat(this.tabs[this.tabIndex].data);
 							if (type == 'pull-down' && (this.tabs[this.tabIndex].channelId == -2 || this.tabs[this.tabIndex].channelId ==
 									-4 || this.tabs[this.tabIndex].channelId == -5 || this.tabs[this.tabIndex].channelId == -3 || this.tabs[
@@ -613,7 +614,7 @@
 				console.log(this.tabs[this.tabIndex].channelId)
 				if (this.tabs[this.tabIndex].channelId == -6) {
 					await this.getFilterTop();
-				} 
+				}
 				if (!this.tabs[this.tabIndex].data.length) {
 					await this.init();
 				}
@@ -725,9 +726,9 @@
 							console.log(err)
 						}
 					})
-				}else{
+				} else {
 					uni.navigateTo({
-						url:'/pages/index/index'
+						url: '/pages/index/index'
 					})
 				}
 			},
