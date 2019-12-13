@@ -253,7 +253,9 @@
 				})
 			},
 			goCelebrity(el, index) {
-				if (el.showType == 6) {
+				if (el.showType == 7) {
+					this.goDetail(el, index)
+				} else if (el.showType == 6) {
 					uni.setStorageSync('questionIndex', index)
 					uni.navigateTo({
 						url: '/pages/home/question/detail/detail?id=' + el.articleId
@@ -314,7 +316,7 @@
 				this.newList = val.map((el) => {
 					if (el.showType == 3) {
 						el.attachment.push({
-							thumbnail: "https://boblbee.superpapa.com.cn/boblbee/detail/images/logo.png"
+							thumbnail: "https://boblbee.superpapa.com.cn/boblbee/detail/images/placeholder@3x.png"
 						})
 						el.attachment = el.attachment.slice(0, 3)
 					}

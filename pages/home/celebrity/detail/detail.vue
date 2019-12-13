@@ -378,28 +378,29 @@
 				this.getArticle();
 			},
 			getMoreArticle() {
-				this.tabs[this.tabIndex].offset += total;
+				let currentTabIndex=this.tabIndex;
+				this.tabs[currentTabIndex].offset += total;
 				this.api.home.hotVip.get_article({
 						vid: id,
 						type: this.typeList[this.typeIndex].type,
 						ctime,
-						offset: this.tabs[this.tabIndex].offset,
+						offset: this.tabs[currentTabIndex].offset,
 						total,
 						keyword: "",
-						showType: this.tabList[this.tabIndex].showType
+						showType: this.tabList[currentTabIndex].showType
 					},
 					res => {
 						console.log(res);
 						if (res.data.length) {
-							this.tabs[this.tabIndex].data = this.tabs[this.tabIndex].data.concat(res.data);
-							this.tabs[this.tabIndex].loadingType = 0;
+							this.tabs[currentTabIndex].data = this.tabs[currentTabIndex].data.concat(res.data);
+							this.tabs[currentTabIndex].loadingType = 0;
 						} else {
-							this.tabs[this.tabIndex].loadingType = 2;
+							this.tabs[currentTabIndex].loadingType = 2;
 						}
 					},
 					err => {
-						this.tabs[this.tabIndex].offset -= total;
-						this.tabs[this.tabIndex].loadingType = 0;
+						this.tabs[currentTabIndex].offset -= total;
+						this.tabs[currentTabIndex].loadingType = 0;
 					}
 				);
 			},

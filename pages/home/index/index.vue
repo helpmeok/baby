@@ -423,33 +423,33 @@
 		},
 		methods: {
 			init(type) { //初始化首页列表数据
-				if (!this.tabs[this.tabIndex].data.length) {
+				let currentTabIndex = this.tabIndex;
+				if (!this.tabs[currentTabIndex].data.length) {
 					this.isLoad = false
 					uni.showLoading({
 						title: '加载中',
 						mask: true
 					});
 				}
-				this.tabs[this.tabIndex].loadingType = 0;
-				this.tabs[this.tabIndex].offset = 0;
+				this.tabs[currentTabIndex].loadingType = 0;
+				this.tabs[currentTabIndex].offset = 0;
 				return new Promise((onok, onno) => {
 					this.api.home.get_article_by_chanelId({
-							channelId: this.tabs[this.tabIndex].channelId,
+							channelId: this.tabs[currentTabIndex].channelId,
 							ctime: ctime,
-							offset: this.tabs[this.tabIndex].offset,
+							offset: this.tabs[currentTabIndex].offset,
 							total: total,
 							orderSort: this.fileTabs[this.fileTabIndex].orderSort,
 							orderField: this.fileTabs[this.fileTabIndex].orderField
 						},
 						res => {
-							console.log(this.tabs[this.tabIndex].channelName + '数据列表');
+							console.log(this.tabs[currentTabIndex].channelName + '数据列表');
 							console.log(res);
-
-							this.tabs[this.tabIndex].data = res.data.concat(this.tabs[this.tabIndex].data);
-							if (type == 'pull-down' && (this.tabs[this.tabIndex].channelId == -2 || this.tabs[this.tabIndex].channelId ==
-									-4 || this.tabs[this.tabIndex].channelId == -5 || this.tabs[this.tabIndex].channelId == -3 || this.tabs[
-										this.tabIndex].channelId == -6)) { //关注,问答,视频，音频,文件列表
-								this.tabs[this.tabIndex].data = res.data
+							this.tabs[currentTabIndex].data = res.data.concat(this.tabs[currentTabIndex].data);
+							if (type == 'pull-down' && (this.tabs[currentTabIndex].channelId == -2 || this.tabs[currentTabIndex].channelId ==
+									-4 || this.tabs[currentTabIndex].channelId == -5 || this.tabs[currentTabIndex].channelId == -3 || this.tabs[
+										currentTabIndex].channelId == -6)) { //关注,问答,视频，音频,文件列表
+								this.tabs[currentTabIndex].data = res.data
 							}
 							this.isLoad = true
 							this.$forceUpdate()
@@ -576,25 +576,26 @@
 				);
 			},
 			getMoreArticle() {
-				this.tabs[this.tabIndex].offset += total;
+				let currentTabIndex = this.tabIndex;
+				this.tabs[currentTabIndex].offset += total;
 				this.api.home.get_article_by_chanelId({
-						channelId: this.tabs[this.tabIndex].channelId,
+						channelId: this.tabs[currentTabIndex].channelId,
 						ctime: ctime,
-						offset: this.tabs[this.tabIndex].offset,
+						offset: this.tabs[currentTabIndex].offset,
 						total: total
 					},
 					res => {
 						console.log(res);
 						if (res.data.length) {
-							this.tabs[this.tabIndex].data = this.tabs[this.tabIndex].data.concat(res.data);
-							this.tabs[this.tabIndex].loadingType = 0;
+							this.tabs[currentTabIndex].data = this.tabs[currentTabIndex].data.concat(res.data);
+							this.tabs[currentTabIndex].loadingType = 0;
 						} else {
-							this.tabs[this.tabIndex].loadingType = 2;
+							this.tabs[currentTabIndex].loadingType = 2;
 						}
 					},
 					err => {
-						this.tabs[this.tabIndex].offset -= total;
-						this.tabs[this.tabIndex].loadingType = 0;
+						this.tabs[currentTabIndex].offset -= total;
+						this.tabs[currentTabIndex].loadingType = 0;
 					}
 				);
 			},
