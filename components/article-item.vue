@@ -169,7 +169,7 @@
 				type: String,
 				default: ""
 			},
-			showAagTag:{
+			showAagTag: {
 				type: Boolean,
 				default: true
 			}
@@ -180,7 +180,8 @@
 				articleId: '',
 				articleOffsetTop: 0,
 				newList: [],
-				videoIndex: -1
+				videoIndex: -1,
+				progress: '0'
 			};
 		},
 		methods: {
@@ -198,11 +199,8 @@
 					}, res => {
 						console.log(res)
 					})
-					uni.showLoading({
-						title: "加载中",
-						mask:true
-					})
-					uni.downloadFile({
+
+					const downloadTask = uni.downloadFile({
 						url: el.attachment[0].url,
 						success: (res) => {
 							let filePath = res.tempFilePath;
@@ -224,6 +222,12 @@
 								icon: "none"
 							})
 						}
+					});
+					downloadTask.onProgressUpdate((res) => {
+						uni.showLoading({
+							title: '加载中' + res.progress.toString() + '%',
+							mask: true
+						})
 					});
 				} else if (el.showType == 6) {
 					uni.setStorageSync('questionIndex', index)
