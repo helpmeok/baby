@@ -68,6 +68,9 @@
 						</cover-view>
 					</video>
 				</view>
+				<view class="tort-desc baby-font-size baby-black pd-box" v-if="info.showType==5 || info.showType==4">
+					{{info.content}}
+				</view>
 				<view class="fixed-bottom  bg-white" v-if="!showCommentPublish">
 					<view class="flex-r-between">
 						<view class="launchApp-btn flex gray comment-box" @click="comment">
@@ -587,6 +590,9 @@
 </script>
 
 <style lang="scss" scoped>
+	.tort-desc{
+		
+	}
 	.rich-box {
 		overflow: hidden;
 		position: relative;

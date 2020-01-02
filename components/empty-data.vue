@@ -1,7 +1,7 @@
 <template>
 	<view class="flex-c-center" style="margin-top: 200upx;">
 		<!-- <view class="iconfont iconzanwuchiyouzhongdingdan default-color" style="font-size: 150upx;"></view> -->
-		<image :src="url" mode="widthFix"></image>
+		<image class="empty-icon" :src="url" mode="widthFix"></image>
 		<view class="gray">{{msg}}</view>
 		<navigator url="/pages/index/index" hover-class="none" v-if="isLogin">
 			<view class="bg-default-color flex-r-center baby-font-size white btn">
@@ -37,8 +37,8 @@
 </script>
 
 <style lang="scss">
-	image {
-		width: 300upx;
+	.empty-icon {
+		width: 300upx !important;
 	}
 	.btn{
 		width: 230upx;

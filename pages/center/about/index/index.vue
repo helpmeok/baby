@@ -24,7 +24,7 @@
 				</view>
 			</view>
 		</navigator>
-		<view class="gray text-center" style="margin-top: 100upx;">当前版本1.2.4</view>
+		<view class="gray text-center" style="margin-top: 100upx;">当前版本1.2.5</view>
 		<view class="gray text-center">All Rights Reserved By 宝宝贝</view>
 	</view>
 </template>
