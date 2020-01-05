@@ -7,7 +7,7 @@
 		<view class="header-custom flex-r-between" :style="[{height:CustomBar + 'px','padding-top':StatusBar+'px'}]">
 			<view class="flex search-box" @click="goSearch">
 				<image src="/static/com_search_ic_search@3x.png" mode="widthFix" style="width: 30upx;margin-right: 10upx;"></image>
-				<view class="gray">
+				<view class="gray search-text">
 					{{issueKeyword}}
 				</view>
 			</view>
@@ -771,6 +771,13 @@
 			width: 85%;
 			height: 75%;
 			padding: 0 20upx;
+			.search-text{
+				width: 80%;
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				text-align: left;
+			}
 		}
 
 		.hot-icon {

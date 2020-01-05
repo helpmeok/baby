@@ -1,6 +1,10 @@
 <template>
 	<scroll-view scroll-y class="scroll-view" :scroll-into-view="scrollIntoId" enable-back-to-top="true" @scroll="scroll">
-		<cu-custom bgColor="bg-gradual-red" v-on:closeAudio="closeAudio" :isCustom="true" :helper="true">
+		<!-- <cu-custom bgColor="bg-gradual-red" v-on:closeAudio="closeAudio" :isCustom="true" :helper="true">
+			<block slot="backText"></block>
+			<block slot="content">宝宝贝</block>
+		</cu-custom> -->
+		<cu-custom bgColor="bg-gradual-red" v-on:closeAudio="closeAudio"  :isBack="true">
 			<block slot="backText"></block>
 			<block slot="content">宝宝贝</block>
 		</cu-custom>

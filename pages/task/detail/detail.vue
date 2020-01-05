@@ -39,7 +39,7 @@
 					 :style="{left:-(i*8)+'px'}"></image>
 				</view>
 				<view class="gray">
-					{{info.completeNum}}人已完成
+					已完成{{info.completeNum}}人次
 				</view>
 			</view>
 			<view class="" style="height: 160upx;width: 100%;"></view>

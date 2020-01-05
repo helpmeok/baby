@@ -20,7 +20,7 @@
 			<view class="contents" v-if="!show" :style="[{top:CustomBar+50 + 'px'}]">
 				<view class=" blod">大家都在搜</view>
 				<view class="flex">
-					<view class="item small " v-for="(item, index) in keywordList" :key="index" @click="search(item.keywordName)">{{ item.keywordName }}</view>
+					<view class="item small" v-for="(item, index) in keywordList" :key="index" @click="search(item.keywordName)">{{ item.keywordName }}</view>
 				</view>
 				<view class="flex-r-between" style="margin-top: 20upx;" v-if="historyList.length>0">
 					<text class="blod">历史搜索</text>
@@ -36,7 +36,7 @@
 					<view class="flex item-box">
 						<view class="gray item" v-for="(item, index) in tabs" :key="index" :class="{ active: item.active }" @click="changeTab(index)">
 							<view :class="{'bottom-line':item.active}"></view>
-							<view class="name" :class="{ active: item.active }">{{ item.tabName }}</view>
+							<view class="name baby-font-size" :class="{ active: item.active }">{{ item.tabName }}</view>
 						</view>
 					</view>
 				</scroll-view>
@@ -375,6 +375,10 @@
 				line-height: 60upx;
 				margin-right: 30upx;
 				margin-top: 20upx;
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				text-align: left;
 			}
 		}
 
@@ -405,14 +409,12 @@
 					top: 0;
 					z-index: 2;
 					margin-right: 40upx;
-					font-size: 34upx !important;
 
 					.name {
 						position: relative;
 						left: 0;
 						top: 0;
 						z-index: 2;
-						font-size: 34upx;
 						white-space: nowrap;
 					}
 
@@ -424,8 +426,8 @@
 					.bottom-line {
 						position: absolute;
 						left: 20%;
-						bottom: -3upx;
-						z-index: 1;
+						bottom: 0;
+						z-index: 3;
 						height: 4upx;
 						border-radius: 3upx;
 						width: 60%;
