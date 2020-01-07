@@ -182,7 +182,7 @@
 			this.hotId = options.id
 			id = options.id;
 			this.init();
-			
+
 		},
 		onShow() {
 			if (uni.getStorageSync('articleIndex').toString()) { //监听文章数据改变
@@ -249,6 +249,12 @@
 					},
 					res => {
 						console.log(res);
+						if (res.data.videoNum == 0) {
+							this.tabList.splice(2, 1)
+						}
+						if (res.data.audioNum == 0) {
+							this.tabList.splice(1, 1)
+						}
 						this.info = res.data;
 						this.title = res.data.name
 						uni.setNavigationBarTitle({
@@ -378,7 +384,7 @@
 				this.getArticle();
 			},
 			getMoreArticle() {
-				let currentTabIndex=this.tabIndex;
+				let currentTabIndex = this.tabIndex;
 				this.tabs[currentTabIndex].offset += total;
 				this.api.home.hotVip.get_article({
 						vid: id,

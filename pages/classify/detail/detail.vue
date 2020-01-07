@@ -241,6 +241,12 @@
 					tagId: id
 				}, res => {
 					console.log(res)
+					if (res.data.videoNum == 0) {
+						this.tabList.splice(2, 1)
+					}
+					if (res.data.audioNum == 0) {
+						this.tabList.splice(1, 1)
+					}
 					this.info = res.data
 					this.title = res.data.name
 				})

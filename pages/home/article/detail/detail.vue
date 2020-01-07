@@ -73,7 +73,7 @@
 					</video>
 				</view>
 				<view class="tort-desc baby-font-size baby-black pd-box" v-if="info.showType==5 || info.showType==4">
-					{{info.content}}
+					<u-parse :content="info.content | imgConversion" @preview="preview" />
 				</view>
 				<view class="fixed-bottom  bg-white" v-if="!showCommentPublish">
 					<view class="flex-r-between">
