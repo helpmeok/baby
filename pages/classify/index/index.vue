@@ -6,13 +6,19 @@
 		</view>
 		<scroll-view scroll-y :style="{height:scrollHeight+'px'}" @scrolltolower="loadMore()">
 			<empty v-if="list.length == 0" msg="暂无任何专题~"></empty>
-			<view class="pd-box">
+			<!-- <view class="pd-box">
 				<view class="list-item" v-for="(el,i) in list" :key="i" @click="goDetail(el,i)">
 					<image :src="el.image" mode="aspectFill" class="bg-img"></image>
 					<view class=" mask"></view>
 					<view class="white font-b title flex-r-center">
 						{{el.name}}
 					</view>
+				</view>
+			</view> -->
+			<view class="list-box pd-box">
+				<view class="list-item flex-c-center" v-for="(el,i) in list" :key="i" @click="goDetail(el,i)">
+					<image :src="el.image" mode="aspectFill" class="img"></image>
+					<view class="sigle-line-text" >{{el.name}}</view>
 				</view>
 			</view>
 			<uni-load-more :loadingType="loadingType" :contentText="loadingText"></uni-load-more>
@@ -88,12 +94,12 @@
 			},
 			goDetail(el, i) {
 				this.api.subject.add_count_num({
-					subjectId:el.subjectId,
-					type:"clickNum"
-				},res=>{
+					subjectId: el.subjectId,
+					type: "clickNum"
+				}, res => {
 					console.log(res)
 				})
-				uni.setStorageSync('subjectItem',JSON.stringify(el))
+				uni.setStorageSync('subjectItem', JSON.stringify(el))
 				uni.navigateTo({
 					url: "/pages/classify/special-detail/special-detail?id=" + el.subjectId
 				})
@@ -135,45 +141,73 @@
 
 	}
 
-	.list-item {
+	.list-box {
+		display: flex;
+		align-items: center;
 		width: 100%;
-		height: 220upx;
-		border-radius: 20upx;
-		position: relative;
-		left: 0;
-		top: 0;
-		margin-bottom: 30upx;
-		overflow: hidden;
+		flex-direction: row;
+		justify-content: space-between;
+		flex-wrap: wrap;
+		box-sizing: border-box;
 
-		.bg-img {
-			width: 100%;
-			height: 100%;
-			position: absolute;
-			left: 0;
-			top: 0;
-			z-index: 1;
-		}
+		.list-item {
+			width: 32%;
+			margin-bottom: 40upx;
 
-		.mask {
-			position: absolute;
-			left: 0;
-			top: 0;
-			width: 100%;
-			height: 100%;
-			background-color: #000000;
-			opacity: 0.4;
-			z-index: 2;
-			font-weight: 500;
-		}
-
-		.title {
-			position: absolute;
-			left: 0;
-			top: 0;
-			width: 100%;
-			height: 100%;
-			z-index: 3;
-			font-weight: 500;
+			.img {
+				width: 214upx !important;
+				height: 160upx !important;
+				border-radius: 10upx;
+			}
+			.sigle-line-text{
+				text-align: left;
+				font-size: 28upx;
+				margin-top: 20upx;
+				font-weight: 400;
+				color: #090909;
+			}
 		}
 	}
+
+	// .list-item {
+	// 	width: 100%;
+	// 	height: 220upx;
+	// 	border-radius: 20upx;
+	// 	position: relative;
+	// 	left: 0;
+	// 	top: 0;
+	// 	margin-bottom: 30upx;
+	// 	overflow: hidden;
+
+	// 	.bg-img {
+	// 		width: 100%;
+	// 		height: 100%;
+	// 		position: absolute;
+	// 		left: 0;
+	// 		top: 0;
+	// 		z-index: 1;
+	// 	}
+
+	// 	.mask {
+	// 		position: absolute;
+	// 		left: 0;
+	// 		top: 0;
+	// 		width: 100%;
+	// 		height: 100%;
+	// 		background-color: #000000;
+	// 		opacity: 0.4;
+	// 		z-index: 2;
+	// 		font-weight: 500;
+	// 	}
+
+	// 	.title {
+	// 		position: absolute;
+	// 		left: 0;
+	// 		top: 0;
+	// 		width: 100%;
+	// 		height: 100%;
+	// 		z-index: 3;
+	// 		font-weight: 500;
+	// 	}
+	// }
 </style>

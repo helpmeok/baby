@@ -239,7 +239,7 @@
 				"pagePath": "pages/home/index/index",
 				"iconPath": "static/tabbar/com_tab_ic_home_nor@3x.png",
 				"selectedIconPath": "static/tabbar/com_tab_ic_home_sel@3x.png",
-				"text": "首页"
+				"text": "看看"
 			},
 			{
 				"pagePath": "pages/classify/index/index",
@@ -251,7 +251,7 @@
 				"pagePath": "pages/helper/index/index",
 				"iconPath": "static/tabbar/com_tab_ic_assistant_nor@3x.png",
 				"selectedIconPath": "static/tabbar/com_tab_ic_assistant_sel@3x.png",
-				"text": "助手"
+				"text": "百科"
 			},
 			{
 				"pagePath": "pages/task/index/index",

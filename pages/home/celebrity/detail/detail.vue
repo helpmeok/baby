@@ -65,7 +65,7 @@
 				<view class="" style="width: 7%;">
 					<image src="/static/com_list_ic_authentication@3x.png" mode="widthFix" style="width: 42upx;position: relative;top: 2upx;"></image>
 				</view>
-				<view class="" style="width: 93%;">认证：{{ info.oauthIntro }}</view>
+				<view class="" style="width: 93%;">{{ info.oauthIntro }}</view>
 			</view>
 		</view>
 		<view class="" style="height: 20upx;background-color: #F5F5F5;"></view>
