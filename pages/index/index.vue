@@ -1,23 +1,27 @@
 <template>
-		<view class="" style="height: 100%;width: 100%;">
-			<cu-custom bgColor="bg-gradual-red" :isHome="true">
-				<block slot="content">登录</block>
-			</cu-custom>
-			<view class="container" :style="{'height':'calc(100% - '+CustomBar+'px)'}">
-				<view class="content" v-if="isShow">
-					<image src="/static/1024.png" class="logo"></image>
-					<view class="font-b blod default-color">宝宝贝</view>
-					<view class="default-color">了解更多育儿专业知识</view>
-					<button type="primary" open-type="getUserInfo" @getuserinfo="getUserInfo" style="margin-top: 150upx;">
-						微信快捷授权登录
-					</button>
-					<!-- <navigator url="/pages/home/index/index" open-type="switchTab" class="gray" style="margin-top: 100upx;" hover-class="none">
+	<view class="" style="height: 100%;width: 100%;">
+		<cu-custom bgColor="bg-gradual-red" :isBack="true" v-if="isBack">
+			<block slot="backText"></block>
+			<block slot="content">登录</block>
+		</cu-custom>
+		<cu-custom bgColor="bg-gradual-red" :isHome="true" v-else>
+			<block slot="content">登录</block>
+		</cu-custom>
+		<view class="container" :style="{'height':'calc(100% - '+CustomBar+'px)'}">
+			<view class="content" v-if="isShow">
+				<image src="/static/1024.png" class="logo"></image>
+				<view class="font-b blod default-color">宝宝贝</view>
+				<view class="default-color">了解更多育儿专业知识</view>
+				<button type="primary" open-type="getUserInfo" @getuserinfo="getUserInfo" style="margin-top: 150upx;">
+					微信快捷授权登录
+				</button>
+				<!-- <navigator url="/pages/home/index/index" open-type="switchTab" class="gray" style="margin-top: 100upx;" hover-class="none">
 						暂不登录，前往首页
 					</navigator> -->
-				</view>
 			</view>
-			<relevance-label :show="showRelevanceLabel" v-on:routePush="routePush"></relevance-label>
 		</view>
+		<relevance-label :show="showRelevanceLabel" v-on:routePush="routePush"></relevance-label>
+	</view>
 </template>
 
 <script>
@@ -32,6 +36,7 @@
 				isShow: false,
 				wxSessionKey: "",
 				showRelevanceLabel: false,
+				isBack:false
 			};
 		},
 		components: {
@@ -40,6 +45,9 @@
 		onLoad(options) {
 			uni.removeStorageSync('access_token')
 			uni.removeStorageSync('wxSessionKey')
+			if (Object.keys(options).length == 0) {
+				this.isBack = true
+			}
 			if (options.redirect) {
 				redirect = options.redirect
 			}
@@ -57,12 +65,14 @@
 				this.api.center.user.get_detail({}, res => {
 					console.log(res);
 					uni.setStorageSync('userInfo', JSON.stringify(res.data))
-					if (res.data.isSetTag) {
-						this.isShow = false;
-						this.routePush()
-					} else {
-						this.showRelevanceLabel = true;
-					}
+					this.isShow = false;
+					this.routePush()
+					// if (res.data.isSetTag) {
+					// 	this.isShow = false;
+					// 	this.routePush()
+					// } else {
+					// 	this.showRelevanceLabel = true;
+					// }
 				});
 			} else {
 				this.isShow = true;
@@ -107,7 +117,7 @@
 				if (e.detail.errMsg == 'getUserInfo:ok') {
 					uni.showLoading({
 						title: '登录中',
-						mask:true
+						mask: true
 					});
 					let data = {};
 					if (!this.wxSessionKey) {
@@ -127,11 +137,12 @@
 							this.api.center.user.get_detail({}, res => {
 								console.log(res);
 								uni.setStorageSync('userInfo', JSON.stringify(res.data))
-								if (res.data.isSetTag) {
-									this.routePush()
-								} else {
-									this.showRelevanceLabel = true;
-								}
+								this.routePush()
+								// if (res.data.isSetTag) {
+								// 	this.routePush()
+								// } else {
+								// 	this.showRelevanceLabel = true;
+								// }
 								uni.hideLoading();
 							});
 
@@ -162,7 +173,7 @@
 					});
 				} else {
 					uni.switchTab({
-						url: '/pages/home/index/index',
+						url: '/pages/child/index/index',
 						success: () => {}
 					});
 				}

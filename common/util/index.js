@@ -74,7 +74,7 @@ export function delRepArr(tempList) {
 			// dest.splice(index, 1)
 			dest[index].letter = "#"
 			arr.push(dest[index])
-		}else{
+		} else {
 			dest[index].letter = dest[index].letter.toUpperCase()
 		}
 	}
@@ -87,10 +87,10 @@ export function delRepArr(tempList) {
 		list: []
 	}
 	for (var i in dest) {
-		if (dest[i].letter=="#") {
+		if (dest[i].letter == "#") {
 			obj1.list = obj1.list.concat(dest[i].list)
 			dest.splice(i, 1)
-		} 
+		}
 	}
 	let newArr = []
 	if (obj1.list.length) {
@@ -109,3 +109,4 @@ export function getImgsrc(htmlstr) {
 	}
 	return imgsrcArr;
 }
+

@@ -11,7 +11,7 @@
 		</view>
 		<view class="pd-box flex-r-between">
 			<view class="blod font-b">
-				您可能碰到如下问题：
+				热门百科推荐：
 			</view>
 			<view class="flex transform pd-lr" @click="exchange">
 				<text>换一组</text>

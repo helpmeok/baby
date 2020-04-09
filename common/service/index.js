@@ -1,7 +1,7 @@
 // const __api = 'http://59.61.216.123:18980/jeezero-boblbee-app/v1';
-// const __api = 'https://dev.jeezero.com:18980/jeezero-boblbee-app/v1'; //开发服务器
+const __api = 'https://dev.jeezero.com:8980/jeezero-boblbee-app/v1'; //开发服务器
 // const __api = 'https://beta.jeezero.com:18980/jeezero-boblbee-app/v1';//仿正式服务器地址
-const __api = 'https://boblbee.superpapa.com.cn/jeezero-boblbee-app/v1';//正式服务器
+// const __api = 'https://boblbee.superpapa.com.cn/jeezero-boblbee-app/v1';//正式服务器
 
 function Request() {
 	this.m_send = function(url, method, data, onok, onno, complete) {
@@ -119,6 +119,9 @@ module.exports = {
 				});
 			});
 		}
+	},
+	child: {
+		
 	},
 	home: {
 		wx_login: function(d, onok, onno) { //微信登陆获取参数
@@ -455,22 +458,38 @@ module.exports = {
 		},
 		manage: {
 			baby: {
-				get_list: function(d, onok, onno) { //APP“我的”模块获取用户的宝宝数据，一次性给完宝宝列表数据
-					let _url = "/my/getBabyList";
+				handle: function(d, onok, onno) { //添加/修改 宝宝/备孕
+					let _url = "/bnsBaby";
+					_req.m_send(_url, "POST", d, onok, onno);
+				},
+				get_list_baby: function(d, onok, onno) { //获取我的宝宝列表
+					let _url = "/bnsBaby/myBabyList/baby";
 					_req.m_send(_url, "GET", d, onok, onno);
 				},
-				add: function(d, onok, onno) { //APP“我的”模块，宝宝管理，添加宝宝
-					let _url = "/my/addBaby";
-					_req.m_send(_url, "POST", d, onok, onno);
-				},
-				update: function(d, onok, onno) { //APP“我的”模块，宝宝管理，修改宝宝资料
-					let _url = "/my/updateBaby";
-					_req.m_send(_url, "POST", d, onok, onno);
+				get_list_pregnant: function(d, onok, onno) { //获取我的备孕列表
+					let _url = "/bnsBaby/myBabyList/pregnant";
+					_req.m_send(_url, "GET", d, onok, onno);
 				},
 				delete: function(d, onok, onno) { //APP“我的”模块，宝宝管理，删除宝宝资料
-					let _url = "/my/delBaby";
+					let _url = "/bnsBaby/del";
 					_req.m_send(_url, "POST", d, onok, onno);
 				},
+				// get_list: function(d, onok, onno) { //APP“我的”模块获取用户的宝宝数据，一次性给完宝宝列表数据
+				// 	let _url = "/my/getBabyList";
+				// 	_req.m_send(_url, "GET", d, onok, onno);
+				// },
+				// add: function(d, onok, onno) { //APP“我的”模块，宝宝管理，添加宝宝
+				// 	let _url = "/my/addBaby";
+				// 	_req.m_send(_url, "POST", d, onok, onno);
+				// },
+				// update: function(d, onok, onno) { //APP“我的”模块，宝宝管理，修改宝宝资料
+				// 	let _url = "/my/updateBaby";
+				// 	_req.m_send(_url, "POST", d, onok, onno);
+				// },
+				// delete: function(d, onok, onno) { //APP“我的”模块，宝宝管理，删除宝宝资料
+				// 	let _url = "/my/delBaby";
+				// 	_req.m_send(_url, "POST", d, onok, onno);
+				// },
 			}
 		},
 		qa: {

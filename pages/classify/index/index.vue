@@ -2,7 +2,7 @@
 	<view class="container">
 		<view class="header-custom flex-r-between" :style="[{height:CustomBar + 'px','padding-top':StatusBar+'px'}]">
 			<view class="font-b blod title">专题</view>
-			<view class="baby-btn flex-r-center" @click="goBaby" v-if="isLogin">宝宝管理</view>
+			<view class="baby-btn flex-r-center" @click="goBaby" v-if="false">宝宝管理</view>
 		</view>
 		<scroll-view scroll-y :style="{height:scrollHeight+'px'}" @scrolltolower="loadMore()">
 			<empty v-if="list.length == 0" msg="暂无任何专题~"></empty>
@@ -18,7 +18,7 @@
 			<view class="list-box pd-box">
 				<view class="list-item flex-c-center" v-for="(el,i) in list" :key="i" @click="goDetail(el,i)">
 					<image :src="el.image" mode="aspectFill" class="img"></image>
-					<view class="sigle-line-text" >{{el.name}}</view>
+					<view class="sigle-line-text">{{el.name}}</view>
 				</view>
 			</view>
 			<uni-load-more :loadingType="loadingType" :contentText="loadingText"></uni-load-more>
@@ -28,7 +28,7 @@
 
 <script>
 	var ctime = parseInt(Date.now());
-	const total = 10;
+	const total = 15;
 	export default {
 		data() {
 			return {
@@ -143,15 +143,13 @@
 
 	.list-box {
 		display: flex;
-		align-items: center;
-		width: 100%;
-		flex-direction: row;
-		justify-content: space-between;
 		flex-wrap: wrap;
-		box-sizing: border-box;
+		flex-direction: row;
 
 		.list-item {
-			width: 32%;
+			width: 33.3333%;
+			display: flex;
+			justify-content: center;
 			margin-bottom: 40upx;
 
 			.img {
@@ -159,7 +157,9 @@
 				height: 160upx !important;
 				border-radius: 10upx;
 			}
-			.sigle-line-text{
+
+			.sigle-line-text {
+				width: 214upx;
 				text-align: left;
 				font-size: 28upx;
 				margin-top: 20upx;
@@ -167,6 +167,15 @@
 				color: #090909;
 			}
 		}
+
+		.list-item:nth-of-type(3n) {
+			justify-content: flex-end;
+		}
+
+		.list-item:nth-of-type(3n-2) {
+			justify-content: flex-start;
+		}
+		
 	}
 
 	// .list-item {

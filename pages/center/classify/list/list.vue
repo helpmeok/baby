@@ -131,34 +131,35 @@
 				}
 			},
 			removeList() {
-				if (this.ids.length == this.list.length) {
-					uni.showToast({
-						title: "请至少保留一个话题关注",
-						icon:"none"
-					})
-				} else {
-					if (this.ids.length) {
-						uni.showModal({
-							title: '提示',
-							content: '确定取消关注所有话题？',
-							success: (res) => {
-								if (res.confirm) {
-									this.api.center.classify.delete_attention({
-										"tagId[]": this.ids
-									}, res => {
-										uni.showLoading({
-											title: "取消关注中"
-										})
-										offset = 0;
-										this.list = [];
-										this.init('remove')
+				// if (this.ids.length == this.list.length) {
+				// 	uni.showToast({
+				// 		title: "请至少保留一个话题关注",
+				// 		icon:"none"
+				// 	})
+				// } else {
+					
+				// }
+				if (this.ids.length) {
+					uni.showModal({
+						title: '提示',
+						content: '确定取消关注所有话题？',
+						success: (res) => {
+							if (res.confirm) {
+								this.api.center.classify.delete_attention({
+									"tagId[]": this.ids
+								}, res => {
+									uni.showLoading({
+										title: "取消关注中"
 									})
-								} else if (res.cancel) {
-									console.log('用户点击取消');
-								}
+									offset = 0;
+									this.list = [];
+									this.init('remove')
+								})
+							} else if (res.cancel) {
+								console.log('用户点击取消');
 							}
-						});
-					}
+						}
+					});
 				}
 			},
 			addList() {

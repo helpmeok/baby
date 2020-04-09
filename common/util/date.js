@@ -1,28 +1,27 @@
-Date.prototype.format = function(format)
-{
+Date.prototype.format = function(format) {
 	var o = {
-            "M+" : this.getMonth()+1, //month
-            "d+" : this.getDate(), //day
-            "h+" : this.getHours(), //hour
-            "m+" : this.getMinutes(), //minute
-            "s+" : this.getSeconds(), //second
-            "q+" : Math.floor((this.getMonth()+3)/3), //quarter
-            "S" : this.getMilliseconds() //millisecond
-        }
-    if(/(y+)/.test(format))
-    format=format.replace(RegExp.$1,(this.getFullYear()+"").substr(4 - RegExp.$1.length));
-    for(var k in o)
-    if(new RegExp("("+ k +")").test(format))
-    format = format.replace(RegExp.$1,RegExp.$1.length==1 ? o[k] : ("00"+ o[k]).substr((""+ o[k]).length));
-    return format;
+		"M+": this.getMonth() + 1, //month
+		"d+": this.getDate(), //day
+		"h+": this.getHours(), //hour
+		"m+": this.getMinutes(), //minute
+		"s+": this.getSeconds(), //second
+		"q+": Math.floor((this.getMonth() + 3) / 3), //quarter
+		"S": this.getMilliseconds() //millisecond
+	}
+	if (/(y+)/.test(format))
+		format = format.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+	for (var k in o)
+		if (new RegExp("(" + k + ")").test(format))
+			format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? o[k] : ("00" + o[k]).substr(("" + o[k]).length));
+	return format;
 }
- 
-export function chGMT(){
+
+export function chGMT() {
 	var mydate = new Date(Date.now());
 	console.log(mydate)
 	mydate.setHours(mydate.getHours() + 8);
-	return parseInt(new Date(mydate.format("yyyy-MM-dd hh:mm:ss")).getTime()/1000);
-		// return parseInt(new Date(formatDateTime(mydate)).getTime()/1000);
+	return parseInt(new Date(mydate.format("yyyy-MM-dd hh:mm:ss")).getTime() / 1000);
+	// return parseInt(new Date(formatDateTime(mydate)).getTime()/1000);
 }
 // 处理到天为止
 export function transformDate(param) {
@@ -31,6 +30,15 @@ export function transformDate(param) {
 	let m = time.getMonth() + 1
 	let d = time.getDate()
 	let currentTime = y + '年' + m + '月' + d + '日'
+	return currentTime
+}
+// 处理到天为止
+export function transformDateTo(param) {
+	let time = new Date(parseInt(param))
+	let y = time.getFullYear()
+	let m = time.getMonth() + 1
+	let d = time.getDate()
+	let currentTime = y + '-' + (m < 10 ? '0' + m : m) + '-' + (d < 10 ? '0' + d : d)
 	return currentTime
 }
 // 处理到秒

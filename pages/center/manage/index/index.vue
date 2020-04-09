@@ -16,11 +16,11 @@
 		<swiper class="swiper-box" :current="tabIndex" :duration="300" @change="changeSwiper">
 			<swiper-item v-for="(el, i) in tabs" :key="i">
 				<view class="swiper-box">
-					<empty v-if="tabs[i].data.length == 0 && isLoad" url="/static/com_ic_nobaby@2x.png" :msg="i==0?'添加宝宝信息后,获得更适合您的内容哦~':'添加孕期信息后,获得更适合您的内容哦~'"></empty>
+					<empty v-if="tabs[i].data.length == 0 && isLoad" url="/static/com_ic_nobaby@2x.png" :msg="i==0?'添加宝宝信息后,获得更适合您的内容哦~':'您尚未建立孕期~'"></empty>
 					<view class="list-box" v-if="i==0">
 						<view class="list-cell flex-r-between pd-box" v-for="(item, index1) in tabs[i].data" :key="index1" @click="goBabyHandle(item)">
 							<view class="list-cell-left blod">
-								{{item.name}}
+								{{item.babyNick}}
 							</view>
 							<view class="list-cell-right flex">
 								<view class="">{{item.months}}</view>
@@ -88,18 +88,14 @@
 					console.log('加载中')
 				}
 				if (this.tabIndex == 0) {
-					this.api.center.manage.baby.get_list({
-						state: 1
-					}, res => {
+					this.api.center.manage.baby.get_list_baby(null, res => {
 						console.log(res)
 						this.tabs[this.tabIndex].data = res.data
 						this.isLoad = true
 						uni.hideLoading()
 					})
 				} else {
-					this.api.center.manage.baby.get_list({
-						state: 0
-					}, res => {
+					this.api.center.manage.baby.get_list_pregnant(null, res => {
 						console.log(res)
 						this.tabs[this.tabIndex].data = res.data
 						this.isLoad = true
@@ -139,12 +135,12 @@
 			},
 			goBabyHandle(el) {
 				uni.navigateTo({
-					url: "../baby/handle/handle?id=" + el.babyInfoId
+					url: "../baby/handle/handle?id=" + el.id
 				})
 			},
 			goPregnancyHandle(el){
 				uni.navigateTo({
-					url: "../pregnancy/handle/handle?id=" + el.babyInfoId
+					url: "../pregnancy/handle/handle?id=" + el.id
 				})
 			}
 		}

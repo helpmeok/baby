@@ -127,7 +127,7 @@
 					url:"/pages/center/order/list/list"
 				})
 			}
-			this.api.center.user.get_detail({}, res => {
+			this.api.center.user.get_detail(null, res => {
 				console.log(res);
 				this.userInfo = res.data;
 				uni.setStorageSync('userInfo',JSON.stringify(res.data))

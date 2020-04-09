@@ -32,11 +32,46 @@
 					预产期
 				</view>
 				<view class="list-cell-right ">
-					<picker mode="date" :value="from.birthdayText" :start="startDate" :end="endDate" @change="birthdayChange">
-						<view class="">{{from.birthdayText}}</view>
+					<picker mode="date" name="birthExpected" :start="startDate" :end="endDate" @change="birthExpectedChange">
+						<view class="">{{from1Desc.birthExpectedDesc}}</view>
 					</picker>
 				</view>
 			</view>
+			<view class="" v-else>
+				<view class="list-cell flex-r-between pd-box">
+					<view class="list-cell-left blod">
+						末次月经开始时间
+					</view>
+					<view class="list-cell-right ">
+						<picker mode="date" name="lastMensesDate" :end="endDate" @change="lastMensesDateChange">
+							<view class="">{{from0Desc.lastMensesDateDesc}}</view>
+						</picker>
+					</view>
+				</view>
+				<view class="list-cell flex-r-between pd-box">
+					<view class="list-cell-left blod">
+						月经持续天数
+					</view>
+					<view class="list-cell-right ">
+						<picker :range="mensesDaysArr" value="3" name="mensesDays" :end="endDate" @change="mensesDaysChange">
+							<view class="">{{from0Desc.mensesDaysDesc}}</view>
+						</picker>
+					</view>
+				</view>
+				<view class="list-cell flex-r-between pd-box">
+					<view class="list-cell-left blod">
+						月经周期
+					</view>
+					<view class="list-cell-right ">
+						<picker :range="mensesCycleArr" value="10" name="mensesCycle" :end="endDate" @change="mensesCycleChange">
+							<view class="">{{from0Desc.mensesCycleDesc}}</view>
+						</picker>
+					</view>
+				</view>
+			</view>
+		</view>
+		<view class="gray small pd-box mgl-20">
+			完善信息将有助于我们提供更加精准的备孕信息
 		</view>
 		<view class="fixed-bottom fixed-bottom-height bg-default-color white font-b flex-r-center" @click="confrim">
 			{{confirmText}}
@@ -46,15 +81,33 @@
 
 <script>
 	let id;
+	var graceChecker = require("@/common/plugs/graceChecker.js");
+	import babyData from '@/common/util/baby-data.js'
 	export default {
 		data() {
 			return {
 				cuText: "",
 				confirmText: "",
 				from: {
-					birthday: "",
-					birthdayText: "请选择日期",
-					state: 0
+
+				},
+				from1: {
+					birthExpected: "",
+					type: 1
+				},
+				from1Desc: {
+					birthExpectedDesc: "请选择"
+				},
+				from0: {
+					lastMensesDate: "",
+					mensesCycle: "",
+					mensesDays: "",
+					type: 0
+				},
+				from0Desc: {
+					lastMensesDateDesc: "请选择",
+					mensesCycleDesc: "请选择",
+					mensesDaysDesc: "请选择",
 				},
 				sex: [{
 					name: "男",
@@ -65,7 +118,9 @@
 				}],
 				isEdit: false,
 				birthday: false,
-				disable: false
+				disable: false,
+				mensesDaysArr: babyData.mensesDaysArr,
+				mensesCycleArr: babyData.mensesCycleArr,
 			}
 		},
 		onLoad(options) {
@@ -74,20 +129,9 @@
 			this.isEdit = !options.id ? false : true
 			id = options.id ? options.id : ""
 			if (id) {
-				this.api.center.manage.baby.get_list({
-					state: 0
-				}, res => {
+				this.api.center.manage.baby.get_list_pregnant(null, res => {
 					console.log(res)
-					this.from = res.data.find((el) => {
-						return el.babyInfoId == id
-					})
-					console.log(this.from)
-					if (this.from.birthday) {
-						this.birthday = true;
-						this.from.birthdayText = this.from.birthday;
-					} else {
-						this.from.birthdayText = "请选择日期";
-					}
+					
 				})
 			}
 		},
@@ -101,17 +145,27 @@
 		},
 		methods: {
 			pregnancyChange(e) {
-				console.log(e.target.value)
 				if (e.target.value == 1) {
 					this.birthday = false
-
 				} else {
 					this.birthday = true
 				}
 			},
-			birthdayChange(e) {
-				this.from.birthday = e.target.value
-				this.from.birthdayText = e.target.value
+			lastMensesDateChange(e) {
+				this.from0.lastMensesDate = (new Date(e.detail.value)).getTime();
+				this.from0Desc.lastMensesDateDesc = e.detail.value;
+			},
+			mensesDaysChange(e) {
+				this.from0.mensesDays = this.mensesDaysArr[e.detail.value].replace('天','');
+				this.from0Desc.mensesDaysDesc = this.mensesDaysArr[e.detail.value];
+			},
+			mensesCycleChange(e) {
+				this.from0.mensesCycle = this.mensesCycleArr[e.detail.value].replace('周','');
+				this.from0Desc.mensesCycleDesc = this.mensesCycleArr[e.detail.value];
+			},
+			birthExpectedChange(e) {
+				this.from1.birthExpected = (new Date(e.detail.value)).getTime();
+				this.from1Desc.birthExpectedDesc = e.detail.value;
 			},
 			getDate(type) {
 				const date = new Date();
@@ -123,14 +177,14 @@
 				return `${year}-${month}-${day}`;
 			},
 			deleteHandle() {
-				console.log('1111')
 				uni.showModal({
 					title: '是否确认删除',
 					content: '删除后数据将不再保存',
 					success: (res) => {
 						if (res.confirm) {
 							this.api.center.manage.baby.delete({
-								babyInfoId: id
+								id: id,
+								type:0
 							}, res => {
 								uni.showToast({
 									title: "删除成功",
@@ -151,41 +205,47 @@
 				});
 			},
 			confrim() {
-				if (this.birthday) {
-					if (!this.from.birthday) {
-						uni.showToast({
-							title: "请输入宝宝生日",
-							icon: "none"
-						})
-						return
+				var rule1 = [{
+					name: "birthExpected",
+					checkType: "notnull",
+					checkRule: "",
+					errorMsg: "请选择预产期"
+				}];
+				var rule0 = [{
+						name: "lastMensesDate",
+						checkType: "notnull",
+						checkRule: "",
+						errorMsg: "请选择末次月经开始时间"
+					},
+					{
+						name: "mensesDays",
+						checkType: "notnull",
+						checkRule: "",
+						errorMsg: "请选择月经持续天数"
+					},
+					{
+						name: "mensesCycle",
+						checkType: "notnull",
+						checkRule: "",
+						errorMsg: "请选择月经周期"
 					}
+				];
+				if (!this.birthday) {
+					var checkRes = graceChecker.check(this.from0, rule0);
+					this.from = this.from0
 				} else {
-					this.from.birthday = "";
-					this.from.birthdayText = "请选择日期";
+					var checkRes = graceChecker.check(this.from1, rule1);
+					this.from = this.from1
 				}
-				if (this.isEdit) {
-					this.from.babyInfoId = id;
-					console.log(this.from)
-					this.api.center.manage.baby.update(this.from, res => {
-						console.log(res)
-						uni.showToast({
-							title: "修改成功",
-							success: () => {
-								setTimeout(() => {
-									uni.navigateBack({
-										delta: 1
-									})
-								}, 1000)
-							}
-						})
-					})
-				} else {
+				console.log(this.from)
+				if (checkRes) {
 					if (!this.disable) { //防止点击多下
 						this.disable = true;
-						this.api.center.manage.baby.add(this.from, res => {
+						this.from.id = this.isEdit ? id : "";
+						this.api.center.manage.baby.handle(this.from, res => {
 							console.log(res)
 							uni.showToast({
-								title: "添加成功",
+								title: this.isEdit ? "修改成功" : "添加成功",
 								success: () => {
 									setTimeout(() => {
 										uni.navigateBack({
@@ -194,9 +254,17 @@
 									}, 1000)
 								}
 							})
+						}, err => {
+							this.disable = false;
 						})
 					}
+				} else {
+					uni.showToast({
+						title: graceChecker.error,
+						icon: "none"
+					});
 				}
+
 			}
 		}
 	}

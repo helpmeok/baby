@@ -11,7 +11,7 @@
 					{{issueKeyword}}
 				</view>
 			</view>
-			<image src="/static/com_nav_ic_hot_nor@3x.png" mode="widthFix" class="hot-icon" @click="showHotMask = true"></image>
+			<image src="/static/look_nav_ic_v_nor@3x.png" mode="widthFix" class="hot-icon" @click="showHotMask = true"></image>
 		</view>
 		<!-- 自定义导航栏 -->
 		<upload-file-prop :isShowUpFile="isShowUpFile" :fileData="fileData" v-on:hideuploadFileProp="hideuploadFileProp"></upload-file-prop>
@@ -781,7 +781,9 @@
 		}
 
 		.hot-icon {
-			width: 80upx !important;
+			width: 100upx !important;
+			position: relative;
+			left: -25upx;
 		}
 	}
 

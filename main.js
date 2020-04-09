@@ -1,6 +1,13 @@
-// #ifdef MP-WEIXIN
 import './common/util/aldSdk/ald-stat.js' //接入阿拉丁统计数据
-// #endif
+// 接入友盟统计
+// import uma from 'umtrack-wx'; // 开发微信小程序时导入此模块
+// uma.init({
+// 	appKey: '5e565bf69f9a0a410a2b10bc',
+// 	useOpenid: true,
+// 	autoGetOpenid: true,
+// 	debug: true
+// });
+
 import Vue from 'vue'
 import App from './App'
 import filters from './common/util/filters.js'; //过滤器

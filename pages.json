@@ -228,6 +228,12 @@
 				"navigationStyle": "custom"
 			}
         }
+        ,{
+            "path" : "pages/child/index/index",
+            "style" : {
+				"navigationStyle": "custom"
+			}
+        }
     ],
 	"requiredBackgroundModes": ["audio"],
 	"tabBar": {
@@ -236,16 +242,16 @@
 		"borderStyle": "black",
 		"backgroundColor": "#ffffff",
 		"list": [{
+				"pagePath": "pages/child/index/index",
+				"iconPath": "static/tabbar/com_tab_ic_yuer_nor@3x.png",
+				"selectedIconPath": "static/tabbar/com_tab_ic_yuer_sel@3x.png",
+				"text": "育儿"
+			},
+			{
 				"pagePath": "pages/home/index/index",
 				"iconPath": "static/tabbar/com_tab_ic_home_nor@3x.png",
 				"selectedIconPath": "static/tabbar/com_tab_ic_home_sel@3x.png",
 				"text": "看看"
-			},
-			{
-				"pagePath": "pages/classify/index/index",
-				"iconPath": "static/tabbar/com_tab_ic_classify_nor@3x.png",
-				"selectedIconPath": "static/tabbar/com_tab_ic_classify_sel@3x.png",
-				"text": "专题"
 			},
 			{
 				"pagePath": "pages/helper/index/index",
@@ -254,10 +260,10 @@
 				"text": "百科"
 			},
 			{
-				"pagePath": "pages/task/index/index",
-				"iconPath": "static/tabbar/com_tab_ic_day_nor@3x.png",
-				"selectedIconPath": "static/tabbar/com_tab_ic_day_sel@3x.png",
-				"text": "任务"
+				"pagePath": "pages/classify/index/index",
+				"iconPath": "static/tabbar/com_tab_ic_classify_nor@3x.png",
+				"selectedIconPath": "static/tabbar/com_tab_ic_classify_sel@3x.png",
+				"text": "专题"
 			},
 			{
 				"pagePath": "pages/center/index/index",
@@ -281,7 +287,11 @@
 				"pathName": "pages/index/index" //启动页面，必选
 			},
 			{
-				"name": "首页", //模式名称
+				"name": "育儿", //模式名称
+				"pathName": "pages/child/index/index" //启动页面，必选
+			},
+			{
+				"name": "看看", //模式名称
 				"pathName": "pages/home/index/index" //启动页面，必选
 			},
 			{
@@ -375,7 +385,12 @@
 				"pathName": "pages/center/manage/index/index"
 			},
 			{
-				"name": "宝宝操作",
+				"name": "新建宝宝",
+				"pathName": "pages/center/manage/baby/handle/handle",
+				"query": ""
+			},
+			{
+				"name": "修改宝宝资料",
 				"pathName": "pages/center/manage/baby/handle/handle",
 				"query": "id=110"
 			},
