@@ -1,6 +1,12 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
+			"path": "pages/child/index/index",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "pages/home/index/index",
 			"style": {
 				"navigationBarTitleText": "宝宝贝",
@@ -11,7 +17,7 @@
 			"style": {
 				"navigationBarTitleText": "登录",
 				"navigationStyle": "custom",
-				"disableScroll":true
+				"disableScroll": true
 			}
 		}, {
 			"path": "pages/center/index/index",
@@ -215,26 +221,19 @@
 			"style": {
 				"navigationStyle": "custom"
 			}
+		}, {
+			"path": "pages/helper/sharePic/sharePic",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "pages/home/fileTag-list/fileTag-list",
+			"style": {
+				"navigationStyle": "custom"
+			}
 		}
-	    ,{
-            "path" : "pages/helper/sharePic/sharePic",
-            "style" : {
-				"navigationStyle": "custom"
-			}
-        }
-        ,{
-            "path" : "pages/home/fileTag-list/fileTag-list",
-            "style" : {
-				"navigationStyle": "custom"
-			}
-        }
-        ,{
-            "path" : "pages/child/index/index",
-            "style" : {
-				"navigationStyle": "custom"
-			}
-        }
-    ],
+
+	],
 	"requiredBackgroundModes": ["audio"],
 	"tabBar": {
 		"color": "#666666",

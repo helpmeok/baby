@@ -121,7 +121,18 @@ module.exports = {
 		}
 	},
 	child: {
-		
+		get_list:function(d, onok, onno) { //获取当前登陆用户宝宝和备孕列表
+			let _url = "/bnsBaby/myBabyList";
+			_req.m_send(_url, "GET", d, onok, onno);
+		},
+		get_info_by_baby:function(d, onok, onno) { //育儿主页
+			let _url = "/bnsBaby/home";
+			_req.m_send(_url, "GET", d, onok, onno);
+		},
+		choose_baby: function(d, onok, onno) { //改变当前选中的宝宝
+			let _url = "/bnsBaby/currentBaby";
+			_req.m_send(_url, "POST", d, onok, onno);
+		},
 	},
 	home: {
 		wx_login: function(d, onok, onno) { //微信登陆获取参数

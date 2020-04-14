@@ -122,7 +122,7 @@
 				this.from.babyPremature = parseInt(e.target.value) ? parseInt(e.target.value) : "";
 				this.fromText.babyPrematureText = parseInt(e.target.value) ? e.target.value + '周' : "无";
 			},
-			getDate(type) {
+			getDate() {
 				const date = new Date();
 				let year = date.getFullYear();
 				let month = date.getMonth() + 1;

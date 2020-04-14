@@ -62,17 +62,15 @@
 				redirect = redirect + "?" + arr.join('&')
 			}
 			if (uni.getStorageSync('access_token')) {
-				this.api.center.user.get_detail({}, res => {
+				this.api.center.user.get_detail(null, res => {
 					console.log(res);
 					uni.setStorageSync('userInfo', JSON.stringify(res.data))
-					this.isShow = false;
-					this.routePush()
-					// if (res.data.isSetTag) {
-					// 	this.isShow = false;
-					// 	this.routePush()
-					// } else {
-					// 	this.showRelevanceLabel = true;
-					// }
+					this.api.child.get_list(null, res => {
+						let myBabyList = res.data.baby.concat(res.data.pregnant);
+						uni.setStorageSync('myBabyList', JSON.stringify(myBabyList));
+						this.isShow = false;
+						this.routePush()
+					})
 				});
 			} else {
 				this.isShow = true;
@@ -137,15 +135,13 @@
 							this.api.center.user.get_detail({}, res => {
 								console.log(res);
 								uni.setStorageSync('userInfo', JSON.stringify(res.data))
-								this.routePush()
-								// if (res.data.isSetTag) {
-								// 	this.routePush()
-								// } else {
-								// 	this.showRelevanceLabel = true;
-								// }
-								uni.hideLoading();
+								this.api.child.get_list(null, res => {
+									let myBabyList = res.data.baby.concat(res.data.pregnant);
+									uni.setStorageSync('myBabyList', JSON.stringify(myBabyList));
+									this.routePush()
+									uni.hideLoading();
+								})
 							});
-
 						},
 						err => {
 							this.getWXCode();

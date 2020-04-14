@@ -32,7 +32,7 @@
 					预产期
 				</view>
 				<view class="list-cell-right ">
-					<picker mode="date" name="birthExpected" :start="startDate" :end="endDate" @change="birthExpectedChange">
+					<picker mode="date" name="birthExpected" :start="startDate"  @change="birthExpectedChange">
 						<view class="">{{from1Desc.birthExpectedDesc}}</view>
 					</picker>
 				</view>
@@ -43,7 +43,7 @@
 						末次月经开始时间
 					</view>
 					<view class="list-cell-right ">
-						<picker mode="date" name="lastMensesDate" :end="endDate" @change="lastMensesDateChange">
+						<picker mode="date" name="lastMensesDate" :end="startDate" @change="lastMensesDateChange">
 							<view class="">{{from0Desc.lastMensesDateDesc}}</view>
 						</picker>
 					</view>
@@ -53,7 +53,7 @@
 						月经持续天数
 					</view>
 					<view class="list-cell-right ">
-						<picker :range="mensesDaysArr" value="3" name="mensesDays" :end="endDate" @change="mensesDaysChange">
+						<picker :range="mensesDaysArr" value="3" name="mensesDays"  @change="mensesDaysChange">
 							<view class="">{{from0Desc.mensesDaysDesc}}</view>
 						</picker>
 					</view>
@@ -63,7 +63,7 @@
 						月经周期
 					</view>
 					<view class="list-cell-right ">
-						<picker :range="mensesCycleArr" value="10" name="mensesCycle" :end="endDate" @change="mensesCycleChange">
+						<picker :range="mensesCycleArr" value="10" name="mensesCycle"  @change="mensesCycleChange">
 							<view class="">{{from0Desc.mensesCycleDesc}}</view>
 						</picker>
 					</view>
@@ -82,6 +82,9 @@
 <script>
 	let id;
 	var graceChecker = require("@/common/plugs/graceChecker.js");
+	import {
+		transformDateTo
+	} from '@/common/util/date.js';
 	import babyData from '@/common/util/baby-data.js'
 	export default {
 		data() {
@@ -131,16 +134,28 @@
 			if (id) {
 				this.api.center.manage.baby.get_list_pregnant(null, res => {
 					console.log(res)
-					
+					this.from = res.data.find((el) => {
+						return el.id == id
+					})
+					if (this.from.isPregnant) {
+						this.birthday = true;
+						this.from1Desc.birthExpectedDesc = transformDateTo(this.from.birthExpected);
+						this.from1.birthExpected = this.from.birthExpected;
+					} else {
+						this.birthday = false;
+						this.from0.lastMensesDate = this.from.lastMensesDate;
+						this.from0.mensesCycle = this.from.mensesCycle;
+						this.from0.mensesDays = this.from.mensesDays;
+						this.from0Desc.lastMensesDateDesc = transformDateTo(this.from.lastMensesDate);
+						this.from0Desc.mensesDaysDesc = this.from.mensesDays + '天';
+						this.from0Desc.mensesCycleDesc = this.from.mensesCycle + '周';
+					}
 				})
 			}
 		},
 		computed: {
-			endDate() {
-				return this.getDate(1);
-			},
 			startDate() {
-				return this.getDate(0);
+				return this.getDate();
 			}
 		},
 		methods: {
@@ -156,20 +171,20 @@
 				this.from0Desc.lastMensesDateDesc = e.detail.value;
 			},
 			mensesDaysChange(e) {
-				this.from0.mensesDays = this.mensesDaysArr[e.detail.value].replace('天','');
+				this.from0.mensesDays = this.mensesDaysArr[e.detail.value].replace('天', '');
 				this.from0Desc.mensesDaysDesc = this.mensesDaysArr[e.detail.value];
 			},
 			mensesCycleChange(e) {
-				this.from0.mensesCycle = this.mensesCycleArr[e.detail.value].replace('周','');
+				this.from0.mensesCycle = this.mensesCycleArr[e.detail.value].replace('周', '');
 				this.from0Desc.mensesCycleDesc = this.mensesCycleArr[e.detail.value];
 			},
 			birthExpectedChange(e) {
 				this.from1.birthExpected = (new Date(e.detail.value)).getTime();
 				this.from1Desc.birthExpectedDesc = e.detail.value;
 			},
-			getDate(type) {
+			getDate() {
 				const date = new Date();
-				let year = date.getFullYear() + type;
+				let year = date.getFullYear();
 				let month = date.getMonth() + 1;
 				let day = date.getDate();
 				month = month > 9 ? month : '0' + month;;
@@ -184,7 +199,7 @@
 						if (res.confirm) {
 							this.api.center.manage.baby.delete({
 								id: id,
-								type:0
+								type: 0
 							}, res => {
 								uni.showToast({
 									title: "删除成功",

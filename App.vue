@@ -17,8 +17,6 @@
 					success(res) {
 						if (res.confirm) {
 							// 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
-							uni.removeStorageSync('access_token')
-							uni.removeStorageSync('wxSessionKey')
 							updateManager.applyUpdate();
 						}
 					}
@@ -52,8 +50,17 @@
 				}
 			});
 			// #endif
-			
-			
+
+			if (uni.getStorageSync('access_token')) {//缓存宝宝信息
+				this.api.center.user.get_detail(null, res => {
+					uni.setStorageSync('userInfo', JSON.stringify(res.data))
+					this.api.child.get_list(null, res => {
+						let myBabyList = res.data.baby.concat(res.data.pregnant);
+						uni.setStorageSync('myBabyList', JSON.stringify(myBabyList));
+					})
+				});
+			}
+
 			Vue.prototype.ColorList = [{
 					title: '嫣红',
 					name: 'red',
@@ -134,7 +141,7 @@
 		onShow: function() {
 			console.log('App Show');
 		},
-	
+
 		onHide: function() {
 			console.log('App Hide');
 		}

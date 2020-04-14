@@ -1,10 +1,37 @@
 <template>
 	<view class="container">
+		<my-baby-list :show="isShowBabyList" v-on:hideMyBabyList="hideMyBabyList" :type="'home'"></my-baby-list>
 		<!-- 自定义导航栏 -->
 		<channel-operate :show="showChannelOperate" v-on:hideChannelOperate='hideChannelOperate' :myChanelList="tabs"
 		 :addChanelList="addChanelList" v-on:addChanelOperate="addChanelOperate" v-on:delChanelOperate="delChanelOperate"
 		 v-on:changeChanelOperate="changeChanelOperate"></channel-operate>
 		<view class="header-custom flex-r-between" :style="[{height:CustomBar + 'px','padding-top':StatusBar+'px'}]">
+			<view class="child-type-box" @click="childChoose">
+				<view class="flex-c-center" v-if="childType== -1">
+					<image src="/static/home/com_tab_ic_yuer_nor@3x.png" mode="widthFix" class="icon"></image>
+					<view class="text-ss">
+						未设置
+					</view>
+				</view>
+				<view class="flex-c-center" v-if="childType== 0">
+					<image src="/static/home/com_tab_ic_yuer_sel@3x.png" mode="widthFix" class="icon"></image>
+					<view class="text-ss baby-red">
+						备孕中
+					</view>
+				</view>
+				<view class="flex-c-center" v-if="childType== 1">
+					<image src="/static/home/com_tab_ic_yuer_sel@3x.png" mode="widthFix" class="icon"></image>
+					<view class="text-ss baby-red">
+						怀孕中
+					</view>
+				</view>
+				<view class="flex-c-center" v-if="childType== 2">
+					<image src="/static/home/com_tab_ic_yuer_sel@3x.png" mode="widthFix" class="icon"></image>
+					<view class="text-ss baby-red">
+						已出圣
+					</view>
+				</view>
+			</view>
 			<view class="flex search-box" @click="goSearch">
 				<image src="/static/com_search_ic_search@3x.png" mode="widthFix" style="width: 30upx;margin-right: 10upx;"></image>
 				<view class="gray search-text">
@@ -223,6 +250,8 @@
 	import articleOperate from '@/components/article-operate'; //文章操作组件
 	import channelOperate from '@/components/channel-operate'; //频道操作组件
 	import uploadFileProp from '@/components/upload-file'; //上传文件弹窗
+	import myBabyList from '@/components/my-baby-list.vue';
+	import myMixin from '@/common/mixins.js'
 	var ctime = parseInt(Date.now());
 	var videoPlay;
 	const total = 10;
@@ -231,11 +260,15 @@
 			mixPulldownRefresh,
 			articleOperate,
 			channelOperate,
-			uploadFileProp
+			uploadFileProp,
+			myBabyList
 		},
+		mixins: [myMixin.publicApi],
 		data() {
 			return {
 				isLoad: false,
+				isShowBabyList: false,
+				childType: -1,
 				hotList: [],
 				showHotMask: false,
 				tabIndex: 0,
@@ -347,7 +380,7 @@
 		},
 		onShow() {
 			this.getHot();
-			this.hasLogin()
+			this.hasLogin();
 			if (this.isLogin) {
 				this.getHobbyVipList();
 				this.getPraiseNum();
@@ -459,22 +492,12 @@
 					);
 				});
 			},
-			getElSize(id) {
-				//得到元素的size
-				return new Promise((res, rej) => {
-					uni.createSelectorQuery()
-						.select('#' + id)
-						.fields({
-								size: true,
-								scrollOffset: true,
-								rect: true
-							},
-							data => {
-								res(data);
-							}
-						)
-						.exec();
-				});
+			childChoose() {
+				if (this.hasLogin()) {
+					this.isShowBabyList = true;
+				} else {
+
+				}
 			},
 			async getFilterTop() {
 				if (!this.filterTop) {
@@ -541,6 +564,11 @@
 			hasLogin() { //判断是否登录
 				this.isLogin = uni.getStorageSync('access_token') ? true : false
 				this.userInfo = this.isLogin ? JSON.parse(uni.getStorageSync('userInfo')) : {};
+				if (this.isLogin) {
+					return true
+				} else {
+					return false
+				}
 			},
 			getHot() {
 				this.api.home.get_hotVip_List(null, res => {
@@ -765,13 +793,20 @@
 	.header-custom {
 		padding: 40upx 220upx 0 30upx;
 
+		.child-type-box {
+			.icon {
+				width: 60upx !important;
+			}
+		}
+
 		.search-box {
 			background-color: #F8F8F8;
 			border-radius: 100upx;
-			width: 85%;
+			width: 62%;
 			height: 75%;
 			padding: 0 20upx;
-			.search-text{
+
+			.search-text {
 				width: 80%;
 				overflow: hidden;
 				white-space: nowrap;

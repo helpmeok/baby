@@ -3948,7 +3948,9 @@ scroll-view.cu-steps .cu-item {
 /* ==================
           文本
  ==================== */
-
+.text-ss{
+	font-size: 18upx;
+}
 .text-xs {
 	font-size: 20upx;
 }
