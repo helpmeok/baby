@@ -66,7 +66,9 @@
 	import {
 		transformDateTo
 	} from '@/common/util/date.js';
+	import myMixin from '@/common/mixins.js'
 	export default {
+		mixins: [myMixin.publicApi],
 		data() {
 			return {
 				cuText: "",
@@ -139,16 +141,12 @@
 						if (res.confirm) {
 							this.api.center.manage.baby.delete({
 								id: id,
-								type:2
+								type: 2
 							}, res => {
 								uni.showToast({
 									title: "删除成功",
 									success: () => {
-										setTimeout(() => {
-											uni.navigateBack({
-												delta: 1
-											})
-										}, 1000)
+										this.handleSucceed()
 									}
 								})
 							})
@@ -177,22 +175,18 @@
 				if (checkRes) {
 					if (!this.disable) { //防止点击多下
 						this.disable = true;
-						this.from.type=2;
+						this.from.type = 2;
 						this.from.id = this.isEdit ? id : "";
 						this.api.center.manage.baby.handle(this.from, res => {
 							console.log(res)
 							uni.showToast({
 								title: this.isEdit ? "修改成功" : "添加成功",
 								success: () => {
-									setTimeout(() => {
-										uni.navigateBack({
-											delta: 1
-										})
-									}, 1000)
+									this.handleSucceed()
 								}
 							})
-						},err=>{
-							this.disable=false;
+						}, err => {
+							this.disable = false;
 						})
 					}
 				} else {
@@ -201,6 +195,12 @@
 						icon: "none"
 					});
 				}
+			},
+			async handleSucceed() {
+				await this.saveBabyInfoData();
+				uni.navigateBack({
+					delta: 1
+				})
 			}
 		}
 	}

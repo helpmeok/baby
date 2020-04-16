@@ -26,8 +26,10 @@
 
 <script>
 	let redirect = "";
-	import relevanceLabel from '@/components/relevance-label'
+	import relevanceLabel from '@/components/relevance-label';
+	import myMixin from '@/common/mixins.js'
 	export default {
+		mixins: [myMixin.publicApi],
 		data() {
 			return {
 				title: 'Hello',
@@ -36,13 +38,13 @@
 				isShow: false,
 				wxSessionKey: "",
 				showRelevanceLabel: false,
-				isBack:false
+				isBack: false
 			};
 		},
 		components: {
 			relevanceLabel
 		},
-		onLoad(options) {
+		async onLoad(options) {
 			uni.removeStorageSync('access_token')
 			uni.removeStorageSync('wxSessionKey')
 			if (Object.keys(options).length == 0) {
@@ -62,32 +64,26 @@
 				redirect = redirect + "?" + arr.join('&')
 			}
 			if (uni.getStorageSync('access_token')) {
-				this.api.center.user.get_detail(null, res => {
-					console.log(res);
-					uni.setStorageSync('userInfo', JSON.stringify(res.data))
-					this.api.child.get_list(null, res => {
-						let myBabyList = res.data.baby.concat(res.data.pregnant);
-						uni.setStorageSync('myBabyList', JSON.stringify(myBabyList));
-						this.isShow = false;
-						this.routePush()
-					})
-				});
+				await this.saveBabyInfoData();
+				this.isShow = false;
+				this.routePush()
 			} else {
 				this.isShow = true;
-				uni.checkSession({
-					success: () => {
-						this.wxSessionKey = uni.getStorageSync('wxSessionKey')
-						console.log('wxSessionKey值：' + uni.getStorageSync('wxSessionKey'))
-						console.log('wxSessionKey有效')
-						if (!this.wxSessionKey) {
-							this.getWXCode()
-						}
-					},
-					fail: () => {
-						console.log('wxSessionKey过期')
-						this.getWXCode();
-					}
-				})
+				this.getWXCode();
+				// uni.checkSession({
+				// 	success: () => {
+				// 		this.wxSessionKey = uni.getStorageSync('wxSessionKey')
+				// 		console.log('wxSessionKey值：' + uni.getStorageSync('wxSessionKey'))
+				// 		console.log('wxSessionKey有效')
+				// 		if (!this.wxSessionKey) {
+				// 			this.getWXCode()
+				// 		}
+				// 	},
+				// 	fail: () => {ssss
+				// 		console.log('wxSessionKey过期')
+				// 		this.getWXCode();
+				// 	}
+				// })
 			}
 		},
 		methods: {
@@ -99,7 +95,6 @@
 							this.api.home.get_wx_sessionKey({
 								code: loginRes.code
 							}, data => {
-								console.log(data)
 								this.wxSessionKey = data.data
 								uni.setStorageSync('wxSessionKey', data.data)
 								res(data.data);
@@ -125,23 +120,14 @@
 					Object.assign(data, e.detail, {
 						sessionKey: this.wxSessionKey
 					});
-					console.log(data)
 					this.api.home.wx_login(
 						data,
-						res => {
-							console.log(res)
-							let access_token = res.data.userId + "_" + res.data.token
+						async res => {
+							let access_token = res.data.userId + "_" + res.data.token;
 							uni.setStorageSync('access_token', access_token);
-							this.api.center.user.get_detail({}, res => {
-								console.log(res);
-								uni.setStorageSync('userInfo', JSON.stringify(res.data))
-								this.api.child.get_list(null, res => {
-									let myBabyList = res.data.baby.concat(res.data.pregnant);
-									uni.setStorageSync('myBabyList', JSON.stringify(myBabyList));
-									this.routePush()
-									uni.hideLoading();
-								})
-							});
+							await this.saveBabyInfoData();
+							this.routePush();
+							uni.hideLoading();
 						},
 						err => {
 							this.getWXCode();
@@ -151,7 +137,6 @@
 				}
 			},
 			routePush() {
-				console.log(redirect)
 				if (redirect) {
 					uni.redirectTo({
 						url: redirect,

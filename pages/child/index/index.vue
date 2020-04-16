@@ -1,11 +1,32 @@
 <template>
 	<view>
-		<baby-info-add :show="isShowBabyInfoAdd" :isShowLogin="isShowLogin" v-on:hideBabyInfoAdd="hideBabyInfoAdd"
-		 v-on:showLogin="showLogin" v-on:hideLogin="hideLogin"></baby-info-add>
-		<my-baby-list :show="isShowBabyList" v-on:hideMyBabyList="hideMyBabyList" :type="'child'"></my-baby-list>
+		<baby-info-add :show="isShowBabyInfoAdd" :isShowLoginPop="isShowLoginPop" v-on:hideBabyInfoAdd="hideBabyInfoAdd"
+		 v-on:showLoginPop="showLoginPop" v-on:hideLoginPop="hideLoginPop"></baby-info-add>
+		<my-baby-list :show="isShowBabyList" v-on:hideMyBabyList="hideMyBabyList" v-on:getBabyInfo="getBabyInfo" :type="'child'"></my-baby-list>
 		<view class="header-custom flex-r-between" :style="[{height:CustomBar + 'px','padding-top':StatusBar+'px'}]">
 			<view class="flex">
-				备孕中
+				<view class="">
+					<view class="text-b">
+
+					</view>
+
+				</view>
+				<view class="">
+					()
+				</view>
+			</view>
+			<view class="">
+				<view class="text-b">
+					备孕中
+				</view>
+			</view>
+			<view class="flex">
+				<view class="text-b">
+					怀孕中
+				</view>
+				<view class="">
+					()
+				</view>
 			</view>
 			<view class="switch-btn white flex-c-center" @click="showBabyList">
 				切换
@@ -22,12 +43,13 @@
 			return {
 				isShowBabyInfoAdd: false,
 				isShowBabyList: false,
-				isShowLogin: false,
+				isShowLoginPop: false,
 				CustomBar: this.CustomBar,
 				Custom: this.Custom,
 				StatusBar: this.StatusBar,
 				ScreenHeight: this.screenHeight,
 				WindowHeight: this.windowHeight,
+				babyData: {}
 			};
 		},
 		mixins: [myMixin.publicApi],
@@ -36,37 +58,38 @@
 			myBabyList
 		},
 		onLoad() {
-
 		},
 		onShow() {
 			if (uni.getStorageSync('access_token')) { //登录过就隐藏登录弹窗
-				this.isShowLogin = false;
+				this.isShowLoginPop = false;
 				this.beforeInit()
 			} else {
 				this.isShowBabyInfoAdd = true;
-				this.isShowLogin = true;
+				this.isShowLoginPop = true;
 			}
 		},
 		methods: {
 			beforeInit() {
-				let myBabyList = JSON.parse(uni.getStorageSync('myBabyList'));
-				console.log(myBabyList);
-				this.isShowBabyInfoAdd = myBabyList.length ? false : true;
-				if (myBabyList.length) {
-					this.init()
+				this.isShowBabyInfoAdd = this.getBabyInfoData().length ? false : true;
+				if (this.getBabyInfoData().length) {
+					this.getBabyInfo()
 				}
 			},
-			init() {
-				let userInfo = JSON.parse(uni.getStorageSync('userInfo'))
-
+			getBabyInfo() {
+				uni.showLoading({
+					title: "加载中"
+				})
+				this.getBabyIdAndType();
 				this.api.child.get_info_by_baby({
-					id: userInfo.babyInfoId,
-					type: userInfo.babyInfoType
+					id: this.babyInfoId,
+					type: this.babyInfoType
 				}, res => {
 					console.log(res)
+					this.babyData = res.data;
+					uni.hideLoading();
 				})
 			},
-			
+
 			chooseBaby(data) {
 				this.api.child.choose_baby({
 					id: userInfo.babyInfoId,
@@ -78,11 +101,8 @@
 			hideBabyInfoAdd() {
 				this.isShowBabyInfoAdd = false
 			},
-			showLogin() {
-				this.isShowLogin = true;
-			},
-			hideLogin() {
-				this.isShowLogin = false;
+			showLoginPop() {
+				this.isShowLoginPop = true;
 			}
 		}
 
@@ -98,6 +118,12 @@
 			height: 50upx;
 			background-color: #FC4041;
 			border-radius: 25upx;
+		}
+
+		.text-b {
+			color: #090909;
+			font-weight: bold;
+			font-size: 42upx;
 		}
 	}
 </style>

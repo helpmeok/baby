@@ -1,6 +1,7 @@
 <template>
 	<view class="container">
 		<my-baby-list :show="isShowBabyList" v-on:hideMyBabyList="hideMyBabyList" :type="'home'"></my-baby-list>
+		<login-pop :show="isShowLoginPop" v-on:hideLoginPop="hideLoginPop"></login-pop>
 		<!-- 自定义导航栏 -->
 		<channel-operate :show="showChannelOperate" v-on:hideChannelOperate='hideChannelOperate' :myChanelList="tabs"
 		 :addChanelList="addChanelList" v-on:addChanelOperate="addChanelOperate" v-on:delChanelOperate="delChanelOperate"
@@ -8,25 +9,25 @@
 		<view class="header-custom flex-r-between" :style="[{height:CustomBar + 'px','padding-top':StatusBar+'px'}]">
 			<view class="child-type-box" @click="childChoose">
 				<view class="flex-c-center" v-if="childType== -1">
-					<image src="/static/home/com_tab_ic_yuer_nor@3x.png" mode="widthFix" class="icon"></image>
+					<image src="/static/home/look_nav_ic_baby_nor@3x.png" mode="widthFix" class="icon"></image>
 					<view class="text-ss">
 						未设置
 					</view>
 				</view>
 				<view class="flex-c-center" v-if="childType== 0">
-					<image src="/static/home/com_tab_ic_yuer_sel@3x.png" mode="widthFix" class="icon"></image>
+					<image src="/static/home/look_nav_ic_baby_sel@3x.png" mode="widthFix" class="icon"></image>
 					<view class="text-ss baby-red">
 						备孕中
 					</view>
 				</view>
 				<view class="flex-c-center" v-if="childType== 1">
-					<image src="/static/home/com_tab_ic_yuer_sel@3x.png" mode="widthFix" class="icon"></image>
+					<image src="/static/home/look_nav_ic_baby_sel@3x.png" mode="widthFix" class="icon"></image>
 					<view class="text-ss baby-red">
 						怀孕中
 					</view>
 				</view>
 				<view class="flex-c-center" v-if="childType== 2">
-					<image src="/static/home/com_tab_ic_yuer_sel@3x.png" mode="widthFix" class="icon"></image>
+					<image src="/static/home/look_nav_ic_baby_sel@3x.png" mode="widthFix" class="icon"></image>
 					<view class="text-ss baby-red">
 						已出圣
 					</view>
@@ -246,11 +247,12 @@
 </template>
 
 <script>
-	import mixPulldownRefresh from '@/components/mix-pulldown-refresh';
+	import mixPulldownRefresh from '@/components/mix-pulldown-refresh'; //下拉刷新组件
 	import articleOperate from '@/components/article-operate'; //文章操作组件
 	import channelOperate from '@/components/channel-operate'; //频道操作组件
 	import uploadFileProp from '@/components/upload-file'; //上传文件弹窗
-	import myBabyList from '@/components/my-baby-list.vue';
+	import myBabyList from '@/components/my-baby-list.vue'; //宝宝列表选择组件
+	import loginPop from '@/components/login-pop.vue'
 	import myMixin from '@/common/mixins.js'
 	var ctime = parseInt(Date.now());
 	var videoPlay;
@@ -261,7 +263,8 @@
 			articleOperate,
 			channelOperate,
 			uploadFileProp,
-			myBabyList
+			myBabyList,
+			loginPop
 		},
 		mixins: [myMixin.publicApi],
 		data() {
@@ -496,7 +499,8 @@
 				if (this.hasLogin()) {
 					this.isShowBabyList = true;
 				} else {
-
+					this.childType = -1;
+					this.isShowLoginPop=true;
 				}
 			},
 			async getFilterTop() {
@@ -795,14 +799,14 @@
 
 		.child-type-box {
 			.icon {
-				width: 60upx !important;
+				width: 40upx !important;
 			}
 		}
 
 		.search-box {
 			background-color: #F8F8F8;
 			border-radius: 100upx;
-			width: 62%;
+			width: 65%;
 			height: 75%;
 			padding: 0 20upx;
 
@@ -816,9 +820,7 @@
 		}
 
 		.hot-icon {
-			width: 100upx !important;
-			position: relative;
-			left: -25upx;
+			width: 50upx !important;
 		}
 	}
 
@@ -1121,6 +1123,6 @@
 		border-left: 30upx solid transparent;
 		border-right: 30upx solid transparent;
 		border-bottom: 30upx solid white;
-		margin-left: calc(100% - 290upx);
+		margin-left: calc(100% - 270upx);
 	}
 </style>

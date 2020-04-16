@@ -1,15 +1,23 @@
 <template>
 	<view>
 		<view class="uni-mask" v-show="show" @click="hide"></view>
-		<view class="uni-popup" :class="{ 'uni-popup-show': show,'child-position':type=='child','home-position':type=='home' }" @click.stop :style="{'top':CustomBar+'px'}">
+		<view class="uni-popup" :class="{ 'uni-popup-show': show,'child-position':type=='child','home-position':type=='home' }"
+		 @click.stop :style="{'top':CustomBar+'px'}">
 			<view class="triangle-bottomright" v-if="type=='child'"></view>
 			<view class="triangle-bottomleft" v-if="type=='home'"></view>
 			<view class="main" :class="{'border-child':type=='child','border-home':type=='home'}">
-				<view class="item flex-r-between border-bottom  pd-box" v-for="(el,i) in list" :key="i" @click="chooseBaby">
-					<view class="baby-font-size baby-black">
+				<view class="item flex-r-between border-bottom  pd-box baby-black baby-font-size" :class="{'baby-red':el.isSelected}"
+				 v-for="(el,i) in list" :key="i" @click="chooseBaby(el)">
+					<view class="" v-if="el.type == 2">
 						{{el.babyNick}}
 					</view>
-					<image src="/static/com_dialog_ic_choose@3x.png" mode="widthFix" class="iconfont"></image>
+					<view class="" v-if="el.type == 1">
+						怀孕中
+					</view>
+					<view class="" v-if="el.type == 0">
+						备孕中
+					</view>
+					<image src="/static/com_dialog_ic_choose@3x.png" mode="widthFix" class="iconfont" v-if="el.isSelected"></image>
 				</view>
 				<view class="item flex pd-box" @click="goBabyHandle">
 					<view class="baby-font-size baby-black">新增</view>
@@ -21,6 +29,7 @@
 </template>
 
 <script>
+	import myMixin from '@/common/mixins.js'
 	export default {
 		props: {
 			show: {
@@ -32,30 +41,37 @@
 				default: ""
 			}
 		},
+		mixins: [myMixin.publicApi],
 		data() {
 			return {
 				CustomBar: this.CustomBar,
 				list: [],
 			}
 		},
-		created() {
-		},
+		created() {},
 		watch: {
-			show(val){
-				if(val){
+			show(val) {
+				if (val) {
 					this.init()
 				}
 			}
 		},
 		methods: {
 			init() {
-				this.list = JSON.parse(uni.getStorageSync('myBabyList'))
+				this.list = this.getBabyInfoData();
 			},
 			hide() {
 				this.$emit('hideMyBabyList');
 			},
-			chooseBaby() {
-
+			chooseBaby(el) {
+				this.$emit('hideMyBabyList');
+				this.api.child.choose_baby({
+					id: el.id,
+					type: el.type
+				}, async res => {
+					await this.saveBabyInfoData();
+					this.$emit('getBabyInfo')
+				})
 			},
 			goBabyHandle() {
 				this.$emit('hideMyBabyList');
@@ -78,17 +94,20 @@
 		background-color: rgba(0, 0, 0, 0.3);
 	}
 
-	.child-position{
+	.child-position {
 		right: 250upx;
 	}
-	.home-position{
+
+	.home-position {
 		left: 40upx;
 	}
+
 	.uni-popup {
 		position: absolute;
 		z-index: 999;
 		transform: scale(0);
 		width: 330upx;
+
 		.main {
 			background-color: #FFFFFF;
 			box-shadow: 0 0 30upx rgba(0, 0, 0, 0.1);

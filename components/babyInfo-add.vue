@@ -1,23 +1,9 @@
 <template>
 	<view class="container" v-show="show">
-		<view class="cu-modal flex-r-center" :class="{'show':isShowLogin}">
-			<view class="cu-content flex-c-around bg-white login-content">
-				<view class="blod msg baby-black">
-					只有登录状态才可设置宝宝信息
-				</view>
-				<view class="btn-box flex">
-					<view class="btn1 flex-r-center" @click="hideLogin">
-						取消
-					</view>
-					<navigator class="btn2 white flex-r-center" hover-class="none" url="/pages/index/index">
-						前往登录
-					</navigator>
-				</view>
-			</view>
-		</view>
+		<login-pop :show="isShowLoginPop" v-on:hideLoginPop="hideLoginPop"></login-pop>
 		<image src="http://boblbee.superpapa.com.cn/boblbee/static/child/yuer_top_pic_bg@3x.png" mode="widthFix" class="header-img"></image>
 		<view class="pd-box">
-			<view class="main" @click="login">
+			<view class="main" @click="checkLogin">
 				<view class="align-center baby-black main-title blod pd-box">
 					完善宝宝信息获取更精准的内容
 				</view>
@@ -173,17 +159,20 @@
 	date.setTime(date.getTime());
 	date = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
 	import babyData from '@/common/util/baby-data.js'
-
+	import loginPop from '@/components/login-pop.vue'
 	export default {
 		props:{
 			show: {
 				type: Boolean,
 				default: false
 			},
-			isShowLogin:{
+			isShowLoginPop:{
 				type: Boolean,
 				default: false
 			}
+		},
+		components:{
+			loginPop
 		},
 		name: 'baby-info-add',
 		data() {
@@ -257,14 +246,14 @@
 				this.tabs[index].active = true;
 				this.tabIndex = index;
 			},
-			login() {
+			checkLogin() {
 				this.isLogin = uni.getStorageSync('access_token') ? true : false
 				if (!this.isLogin) {
-					this.$emit('showLogin')
+					this.$emit('showLoginPop');
 				}
 			},
-			hideLogin(){	
-				this.$emit('hideLogin')
+			hideLoginPop(){	
+				this.$emit('hideLoginPop');
 			},
 			lastMensesDateChange(e) {
 				this.from0.lastMensesDate = (new Date(e.detail.value)).getTime();
@@ -389,36 +378,7 @@
 	.container {
 		width: 100%;
 
-		.login-content {
-			width: 90%;
-			border-radius: 20upx;
-			overflow: hidden;
-
-			.msg {
-				font-size: 34upx;
-				padding: 80upx 0;
-			}
-
-			.btn-box {
-				width: 100%;
-				font-size: 32upx;
-				height: 90upx;
-
-				.btn1 {
-					width: 50%;
-					height: 100%;
-					border-top: 2upx solid #EEEEEE;
-					color: #404040;
-				}
-
-				.btn2 {
-					width: 50%;
-					height: 100%;
-					background-color: #FC4041;
-					border-top: 2upx solid #FC4041;
-				}
-			}
-		}
+		
 
 		.header-img {
 			width: 100% !important;

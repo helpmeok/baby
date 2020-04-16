@@ -86,7 +86,9 @@
 		transformDateTo
 	} from '@/common/util/date.js';
 	import babyData from '@/common/util/baby-data.js'
+	import myMixin from '@/common/mixins.js'
 	export default {
+		mixins: [myMixin.publicApi],
 		data() {
 			return {
 				cuText: "",
@@ -204,11 +206,7 @@
 								uni.showToast({
 									title: "删除成功",
 									success: () => {
-										setTimeout(() => {
-											uni.navigateBack({
-												delta: 1
-											})
-										}, 1000)
+										this.handleSucceed()
 									}
 								})
 							})
@@ -262,11 +260,7 @@
 							uni.showToast({
 								title: this.isEdit ? "修改成功" : "添加成功",
 								success: () => {
-									setTimeout(() => {
-										uni.navigateBack({
-											delta: 1
-										})
-									}, 1000)
+									this.handleSucceed()
 								}
 							})
 						}, err => {
@@ -280,6 +274,12 @@
 					});
 				}
 
+			},
+			async handleSucceed() {
+				await this.saveBabyInfoData();
+				uni.navigateBack({
+					delta: 1
+				})
 			}
 		}
 	}
