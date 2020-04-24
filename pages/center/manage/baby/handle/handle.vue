@@ -96,7 +96,9 @@
 			this.isEdit = !options.id ? false : true
 			id = options.id ? options.id : ""
 			if (id) {
-				this.api.center.manage.baby.get_list_baby(null, res => {
+				this.api.child.get_list({
+					type: 'baby'
+				}, res => {
 					this.from = res.data.find((el) => {
 						return el.id == id
 					})
@@ -198,6 +200,7 @@
 			},
 			async handleSucceed() {
 				await this.saveBabyInfoData();
+				uni.$emit('changeBabyType'); //传递全局事件
 				uni.navigateBack({
 					delta: 1
 				})

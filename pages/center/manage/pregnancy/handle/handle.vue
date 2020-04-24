@@ -32,7 +32,7 @@
 					预产期
 				</view>
 				<view class="list-cell-right ">
-					<picker mode="date" name="birthExpected" :start="startDate"  @change="birthExpectedChange">
+					<picker mode="date" name="birthExpected" :start="startDate" @change="birthExpectedChange">
 						<view class="">{{from1Desc.birthExpectedDesc}}</view>
 					</picker>
 				</view>
@@ -53,7 +53,7 @@
 						月经持续天数
 					</view>
 					<view class="list-cell-right ">
-						<picker :range="mensesDaysArr" value="3" name="mensesDays"  @change="mensesDaysChange">
+						<picker :range="mensesDaysArr" value="3" name="mensesDays" @change="mensesDaysChange">
 							<view class="">{{from0Desc.mensesDaysDesc}}</view>
 						</picker>
 					</view>
@@ -63,7 +63,7 @@
 						月经周期
 					</view>
 					<view class="list-cell-right ">
-						<picker :range="mensesCycleArr" value="10" name="mensesCycle"  @change="mensesCycleChange">
+						<picker :range="mensesCycleArr" value="10" name="mensesCycle" @change="mensesCycleChange">
 							<view class="">{{from0Desc.mensesCycleDesc}}</view>
 						</picker>
 					</view>
@@ -134,7 +134,9 @@
 			this.isEdit = !options.id ? false : true
 			id = options.id ? options.id : ""
 			if (id) {
-				this.api.center.manage.baby.get_list_pregnant(null, res => {
+				this.api.child.get_list({
+					type: 'pregnant'
+				}, res => {
 					console.log(res)
 					this.from = res.data.find((el) => {
 						return el.id == id
@@ -277,6 +279,7 @@
 			},
 			async handleSucceed() {
 				await this.saveBabyInfoData();
+				uni.$emit('changeBabyType'); //传递全局事件
 				uni.navigateBack({
 					delta: 1
 				})

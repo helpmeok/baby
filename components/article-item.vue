@@ -1,18 +1,9 @@
 <template>
 	<view>
 		<view class="list-item" v-for="(item, index1) in newList" :key="index1" @click="goDetail(item,index1)">
-			<view class="iconfont gray iconcuowutishilimiandecha" v-if="removeType" @click.stop="removeArticle(item,index1)">
-
-			</view>
+			<view class="iconfont gray iconcuowutishilimiandecha" v-if="removeType" @click.stop="removeArticle(item,index1)"></view>
 			<view class="pd-box">
-				<view class="flex-r-between" v-if="item.showType!=6">
-					<!-- <view class="flex" v-if="item.showType==6">
-						<image :src="item.answerQuestion.userAvatar" mode="widthFix" class="portrait" lazy-load="true"></image>
-						<view class="">
-							<text class="blod article-font">{{ item.answerQuestion.userName }}</text>
-							<view class="small gray">{{item.answerQuestion.oauthIntro}}</view>
-						</view>
-					</view> -->
+				<view class="flex-r-between" v-if="item.showType!=6 && showUserInfo">
 					<view class="flex">
 						<image :src="item.userAvatar" mode="aspectFill" class="portrait" lazy-load="true" @click.stop="goCelebrity(item,index1)"></image>
 						<view class="">
@@ -29,7 +20,6 @@
 							{{el.name}}
 						</view>
 					</view>
-					<!-- <view class="tag white small" v-if="item.categoryName" @click.stop="goCategory(item.categoryId)">{{ item.categoryName }}</view> -->
 				</view>
 				<view class="content showType0" v-if="item.showType == 0">
 					<view class="desc article-font">{{ item.title }}</view>
@@ -116,22 +106,18 @@
 					</view>
 					<view class="flex" v-else>
 						<view class="list-item-icon flex">
-							<!-- <text class="iconfont iconliulan gray"></text> -->
 							<image src="../static/home/com_list_ic_look@2x.png" mode="widthFix" class="icon"></image>
 							<text class="small gray">{{ item.clickNum | articleDataNum}}</text>
 						</view>
 						<view class="list-item-icon flex">
-							<!-- <text class="iconfont iconiconfontzhizuobiaozhun44 gray"></text> -->
 							<image src="../static/home/com_list_ic_praise@2x.png" mode="widthFix" class="icon"></image>
 							<text class="small gray">{{ item.praiseNum | articleDataNum}}</text>
 						</view>
 						<view class="list-item-icon flex">
-							<!-- <text class="iconfont iconpinglun gray"></text> -->
 							<image src="../static/home/com_list_ic_introduction@2x.png" mode="widthFix" class="icon"></image>
 							<text class="small gray">{{ item.commentNum | articleDataNum}}</text>
 						</view>
 						<view class="list-item-icon flex">
-							<!-- <text class="iconfont iconzhuanfa gray"></text> -->
 							<image src="../static/home/com_list_ic_forward@2x.png" mode="widthFix" class="icon"></image>
 							<text class="small gray">{{ item.forwardNum | articleDataNum}}</text>
 						</view>
@@ -142,18 +128,19 @@
 			</view>
 			<view class="cut-off"></view>
 		</view>
-		<!-- <article-operate :show="showArticleOperate" :top="articleOffsetTop" :id="articleId" v-on:hideArticleOperate="hideArticleOperate"></article-operate> -->
 	</view>
 </template>
 
 <script>
 	import imtAudio from '@/components/imt-audio/imt-audio.vue';
+	import myMixin from '@/common/mixins.js'
 	var videoItem;
 	export default {
 		components: {
 			imtAudio
 		},
 		name: 'article-item',
+		mixins: [myMixin.publicApi],
 		props: {
 			list: {
 				type: Array,
@@ -170,6 +157,10 @@
 				default: ""
 			},
 			showAagTag: {
+				type: Boolean,
+				default: true
+			},
+			showUserInfo:{
 				type: Boolean,
 				default: true
 			}
@@ -199,36 +190,7 @@
 					}, res => {
 						console.log(res)
 					})
-
-					const downloadTask = uni.downloadFile({
-						url: el.attachment[0].url,
-						success: (res) => {
-							let filePath = res.tempFilePath;
-							uni.openDocument({
-								filePath: filePath,
-								success: (res) => {
-									console.log(res)
-									uni.hideLoading();
-								},
-								fail: (err) => {
-									console.log(err)
-								}
-							});
-						},
-						fail: (err) => {
-							console.log(err)
-							uni.showToast({
-								title: "文件加载失败",
-								icon: "none"
-							})
-						}
-					});
-					downloadTask.onProgressUpdate((res) => {
-						uni.showLoading({
-							title: '加载中' + res.progress.toString() + '%',
-							mask: true
-						})
-					});
+					this.openFile(el.attachment[0].url)
 				} else if (el.showType == 6) {
 					uni.setStorageSync('questionIndex', index)
 					uni.navigateTo({

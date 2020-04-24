@@ -124,30 +124,33 @@
 		padding-left: 30upx;
 	}
 
-	.list-item {
-		box-sizing: border-box;
-		background-color: #ffffff;
-		border-radius: 20upx;
-		padding: 40upx 30upx;
-		box-shadow: 0px 10upx 60upx 0px rgba(0, 0, 0, 0.04);
-		margin-bottom: 30upx;
-		width: 100%;
+	.scroll-view {
+		.list-item {
+			box-sizing: border-box;
+			background-color: #ffffff;
+			border-radius: 20upx;
+			padding: 40upx 30upx;
+			box-shadow: 0px 10upx 60upx 0px rgba(0, 0, 0, 0.04);
+			margin-bottom: 30upx;
+			width: calc(100% - 60upx);
+			margin-left: 30upx;
+			.content {
+				width: 90%;
 
-		.content {
-			width: 90%;
+				.question {
+					margin-bottom: 20upx;
+					width: 100%;
 
-			.question {
-				margin-bottom: 20upx;
-				width: 100%;
-
-				.question-icon {
-					width: 40upx !important;
-					position: relative;
-					top: 15upx;
-					left: 0;
-					float: left;
+					.question-icon {
+						width: 40upx !important;
+						position: relative;
+						top: 15upx;
+						left: 0;
+						float: left;
+					}
 				}
 			}
+
 		}
 
 	}

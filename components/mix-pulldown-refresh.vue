@@ -57,7 +57,7 @@
 			statusText:{
 				type: String,
 				default: '刷新中'
-			}
+			},
 		},
 		data() {
 			return {
@@ -69,7 +69,7 @@
 		},
 		computed: {
 			pageTop(){
-				return uni.upx2px(this.top);
+					return uni.upx2px(this.top);
 			}
 		},
 		methods: {

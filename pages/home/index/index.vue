@@ -1,5 +1,6 @@
 <template>
 	<view class="container">
+		<showTips></showTips>
 		<my-baby-list :show="isShowBabyList" v-on:hideMyBabyList="hideMyBabyList" :type="'home'"></my-baby-list>
 		<login-pop :show="isShowLoginPop" v-on:hideLoginPop="hideLoginPop"></login-pop>
 		<!-- 自定义导航栏 -->
@@ -29,7 +30,7 @@
 				<view class="flex-c-center" v-if="childType== 2">
 					<image src="/static/home/look_nav_ic_baby_sel@3x.png" mode="widthFix" class="icon"></image>
 					<view class="text-ss baby-red">
-						已出圣
+						已出生
 					</view>
 				</view>
 			</view>
@@ -80,7 +81,7 @@
 			<!-- 文件列表筛选固定框 -->
 			<!-- 头部tabs -->
 			<!-- 滚动列表区域 -->
-			<mix-pulldown-refresh ref="mixPulldownRefresh" class="panel-content" :top="90" @refresh="onPulldownReresh"
+			<mix-pulldown-refresh ref="mixPulldownRefresh" class="panel-content" :top="90" @refresh="onPulldownReresh('pull-down')"
 			 @setEnableScroll="setEnableScroll">
 				<swiper class="swiper-box" :current="tabIndex" :duration="300" @change="changeSwiper">
 					<swiper-item v-for="(el, i) in tabs" :key="i">
@@ -254,6 +255,7 @@
 	import myBabyList from '@/components/my-baby-list.vue'; //宝宝列表选择组件
 	import loginPop from '@/components/login-pop.vue'
 	import myMixin from '@/common/mixins.js'
+	import showTips from '@/components/redflower-showTips/redflower-showTips.vue'
 	var ctime = parseInt(Date.now());
 	var videoPlay;
 	const total = 10;
@@ -264,7 +266,8 @@
 			channelOperate,
 			uploadFileProp,
 			myBabyList,
-			loginPop
+			loginPop,
+			showTips
 		},
 		mixins: [myMixin.publicApi],
 		data() {
@@ -360,6 +363,8 @@
 			};
 		},
 		onLoad(options) {
+			uni.$on('changeBabyType', this.changeBabyType)
+			this.changeBabyType()
 			this.getKeyWord()
 			this.getUserChanelList()
 			this.getAddChanelList()
@@ -471,6 +476,7 @@
 				this.tabs[currentTabIndex].offset = 0;
 				return new Promise((onok, onno) => {
 					this.api.home.get_article_by_chanelId({
+							groupId: this.babyInfoGroupId,
 							channelId: this.tabs[currentTabIndex].channelId,
 							ctime: ctime,
 							offset: this.tabs[currentTabIndex].offset,
@@ -487,6 +493,9 @@
 										currentTabIndex].channelId == -6)) { //关注,问答,视频，音频,文件列表
 								this.tabs[currentTabIndex].data = res.data
 							}
+							if (type == 'change-baby') {
+								this.tabs[currentTabIndex].data = res.data
+							}
 							this.isLoad = true
 							this.$forceUpdate()
 							uni.hideLoading();
@@ -500,7 +509,21 @@
 					this.isShowBabyList = true;
 				} else {
 					this.childType = -1;
-					this.isShowLoginPop=true;
+					this.isShowLoginPop = true;
+				}
+			},
+			changeBabyType() {
+				this.getBabyIdAndType();
+				this.tabIndex = 0;
+				this.onPulldownReresh('change-baby');
+				if (this.hasLogin()) {
+					this.childType = JSON.parse(uni.getStorageSync('userInfo')).babyInfoType;
+					if (!this.hasBabyInfoData()) {
+						this.childType = -1;
+					}
+				} else {
+					this.childType = -1;
+					this.isShowLoginPop = true;
 				}
 			},
 			async getFilterTop() {
@@ -611,6 +634,7 @@
 				let currentTabIndex = this.tabIndex;
 				this.tabs[currentTabIndex].offset += total;
 				this.api.home.get_article_by_chanelId({
+						groupId: this.babyInfoGroupId,
 						channelId: this.tabs[currentTabIndex].channelId,
 						ctime: ctime,
 						offset: this.tabs[currentTabIndex].offset,
@@ -666,10 +690,10 @@
 			hideHotMask() {
 				this.showHotMask = false;
 			},
-			async onPulldownReresh() {
+			async onPulldownReresh(type) {
 				ctime = parseInt(Date.now()); //刷新时间
 				this.tabs[this.tabIndex].offset = 0;
-				await this.init('pull-down');
+				await this.init(type);
 				this.$refs.mixPulldownRefresh && this.$refs.mixPulldownRefresh.endPulldownRefresh();
 			},
 			setEnableScroll(enable) {
@@ -699,7 +723,7 @@
 				this.showChannelOperate = false
 			},
 			async refreshList() { //刷新列表
-				this.onPulldownReresh();
+				this.onPulldownReresh('pull-down');
 				uni.showToast({
 					title: '屏蔽成功'
 				});
@@ -779,7 +803,7 @@
 					})
 					this.fileTabs[index].active = true;
 				}
-				this.onPulldownReresh()
+				this.onPulldownReresh('pull-down')
 				this.$nextTick(() => {
 					this.listScrollTop = 0;
 					this.filterBoxSHow = false;

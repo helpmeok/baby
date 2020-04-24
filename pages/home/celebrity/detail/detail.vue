@@ -137,11 +137,6 @@
 						data: [],
 						offset: 0,
 						loadingType: 0
-					},
-					{
-						data: [],
-						offset: 0,
-						loadingType: 0
 					}
 				],
 				typeIndex: 0,
@@ -242,7 +237,8 @@
 		methods: {
 			init() {
 				uni.showLoading({
-					title: '加载中'
+					title: '加载中',
+					mask: true
 				});
 				this.api.home.hotVip.get_info({
 						vid: id
@@ -371,7 +367,8 @@
 					return
 				}
 				uni.showLoading({
-					title: "加载中"
+					title: "加载中",
+					mask: true
 				})
 				this.typeList.forEach((el) => {
 					el.active = false

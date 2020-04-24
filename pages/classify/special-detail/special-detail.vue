@@ -58,7 +58,7 @@
 			id=options.id
 			this.info=JSON.parse(uni.getStorageSync('subjectItem'))
 			uni.showLoading({
-				title: "加载中"
+				title: "加载中",
 			})
 			this.init()
 		},

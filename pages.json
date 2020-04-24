@@ -134,12 +134,7 @@
 			"style": {
 				"navigationStyle": "custom"
 			}
-		}, {
-			"path": "pages/task/index/index",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		}, {
+		},  {
 			"path": "pages/center/manage/baby/handle/handle",
 			"style": {
 				"navigationStyle": "custom"
@@ -233,7 +228,31 @@
 			}
 		}
 
-	],
+	    ,{
+            "path" : "pages/child/more-question/more-question",
+            "style" : {
+				"navigationStyle": "custom"
+			}
+        }
+        ,{
+            "path" : "pages/child/more-file/more-file",
+            "style" : {
+				"navigationStyle": "custom"
+			}
+        }
+        ,{
+            "path" : "pages/child/celebrity-relevance/celebrity-relevance",
+            "style" : {
+				"navigationStyle": "custom"
+			}
+        }
+        ,{
+            "path" : "pages/child/guide-detail/guide-detail",
+            "style" : {
+				"navigationStyle": "custom"
+			}
+        }
+    ],
 	"requiredBackgroundModes": ["audio"],
 	"tabBar": {
 		"color": "#666666",
@@ -304,10 +323,6 @@
 			{
 				"name": "助手", //模式名称
 				"pathName": "pages/helper/index/index" //启动页面，必选
-			},
-			{
-				"name": "任务", //模式名称
-				"pathName": "pages/task/index/index" //启动页面，必选
 			},
 			{
 				"name": "专题", //模式名称
@@ -456,6 +471,15 @@
 				"name": "文件标签列表",
 				"pathName": "pages/home/fileTag-list/fileTag-list",
 				"query": "id=4&title=备孕"
+			},
+			{
+				"name": "月龄大V相关",
+				"pathName": "pages/child/celebrity-relevance/celebrity-relevance"
+			},
+			{
+				"name": "云动能力详情页",
+				"pathName": "pages/child/guide-detail/guide-detail",
+				"query": "id=52336"
 			}
 		]
 	}

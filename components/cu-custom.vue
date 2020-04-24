@@ -2,7 +2,7 @@
 	<view>
 		<view class="cu-custom" :style="[{height:CustomBar + 'px'}]">
 			<image src="/static/details_pic_masking@3x.png" v-if="isMaskBg" mode="aspectFill" class="cu-custom-bg" :style="[{height:(CustomBar+20) + 'px'}]"></image>
-			<view class="cu-bar fixed" :style="style" :class="[bgImage!=''?'none-bg text-white bg-img':'',bgColor]">
+			<view class="cu-bar fixed" :style="style" :class="[bgImage!=''?'none-bg text-white bg-img':'',bgColor]" >
 				<view class="action" @tap="BackPage" v-if="isBack">
 					<text class="cuIcon-back"></text>
 					<slot name="backText"></slot>
@@ -31,7 +31,7 @@
 						<text v-if="!isEdit&&showCancel" @click="edit" style="font-size: 26upx;">取消</text>
 					</view>
 				</view>
-				<view class="content" :style="[{top:StatusBar + 'px'}]">
+				<view class="content"  :style="[{top:StatusBar + 'px'}]">
 					<slot name="content"></slot>
 				</view>
 				<view class="" v-if="searchCelebrity">

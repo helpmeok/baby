@@ -121,17 +121,37 @@ module.exports = {
 		}
 	},
 	child: {
-		get_list:function(d, onok, onno) { //获取当前登陆用户宝宝和备孕列表
+		get_list: function(d, onok, onno) { //获取当前登陆用户宝宝和备孕列表
 			let _url = "/bnsBaby/myBabyList";
 			_req.m_send(_url, "GET", d, onok, onno);
 		},
-		get_info_by_baby:function(d, onok, onno) { //育儿主页
+		get_info_by_baby: function(d, onok, onno) { //育儿主页
 			let _url = "/bnsBaby/home";
 			_req.m_send(_url, "GET", d, onok, onno);
 		},
 		choose_baby: function(d, onok, onno) { //改变当前选中的宝宝
 			let _url = "/bnsBaby/currentBaby";
 			_req.m_send(_url, "POST", d, onok, onno);
+		},
+		get_more_question_list: function(d, onok, onno) { //更多问题
+			let _url = "/bnsBaby/more/question";
+			_req.m_send(_url, "GET", d, onok, onno);
+		},
+		get_group_ability_list: function(d, onok, onno) { ///月龄能力分类列表
+			let _url = "/bnsBaby/bnsBabyAbility/listByGroupId";
+			_req.m_send(_url, "GET", d, onok, onno);
+		},
+		get_article_list_by_groupAbility: function(d, onok, onno) { ///本月龄大V相关内容
+			let _url = "/bnsBaby/more/article";
+			_req.m_send(_url, "GET", d, onok, onno);
+		},
+		get_article_listNum_by_groupAbility: function(d, onok, onno) { ///本月龄大V相关内容文章类型的数量
+			let _url = "/bnsBaby/more/article/types";
+			_req.m_send(_url, "GET", d, onok, onno);
+		},
+		get_guide_detail_byId: function(d, onok, onno) { ///育儿知识详情
+			let _url = "/bnsBaby/bnsBabyGuide/detail";
+			_req.m_send(_url, "GET", d, onok, onno);
 		},
 	},
 	home: {
@@ -473,34 +493,10 @@ module.exports = {
 					let _url = "/bnsBaby";
 					_req.m_send(_url, "POST", d, onok, onno);
 				},
-				get_list_baby: function(d, onok, onno) { //获取我的宝宝列表
-					let _url = "/bnsBaby/myBabyList/baby";
-					_req.m_send(_url, "GET", d, onok, onno);
-				},
-				get_list_pregnant: function(d, onok, onno) { //获取我的备孕列表
-					let _url = "/bnsBaby/myBabyList/pregnant";
-					_req.m_send(_url, "GET", d, onok, onno);
-				},
 				delete: function(d, onok, onno) { //APP“我的”模块，宝宝管理，删除宝宝资料
 					let _url = "/bnsBaby/del";
 					_req.m_send(_url, "POST", d, onok, onno);
 				},
-				// get_list: function(d, onok, onno) { //APP“我的”模块获取用户的宝宝数据，一次性给完宝宝列表数据
-				// 	let _url = "/my/getBabyList";
-				// 	_req.m_send(_url, "GET", d, onok, onno);
-				// },
-				// add: function(d, onok, onno) { //APP“我的”模块，宝宝管理，添加宝宝
-				// 	let _url = "/my/addBaby";
-				// 	_req.m_send(_url, "POST", d, onok, onno);
-				// },
-				// update: function(d, onok, onno) { //APP“我的”模块，宝宝管理，修改宝宝资料
-				// 	let _url = "/my/updateBaby";
-				// 	_req.m_send(_url, "POST", d, onok, onno);
-				// },
-				// delete: function(d, onok, onno) { //APP“我的”模块，宝宝管理，删除宝宝资料
-				// 	let _url = "/my/delBaby";
-				// 	_req.m_send(_url, "POST", d, onok, onno);
-				// },
 			}
 		},
 		qa: {

@@ -4,7 +4,8 @@ let publicApi = {
 			isShowLoginPop: false,
 			myBabyInfoListData: [],
 			babyInfoId: "",
-			babyInfoType: ""
+			babyInfoType: "",
+			babyInfoGroupId: ""
 		}
 	},
 	onLoad() {},
@@ -26,6 +27,37 @@ let publicApi = {
 					.exec();
 			});
 		},
+		openFile(fileUrl) {
+			const downloadTask = uni.downloadFile({
+				url: fileUrl,
+				success: (res) => {
+					let filePath = res.tempFilePath;
+					uni.openDocument({
+						filePath: filePath,
+						success: (res) => {
+							console.log(res)
+							uni.hideLoading();
+						},
+						fail: (err) => {
+							console.log(err)
+						}
+					});
+				},
+				fail: (err) => {
+					console.log(err)
+					uni.showToast({
+						title: "文件加载失败",
+						icon: "none"
+					})
+				}
+			});
+			downloadTask.onProgressUpdate((res) => {
+				uni.showLoading({
+					title: '加载中' + res.progress.toString() + '%',
+					mask: true
+				})
+			});
+		},
 		hideMyBabyList() {
 			this.isShowBabyList = false
 		},
@@ -40,19 +72,7 @@ let publicApi = {
 				this.api.center.user.get_detail(null, res => {
 					uni.setStorageSync('userInfo', JSON.stringify(res.data))
 					this.api.child.get_list(null, res => {
-						let myBabyList = res.data.baby.concat(res.data.pregnant);
-						myBabyList.map((el,i)=>{
-							if (el.isPregnant === undefined) {
-								el.type = 2
-							}
-							if (el.isPregnant) {
-								el.type = 1
-							}
-							if (el.isPregnant === false) {
-								el.type = 0
-							}
-							return el;
-						})
+						let myBabyList = res.data;
 						uni.setStorageSync('myBabyList', JSON.stringify(myBabyList));
 						onok()
 					}, err => {
@@ -74,7 +94,11 @@ let publicApi = {
 				let userInfo = JSON.parse(uni.getStorageSync('userInfo'));
 				this.babyInfoId = userInfo.babyInfoId;
 				this.babyInfoType = userInfo.babyInfoType;
+				this.babyInfoGroupId = userInfo.babyInfoGroupId;
 			}
+		},
+		hasBabyInfoData() {
+			return JSON.parse(uni.getStorageSync('myBabyList')).length ? true : false
 		}
 	}
 }

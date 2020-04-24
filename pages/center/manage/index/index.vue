@@ -34,7 +34,7 @@
 								{{item.birthday?"我的预产期":"我正在备孕中"}}
 							</view>
 							<view class="list-cell-right flex">
-							<view class="">{{item.birthday}}</view>
+								<view class="">{{item.birthday}}</view>
 								<view class="iconfont iconarrow-right-copy blod gray mgl-10"></view>
 							</view>
 						</view>
@@ -88,14 +88,18 @@
 					console.log('加载中')
 				}
 				if (this.tabIndex == 0) {
-					this.api.center.manage.baby.get_list_baby(null, res => {
+					this.api.child.get_list({
+						type: 'baby'
+					}, res => {
 						console.log(res)
 						this.tabs[this.tabIndex].data = res.data
 						this.isLoad = true
 						uni.hideLoading()
 					})
 				} else {
-					this.api.center.manage.baby.get_list_pregnant(null, res => {
+					this.api.child.get_list({
+						type: 'pregnant'
+					}, res => {
 						console.log(res)
 						this.tabs[this.tabIndex].data = res.data
 						this.isLoad = true
@@ -138,7 +142,7 @@
 					url: "../baby/handle/handle?id=" + el.id
 				})
 			},
-			goPregnancyHandle(el){
+			goPregnancyHandle(el) {
 				uni.navigateTo({
 					url: "../pregnancy/handle/handle?id=" + el.id
 				})
@@ -163,6 +167,7 @@
 		background-color: #ffffff;
 		height: 100upx;
 		width: 100%;
+
 		.tabs {
 			width: 100%;
 
@@ -212,7 +217,7 @@
 		top: 60upx;
 	}
 
-	
+
 
 	.list-box {
 		background-color: white;

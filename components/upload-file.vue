@@ -70,7 +70,14 @@
 			};
 		},
 		created() {
-			this.init()
+			
+		},
+		watch:{
+			isShowUpFile(val){
+				if(val){
+					this.init();
+				}
+			}
 		},
 		methods: {
 			init() {

@@ -70,7 +70,7 @@
 					type: el.type
 				}, async res => {
 					await this.saveBabyInfoData();
-					this.$emit('getBabyInfo')
+					uni.$emit('changeBabyType');//传递全局事件
 				})
 			},
 			goBabyHandle() {

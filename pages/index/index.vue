@@ -45,8 +45,8 @@
 			relevanceLabel
 		},
 		async onLoad(options) {
-			uni.removeStorageSync('access_token')
-			uni.removeStorageSync('wxSessionKey')
+			// uni.removeStorageSync('access_token')
+			// uni.removeStorageSync('wxSessionKey')
 			if (Object.keys(options).length == 0) {
 				this.isBack = true
 			}
@@ -126,6 +126,8 @@
 							let access_token = res.data.userId + "_" + res.data.token;
 							uni.setStorageSync('access_token', access_token);
 							await this.saveBabyInfoData();
+							uni.$emit('changeBabyType');//传递全局事件
+							uni.$emit('loginSucceed');//成功登陆
 							this.routePush();
 							uni.hideLoading();
 						},

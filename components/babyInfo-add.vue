@@ -1,6 +1,6 @@
 <template>
 	<view class="container" v-show="show">
-		<login-pop :show="isShowLoginPop" v-on:hideLoginPop="hideLoginPop"></login-pop>
+		<login-pop :show="showLoginPop" v-on:hideLoginPop="hideLoginPop"></login-pop>
 		<image src="http://boblbee.superpapa.com.cn/boblbee/static/child/yuer_top_pic_bg@3x.png" mode="widthFix" class="header-img"></image>
 		<view class="pd-box">
 			<view class="main" @click="checkLogin">
@@ -92,8 +92,8 @@
 							宝宝昵称
 						</view>
 						<view class="list-cell-right ">
-							<input type="text" maxlength="10" placeholder-class="gray" style="text-align: right;padding-right: 30upx;"
-							 :value="from2.babyNick" name="babyNick" placeholder="请输入" />
+							<input type="text" name="babyNick" maxlength="10" placeholder-class="gray" style="text-align: right;padding-right: 30upx;"
+							 v-model="from2.babyNick" placeholder="请输入" />
 						</view>
 					</view>
 					<view class="list-cell flex-r-between">
@@ -119,7 +119,7 @@
 							宝宝出生年月
 						</view>
 						<view class="list-cell-right ">
-							<picker mode="date" :end="today"  @change="babyBirthdayChange">
+							<picker mode="date" :end="today" @change="babyBirthdayChange">
 								<view class="flex-r-center">
 									<view class="gray">
 										{{from2Desc.babyBirthdayDesc}}
@@ -134,7 +134,7 @@
 							早产时间 (如有)
 						</view>
 						<view class="list-cell-right ">
-							<picker  :range="babyPrematureArr" name="babyPremature" @change="babyPrematureChange">
+							<picker :range="babyPrematureArr" name="babyPremature" @change="babyPrematureChange">
 								<view class="flex-r-center">
 									<view class="gray">
 										{{from2Desc.babyPrematureDesc}}
@@ -154,26 +154,28 @@
 </template>
 
 <script>
-	var graceChecker = require("@/common/plugs/graceChecker.js");
+	let graceChecker = require("@/common/plugs/graceChecker.js");
 	let date = new Date();
 	date.setTime(date.getTime());
 	date = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
 	import babyData from '@/common/util/baby-data.js'
 	import loginPop from '@/components/login-pop.vue'
+	import myMixin from '@/common/mixins.js'
 	export default {
-		props:{
+		props: {
 			show: {
 				type: Boolean,
 				default: false
 			},
-			isShowLoginPop:{
+			showLoginPop: {
 				type: Boolean,
 				default: false
 			}
 		},
-		components:{
+		components: {
 			loginPop
 		},
+		mixins: [myMixin.publicApi],
 		name: 'baby-info-add',
 		data() {
 			return {
@@ -201,7 +203,7 @@
 				today: date,
 				mensesDaysArr: babyData.mensesDaysArr,
 				mensesCycleArr: babyData.mensesCycleArr,
-				babyPrematureArr:babyData.babyPrematureArr,
+				babyPrematureArr: babyData.babyPrematureArr,
 				from0: {
 					lastMensesDate: "",
 					mensesDays: "",
@@ -252,7 +254,7 @@
 					this.$emit('showLoginPop');
 				}
 			},
-			hideLoginPop(){	
+			hideLoginPop() {
 				this.$emit('hideLoginPop');
 			},
 			lastMensesDateChange(e) {
@@ -283,7 +285,7 @@
 				this.from2Desc.babyPrematureDesc = parseInt(e.target.value) ? e.target.value + '周' : "无";
 			},
 			from0Submit() {
-				var rule0 = [{
+				let rule0 = [{
 						name: "lastMensesDate",
 						checkType: "notnull",
 						checkRule: "",
@@ -302,7 +304,7 @@
 						errorMsg: "请选择月经周期"
 					}
 				];
-				var checkRes = graceChecker.check(this.from0, rule0);
+				let checkRes = graceChecker.check(this.from0, rule0);
 				if (checkRes) {
 					this.babyInfoAdd(this.from0)
 				} else {
@@ -313,13 +315,13 @@
 				}
 			},
 			from1Submit() {
-				var rule1 = [{
+				let rule1 = [{
 					name: "birthExpected",
 					checkType: "notnull",
 					checkRule: "",
 					errorMsg: "请选择预产期"
 				}];
-				var checkRes = graceChecker.check(this.from1, rule1);
+				let checkRes = graceChecker.check(this.from1, rule1);
 				if (checkRes) {
 					this.babyInfoAdd(this.from1)
 				} else {
@@ -330,7 +332,7 @@
 				}
 			},
 			from2Submit() {
-				var rule2 = [{
+				let rule2 = [{
 						name: "babyNick",
 						checkType: "string",
 						checkRule: "1,10",
@@ -343,7 +345,7 @@
 						errorMsg: "请选择宝宝出生年月"
 					}
 				];
-				var checkRes = graceChecker.check(this.from2, rule2);
+				let checkRes = graceChecker.check(this.from2, rule2);
 				if (checkRes) {
 					this.babyInfoAdd(this.from2)
 				} else {
@@ -353,7 +355,7 @@
 					});
 				}
 			},
-			babyInfoAdd(data){
+			babyInfoAdd(data) {
 				console.log(data)
 				if (!this.disable) { //防止点击多下
 					this.disable = true;
@@ -361,8 +363,10 @@
 						console.log(res)
 						uni.showToast({
 							title: "提交成功",
-							success: () => {
-								this.$emit('hideBabyInfoAdd')
+							success: async () => {
+								await this.saveBabyInfoData();
+								uni.$emit('changeBabyType');
+								this.$emit('hideBabyInfoAdd');
 							}
 						})
 					}, err => {
@@ -378,7 +382,7 @@
 	.container {
 		width: 100%;
 
-		
+
 
 		.header-img {
 			width: 100% !important;

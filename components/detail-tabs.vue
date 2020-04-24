@@ -12,7 +12,7 @@
 				</view>
 			</view>
 			<view class="icon-box flex-r-center">
-				<image src="/static/com_list_ic_screen_nor@3x.png" mode="widthFix" class="icon" @click="show=true"></image>
+				<image src="/static/com_list_ic_screen_nor@3x.png" mode="widthFix" class="icon" v-if="showTypeList" @click="show=true"></image>
 			</view>
 
 		</view>
@@ -52,6 +52,10 @@
 					return [];
 				}
 			},
+			showTypeList:{
+				type: Boolean,
+				default: true
+			}
 		},
 		data() {
 			return {

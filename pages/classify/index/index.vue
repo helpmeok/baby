@@ -175,7 +175,7 @@
 		.list-item:nth-of-type(3n-2) {
 			justify-content: flex-start;
 		}
-		
+
 	}
 
 	// .list-item {
