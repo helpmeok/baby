@@ -194,7 +194,7 @@
 				imageUrl: '/static/logo.png'
 			};
 		},
-		onLoad() {
+		onLoad(options) {
 			uni.$on('changeBabyType', this.changeBabyType)
 			uni.$on('loginSucceed', this.loginSucceed)
 			if (uni.getStorageSync('access_token')) {
@@ -202,6 +202,11 @@
 			} else {
 				this.isShowBabyInfoAdd = true;
 				this.isShowLoginPop = true;
+			}
+			if (options.guideId) {
+				uni.navigateTo({
+					url: '/pages/child/guide-detail/guide-detail?id=' + options.guideId
+				});
 			}
 		},
 		onShow() {

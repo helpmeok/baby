@@ -34,7 +34,7 @@
 					</view>
 				</view>
 				<view class="content font-b">
-					<u-parse :content="info.description | imgConversion" @preview="preview" />
+					<u-parse :content="info.guideContentss | imgConversion" @preview="preview" />
 				</view>
 			</view>
 		</view>
@@ -64,6 +64,17 @@
 					description:""
 				}
 			}
+		},
+		onShareAppMessage(res) {
+			if (res.from === 'button') {
+				// 来自页面内分享按钮
+				console.log(res.target);
+			}
+			return {
+				title: this.info.title,
+				path: '/pages/child/index/index?guideId=' + id,
+				imageUrl: this.info.attachment[0].url
+			};
 		},
 		onLoad(options) {
 			id = options.id
