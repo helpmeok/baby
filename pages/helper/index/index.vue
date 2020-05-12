@@ -13,9 +13,9 @@
 			<view class="blod font-b">
 				热门百科推荐：
 			</view>
-			<view class="flex transform pd-lr" @click="exchange">
+			<view class="flex-r-between transform " @click="exchange">
 				<text>换一组</text>
-				<view class="iconfont iconchaxun-zhongzhi mgl-10 blod" :class="{'rotate':isLoading}"></view>
+				<view class="iconfont iconchaxun-zhongzhi blod" :class="{'rotate':isLoading}"></view>
 			</view>
 		</view>
 		<view class="flex pd-box">
@@ -113,9 +113,15 @@
 
 	.transform {
 		border: 2upx solid #FFB62B;
-		height: 50upx;
-		border-radius: 25upx;
+		width: 180upx;
+		height: 60upx;
+		border-radius: 30upx;
 		color: #FFB62B;
+		font-size: 26upx;
+		padding: 0 20upx;
+		.iconchaxun-zhongzhi{
+			font-size: 28upx;
+		}
 	}
 
 	.list-item {

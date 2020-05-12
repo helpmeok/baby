@@ -92,7 +92,7 @@
 			};
 		},
 		async onLoad() {
-			this.getBabyIdAndType();
+			this.getCurrentBabyInfo();
 			await this.init();
 			this.getArticleInit();
 		},
@@ -105,7 +105,6 @@
 		methods: {
 			init() {
 				return new Promise((onok, onno) => {
-
 					this.api.child.get_group_ability_list({
 						groupId: this.babyInfoGroupId
 					}, res => {
@@ -134,7 +133,8 @@
 						groupId: this.babyInfoGroupId,
 						offset: this.tabs[this.tabIndex].offset,
 						showType: this.tabList[this.tabIndex].showType,
-						total
+						total,
+						babySex:this.babySex
 					},
 					res => {
 						console.log(res);

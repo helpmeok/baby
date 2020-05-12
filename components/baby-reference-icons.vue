@@ -7,88 +7,21 @@
 				<view class="title blod">
 					图标说明
 				</view>
-				<view class="" v-if="type==0">
-					<view class="flex">
-						<image src="/static/yuer_list_ic_remind@3x.png" mode="widthFix" class="icon-s"></image>
-						<text class="desc-text">日程提醒</text>
-					</view>
-				</view>
-				<view class="" v-if="type==1">
-					<view class="flex">
-						<image src="/static/yuer_list_ic_examine@3x.png" mode="widthFix" class="icon-s"></image>
-						<text class="desc-text">孕检</text>
-					</view>
-					<view class="flex">
-						<image src="/static/yuer_list_ic_feel@3x.png" mode="widthFix" class="icon-s"></image>
-						<text class="desc-text">反应</text>
-					</view>
-				</view>
-				<view class="" v-if="type==2">
-					<view class="flex">
-						<image src="/static/yuer_list_ic_height@3x.png" mode="widthFix" class="icon-s"></image>
-						<text class="desc-text">身高</text>
-					</view>
-					<view class="flex">
-						<image src="/static/yuer_list_ic_weight@3x.png" mode="widthFix" class="icon-s"></image>
-						<text class="desc-text">体重</text>
-					</view>
-					<view class="flex">
-						<image src="/static/yuer_list_ic_milk@3x.png" mode="widthFix" class="icon-s"></image>
-						<text class="desc-text">奶量</text>
-					</view>
-					<view class="flex">
-						<image src="/static/yuer_list_ic_d3@3x.png" mode="widthFix" class="icon-s"></image>
-						<text class="desc-text">维生素D3</text>
+				<view class="">
+					<view class="flex" v-for="(el,i) in list" :key="i">
+						<image v-if="el.paraImg" :src="el.paraImg" mode="widthFix" class="icon-s"></image>
+						<text class="desc-text">{{el.paraMsg}}</text>
 					</view>
 				</view>
 			</view>
 		</view>
 		<view class="" @click="showMask">
-			<view class="flex" v-if="type==0">
-				<image src="/static/yuer_list_pic_reference1_nor@2x.png" mode="widthFix" class="reference-icon"></image>
-				<view class="">
-					<view class="flex">
-						<image src="/static/yuer_list_ic_remind@3x.png" mode="widthFix" class="icon-s"></image>
-						<text class="desc-text">进入排卵日程，赶紧哦～</text>
-					</view>
-					<view class="">
-						<text class="desc-text">预祝您早日怀孕成功！</text>
-					</view>
-				</view>
-			</view>
-			<view class="flex" v-if="type==1">
+			<view class="flex">
 				<image src="/static/yuer_list_pic_reference2_nor@2x.png" mode="widthFix" class="reference-icon"></image>
-				<view class="">
-					<view class="flex">
-						<image src="/static/yuer_list_ic_examine@3x.png" mode="widthFix" class="icon-s"></image>
-						<text class="desc-text">胎心检查、血尿常规</text>
-					</view>
-					<view class="flex">
-						<image src="/static/yuer_list_ic_feel@3x.png" mode="widthFix" class="icon-s"></image>
-						<text class="desc-text">孕吐、失眠等</text>
-					</view>
-				</view>
-			</view>
-			<view class="flex" v-if="type==2">
-				<image src="/static/yuer_list_pic_reference3_nor@2x.png" mode="widthFix" class="reference-icon"></image>
-				<view class="">
-					<view class="flex">
-						<image src="/static/yuer_list_ic_height@3x.png" mode="widthFix" class="icon-s"></image>
-						<text class="desc-text">85-90cm</text>
-					</view>
-					<view class="flex">
-						<image src="/static/yuer_list_ic_milk@3x.png" mode="widthFix" class="icon-s"></image>
-						<text class="desc-text">500ml</text>
-					</view>
-				</view>
-				<view class="mgl-30">
-					<view class="flex">
-						<image src="/static/yuer_list_ic_weight@3x.png" mode="widthFix" class="icon-s"></image>
-						<text class="desc-text">10-11kg</text>
-					</view>
-					<view class="flex">
-						<image src="/static/yuer_list_ic_d3@3x.png" mode="widthFix" class="icon-s"></image>
-						<text class="desc-text">400iu</text>
+				<view class="parameter-desc-box">
+					<view class="flex item" v-for="(el,i) in list" :key="i">
+						<image v-if="el.paraImg" :src="el.paraImg" mode="widthFix" class="icon-s"></image>
+						<text class="desc-text">{{el.paraName}}</text>
 					</view>
 				</view>
 			</view>
@@ -100,10 +33,12 @@
 	export default {
 		name: 'baby-reference-icons',
 		props: {
-			type: {
-				type: Number,
-				default: -1
-			},
+			list:{
+				type: Array,
+				default () {
+					return [];
+				}
+			}
 		},
 		data() {
 			return {
@@ -170,7 +105,7 @@
 		}
 
 		.icon-s {
-			width: 28upx;
+			width: 30upx;
 			margin-right: 10upx;
 		}
 
@@ -185,6 +120,18 @@
 			border-bottom: 20upx solid #FFFFFF;
 			border-right: 30upx solid transparent;
 			float: left;
+		}
+		.parameter-desc-box{
+			height: 120upx;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			flex-wrap: wrap;
+			.item{
+				height: 50upx;
+				align-items: center;
+				margin-right: 20upx;
+			}
 		}
 	}
 </style>

@@ -5,7 +5,8 @@ let publicApi = {
 			myBabyInfoListData: [],
 			babyInfoId: "",
 			babyInfoType: "",
-			babyInfoGroupId: ""
+			babyInfoGroupId: "",
+			babySex:""
 		}
 	},
 	onLoad() {},
@@ -89,7 +90,7 @@ let publicApi = {
 			}
 			return this.myBabyInfoListData;
 		},
-		getBabyIdAndType() {
+		getCurrentBabyInfo() {
 			if (!!uni.getStorageSync('userInfo')) {
 				let userInfo = JSON.parse(uni.getStorageSync('userInfo'));
 				this.babyInfoId = userInfo.babyInfoId;

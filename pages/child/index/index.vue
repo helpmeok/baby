@@ -36,7 +36,7 @@
 			</view>
 			<!-- <mix-pulldown-refresh ref="mixPulldownRefresh" class="panel-content" @refresh="onPulldownReresh" @setEnableScroll="setEnableScroll"> -->
 				<view class="main pd-box">
-					<baby-reference-icons :type="babyData.babyInfo.type"></baby-reference-icons>
+					<baby-reference-icons  :list="babyData.parameterList"></baby-reference-icons>
 					<swiper class="sense-swiper-box">
 						<swiper-item v-for="(el ,index) in babyData.commonSenseList" :key="index">
 							<view class="swiper-item pd-box" @click="goGuideDetail(el)">
@@ -172,7 +172,8 @@
 					commonSenseList: [],
 					commonQuestionList: [],
 					fileList: [],
-					taskList: []
+					taskList: [],
+					parameterList:[]
 				}
 			};
 		},
@@ -237,7 +238,7 @@
 				uni.showLoading({
 					title: "加载中"
 				})
-				this.getBabyIdAndType();
+				this.getCurrentBabyInfo();
 				this.api.child.get_info_by_baby({
 					id: this.babyInfoId,
 					type: this.babyInfoType

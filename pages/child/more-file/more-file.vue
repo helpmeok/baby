@@ -36,7 +36,7 @@
 			uni.showLoading({
 				title: "加载中"
 			})
-			this.getBabyIdAndType()
+			this.getCurrentBabyInfo()
 			this.init()
 		},
 		onUnload() {

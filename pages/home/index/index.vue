@@ -513,7 +513,7 @@
 				}
 			},
 			changeBabyType() {
-				this.getBabyIdAndType();
+				this.getCurrentBabyInfo();
 				this.tabIndex = 0;
 				this.onPulldownReresh('change-baby');
 				if (this.hasLogin()) {
@@ -523,7 +523,6 @@
 					}
 				} else {
 					this.childType = -1;
-					this.isShowLoginPop = true;
 				}
 			},
 			async getFilterTop() {

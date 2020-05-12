@@ -30,11 +30,11 @@
 						{{info.title}}
 					</view>
 					<view class="baby-gray baby-font-size">
-						{{info.groupExplain}}
+						适龄：{{info.groupExplain}}
 					</view>
 				</view>
 				<view class="content font-b">
-					<u-parse :content="info.guideContentss | imgConversion" @preview="preview" />
+					<u-parse :content="info.guideContent | imgConversion" @preview="preview" />
 				</view>
 			</view>
 		</view>
@@ -71,9 +71,9 @@
 				console.log(res.target);
 			}
 			return {
-				title: this.info.title,
+				title: '宝宝成长指南',	
 				path: '/pages/child/index/index?guideId=' + id,
-				imageUrl: this.info.attachment[0].url
+				imageUrl: '/static/logo.pngssss'
 			};
 		},
 		onLoad(options) {
