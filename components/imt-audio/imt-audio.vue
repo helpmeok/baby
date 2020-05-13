@@ -123,7 +123,7 @@
 				backgroundAudioManager.seek(0)
 				backgroundAudioManager.title = this.title;
 				backgroundAudioManager.singer = this.singer;
-				backgroundAudioManager.coverImgUrl = '/static/1024.png';
+				backgroundAudioManager.coverImgUrl = 'http://boblbee.superpapa.com.cn/boblbee/static/App Store-1024.png';
 				backgroundAudioManager.src = this.src;
 				this.paused = true
 				this.current = 0

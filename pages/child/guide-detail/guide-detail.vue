@@ -9,21 +9,19 @@
 			<block slot="content"></block>
 		</cu-custom>
 		<view class="container" :style="{height:ScreenHeight+'px',width:ScreenWidth+'px'}">
-			<view class="header-custom flex-r-between" :style="{width:ScreenWidth+'px'}" v-if="info.attachment.length>0">
-				<swiper :indicator-dots="true" :autoplay="true" :interval="3000" :duration="1000" :style="{width:ScreenWidth+'px'}">
+			<view class="header-custom flex-r-between" :style="{width:ScreenWidth+'px'}">
+				<image :src="info.imageUrl" mode="aspectFill" class="header-bg-img"></image>
+				<!-- <swiper :indicator-dots="true" :autoplay="true" :interval="3000" :duration="1000" :style="{width:ScreenWidth+'px'}">
 					<swiper-item>
 						<view class="swiper-item" v-for="(el,i) in info.attachment" :key="i">
 							<image :src="el.url" mode="aspectFill" class="header-bg-img"></image>
 						</view>
 					</swiper-item>
-				</swiper>
-				<!-- <video class="video" :style="{width:ScreenWidth+'px'}" id="myVideo" objectFit="fill" :poster="info.attachment[0].thumbnail"
-				 :src="info.attachment[0].url" controls v-if="info.attachmentType==2">
-				</video> -->
+				</swiper> -->
 			</view>
-			<view class="header-custom flex-r-between" :style="{width:ScreenWidth+'px'}" v-else>
+			<!-- <view class="header-custom flex-r-between" :style="{width:ScreenWidth+'px'}" v-else>
 				<image src="/static/task/task_details_default@2x.png" mode="aspectFill" class="header-bg-img"></image>
-			</view>
+			</view> -->
 			<view class="pd-box desc">
 				<view class="flex-r-between">
 					<view class="title baby-black blod">
@@ -61,7 +59,7 @@
 					guideContent: "",
 					groupExplain: "",
 					attachment: [],
-					description:""
+					description: ""
 				}
 			}
 		},
@@ -71,9 +69,9 @@
 				console.log(res.target);
 			}
 			return {
-				title: '宝宝成长指南',	
+				title: '宝宝成长指南',
 				path: '/pages/child/index/index?guideId=' + id,
-				imageUrl: '/static/logo.pngssss'
+				imageUrl: '/static/share_logo@3x.png'
 			};
 		},
 		onLoad(options) {
@@ -89,11 +87,7 @@
 					id
 				}, res => {
 					console.log(res)
-					res.data.attachment = res.data.urls.split(',').map((el) => {
-						return {
-							url: el
-						}
-					})
+					res.data.imageUrl = res.data.urls?res.data.urls.split(',')[0]:'http://boblbee.superpapa.com.cn/boblbee/static/child/yuer_detail_top_placeholderimage@3x.png';
 					this.info = res.data;
 					uni.hideLoading()
 				})

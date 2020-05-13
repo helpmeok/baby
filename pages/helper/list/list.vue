@@ -81,7 +81,7 @@
 			return {
 				title: this.name,
 				path: '/pages/home/index/index?helperId=' + qaId,
-				imageUrl: '/static/logo.png'
+				imageUrl: '/static/share_logo@3x.png'
 			};
 		},
 		data() {

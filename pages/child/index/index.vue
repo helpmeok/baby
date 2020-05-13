@@ -192,7 +192,7 @@
 			return {
 				title: "了解更多育儿专业知识",
 				path: '/pages/child/index/index',
-				imageUrl: '/static/logo.png'
+				imageUrl: '/static/share_logo@3x.png'
 			};
 		},
 		onLoad(options) {

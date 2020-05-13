@@ -9,7 +9,7 @@
 		</cu-custom>
 		<view class="container" :style="{'height':'calc(100% - '+CustomBar+'px)'}">
 			<view class="content" v-if="isShow">
-				<image src="/static/1024.png" class="logo"></image>
+				<image src="http://boblbee.superpapa.com.cn/boblbee/static/App Store-1024.png" class="logo"></image>
 				<view class="font-b blod default-color">宝宝贝</view>
 				<view class="default-color">了解更多育儿专业知识</view>
 				<button type="primary" open-type="getUserInfo" @getuserinfo="getUserInfo" style="margin-top: 150upx;">
@@ -176,6 +176,7 @@
 			width: 300upx;
 			height: 300upx;
 			margin-top: 200upx;
+			border-radius: 20upx;
 		}
 
 		.title {
