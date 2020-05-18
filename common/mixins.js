@@ -6,7 +6,7 @@ let publicApi = {
 			babyInfoId: "",
 			babyInfoType: "",
 			babyInfoGroupId: "",
-			babySex:""
+			babySex: ""
 		}
 	},
 	onLoad() {},
@@ -93,9 +93,10 @@ let publicApi = {
 		getCurrentBabyInfo() {
 			if (!!uni.getStorageSync('userInfo')) {
 				let userInfo = JSON.parse(uni.getStorageSync('userInfo'));
-				this.babyInfoId = userInfo.babyInfoId;
-				this.babyInfoType = userInfo.babyInfoType;
-				this.babyInfoGroupId = userInfo.babyInfoGroupId;
+				this.babyInfoId = userInfo.babyInfo.id;
+				this.babyInfoType = userInfo.babyInfo.type;
+				this.babyInfoGroupId = userInfo.babyInfo.groupId;
+				this.babySex = userInfo.babyInfo.babySex;
 			}
 		},
 		hasBabyInfoData() {

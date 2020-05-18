@@ -2,7 +2,7 @@
 	<view>
 		<cu-custom bgColor="bg-gradual-red" :isBack="true" class="cu-custom" :style="{'opacity':opacity}">
 			<block slot="backText"></block>
-			<block slot="content">{{info.taskName}}</block>
+			<block slot="content">{{info.title}}</block>
 		</cu-custom>
 		<cu-custom :isBack="true" class="cu-custom1" :isMaskBg="isMaskBg">
 			<block slot="backText"></block>
@@ -10,18 +10,15 @@
 		</cu-custom>
 		<view class="container" :style="{height:ScreenHeight+'px',width:ScreenWidth+'px'}">
 			<view class="header-custom flex-r-between" :style="{width:ScreenWidth+'px'}">
-				<image :src="info.imageUrl" mode="aspectFill" class="header-bg-img"></image>
-				<!-- <swiper :indicator-dots="true" :autoplay="true" :interval="3000" :duration="1000" :style="{width:ScreenWidth+'px'}">
+				<swiper :indicator-dots="true" :autoplay="true" :interval="3000" :duration="1000" :style="{width:ScreenWidth+'px'}" v-if="info.attachment.length">
 					<swiper-item>
 						<view class="swiper-item" v-for="(el,i) in info.attachment" :key="i">
 							<image :src="el.url" mode="aspectFill" class="header-bg-img"></image>
 						</view>
 					</swiper-item>
-				</swiper> -->
+				</swiper>
+				<image src="http://boblbee.superpapa.com.cn/boblbee/static/child/yuer_detail_top_placeholderimage@3x.png" mode="aspectFill" class="header-bg-img" v-else></image>
 			</view>
-			<!-- <view class="header-custom flex-r-between" :style="{width:ScreenWidth+'px'}" v-else>
-				<image src="/static/task/task_details_default@2x.png" mode="aspectFill" class="header-bg-img"></image>
-			</view> -->
 			<view class="pd-box desc">
 				<view class="flex-r-between">
 					<view class="title baby-black blod">
@@ -87,7 +84,7 @@
 					id
 				}, res => {
 					console.log(res)
-					res.data.imageUrl = res.data.urls?res.data.urls.split(',')[0]:'http://boblbee.superpapa.com.cn/boblbee/static/child/yuer_detail_top_placeholderimage@3x.png';
+					res.data.attachment = res.data.urls?res.data.urls.split(','):[];
 					this.info = res.data;
 					uni.hideLoading()
 				})

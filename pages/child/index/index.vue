@@ -35,41 +35,42 @@
 				</view>
 			</view>
 			<!-- <mix-pulldown-refresh ref="mixPulldownRefresh" class="panel-content" @refresh="onPulldownReresh" @setEnableScroll="setEnableScroll"> -->
-				<view class="main pd-box">
-					<baby-reference-icons  :list="babyData.parameterList"></baby-reference-icons>
-					<swiper class="sense-swiper-box">
-						<swiper-item v-for="(el ,index) in babyData.commonSenseList" :key="index">
-							<view class="swiper-item pd-box" @click="goGuideDetail(el)">
-								<view class="flex-r-between">
-									<view class="flex">
-										<image src="/static/yuer_card_ic_arrow-2@3x.png" mode="widthFix" class="arrow-icon "></image>
-										<view class="title blod baby-black mgl-20">
-											{{el.title}}
-										</view>
-									</view>
-									<view class="gray">
-										{{index+1}} / {{babyData.commonSenseList.length}}
+			<view class="main pd-box">
+				<baby-reference-icons :list="babyData.parameterList" v-if="babyData.parameterList.length"></baby-reference-icons>
+				<swiper class="sense-swiper-box" v-if="babyData.commonSenseList.length">
+					<swiper-item v-for="(el ,index) in babyData.commonSenseList" :key="index">
+						<view class="swiper-item pd-box" @click="goGuideDetail(el)">
+							<view class="flex-r-between">
+								<view class="flex">
+									<image src="/static/yuer_card_ic_arrow-2@3x.png" mode="widthFix" class="arrow-icon "></image>
+									<view class="title blod baby-black mgl-20">
+										{{el.title}}
 									</view>
 								</view>
-								<view class="gray sigle-line-text-2">
-									{{el.description}}
+								<view class="gray">
+									{{index+1}} / {{babyData.commonSenseList.length}}
 								</view>
 							</view>
-						</swiper-item>
-					</swiper>
-				</view>
-				<view class="guide-list pd-box">
-					<view class="item" v-for="(el,i) in babyData.guideList" :key="i" @click="goGuideDetail(el)">
-						<view class="title baby-black blod">
-							{{el.title}}
+							<view class="gray sigle-line-text-2">
+								{{el.description}}
+							</view>
 						</view>
-						<view class="flex pd-box">
-							<image :src="item" mode="widthFix" v-for="(item,index) in el.imageArr" :key="index" class="image"></image>
-						</view>
+					</swiper-item>
+				</swiper>
+			</view>
+			<view class="guide-list pd-box" v-if="babyData.guideList.length">
+				<view class="item" v-for="(el,i) in babyData.guideList" :key="i" @click="goGuideDetail(el)">
+					<view class="title baby-black blod">
+						{{el.title}}
 					</view>
-					<view class="cut-off-line"></view>
+					<view class="flex pd-box">
+						<image :src="item" mode="widthFix" v-for="(item,index) in el.imageArr" :key="index" class="image"></image>
+					</view>
 				</view>
-				<view class="famous-content pd-box">
+				<view class="cut-off-line"></view>
+			</view>
+			<view class="famous-content">
+				<view class="pd-box">
 					<view class="flex-r-between" @click="goFamousRelevance">
 						<text class="baby-gray" v-if="babyData.babyInfo.type==0">备孕大V相关内容</text>
 						<text class="baby-gray" v-if="babyData.babyInfo.type==1">孕早期大V相关内容</text>
@@ -78,6 +79,8 @@
 					</view>
 				</view>
 				<view class="cut-off"></view>
+			</view>
+			<view class="" v-if="babyData.commonQuestionList.length">
 				<view class="question-list">
 					<view class="flex-r-between ">
 						<text class="baby-black blod title" v-if="babyData.babyInfo.type==0">备孕常见问题</text>
@@ -93,6 +96,8 @@
 					</view>
 				</view>
 				<view class="cut-off"></view>
+			</view>
+			<view class="" v-if="babyData.fileList.length">
 				<view class="files-list">
 					<view class="flex-r-between">
 						<text class="baby-black blod title" v-if="babyData.babyInfo.type==0">备孕适用文库</text>
@@ -110,6 +115,8 @@
 					</view>
 				</view>
 				<view class="cut-off"></view>
+			</view>
+			<view class="" v-if="babyData.taskList.length">
 				<view class="task-list">
 					<view class="">
 						<text class="baby-black blod title" v-if="babyData.babyInfo.type==0">备孕每日任务</text>
@@ -117,8 +124,8 @@
 						<text class="baby-black blod title" v-if="babyData.babyInfo.type==2">本月龄每日任务</text>
 					</view>
 					<view class="list">
-						<view class="list-item bg-white flex-r-between" style="padding-right: 0;" v-for="(el,i) in babyData.taskList"
-						 :key="i" @click="goTaskDetail(el,i)">
+						<view class="list-item bg-white flex-r-between" style="padding-right: 0;" v-for="(el,i) in babyData.taskList" :key="i"
+						 @click="goTaskDetail(el,i)">
 							<image src="/static/task/dailytasks_card_ic_integral2@3x.png" mode="widthFix" class="icon"></image>
 							<view class="item-c">
 								<view class="task-name align-left">
@@ -140,6 +147,8 @@
 						</view>
 					</view>
 				</view>
+				<view class="cut-off"></view>
+			</view>
 			<!-- </mix-pulldown-refresh> -->
 		</view>
 	</view>
@@ -173,7 +182,7 @@
 					commonQuestionList: [],
 					fileList: [],
 					taskList: [],
-					parameterList:[]
+					parameterList: []
 				}
 			};
 		},
@@ -299,9 +308,9 @@
 					url: '/pages/child/celebrity-relevance/celebrity-relevance'
 				})
 			},
-			goGuideDetail(el){
+			goGuideDetail(el) {
 				uni.navigateTo({
-					url: '/pages/child/guide-detail/guide-detail?id='+el.id
+					url: '/pages/child/guide-detail/guide-detail?id=' + el.id
 				})
 			}
 
@@ -313,6 +322,7 @@
 	.header-custom {
 		padding: 40upx 240upx 0 30upx;
 		background-color: #FFFFFF;
+
 		.switch-btn {
 			font-size: 26upx;
 			width: 90upx;
