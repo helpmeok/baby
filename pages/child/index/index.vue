@@ -64,7 +64,7 @@
 						{{el.title}}
 					</view>
 					<view class="flex pd-box">
-						<image :src="item" mode="widthFix" v-for="(item,index) in el.imageArr" :key="index" class="image"></image>
+						<image :src="item" mode="aspectFill" v-for="(item,index) in el.imageArr" :key="index" class="image"></image>
 					</view>
 				</view>
 				<view class="cut-off-line"></view>
@@ -401,8 +401,8 @@
 			}
 
 			.image {
-				width: 125upx;
-				height: 125upx;
+				width: 125upx !important;
+				height: 125upx !important;
 				border-radius: 10upx;
 				margin-right: 30upx;
 			}

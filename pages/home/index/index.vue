@@ -81,7 +81,7 @@
 			<!-- 文件列表筛选固定框 -->
 			<!-- 头部tabs -->
 			<!-- 滚动列表区域 -->
-			<mix-pulldown-refresh ref="mixPulldownRefresh" class="panel-content" :top="90" @refresh="onPulldownReresh('pull-down')"
+			<mix-pulldown-refresh ref="mixPulldownRefresh"  :top="90" @refresh="onPulldownReresh('pull-down')"
 			 @setEnableScroll="setEnableScroll">
 				<swiper class="swiper-box" :current="tabIndex" :duration="300" @change="changeSwiper">
 					<swiper-item v-for="(el, i) in tabs" :key="i">
@@ -207,8 +207,8 @@
 											</view>
 										</navigator>
 										<view class="cut-off"></view>
+										<empty msg="暂无资讯，下拉加载试试~" v-if="tabs[i].data==0"></empty>
 									</view>
-									<empty msg="暂无资讯，下拉加载试试~" v-if="tabs[i].data==0"></empty>
 									<article-item :list="tabs[i].data" v-on:videoHandle="videoHandle" :showOperate="true" v-on:showOperate="showOperate"></article-item>
 									<view class="uni-tab-bar-loading">
 										<uni-load-more :loadingType="el.loadingType" :contentText="loadingText"></uni-load-more>
@@ -517,9 +517,10 @@
 				this.tabIndex = 0;
 				this.onPulldownReresh('change-baby');
 				if (this.hasLogin()) {
-					this.childType = JSON.parse(uni.getStorageSync('userInfo')).babyInfoType;
 					if (!this.hasBabyInfoData()) {
 						this.childType = -1;
+					}else{
+						this.childType = this.babyInfoType;
 					}
 				} else {
 					this.childType = -1;

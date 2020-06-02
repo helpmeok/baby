@@ -43,7 +43,7 @@ function Request() {
 					console.log(res)
 					if (res.data.message) {
 						uni.showToast({
-							title: "请重新点击登录",
+							title: "登录异常，请重新登录",
 							icon: "none",
 							duration: 2000
 						})

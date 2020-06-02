@@ -153,7 +153,7 @@
 	@import './common/icon.css';
 	@import './common/colorui/main.css';
 	@import './common/colorui/icon.css';
-	@import './common/common.css';
+	@import './common/common.scss';
 
 	page {
 		background-color: white;

@@ -9,7 +9,7 @@
 		</cu-custom>
 		<view class="container" :style="{'height':'calc(100% - '+CustomBar+'px)'}">
 			<view class="content" v-if="isShow">
-				<image src="http://boblbee.superpapa.com.cn/boblbee/static/App Store-1024.png" class="logo"></image>
+				<image src="https://boblbee.superpapa.com.cn/boblbee/static/App Store-1024.png" class="logo"></image>
 				<view class="font-b blod default-color">宝宝贝</view>
 				<view class="default-color">了解更多育儿专业知识</view>
 				<button type="primary" open-type="getUserInfo" @getuserinfo="getUserInfo" style="margin-top: 150upx;">
@@ -45,8 +45,6 @@
 			relevanceLabel
 		},
 		async onLoad(options) {
-			// uni.removeStorageSync('access_token')
-			// uni.removeStorageSync('wxSessionKey')
 			if (Object.keys(options).length == 0) {
 				this.isBack = true
 			}
@@ -133,7 +131,6 @@
 						},
 						err => {
 							this.getWXCode();
-							uni.hideLoading();
 						}
 					);
 				}

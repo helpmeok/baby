@@ -1,19 +1,5 @@
 <template>
-	<!-- #ifdef H5	 -->	
-	<view 
-		class="mix-refresh-content"
-		:style="{
-				transform: 'translateY('+ pageDeviation +'px)',
-				transition: pageTransition + 's',
-				height: 'calc(100% - ' + pageTop + 'px)',
-				maxHeight: 'calc(100% - ' + pageTop + 'px)'
-			}"
-		@touchstart="pageTouchstart"
-		@touchmove="pageTouchmove"
-		@touchend="pageTouchend"
-	>
-	<!-- #endif -->
-	<!-- #ifndef H5	 -->	
+	
 	<view 
 		class="mix-refresh-content"
 		:style="{
@@ -26,7 +12,6 @@
 		@touchmove="pageTouchmove"
 		@touchend="pageTouchend"
 	>
-	<!-- #endif -->
 	
 		<!-- 下拉刷新 -->
 		<view class="mix-loading-wrapper flex-r-center">

@@ -1,7 +1,7 @@
 <template>
 	<view class="container" v-show="show">
 		<login-pop :show="showLoginPop" v-on:hideLoginPop="hideLoginPop"></login-pop>
-		<image src="http://boblbee.superpapa.com.cn/boblbee/static/child/yuer_top_pic_bg@3x.png" mode="widthFix" class="header-img"></image>
+		<image src="https://boblbee.superpapa.com.cn/boblbee/static/child/yuer_top_pic_bg@3x.png" mode="widthFix" class="header-img"></image>
 		<view class="pd-box">
 			<view class="main" @click="checkLogin">
 				<view class="align-center baby-black main-title blod pd-box">
@@ -182,20 +182,20 @@
 				tabIndex: 0,
 				tabs: [{
 						active: true,
-						preSrc: 'http://boblbee.superpapa.com.cn/boblbee/static/child/yuer_top_ic_ready_nor@3x.png',
-						selSrc: 'http://boblbee.superpapa.com.cn/boblbee/static/child/yuer_top_ic_ready_sel@3x.png',
+						preSrc: 'https://boblbee.superpapa.com.cn/boblbee/static/child/yuer_top_ic_ready_nor@3x.png',
+						selSrc: 'https://boblbee.superpapa.com.cn/boblbee/static/child/yuer_top_ic_ready_sel@3x.png',
 						title: "备孕中"
 					},
 					{
 						active: false,
-						preSrc: 'http://boblbee.superpapa.com.cn/boblbee/static/child/yuer_top_ic_already_nor_pre@3x.png',
-						selSrc: 'http://boblbee.superpapa.com.cn/boblbee/static/child/yuer_top_ic_already_sel@3x.png',
+						preSrc: 'https://boblbee.superpapa.com.cn/boblbee/static/child/yuer_top_ic_already_nor_pre@3x.png',
+						selSrc: 'https://boblbee.superpapa.com.cn/boblbee/static/child/yuer_top_ic_already_sel@3x.png',
 						title: "怀孕中"
 					},
 					{
 						active: false,
-						preSrc: 'http://boblbee.superpapa.com.cn/boblbee/static/child/yuer_top_ic_birth_nor@3x.png',
-						selSrc: 'http://boblbee.superpapa.com.cn/boblbee/static/child/yuer_top_ic_birth_sel@3x.png',
+						preSrc: 'https://boblbee.superpapa.com.cn/boblbee/static/child/yuer_top_ic_birth_nor@3x.png',
+						selSrc: 'https://boblbee.superpapa.com.cn/boblbee/static/child/yuer_top_ic_birth_sel@3x.png',
 						title: "已出生"
 					}
 				],

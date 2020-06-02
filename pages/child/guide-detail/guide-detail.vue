@@ -17,7 +17,7 @@
 						</view>
 					</swiper-item>
 				</swiper>
-				<image src="http://boblbee.superpapa.com.cn/boblbee/static/child/yuer_detail_top_placeholderimage@3x.png" mode="aspectFill" class="header-bg-img" v-else></image>
+				<image src="https://boblbee.superpapa.com.cn/boblbee/static/child/yuer_detail_top_placeholderimage@3x.png" mode="aspectFill" class="header-bg-img" v-else></image>
 			</view>
 			<view class="pd-box desc">
 				<view class="flex-r-between">
