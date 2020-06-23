@@ -485,7 +485,7 @@ export default {
 			return new Promise((onok, onno) => {
 				this.api.home.get_article_by_chanelId(
 					{
-						groupId: this.babyInfoGroupId,
+						groupId:this.tabs[currentTabIndex].channelId== -1? this.babyInfoGroupId:"",
 						channelId: this.tabs[currentTabIndex].channelId,
 						ctime: ctime,
 						offset: this.tabs[currentTabIndex].offset,
@@ -494,8 +494,8 @@ export default {
 						orderField: this.fileTabs[this.fileTabIndex].orderField
 					},
 					res => {
-						// console.log(this.tabs[currentTabIndex].channelName + '数据列表');
-						// console.log(res);
+						console.log(this.tabs[currentTabIndex].channelName + '数据列表');
+						console.log(res);
 						this.tabs[currentTabIndex].data = res.data.concat(this.tabs[currentTabIndex].data);
 						if (
 							type == 'pull-down' &&
@@ -656,7 +656,7 @@ export default {
 			this.tabs[currentTabIndex].offset += total;
 			this.api.home.get_article_by_chanelId(
 				{
-					groupId: this.babyInfoGroupId,
+					groupId: this.tabs[currentTabIndex].channelId== -1? this.babyInfoGroupId:"",
 					channelId: this.tabs[currentTabIndex].channelId,
 					ctime: ctime,
 					offset: this.tabs[currentTabIndex].offset,

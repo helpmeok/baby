@@ -1,6 +1,6 @@
 // const __api = 'http://59.61.216.123:18980/jeezero-boblbee-app/v1';
-const __api = 'https://dev.jeezero.com:8980/jeezero-boblbee-app/v1'; //开发服务器
-// const __api = 'https://beta.jeezero.com:18980/jeezero-boblbee-app/v1';//仿正式服务器地址
+const __api = 'https://dev.baobaobei.com.cn:8980/jeezero-boblbee-app/v1'; //开发服务器
+// const __api = 'https://beta.baobaobei.com.cn:18980/jeezero-boblbee-app/v1';//仿正式服务器地址
 // const __api = 'https://boblbee.superpapa.com.cn/jeezero-boblbee-app/v1';//正式服务器
 
 function Request() {

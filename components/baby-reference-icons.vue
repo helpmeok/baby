@@ -22,6 +22,7 @@
 					<view class="flex item" v-for="(el,i) in list" :key="i">
 						<image v-if="el.paraImg" :src="el.paraImg" mode="widthFix" class="icon-s"></image>
 						<text class="desc-text">{{el.paraName}}</text>
+						<text class="desc-text mgl-10">{{el.paraUnit}}</text>
 					</view>
 				</view>
 			</view>
