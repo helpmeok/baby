@@ -122,7 +122,7 @@
 						<text class="baby-black blod title" v-if="babyData.babyInfo.type==0">备孕每日一读</text>
 						<text class="baby-black blod title" v-if="babyData.babyInfo.type==1">孕期每日必修</text>
 						<text class="baby-black blod title" v-if="babyData.babyInfo.type==2">每日亲子互动</text>
-					</view>sssss
+					</view>
 					<view class="list">
 						<view class="list-item bg-white flex-r-between" style="padding-right: 0;" v-for="(el,i) in babyData.taskList" :key="i"
 						 @click="goTaskDetail(el,i)">

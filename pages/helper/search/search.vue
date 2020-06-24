@@ -27,7 +27,7 @@
 					</view>
 					<view class="flex-r-between">
 						<view class="gray">
-							共有{{el.articleNum}}个内容
+							当前有1个标准答案及{{el.articleNum}}篇大V相关文章
 						</view>
 					</view>
 				</view>

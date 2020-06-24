@@ -11,9 +11,9 @@
 		<view class="container" :style="{height:ScreenHeight+'px',width:ScreenWidth+'px'}">
 			<view class="header-custom flex-r-between" :style="{width:ScreenWidth+'px'}">
 				<swiper :indicator-dots="true" :autoplay="true" :interval="3000" :duration="1000" :style="{width:ScreenWidth+'px'}" v-if="info.attachment.length">
-					<swiper-item>
-						<view class="swiper-item" v-for="(el,i) in info.attachment" :key="i">
-							<image :src="el.url" mode="aspectFill" class="header-bg-img"></image>
+					<swiper-item  v-for="(el,i) in info.attachment" :key="i">
+						<view class="swiper-item">
+							<image :src="el" mode="aspectFill" class="header-bg-img"></image>
 						</view>
 					</swiper-item>
 				</swiper>
