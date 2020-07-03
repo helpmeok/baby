@@ -93,10 +93,12 @@ let publicApi = {
 		getCurrentBabyInfo() {
 			if (!!uni.getStorageSync('userInfo')) {
 				let userInfo = JSON.parse(uni.getStorageSync('userInfo'));
-				this.babyInfoId = userInfo.babyInfo.id;
-				this.babyInfoType = userInfo.babyInfo.type;
-				this.babyInfoGroupId = userInfo.babyInfo.groupId;
-				this.babySex = userInfo.babyInfo.babySex;
+				if (!!userInfo.babyInfo) {
+					this.babyInfoId = userInfo.babyInfo.id;
+					this.babyInfoType = userInfo.babyInfo.type;
+					this.babyInfoGroupId = userInfo.babyInfo.groupId;
+					this.babySex = userInfo.babyInfo.babySex;
+				}
 			}
 		},
 		hasBabyInfoData() {
