@@ -384,6 +384,9 @@ export default {
 				url: '/pages/helper/list/list?id=' + options.helperId
 			});
 		}
+		if (options.fileUrl) {
+			this.openFile(options.fileUrl,options.title)
+		}
 	},
 	onShow() {
 		this.getHot();

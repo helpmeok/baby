@@ -68,7 +68,7 @@
 </template>
 
 <script>
-import uParse from '@/components/un-parse/u-parse.vue'//由于插件上传命名问题在目录上加了一个n
+import uParse from '@/components/u-parse/parse.vue'//由于插件上传命名问题在目录上加了一个n
 
 export default {
   components: {
@@ -107,7 +107,7 @@ npm install marked
 
 ``` js
 import marked from 'marked'
-import uParse from '@/components/un-parse/u-parse.vue'//由于插件上传命名问题在目录上加了一个n
+import uParse from '@/components/u-parse/parse.vue'//由于插件上传命名问题在目录上加了一个n
 
 export default {
   components: {

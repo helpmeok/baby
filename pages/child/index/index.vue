@@ -106,7 +106,7 @@
 						<text class="baby-gray" @click="goMoreFile">更多</text>
 					</view>
 					<view class="list">
-						<view class="item flex-r-between" v-for="(el,i) in babyData.fileList" :key="i" @click="goFileDetail(el)">
+						<view class="item flex-r-between" v-for="(el,i) in babyData.fileList" :key="i" @click="goFileDetail(el.fileUrl,el.fileName)">
 							<text class="baby-font-size  name">{{el.fileName}}</text>
 							<view class="btn white flex-r-center">
 								打开
@@ -280,8 +280,8 @@
 			showLoginPop() {
 				this.isShowLoginPop = true;
 			},
-			goFileDetail(el) {
-				this.openFile(el.fileUrl) //混入函数
+			goFileDetail(fileUrl,title) {
+				this.openFile(fileUrl,title) //混入函数
 			},
 			goHelpDetail(el) {
 				uni.navigateTo({

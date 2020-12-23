@@ -1,7 +1,16 @@
 // const __api = 'http://59.61.216.123:18980/jeezero-boblbee-app/v1';
 // const __api = 'https://dev.baobaobei.com.cn:8980/jeezero-boblbee-app/v1'; //开发服务器
 // const __api = 'https://beta.baobaobei.com.cn:18980/jeezero-boblbee-app/v1';//仿正式服务器地址
-const __api = 'https://boblbee.superpapa.com.cn/jeezero-boblbee-app/v1';//正式服务器
+// const __api = 'https://boblbee.superpapa.com.cn/jeezero-boblbee-app/v1';//正式服务器
+const apiType = 2
+let __api = '';
+if (apiType == 0) {
+	__api = 'https://dev.baobaobei.com.cn:8980/jeezero-boblbee-app/v1'; //开发服务器
+} else if (apiType == 1) {
+	__api = 'https://beta.baobaobei.com.cn:18980/jeezero-boblbee-app/v1'; //仿真
+} else {
+	__api = 'https://boblbee.superpapa.com.cn/jeezero-boblbee-app/v1'; //正式
+}
 
 function Request() {
 	this.m_send = function(url, method, data, onok, onno, complete) {
@@ -64,13 +73,6 @@ function Request() {
 				}
 			},
 			fail(err) {
-				if (res.data.message) {
-					uni.showToast({
-						title: err.data.message,
-						icon: "none",
-						duration: 2000
-					})
-				}
 				console.log(err)
 				onno ? onno(err) : null
 			},
@@ -84,6 +86,7 @@ function Request() {
 const _req = new Request()
 module.exports = {
 	host: __api,
+	apiType: apiType,
 	qiniu: {
 		upload: function(file, token, serverUrl) {
 			return new Promise((onok, onno) => {

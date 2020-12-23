@@ -28,36 +28,39 @@ let publicApi = {
 					.exec();
 			});
 		},
-		openFile(fileUrl) {
-			const downloadTask = uni.downloadFile({
-				url: fileUrl,
-				success: (res) => {
-					let filePath = res.tempFilePath;
-					uni.openDocument({
-						filePath: filePath,
-						success: (res) => {
-							console.log(res)
-							uni.hideLoading();
-						},
-						fail: (err) => {
-							console.log(err)
-						}
-					});
-				},
-				fail: (err) => {
-					console.log(err)
-					uni.showToast({
-						title: "文件加载失败",
-						icon: "none"
-					})
-				}
-			});
-			downloadTask.onProgressUpdate((res) => {
-				uni.showLoading({
-					title: '加载中' + res.progress.toString() + '%',
-					mask: true
-				})
-			});
+		openFile(fileUrl,title) {
+			uni.navigateTo({
+				url:'/pages/center/pdf-preview/pdf-preview?fileUrl='+fileUrl+'&title='+title
+			})
+			// const downloadTask = uni.downloadFile({
+			// 	url: fileUrl,
+			// 	success: (res) => {
+			// 		let filePath = res.tempFilePath;
+			// 		uni.openDocument({
+			// 			filePath: filePath,
+			// 			success: (res) => {
+			// 				console.log(res)
+			// 				uni.hideLoading();
+			// 			},
+			// 			fail: (err) => {
+			// 				console.log(err)
+			// 			}
+			// 		});
+			// 	},
+			// 	fail: (err) => {
+			// 		console.log(err)
+			// 		uni.showToast({
+			// 			title: "文件加载失败",
+			// 			icon: "none"
+			// 		})
+			// 	}
+			// });
+			// downloadTask.onProgressUpdate((res) => {
+			// 	uni.showLoading({
+			// 		title: '加载中' + res.progress.toString() + '%',
+			// 		mask: true
+			// 	})
+			// });
 		},
 		hideMyBabyList() {
 			this.isShowBabyList = false

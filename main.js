@@ -27,6 +27,8 @@ import articleOperate from './components/article-operate.vue';
 Vue.component('articleOperate', articleOperate)
 import cuCustom from './components/cu-custom.vue' //自定义导航栏
 Vue.component('cu-custom', cuCustom)
+import uParse from './components/un-parse/un-parse.vue' //自定义导航栏
+Vue.component('u-Parse', uParse)
 App.mpType = 'app'
 
 const app = new Vue({

@@ -235,12 +235,10 @@ let offset = 0,
 	total = 10;
 let video;
 import { getImgsrc } from '@/common/util/index.js';
-import uParse from '@/components/un-parse/u-parse.vue'; //由于插件上传命名问题在目录上加了一个n
 import imtAudio from '@/components/imt-audio/imt-audio.vue';
 import bindMobile from '@/components/bind-mobile/bind-mobile.vue';
 export default {
 	components: {
-		uParse,
 		imtAudio,
 		bindMobile
 	},

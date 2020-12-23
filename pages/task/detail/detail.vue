@@ -76,11 +76,7 @@
 	let offset = 0;
 	let id = "",
 		taskNo = "";
-	import uParse from '@/components/un-parse/u-parse.vue'; //由于插件上传命名问题在目录上加了一个n
 	export default {
-		components: {
-			uParse
-		},
 		data() {
 			return {
 				list: [],
